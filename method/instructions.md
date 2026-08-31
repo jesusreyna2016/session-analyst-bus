@@ -95,9 +95,9 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
 
 | RUN_TYPE | Hora CT | Qué produce |
 |---|---|---|
-| `pre-asia` | 16:30 | **Cierre + aprendizaje del día que terminó** (sección 6) y luego **plan completo** de Asia + tesis del día |
-| `pre-london` | 01:55 | **Update enfocado**: califica Asia vs el plan, qué cambió, plan de Londres, tesis ajustada, rango restante |
-| `pre-ny` | 08:25 | **Update enfocado**: califica Londres (mañana) vs el plan, qué cambió, plan de NY, tesis ajustada, rango restante |
+| `pre-asia` | 16:05 | **Cierre + aprendizaje del día que terminó** (sección 6) y luego **plan completo** de Asia + tesis del día |
+| `pre-london` | 01:20 | **Update enfocado**: califica Asia vs el plan, qué cambió, plan de Londres, tesis ajustada, rango restante |
+| `pre-ny` | 07:45 | **Update enfocado**: califica Londres (mañana) vs el plan, qué cambió, plan de NY, tesis ajustada, rango restante |
 
 `pre-asia` es la corrida pesada. `pre-london` y `pre-ny` parten de `dayThesis` del día
 vigente y reportan el delta, no re-derivan todo.
@@ -106,8 +106,10 @@ Reloj de los futuros de índice (CME, hora CT): cotizan casi 24 h, con **cierre 
 CT** y **reapertura 17:00 CT** (parón de 1 h lun-jue); el viernes cierran a las 16:00 y
 reabren el domingo a las 17:00. El RTH del cash es 08:30-15:00 CT (referencia para el IB y la
 OR), pero el "día" del futuro y su H/L van de reapertura a cierre (17:00 → 16:00). Por eso:
-`pre-asia` (16:30 CT) corre en pleno parón, con el día de futuros de HOY ya cerrado →
-califícalo entero; `pre-london` (01:55 CT) y `pre-ny` (08:25 CT) corren a mitad de Globex.
+`pre-asia` (16:05 CT) corre justo tras el cierre de 16:00, en el parón, con el día de
+futuros de HOY ya cerrado → califícalo entero; `pre-london` (01:20 CT) y `pre-ny`
+(07:45 CT) corren a mitad de Globex. Las 3 se disparan ~25-40 min antes de su apertura
+para que el plan esté listo con margen de lectura.
 
 Días: domingo `pre-asia` sí (reapertura Globex) y además lleva la **meta-revisión semanal**
 de la semana lunes-viernes que cerró (sección 6). Sábado (día CT) → no hagas nada,
@@ -117,7 +119,7 @@ hábil, dilo y haz el mejor plan posible marcándolo como "datos rezagados".
 
 Horario / DST: las rutinas se disparan por cron UTC calzado a CT. Si la hora de la corrida
 (la que trae el prompt como referencia) no cuadra con `RUN_TYPE` (p.ej. `pre-ny` corriendo
-a las 07:25 CT en vez de 08:25), es un cambio de horario de verano sin ajustar: haz la
+a las 06:45 CT en vez de 07:45), es un cambio de horario de verano sin ajustar: haz la
 corrida igual, marca en el `summary` "cron descalzado por DST, ajustar" y sigue.
 
 ---
@@ -156,10 +158,10 @@ viejo lo que solo refleja mercado cerrado).
 - **command.raw** (síntesis · el sesgo YA fusionado del all-in-one, úsalo como voz de mayor peso y para contrastar contra las 4 fuentes crudas): `biasScore` (score ponderado EMA+VWAP+DayOpen+estructura+FVG+confluencia NQ/ES+HTF), `dir` (LONG/SHORT/NEUTRAL), `strength` (FUERTE/MODERADO/DEBIL), `verdict` (veredicto Portero: NO-TRADE·CHOP / BUSCANDO LONG|SHORT / …·lejos de nivel / ESPERAR·NEUTRAL), `chop`/`trend`/`chopIdx`, `nearName` (nivel edge más cercano: PDH/PDL/POC/VAH/VAL actual o previo), `nearTk` (distancia en ticks), `nearLevel` (1 si está pegado a un edge), `goLong`/`goShort` (gate sesgo+régimen+ubicación), `permisoLong`/`permisoShort` (gate anterior + ventana de sesión válida), `dayType` (Balance/Día de tendencia/Aceptación al alza|baja), `stretchAtr`/`stretchTxt` (distancia a VWAP en ATR), `lastSig`/`lastSigAgo` (último gatillo y hace cuántas velas), `inAsia`/`inLon`/`inNy`, `pdh/pdl/pwh/pwl/dayOpen/tdo/poc/vah/val/ema20/ema50/ema200/vwap/orH/orL`, `disc25`/`mid50`/`prem75` (zonas 25/50/75 del rango previo), `dayRangePts`/`atrPctUsed`/`remPts`/`dayATR` (presupuesto de rango: recorrido, % ATR usado, saldo en ticks), `vix`, `biasOpen`/`sesgoDir` (sesgo al abrir la OR).
   **Referencia extra** (parche 31 ago): `onh`/`onl` (rango overnight = Globex 17:00 CT a apertura RTH, congelado), `ibh`/`ibl` (Initial Balance = 1ª hora del RTH) + `ibBrk` (`up`/`dn`/`none`, ruptura del IB ya congelado), `mOpen` (apertura del mes en curso), `pmh`/`pml` (H/L del mes previo). Y `touchlog`: string del día con los niveles ya tocados, grupos `NOMBRE:nToques:maxWickTicks:reclaim` unidos por `~` (nombres: VAH POC VAL PDH PDL PWH PWL DO TDO ONH ONL IBH IBL). `maxWickTicks` = perforación máxima del nivel en ticks; `reclaim` = 1 si en algún toque el precio cerró de vuelta del lado de origen. Es la fuente directa del índice de toque y del wick-through en la sección 6 (no reconstruyas eso del hod/lod).
   - **Cómo leerlos por corrida** (las 3 corren con el RTH cerrado):
-    - `pre-asia` (16:30 CT, tras el cierre RTH de 15:00): `ibh`/`ibl` = el IB de HOY ya
+    - `pre-asia` (16:05 CT, tras el cierre RTH de 15:00): `ibh`/`ibl` = el IB de HOY ya
       completo y congelado → fiable. El overnight aún no empezó (arranca 17:00) → `onh`/`onl`
       son el rango overnight de anoche, congelado, fiable.
-    - `pre-london` (01:55 CT) y `pre-ny` (08:25 CT, antes de la apertura RTH de 08:30):
+    - `pre-london` (01:20 CT) y `pre-ny` (07:45 CT, antes de la apertura RTH de 08:30):
       `ibh`/`ibl` = IB de la sesión RTH ANTERIOR (referencia, NO "de hoy"; el de hoy aún no se
       ha formado). El overnight está en curso → `onh`/`onl` aún se están formando, y los toques
       de ONH/ONL en `touchlog` están inflados (el nivel se mueve con el precio) con
