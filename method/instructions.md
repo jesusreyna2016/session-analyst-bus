@@ -133,25 +133,40 @@ viejo lo que solo refleja mercado cerrado).
 8. **Noticias**: eventos de `cc-news` dentro de la sesión, con la ventana de manos fuera
    (-15 min / +10 min de alto impacto USD).
 9. **Veredicto de un vistazo** (`verdict`): un semáforo por instrumento que PROTEGE la
-   disciplina de Jesus. Su edge es operar CONFLUENCIA a favor del sesgo en un nivel mapeado
-   (perfil VAH/POC/VAL + EMAs 20/50 + VWAP + pivotes + FVG + MTF, NO solo el perfil); sus
-   fugas son operar el chop / tierra de nadie, perseguir precio estirado, y largos contra el
-   sesgo. El veredicto debe protegerlo de esas tres. Prioridad **AVOID > WAIT > GO** (ante la
-   duda, WAIT):
-   - **AVOID** (trampa, no tocar): precio muy estirado (`command.stretchAtr` alto / la fuente
-     dice "no perseguir"), o el único setup a tiro iría CONTRA el sesgo de mayor peso, o
-     `command.verdict` lo deja en un extremo sin nivel. Protege de perseguir y de operar contra
-     el sesgo.
-   - **WAIT** (sin edge aún, quieto): en zona de no-trade / chop (`command.verdict`
-     NO-TRADE·CHOP, `chop`=1, pegado a POC), o sesgo débil / en conflicto (convicción baja o
-     `biasAligned` false), o sin zona de confluencia a tiro. Protege de operar el chop y de
-     sobreoperar.
-   - **GO** (hay edge a favor): sesgo alineado con convicción media o alta Y el precio está en
-     (o llegando a) una zona de alta confluencia (>=3) que es un nivel mapeado a favor del
-     sesgo, con permiso de sesión (`permisoLong`/`permisoShort`) y sin estar estirado. Es su
-     edge: confluencia a favor del sesgo en un borde.
-   `reason` = una línea corta en español que diga POR QUÉ (ej.: "en no-trade sobre POC, sin
-   borde"; "estirado 2.6x ATR, no perseguir"; "borde VAH a favor del corto, confluencia 5").
+   disciplina de Jesus. Su edge es CONFLUENCIA a favor del sesgo en un nivel mapeado con
+   gatillo (sección 4). Prioridad **AVOID > WAIT > GO** (ante la duda, WAIT):
+   - **AVOID** (trampa, no tocar): precio muy estirado / `command.stretchAtr` ≥ 2 / la fuente
+     dice "no perseguir"; o el único setup a tiro iría CONTRA el sesgo de mayor peso; o
+     `command.verdict` lo deja en un extremo sin nivel. Protege de PERSEGUIR y de operar CONTRA
+     el sesgo (sus fugas #2 y #3, abajo).
+   - **WAIT** (sin edge aún, quieto): en no-trade / chop (`command.verdict` NO-TRADE·CHOP,
+     `chop`=1, pegado a POC); o sesgo débil / en conflicto (convicción baja o `biasAligned`
+     false); o sin zona A+/B a tiro; o el día ya recorrió >70 % del presupuesto y el precio
+     está a mitad de rango (poco jugo, alto riesgo de chop restante). Protege de OPERAR EL CHOP,
+     SOBREOPERAR y ANTICIPAR (fugas #1, #4, #7).
+   - **GO** (hay edge a favor): sesgo alineado con convicción media/alta Y el precio está EN
+     (o llegando a) una zona **A+ (score ≥ 6, sección 4)** que es un nivel mapeado a favor del
+     sesgo, con permiso de sesión (`permisoLong`/`permisoShort`), sin estar estirado, y con un
+     gatillo esperable ahí (FVG/iFVG, reclaim, rechazo, cambio de estructura). Nunca "esperando"
+     que un nivel aguante sin que haya rechazado antes.
+   `reason` = una línea que diga POR QUÉ y qué fuga evita (ej.: "en no-trade sobre POC, sin borde
+   [chop]"; "estirado 2.6x ATR, no perseguir [perseguir]"; "único setup sería largo contra el
+   sesgo bajista [contra-sesgo]"; "A+ en VAH: perfil+EMA50+VWAP+sweep PDH+sesión, a favor del corto").
+
+**Fugas de Jesus** (medidas, ver [[cuenta1-diaduro-jul23-2026]] / [[cuenta2-hallazgos-jul2026]] /
+[[edge-hallazgos-jul2026]]). El plan es técnico (no ve el journal ni el sizing), así que solo
+puede prevenir las que se ven en precio/contexto; las demás van como recordatorio en el `summary`
+cuando aplique:
+- **#1 ANTICIPAR** (la raíz): decidir el giro ANTES de que el nivel rechace, entrar en tierra de
+  nadie (cuchillo cayendo). → GO exige nivel A+ + gatillo confirmado, nunca "esperando".
+- **#2 Largos contra el sesgo bajista de Asia** (todas sus pérdidas medidas son largos). → si el
+  único setup a tiro es un largo y el sesgo de mayor peso es SHORT → AVOID.
+- **#3 Perseguir** precio estirado. → `stretchAtr` ≥ 2 o "no perseguir" de drbias → AVOID.
+- **#4 Sobreoperar / churn en el chop** (9 trades en 35 pts sin nivel). → chop/no-trade o
+  presupuesto ya gastado → WAIT, y dilo fuerte.
+- **#5 Revenge-sizing** (subir tamaño en rojo) · **#6 no proteger beneficios** (devolver el pico) ·
+  **#7 cortar ganadores**. El plan NO los ve; si el instrumento va a WAIT/AVOID, añade al `reason`
+  un recordatorio corto ("si ya estás dentro: no promedies, no subas tamaño").
 
 Al final: **qué instrumento está más limpio ahora** (sesgo más claro + en borde + menor
 conflicto).
