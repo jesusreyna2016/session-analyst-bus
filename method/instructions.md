@@ -119,8 +119,30 @@ viejo lo que solo refleja mercado cerrado).
    3reads.context + drbias.bias). Cruza con `command.raw.dir`/`verdict`/`strength` (voz
    fusionada de mayor peso). Di si están **alineados o en conflicto** y con qué
    convicción (alta si 3+ fuentes coinciden). Menciona VIX/vixRank y régimen.
+   **Prior del día anterior** (`prevDay`): clasifica el día que cerró con `command.dayType` /
+   `orb.dayType` + dónde cerró vs su rango (hod/lod vs `drbias.pdc`):
+   - `tendencia (alcista|bajista) cerrando en el extremo` → prior de **CONTINUACIÓN** en esa
+     dirección hoy, salvo reversal confirmado en la apertura.
+   - `balance / rango` → prior **NEUTRAL**; favorece fades de PDH/PDL.
+   - `reversal desde PDH|PDL` → ese extremo es el **techo/piso a respetar hoy**; sesgo hacia
+     el lado contrario mientras aguante.
+   El prior pesa como una fuente más en la convicción. Si CHOCA con el sesgo de las otras
+   fuentes, dilo: puede ser señal de agotamiento o de giro incipiente. Escribe
+   `prevDay: { type, closedAt, prior, note }`.
+   **Divergencia NQ/ES (SMT)**: compara la estructura reciente de NQ y ES (`3reads.smtBull` /
+   `smtBear`, swings `swHi`/`swLo`, hod/lod). Si uno hace nuevo extremo y el otro NO lo confirma:
+   - NQ nuevo low, ES no → **SMT alcista**: cuidado con cortos nuevos, favorece reversión al alza.
+   - NQ nuevo high, ES no → **SMT bajista**: cuidado con largos nuevos, favorece reversión a la baja.
+   Anótala en el `context` de NQ y de ES y súmala como +1 de confluencia (sección 4) a una zona
+   de reversión en la dirección que la SMT favorece. GC no participa. Escribe `smt: { state:
+   "alcista"|"bajista"|"ninguna", note }` en NQ y ES (en GC siempre `"ninguna"`).
 2. **Contexto**: dónde está el precio en el perfil (vs VAH/POC/VAL, premium/discount,
    golden zone), qué hizo la sesión anterior, y la tesis multi-día vigente de `narrative`.
+   **Gap de apertura** (`gap`): mide `command.dayOpen − drbias.pdc` en pts y ticks. Clasifica
+   `sin gap` (<0.1 % del ADR) · `normal` · `grande` (>0.4 % del ADR). Di si el precio actual
+   ya lo rellenó. Un gap sin rellenar es un imán: su borde (= `pdc`) es objetivo / nivel de
+   reacción para los escenarios, más aún si el sesgo apunta hacia él. Escribe
+   `gap: { pts, ticks, size, filled, note }`.
    **Chequeo de continuidad** (`thesisAlign`, obligatorio en los 3, como `verdict`): compara
    el sesgo del día + el escenario primario de HOY contra la última entrada de `narrative` de
    ese instrumento y clasifica:
@@ -230,9 +252,18 @@ VWAP, PD Mid.
   expansión/manipulación → sweep + reclaim del extremo de Asia; NY = continuación o reversión
   de lo de Londres. La zona encaja con lo que esa sesión suele hacer (mira `models.<SYM>`).
 - +1 MTF alineado: `htfzones.biasHTF` y `biasD` en la dirección de la zona
+- +1 **SMT** (solo NQ/ES): la zona es de reversión en la dirección que la divergencia NQ/ES
+  favorece (`smt.state`)
+- +1 **prior del día anterior** a favor: la zona empuja en la dirección de `prevDay.prior`
+  (continuación), o es fade del extremo que ayer marcó un reversal
+- +1 la zona coincide con el **borde de un gap sin rellenar** (`gap.filled` false) y el sesgo
+  apunta hacia él
 - −2 si cae en no-trade / tierra de nadie (entre niveles, sin NADA de lo de arriba)
 - −2 si va contra el sesgo de mayor peso sin ser borde de reversión claro (sweep + rechazo)
 - −1 si el precio ya está muy estirado hacia esa zona (`command.stretchAtr` ≥ 2)
+
+De los tres factores nuevos (SMT + prior día anterior + borde de gap) cuenta **máx +2 en total**
+para no inflar la clasificación.
 
 **Clasificación** (manda el `verdict` y qué entra en la tabla):
 - **A+** (score ≥ 6): confluencia real a favor del sesgo en un nivel mapeado → candidata a GO.
@@ -245,6 +276,14 @@ Cruza el **tipo de zona** con `zones` (clave `<instrumento>|<sesion>|<tipo>`; ti
 `sweep_pdh`, `sweep_pdl`, `sweep_pwh`, `sweep_pwl`, `sweep_asiaH`, `sweep_asiaL`,
 `liq_reclaim` (barrida + reclaim), `asia_range_break`, `golden_zone`, `supply`, `demand`,
 `ext_target`, `otro`) y añade su **win-rate histórico** (o "sin datos aún" si n<5).
+
+**Confianza por muestra** (no sobre-ajustes con pocos datos):
+- `n < 10` → el win-rate es informativo: se muestra, NO mueve el score ni el `verdict`.
+- `n ≥ 10` y `winRate < 0.40` → la zona baja un escalón (A+ → B, B → tierra de nadie) aunque
+  el score diga otra cosa; el `reason` lo dice ("fade_vah NQ asia 34 % en n=14").
+- `n ≥ 10` y `winRate ≥ 0.65` → la zona puede sostener A+ con score 5 (un punto de gracia).
+- `n ≥ 20` manda sobre el score si hay conflicto: si el histórico dice que este tipo no paga
+  en esta sesión, no es GO por bonito que se vea el mapa.
 
 Tabla por instrumento, rankeada por score y luego win-rate (máx 5):
 
@@ -329,7 +368,10 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   - "NQ Asia rara vez pasa del 25 % del ADR los lunes (media 18 %, n=9)"
   - "ES: fade_vah a favor del sesgo bajista = 71 % (n=14), en contra = 33 %"
   Mantén una sección "Reparto de rango por sesión (medido)" con % reales cuando n≥10, y
-  "Patrones" para lo demás. Poda lo desmentido. Manda solo los modelos que cambiaron.
+  "Patrones" para lo demás. Una regla solo se declara **"medida"** con n≥10; por debajo va en
+  "Patrones (provisional, n=X)". Cada `pre-asia` revisa si una regla medida se ha desmentido en
+  sus últimas ~10 ocurrencias → bájala a provisional o bórrala. Poda lo desmentido. Manda solo
+  los modelos que cambiaron.
 - `narrative`: primero decide si el día CONFIRMÓ / EVOLUCIONÓ / ROMPIÓ la tesis vigente de cada
   instrumento (cruza con las causas de fallo de arriba). Luego reescribe la tesis como
   `Continuidad: <daysHeld> días · <confirmada | evolucionó el <fecha>: <qué cambió> | reiniciada
@@ -367,6 +409,10 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "instruments": {
     "NQ": {
       "biasDay": "SHORT", "biasSession": "SHORT", "biasAligned": true, "conviction": "alta",
+      "prevDay": { "type": "tendencia bajista cerrando en el extremo", "closedAt": "cerca del low",
+                   "prior": "CONTINUACIÓN corto", "note": "salvo reversal confirmado en apertura de Asia" },
+      "gap": { "pts": -18.5, "ticks": -74, "size": "normal", "filled": false, "note": "borde en pdc 29612, imán al alza si rebota" },
+      "smt": { "state": "alcista", "note": "NQ nuevo low, ES no confirma: cuidado cortos nuevos" },
       "thesisAlign": { "state": "ALIGN", "daysHeld": 3, "note": "el día confirma la distribución de fondo; precio aún bajo PDH" },
       "verdict": { "signal": "GO", "reason": "borde VAH a favor del corto, confluencia 6 (perfil+EMA50+VWAP+sweep PDH+sesión)" },
       "context": "…",
@@ -388,9 +434,23 @@ Es el plan estructurado que pinta el Command Center. Schema:
     "ES": { … }, "GC": { … }
   },
   "dayThesis": { "NQ": "…", "ES": "…", "GC": "…" },
+  "alertLevels": [
+    { "sym": "NQ", "price": 29657, "band": [29655, 29660], "dir": "SHORT", "kind": "zoneA",
+      "label": "A+ fade VAH · corto a favor", "verdict": "GO" },
+    { "sym": "NQ", "price": 29710, "band": null, "dir": null, "kind": "invalidation",
+      "label": "invalida el corto del día" },
+    { "sym": "NQ", "price": 29612, "band": null, "dir": null, "kind": "gapEdge",
+      "label": "borde del gap sin rellenar (pdc)" }
+  ],
   "reviewYesterday": "<fecha_ayer o null>"
 }
 ```
+
+`alertLevels`: lista plana derivada de todos los instrumentos, ordenada por cercanía al precio
+actual de cada símbolo. `kind` ∈ `zoneA` (zonas A+ de la tabla) · `invalidation` (el nivel de
+cada `invalidation`) · `gapEdge` (borde de un gap sin rellenar). Es lo que un aviso (widget del
+Command Center o alerta de TradingView sembrada) usa para tocar el hombro cuando el precio
+llega. No metas zonas B ni tierra de nadie.
 
 ### Merge sobre `state/sa-state.json`
 
@@ -438,6 +498,13 @@ los últimos ~12. Borra lo más viejo en el mismo write.
 - **Datos viejos = plan con asterisco.** Corre el chequeo de frescura (sección 2) ANTES de
   analizar. Si `dataHealth.snapshot` es "VIEJO" o hay fuentes en `stale`/`missing`, ponlo en la
   primera línea del `summary` y no des un "GO" apoyado en una fuente vieja.
+- **Día anterior y gap.** `prevDay` y `gap` son OBLIGATORIOS en los 3 instrumentos; `smt` en
+  NQ y ES (GC = `"ninguna"`). El prior del día anterior y un gap sin rellenar pesan en el
+  sesgo y en los objetivos, no los ignores.
+- **`alertLevels` siempre** (aunque no haya ningún GO): al menos las invalidaciones y los
+  bordes de gap. Ordenada por cercanía. Solo A+, invalidaciones y `gapEdge`.
+- **Aprendizaje con freno.** Win-rate con `n < 10` no mueve el `verdict`; con `n ≥ 10` sí
+  (baja la zona si `winRate < 0.40`). No inventes histórico: si no hay datos, "sin datos aún".
 - **No dupliques.** Si es un re-disparo de `pre-asia` para un día ya calificado, refresca el
   plan si acaso pero NO re-cuentes `zones`/`scorecard`.
 - Cierra siempre con `git push` (o Contents API si falla). Si no pudiste escribir el bus,
