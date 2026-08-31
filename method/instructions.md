@@ -334,6 +334,13 @@ Cruza el **tipo de zona** con `zones` (clave `<instrumento>|<sesion>|<tipo>`; ti
 - `n ≥ 20` manda sobre el score si hay conflicto: si el histórico dice que este tipo no paga
   en esta sesión, no es GO por bonito que se vea el mapa.
 
+**Cortes de la zona** (de `zones`, solo si el corte concreto tiene `n ≥ 8`): antes de dar GO,
+mira si la hora esperada del gatillo, el índice de toque probable, el régimen de hoy, la
+llegada (calmada/estirada) o el bucket de confluencia caen en un corte con `winRate < 0.40` →
+baja la zona un escalón y dilo en el `reason` ("fade_vah NQ 0/2 en tierra de nadie tras 00:00
+CT"; "byRegime tendencia 0/1, hoy es tendencia"). Si el corte relevante va `≥ 0.70`, refuerza
+la convicción. No inventes cortes con `n < 8`.
+
 Tabla por instrumento, rankeada por score y luego win-rate (máx 5):
 
 | Zona (rango) | Dir | Tipo | Confluencia | Dist (pts / ticks) | R:R | Win-rate hist |
@@ -344,10 +351,14 @@ La zona de no-trade va aparte, nunca en la tabla.
 ### Riesgo por zona (campo `risk` de cada zona)
 
 Para cada zona de la tabla calcula el objeto `risk` (por **1 contrato full**; micro = / 10):
-- **`stopPts`** = |borde de la zona − invalidación| + colchón chico (2–4 ticks). `stopTk` = `stopPts`/tick.
-  `stopUsd` = `stopTk` × valor del tick ($5 NQ · $12.50 ES · $10 GC).
+- **`stopPts`** = |borde de la zona − invalidación| + colchón. El colchón por defecto es 2–4
+  ticks, PERO si `zones[...]` de este tipo trae `maeTk` con `n ≥ 8`, usa `maeTk` (redondeado
+  arriba) como colchón: es el "cuánto suele ir en contra antes de funcionar" medido, no a ojo.
+  `stopTk` = `stopPts`/tick. `stopUsd` = `stopTk` × valor del tick ($5 NQ · $12.50 ES · $10 GC).
 - **`tgtPts`** = |entrada − objetivo|, siendo el objetivo el de `scenarioA` o el siguiente nivel
   opuesto realista en la dirección del trade (POC, VAL/VAH, pivote, ext). `tgtTk`, `tgtUsd` igual.
+  El **primer parcial** (`play.scale`) se ancla en `ft.median` de este tipo de zona si trae
+  `n ≥ 8` (el seguimiento típico medido), no en un número redondo.
 - **`rr`** = `tgtPts` / `stopPts` (1 decimal).
 - **`flag`**:
   - `OBJETIVO_BLOQUEADO` si hay un nivel fuerte en contra entre la entrada y el objetivo dentro
@@ -419,6 +430,17 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   ¿cayó en la banda baja-alta?
 - **Zonas**: cada zona propuesta → `llegó / no llegó / reaccionó como se esperaba
   (rebote·rechazo·ruptura) / falló`. Cuenta hits y misses.
+- **Reacción en la zona (detalle)**: por cada zona que LLEGÓ, registra:
+  - **hora CT del primer toque** (para el corte por hora de sesión)
+  - **índice de toque**: ¿fue el 1er, 2º o 3er+ test de ese nivel en la sesión?
+  - **llegada**: `command.stretchAtr` al tocar → `calmada` (<1.5) o `estirada` (≥2). Llegada
+    impulsiva suele hacer overshoot.
+  - **MFE y MAE en ticks desde el toque**: cuánto fue a favor y, sobre todo, **cuánto fue en
+    contra antes de resolverse** (MAE alimenta la colocación empírica del stop).
+  - **seguimiento en ticks** si respetó (ya se guardaba; ahora además su distribución).
+  - **régimen** de la sesión (chop/balance/tendencia) en el momento del toque.
+  Es lo que llena la distribución y los cortes de `zones` (abajo). Un corte solo se usa para
+  dirigir el plan con `n ≥ 8` en ESE corte.
 - **Niveles**: cuáles se tagearon, cuáles aguantaron
 - **Narrativa**: sigue viva / evolucionó / se rompió, y por qué
 - **Régimen**: ¿siguió igual (chop/balance/tendencia) o cambió? actualiza el contador de
@@ -447,13 +469,32 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   causas, 3 lecciones concretas). El mismo texto se escribe en `reviews/<fecha_ayer>.md`.
 - `zones`: el objeto `zones` COMPLETO actualizado. Por cada zona calificada, en su clave
   `<instrumento>|<sesion>|<tipo>` incrementa `{proposed, reached, respected, failed}` y
-  recalcula `winRate = respected / max(1, reached)`, `followThroughTk` (media de seguimiento
-  en ticks tras respetar) y `n` (= reached). Ejemplo de entrada:
-  `{ "NQ|asia|fade_vah": { "proposed": 12, "reached": 9, "respected": 6, "failed": 3, "winRate": 0.67, "followThroughTk": 34, "n": 9 } }`
+  recalcula `winRate = respected / max(1, reached)`, `n` (= reached) y estos agregados del
+  detalle de reacción:
+  - `ft`: distribución del seguimiento en ticks tras respetar → `{ p25, median, p75 }` (la
+    `median` sustituye a la vieja media para fijar objetivos realistas).
+  - `maeTk`: media del MAE en ticks tras respetar (el "cuánto va en contra antes de funcionar";
+    guía el stop empírico en vez del colchón fijo de 2-4 ticks).
+  - `byHourCT`: `{ "<hora CT>": { reached, respected } }` — mapa de calor por hora.
+  - `byTouch`: `{ "1": {reached,respected}, "2": {…}, "3+": {…} }` — ¿aguanta el 1er test y
+    rompe el 2º/3º?
+  - `byConf`: `{ "6": {n,winRate}, "7": {…}, "8+": {…} }` — win-rate por bucket de score de
+    confluencia (valida que el score está calibrado).
+  - `byRegime`: `{ "chop": {n,winRate}, "balance": {…}, "tendencia": {…} }` — el mismo fade
+    puede ser 70 % en balance y 30 % en tendencia.
+  - `byArrival`: `{ "calmada": {n,winRate}, "estirada": {…} }`.
+  Ejemplo de entrada:
+  `{ "NQ|asia|fade_vah": { "proposed": 12, "reached": 9, "respected": 6, "failed": 3, "winRate": 0.67, "n": 9, "ft": { "p25": 18, "median": 34, "p75": 61 }, "maeTk": 9, "byHourCT": { "20": {"reached":4,"respected":3}, "21": {"reached":3,"respected":2}, "00": {"reached":2,"respected":1} }, "byTouch": { "1": {"reached":6,"respected":5}, "2": {"reached":2,"respected":1}, "3+": {"reached":1,"respected":0} }, "byConf": { "6": {"n":5,"winRate":0.6}, "7": {"n":3,"winRate":0.67}, "8+": {"n":1,"winRate":1} }, "byRegime": { "balance": {"n":6,"winRate":0.83}, "chop": {"n":2,"winRate":0.0}, "tendencia": {"n":1,"winRate":0.0} }, "byArrival": { "calmada": {"n":6,"winRate":0.83}, "estirada": {"n":3,"winRate":0.33} } } }`
+  Los cortes (`byHourCT`/`byTouch`/`byConf`/`byRegime`/`byArrival`) dirigen el plan solo con
+  `n ≥ 8` en el corte concreto; por debajo son informativos. Poda cada corte a ventana rodante
+  ~60 días.
 - `models`: `{ "NQ": "<md>", ... }` — añade aprendizajes **concretos y medibles**, no genéricos:
   - "GC en pre-NY con vixRank>75 expandió 1.3-1.6× el ADR en 6 de 7 casos"
   - "NQ Asia rara vez pasa del 25 % del ADR los lunes (media 18 %, n=9)"
   - "ES: fade_vah a favor del sesgo bajista = 71 % (n=14), en contra = 33 %"
+  - Cuando un corte de `zones` sea claro, súbelo aquí en prosa: "NQ fade_vah: 5/6 antes de las
+    22:00 CT, 0/3 después (byHourCT)"; "GC sweep_pdl: 1er toque 80 %, 2º toque 25 % (byTouch)";
+    "ES bounce_val: solo paga en balance, 0/4 en tendencia (byRegime)".
   Mantén una sección "Reparto de rango por sesión (medido)" con % reales cuando n≥10, y
   "Patrones" para lo demás. Una regla solo se declara **"medida"** con n≥10; por debajo va en
   "Patrones (provisional, n=X)". Cada `pre-asia` revisa si una regla medida se ha desmentido en
@@ -691,7 +732,10 @@ los últimos ~12. Borra lo más viejo en el mismo write.
 - **`alertLevels` siempre** (aunque no haya ningún GO): al menos las invalidaciones y los
   bordes de gap. Ordenada por cercanía. Solo A+, invalidaciones y `gapEdge`.
 - **Aprendizaje con freno.** Win-rate con `n < 10` no mueve el `verdict`; con `n ≥ 10` sí
-  (baja la zona si `winRate < 0.40`). No inventes histórico: si no hay datos, "sin datos aún".
+  (baja la zona si `winRate < 0.40`). Los cortes de `zones` (`byHourCT`/`byTouch`/`byConf`/
+  `byRegime`/`byArrival`) dirigen solo con `n ≥ 8` en ese corte. `maeTk` sustituye al colchón
+  del stop y `ft.median` ancla el 1er parcial, ambos con `n ≥ 8`. No inventes histórico: si no
+  hay datos, "sin datos aún".
 - **Calibración.** Aplica `sourceReliability` (sección 3.1), `emCalibration.mult` (sección 5.4)
   y el listón de convicción de `convictionCalibration` (sección 3.1) SOLO cuando el `n` de cada
   uno llega al umbral. Los sub-objetos de calibración se tocan solo en `pre-asia`.
