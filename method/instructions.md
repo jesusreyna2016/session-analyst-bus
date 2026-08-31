@@ -131,8 +131,21 @@ viejo lo que solo refleja mercado cerrado).
 6. **Zona de no-trade**: `orb.noTradeZone` + tierra de nadie entre niveles.
 7. **Niveles en juego**: lista con precio y **distancia desde el precio actual en puntos
    y ticks**, ordenados por cercanía.
-8. **Noticias**: eventos de `cc-news` dentro de la sesión, con la ventana de manos fuera
-   (-15 min / +10 min de alto impacto USD).
+8. **Noticias** (de `news.events`; `ts` es epoch ms → conviértelo a CT). Por cada evento de
+   alto impacto (o medio USD) que caiga en la sesión o en los ~45 min previos: título, hora CT
+   y ventana de **manos fuera** (alto = −15 / +10 min · medio USD = −5 / +5). Clasifica el
+   **riesgo de noticias de la sesión** (`newsRisk`):
+   - `NINGUNA` · `MEDIA` (1 medio USD, o 1 alto a >45 min del arranque de la sesión) ·
+     `ALTA` (alto impacto USD dentro de la sesión o en sus primeros 30 min).
+   Efectos con `MEDIA`/`ALTA`:
+   - **Ensancha la zona de no-trade** ~25 % alrededor del precio (colchón de whipsaw) y añade
+     las ventanas de manos fuera como no-trade por tiempo.
+   - Cualquier zona A+ cuyo gatillo caería dentro de una ventana de manos fuera: `conviction`
+     tope "media" y su `risk.flag` no puede ser mejor que `AJUSTADO`.
+   - Si el ÚNICO setup a tiro dispara dentro de −15/+10 de un dato de alto impacto → `verdict`
+     = WAIT, `reason` nombra el evento ("NFP en 12 min, no operes el spike").
+   - En `pre-asia`/`pre-london`, si la sesión que entra no tiene noticias pero la SIGUIENTE sí
+     (dato NY fuerte), dilo en la tesis del día: "NY con ISM 09:00, plan corto hasta que asiente".
 9. **Veredicto de un vistazo** (`verdict`): un semáforo por instrumento que PROTEGE la
    disciplina de Jesus. Su edge es CONFLUENCIA a favor del sesgo en un nivel mapeado con
    gatillo (sección 4). Prioridad **AVOID > WAIT > GO** (ante la duda, WAIT):
@@ -147,9 +160,10 @@ viejo lo que solo refleja mercado cerrado).
      SOBREOPERAR y ANTICIPAR (fugas #1, #4, #7).
    - **GO** (hay edge a favor): sesgo alineado con convicción media/alta Y el precio está EN
      (o llegando a) una zona **A+ (score ≥ 6, sección 4)** que es un nivel mapeado a favor del
-     sesgo, con permiso de sesión (`permisoLong`/`permisoShort`), sin estar estirado, y con un
-     gatillo esperable ahí (FVG/iFVG, reclaim, rechazo, cambio de estructura). Nunca "esperando"
-     que un nivel aguante sin que haya rechazado antes.
+     sesgo, con permiso de sesión (`permisoLong`/`permisoShort`), sin estar estirado, con
+     `risk.rr` ≥ 1.5 y flag no malo, con un gatillo esperable ahí (FVG/iFVG, reclaim, rechazo,
+     cambio de estructura), y **fuera de la ventana de manos fuera** si hay noticia. Nunca
+     "esperando" que un nivel aguante sin que haya rechazado antes.
    `reason` = una línea que diga POR QUÉ y qué fuga evita (ej.: "en no-trade sobre POC, sin borde
    [chop]"; "estirado 2.6x ATR, no perseguir [perseguir]"; "único setup sería largo contra el
    sesgo bajista [contra-sesgo]"; "A+ en VAH: perfil+EMA50+VWAP+sweep PDH+sesión, a favor del corto").
@@ -324,6 +338,9 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "cleanest": "NQ",
   "summary": ["NQ: …", "ES: …", "GC: …", "más limpio: NQ"],
   "dataHealth": { "snapshot": "OK", "builtAtAgeMin": 4, "stale": [], "missing": [], "notes": "" },
+  "newsRisk": { "level": "ALTA", "session": "ny",
+    "events": [ { "title": "ISM Manufacturing PMI", "ct": "09:00", "impact": "high", "handsOff": "08:45-09:10" } ],
+    "note": "no operar los primeros 30 min de NY hasta que asiente el dato" },
   "instruments": {
     "NQ": {
       "biasDay": "SHORT", "biasSession": "SHORT", "biasAligned": true, "conviction": "alta",
@@ -377,6 +394,8 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   contrato full** (micro = / 10); dilo.
 - **R:R manda sobre el bonito.** Una zona A+ con `risk.flag` FLOJO / STOP_ANCHO / OBJETIVO_BLOQUEADO
   no es GO (baja a WAIT, el `reason` lo explica). Nunca GO con `rr` < 1.5.
+- **Noticias**: con `newsRisk` MEDIA/ALTA, no-trade ensanchado + ventanas de manos fuera + tope
+  de convicción; nunca GO dentro de −15/+10 de un dato de alto impacto.
 - Plan accionable y corto. Nada de relleno.
 - Coherente con el edge de Jesus: **confluencia a favor del sesgo en un nivel mapeado**
   (perfil + EMA 20/50 + VWAP + pivotes + FVG + MTF + barridas de liquidez + contexto de sesión),
