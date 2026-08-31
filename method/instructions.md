@@ -8,16 +8,29 @@ un playbook de zonas de alta probabilidad que aprende con el tiempo.
 Esto es **soporte de decisión y bitácora**, no señales ni asesoría. Jesus toma las
 entradas. No hay journal ni portero aquí: esto es puramente técnico.
 
-Formato de todo texto: español, directo, sin guión largo (usa coma, punto o ·).
-Números de precio con los decimales del instrumento. Distancias siempre en **puntos
-y ticks**.
-**Prosa legible en los campos que lee Jesus** (`summary`, `focus`, `context`, `dayThesis`,
-`counterCase`, `narrative`, `reviews`): NUNCA nombres crudos de campos del feed. Traduce el
-concepto: `struct` → "la estructura de precio"; `htf1`/`htf2` → "el marco de 1h / 4h";
-`weeklyDir` → "la dirección semanal"; `htfzones.biasW=3` → "el sesgo semanal de las zonas
-altas (todavía alcista)"; `biasScore`/`stretchAtr`/`chopIdx` → descríbelo en palabras con el
-número entre paréntesis si hace falta. Los nombres de campo solo valen en `dataHealth.notes` y
-en notas técnicas internas, no en el plan que se lee.
+Formato: directo, sin guión largo (usa coma, punto o ·). Números de precio con los decimales
+del instrumento. Distancias siempre en **puntos y ticks**.
+
+**Bilingüe en el PLAN** (`plans/latest.json` y su copia fechada): cada campo de **texto libre
+para humanos** va como objeto `{ "es": "...", "en": "..." }` con el MISMO contenido en los dos
+idiomas (español natural + inglés natural, no traducción literal torpe). Campos afectados:
+- top-level: `summary` (→ `{ "es": [...], "en": [...] }`), `alarm` (→ `{es,en}` o `null`)
+- por instrumento: `context`, `counterCase`, `verdict.reason`, `prevDay.type`/`closedAt`/`prior`/
+  `note`, `gap.size`/`note`, `smt.note`, `thesisAlign.note`, `scenarioA.text`/`trigger`,
+  `scenarioB.text`/`trigger`, `invalidation.text`, cada `predictions[].text`,
+  cada `zones[].play.trigger`/`structStop`/`scale`/`ifWrong`, cada `keyLevels[].name`
+- otros: `dataHealth.notes`, `calendarContext.note`, `newsRisk.note`, cada `alertLevels[].label`,
+  `focus.setup`/`trigger`/`invalid`/`note`, `dayThesis.NQ`/`ES`/`GC`
+NO se traducen (quedan valor único): todos los números, precios, `dir`, `kind`, `type`,
+`state`, `signal`, `flag`, `tags`, `id`, `resolveAt`, `prob`, `window` (rango horario), y los
+`ratio`/enums. En texto libre, cero nombres crudos de campos del feed: traduce el concepto
+(`struct` → "la estructura de precio" / "price structure"; `htf1`/`htf2` → "el marco de 1h/4h"
+/ "the 1h/4h frame"; `weeklyDir` → "la dirección semanal" / "the weekly direction";
+`biasScore`/`stretchAtr`/`chopIdx` → en palabras + número entre paréntesis).
+
+**En español (NO bilingüe)**: `state/sa-state.json` completo (`narrative`, `models`, `reviews`,
+`dayThesis` del estado son el cuaderno interno del agente), `plans/digest.txt`, `reviews/*.md`
+y el resumen de respuesta de la corrida.
 
 ## Transporte: el repo bus (NO hay red a tradedadlog.com)
 
@@ -633,68 +646,82 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "session": "asia",
   "runType": "pre-asia",
   "generatedAt": "2026-08-31T16:31:00-05:00",
+  "schema": "sa-plan-2",
   "cleanest": "NQ",
-  "focus": { "sym": "NQ", "verdict": "GO", "setup": "A+ fade VAH 29655-29660",
-             "window": "20:00-23:00 CT", "trigger": "rechazo mecha+cierre 5m; o sweep 29672 y cierre 5m bajo VAH",
-             "invalid": "cierre 5m > 29674", "note": "a favor del corto en un nivel que ya rechazó; espera el rechazo, no lo anticipes" },
-  "summary": ["NQ: …", "ES: …", "GC: …", "más limpio: NQ"],
+  "focus": { "sym": "NQ", "verdict": "GO", "window": "20:00-23:00 CT",
+             "setup": { "es": "A+ fade VAH 29655-29660", "en": "A+ VAH fade 29655-29660" },
+             "trigger": { "es": "rechazo mecha+cierre 5m; o sweep 29672 y cierre 5m bajo VAH", "en": "wick rejection + 5m close; or 29672 sweep and 5m close below VAH" },
+             "invalid": { "es": "cierre 5m > 29674", "en": "5m close > 29674" },
+             "note": { "es": "a favor del corto en un nivel que ya rechazó; espera el rechazo, no lo anticipes", "en": "with the short at a level that already rejected; wait for the rejection, don't front-run it" } },
+  "summary": { "es": ["NQ: …", "ES: …", "GC: …", "más limpio: NQ"], "en": ["NQ: …", "ES: …", "GC: …", "cleanest: NQ"] },
   "alarm": null,
-  "dataHealth": { "snapshot": "OK", "builtAtAgeMin": 4, "stale": [], "missing": [], "notes": "" },
-  "calendarContext": { "tags": ["semana-NFP"], "note": "NFP viernes; día tratado como newsRisk ALTA" },
+  "dataHealth": { "snapshot": "OK", "builtAtAgeMin": 4, "stale": [], "missing": [],
+    "notes": { "es": "6 fuentes frescas", "en": "6 sources fresh" } },
+  "calendarContext": { "tags": ["semana-NFP"],
+    "note": { "es": "NFP viernes; día tratado como newsRisk ALTA", "en": "NFP Friday; day treated as newsRisk HIGH" } },
   "newsRisk": { "level": "ALTA", "session": "ny",
     "events": [ { "title": "ISM Manufacturing PMI", "ct": "09:00", "impact": "high", "handsOff": "08:45-09:10" } ],
-    "note": "no operar los primeros 30 min de NY hasta que asiente el dato" },
+    "note": { "es": "no operar los primeros 30 min de NY hasta que asiente el dato", "en": "don't trade the first 30 min of NY until the print settles" } },
   "instruments": {
     "NQ": {
       "biasDay": "SHORT", "biasSession": "SHORT", "biasAligned": true, "conviction": "alta",
-      "prevDay": { "type": "tendencia bajista cerrando en el extremo", "closedAt": "cerca del low",
-                   "prior": "CONTINUACIÓN corto", "note": "salvo reversal confirmado en apertura de Asia" },
-      "gap": { "pts": -18.5, "ticks": -74, "size": "normal", "filled": false, "note": "borde en pdc 29612, imán al alza si rebota" },
-      "smt": { "state": "alcista", "note": "NQ nuevo low, ES no confirma: cuidado cortos nuevos" },
-      "thesisAlign": { "state": "ALIGN", "daysHeld": 3, "note": "el día confirma la distribución de fondo; precio aún bajo PDH" },
-      "counterCase": "alcista pese al corto: htfzones biasW=3 y gap sin rellenar arriba; se mantiene el corto salvo aceptación sobre TDO 29668, ahí giraría a largo",
-      "verdict": { "signal": "GO", "reason": "borde VAH a favor del corto, confluencia 6 (perfil+EMA50+VWAP+sweep PDH+sesión)" },
-      "context": "…",
-      "scenarioA": { "text": "…", "trigger": "…", "target": 29450, "entryZone": [29655, 29660] },
-      "scenarioB": { "text": "…", "trigger": "…" },
-      "invalidation": { "text": "…", "level": 29710 },
+      "prevDay": { "type": { "es": "tendencia bajista cerrando en el extremo", "en": "downtrend closing at the low" },
+                   "closedAt": { "es": "cerca del low", "en": "near the low" },
+                   "prior": { "es": "CONTINUACIÓN corto", "en": "short CONTINUATION" },
+                   "note": { "es": "salvo reversal confirmado en apertura de Asia", "en": "unless a confirmed reversal at the Asia open" } },
+      "gap": { "pts": -18.5, "ticks": -74, "filled": false,
+               "size": { "es": "normal", "en": "normal" },
+               "note": { "es": "borde en pdc 29612, imán al alza si rebota", "en": "edge at pdc 29612, an upside magnet if it bounces" } },
+      "smt": { "state": "alcista", "note": { "es": "NQ nuevo low, ES no confirma: cuidado cortos nuevos", "en": "NQ new low, ES doesn't confirm: careful with new shorts" } },
+      "thesisAlign": { "state": "ALIGN", "daysHeld": 3, "note": { "es": "el día confirma la distribución de fondo; precio aún bajo PDH", "en": "the day confirms the underlying distribution; price still below PDH" } },
+      "counterCase": { "es": "alcista pese al corto: el sesgo semanal de las zonas altas sigue positivo y hay un gap sin rellenar arriba; se mantiene el corto salvo aceptación sobre TDO 29668, ahí giraría a largo",
+                       "en": "bullish despite the short: the weekly higher-timeframe bias is still positive and there's an unfilled gap above; the short holds unless price accepts over TDO 29668, then it would flip long" },
+      "verdict": { "signal": "GO", "reason": { "es": "borde VAH a favor del corto, confluencia 6 (perfil+EMA50+VWAP+barrida PDH+sesión)", "en": "VAH edge with the short, confluence 6 (profile+EMA50+VWAP+PDH sweep+session)" } },
+      "context": { "es": "…", "en": "…" },
+      "scenarioA": { "text": { "es": "…", "en": "…" }, "trigger": { "es": "…", "en": "…" }, "target": 29450, "entryZone": [29655, 29660] },
+      "scenarioB": { "text": { "es": "…", "en": "…" }, "trigger": { "es": "…", "en": "…" } },
+      "invalidation": { "text": { "es": "…", "en": "…" }, "level": 29710 },
       "predictions": [
-        { "id": "NQ-1", "text": "rango de Asia entre 55 y 120 pts", "kind": "range", "resolveAt": "cierre Asia 01:00 CT" },
-        { "id": "NQ-2", "text": "dirección neta de Asia SHORT (cierre < apertura)", "kind": "direction", "resolveAt": "cierre Asia", "prob": 0.6 },
-        { "id": "NQ-3", "text": "toca VAH 29660 antes que POC 29500", "kind": "level_first", "resolveAt": "cierre Asia", "prob": 0.55 },
-        { "id": "NQ-4", "text": "el escenario A (fade VAH) se activa", "kind": "scenario", "resolveAt": "cierre Asia" },
-        { "id": "NQ-5", "text": "si abre Londres sobre TDO 29668 → el día cierra verde", "kind": "conditional", "resolveAt": "cierre NY" }
+        { "id": "NQ-1", "kind": "range", "resolveAt": "cierre Asia 01:00 CT",
+          "text": { "es": "rango de Asia entre 55 y 120 pts", "en": "Asia range between 55 and 120 pts" } },
+        { "id": "NQ-2", "kind": "direction", "resolveAt": "cierre Asia", "prob": 0.6,
+          "text": { "es": "dirección neta de Asia SHORT (cierre < apertura)", "en": "Asia net direction SHORT (close < open)" } }
       ],
       "zones": [
         { "range": [29655, 29660], "dir": "SHORT", "type": "fade_vah", "confluence": 6,
           "distPts": 12.5, "distTicks": 50, "winRate": 0.67, "n": 9,
           "risk": { "stopPts": 14, "stopTk": 56, "stopUsd": 280, "tgtPts": 205, "tgtTk": 820,
                     "tgtUsd": 4100, "rr": 3.7, "flag": "OK", "maxContracts": 2 },
-          "play": { "trigger": "FVG 1-5m + reclaim de 29657; o barrido de 29672 y cierre 5m bajo VAH",
-                    "structStop": "sobre swing 29674 +3tk", "scale": "1/2 en POC 29500 y BE; resto a VAL 29430",
-                    "ifWrong": "rápido: cierre 5m sobre 29674 → fuera; lento: solo mechas → aguanta a 29690",
-                    "window": "20:00-23:00 CT" } }
+          "play": { "window": "20:00-23:00 CT",
+                    "trigger": { "es": "FVG 1-5m + reclaim de 29657; o barrido de 29672 y cierre 5m bajo VAH", "en": "1-5m FVG + 29657 reclaim; or 29672 sweep and 5m close below VAH" },
+                    "structStop": { "es": "sobre swing 29674 +3tk", "en": "above the 29674 swing +3tk" },
+                    "scale": { "es": "1/2 en POC 29500 y BE; resto a VAL 29430", "en": "1/2 at POC 29500 and move to BE; rest to VAL 29430" },
+                    "ifWrong": { "es": "rápido: cierre 5m sobre 29674 → fuera; lento: solo mechas → aguanta a 29690", "en": "fast: 5m close above 29674 → out; slow: wicks only → hold to 29690" } } }
       ],
       "noTradeZone": [29498, 29657],
       "expectedMove": { "low": 55, "base": 85, "high": 120, "lowTk": 220, "baseTk": 340, "highTk": 480,
                         "dayBudget": 310, "dayUsed": 90, "dayUsedPct": 29, "dayRemaining": 220, "flag": "EXPANSIÓN", "mult": 1.0 },
-      "keyLevels": [ { "name": "VAH", "price": 29659.79, "distPts": 12.4, "distTicks": 50 } ],
+      "keyLevels": [ { "name": { "es": "VAH", "en": "VAH" }, "price": 29659.79, "distPts": 12.4, "distTicks": 50 } ],
       "news": [ { "title": "…", "ct": "…", "handsOff": ["…", "…"] } ]
     },
     "ES": { … }, "GC": { … }
   },
-  "dayThesis": { "NQ": "…", "ES": "…", "GC": "…" },
+  "dayThesis": { "NQ": { "es": "…", "en": "…" }, "ES": { "es": "…", "en": "…" }, "GC": { "es": "…", "en": "…" } },
   "alertLevels": [
-    { "sym": "NQ", "price": 29657, "band": [29655, 29660], "dir": "SHORT", "kind": "zoneA",
-      "label": "A+ fade VAH · corto a favor", "verdict": "GO" },
+    { "sym": "NQ", "price": 29657, "band": [29655, 29660], "dir": "SHORT", "kind": "zoneA", "verdict": "GO",
+      "label": { "es": "A+ fade VAH · corto a favor", "en": "A+ VAH fade · short with bias" } },
     { "sym": "NQ", "price": 29710, "band": null, "dir": null, "kind": "invalidation",
-      "label": "invalida el corto del día" },
-    { "sym": "NQ", "price": 29612, "band": null, "dir": null, "kind": "gapEdge",
-      "label": "borde del gap sin rellenar (pdc)" }
+      "label": { "es": "invalida el corto del día", "en": "invalidates the day's short" } }
   ],
   "reviewYesterday": "<fecha_ayer o null>"
 }
 ```
+
+Todo campo `{ "es", "en" }` lleva `schema: "sa-plan-2"` a nivel raíz para que el consumidor
+sepa que el formato es bilingüe (un plan viejo sin ese marcador trae strings sueltos y el
+consumidor cae a mostrarlos tal cual). `keyLevels[].name` va `{es,en}` aunque muchos sean
+iguales en los dos idiomas (VAH, POC, ONH); solo cambian los descriptivos ("low de sesión" /
+"session low").
 
 `alertLevels`: lista plana derivada de todos los instrumentos, ordenada por cercanía al precio
 actual de cada símbolo. `kind` ∈ `zoneA` (zonas A+ de la tabla) · `invalidation` (el nivel de
@@ -707,10 +734,11 @@ la lista de afirmaciones falsables que la corrida `pre-asia` siguiente califica 
 
 `focus` (obligatorio, top-level): la ÚNICA mejor oportunidad de los 3 instrumentos, destilada
 para leer en 5 segundos y para que el Command Center la pinte directa.
-`{ sym, verdict (GO|WAIT|AVOID), setup (tipo+nivel en una frase), window (ventana horaria CT),
-trigger (gatillo exacto), invalid (qué la mata), note (1 frase, casi siempre un recordatorio
-anti-fuga) }`. Es el `cleanest` con su mejor zona. Si NINGÚN instrumento tiene setup (todo
-WAIT sin zona a tiro), `focus.verdict` = "WAIT" y `note` = "hoy no hay nada, no fuerces".
+`{ sym, verdict (GO|WAIT|AVOID), window (ventana horaria CT), setup {es,en} (tipo+nivel en una
+frase), trigger {es,en} (gatillo exacto), invalid {es,en} (qué la mata), note {es,en} (1
+frase, casi siempre un recordatorio anti-fuga) }`. Es el `cleanest` con su mejor zona. Si
+NINGÚN instrumento tiene setup (todo WAIT sin zona a tiro), `focus.verdict` = "WAIT" y `note` =
+`{ es: "hoy no hay nada, no fuerces", en: "nothing today, don't force it" }`.
 
 `alarm` (string o `null`): una sola línea, presente SOLO si se cumple al menos una de:
 (a) alguna `narrative` se rompió en esta corrida (`thesisAlign` CONFLICT + ruptura confirmada);
@@ -839,6 +867,10 @@ los últimos ~12. Borra lo más viejo en el mismo write.
 - **Sizing.** Si hay `settings.dailyLossLimitUsd`, cada zona lleva `risk.maxContracts`; si no,
   `null` y una línea en `summary` pidiéndolo.
 - **`calendarContext` siempre.** FOMC / NFP → el día es `newsRisk` ALTA aunque `news` venga flojo.
+- **Plan bilingüe.** En `plans/latest.json` (y su copia fechada) TODO campo de texto libre para
+  humanos va `{ "es", "en" }` con contenido natural en ambos idiomas (lista de campos en el
+  bloque de formato del principio). Marca `schema: "sa-plan-2"` a nivel raíz. `state/sa-state.json`,
+  `plans/digest.txt`, `reviews/*.md` y el resumen de respuesta quedan SOLO en español.
 - **Salidas fijas.** Toda corrida escribe además `plans/digest.txt` y `live/heartbeat.json`.
 - **No dupliques.** Si es un re-disparo de `pre-asia` para un día ya calificado, refresca el
   plan si acaso pero NO re-cuentes `zones`/`scorecard` ni los sub-objetos de calibración.
