@@ -26,13 +26,13 @@
   },
   "reviews": {
     "2026-08-30": "# Cierre y calificación · 2026-08-30 (domingo CT anterior)\n\n**Sigue siendo la primera corrida real del sistema.** El 2026-08-30 fue domingo:\nno hubo sesión de trading durante el día (mercado cerrado hasta la reapertura\nde Globex a las 17:00 CT). No existe ningún plan previo, ni de este día ni de\nningún otro, contra el cual calificar sesgo, escenarios, estimado de\nmovimiento o zonas. El último día de trading realmente cerrado fue el viernes\n2026-08-28, anterior al arranque de esta bitácora, así que tampoco hay nada\nque calificar de ese día.\n\n## Qué se hace en su lugar\n\nSe arranca la bitácora desde cero a partir de esta corrida (pre-asia\n2026-08-31). Nota: esta es la segunda corrida de `pre-asia` para el mismo día\n(la primera fue ~74 min antes, con cobertura de fuentes incompleta); esta\nversión reemplaza esa primera con datos completos, pero la conclusión de la\ncalificación no cambia: sigue sin haber nada que calificar.\n\n- `state/sa-state.json`: `zones` (playbook) y `scorecard` quedan sin cambios\n  (vacíos), porque no hay nada que incrementar todavía. `models` se deja\n  igual por la misma razón.\n- El plan de hoy (`plans/2026-08-31-pre-asia.json`) queda registrado como el\n  plan formal de la serie para esta fecha. La próxima corrida (`pre-london`,\n  ~01:55 CT) ya podrá calificar el tramo de Asia contra este plan.\n\n## Nota sobre cobertura de fuentes en esta corrida\n\nA diferencia de la primera corrida del día (que solo traía `orb` completo y\n`3reads` parcial), esta corrida ya cuenta con las 6 fuentes completas\n(`orb`, `3reads`, `drbias`, `srzones`, `htfzones`, `command`) para los tres\ninstrumentos, salvo `srzones.zones`/`srzones.fvg` que llegan vacíos para\nNQ, ES y GC (sin S/R multi-TF ni FVG marcados todavía). Esto limita el\nnúmero de zonas de alta probabilidad basadas en S/R/FVG, pero perfil, HTF,\nextensiones y la síntesis de `command` sí están completas y se usaron para\nel plan.\n\n## Observación de mercado (no calificable, solo contexto)\n\nLos tres instrumentos (NQ, ES, GC) ya recorrieron 60-63 % de su presupuesto\ndiario ajustado en las primeras ~2h15 desde la reapertura de Globex del\ndomingo, muy por encima de lo típico para el arranque de Asia (~22 % del\ndía). El movimiento fue a la baja en los tres a la vez, incluyendo GC, lo\nque no encaja con un patrón clásico de risk-off (donde el oro normalmente\nsubiría si NQ/ES caen); sugiere más bien fuerza de USD o ajuste de\nposicionamiento de reapertura que rotación direccional limpia. Se anota\naquí como contexto para la corrida de `pre-london`.\n",
-    "2026-08-31": "# Cierre parcial · Asia · 2026-08-31 (actualizado en pre-london 01:56 CT)\n\nCalificacion de la sesion de Asia contra el plan `plans/2026-08-31-pre-asia.json`\n(generado con el precio ya en 29340.75/7691.5/4471.0, tras el primer tramo de la\ncaida de apertura). Es un cierre PARCIAL: falta Londres y NY, se completa en la\nproxima `pre-asia`.\n\n## NQ\n\n- **Sesgo predicho**: SHORT (conviccion baja). **Realizado**: la sesion abrio en\n  29540, cayo a low 29273.50 (barrida bajo VAL/exD1-2) y remonto con fuerza hasta\n  high 29546.25, cerrando (por ahora) en 29512, apenas 28 pts por debajo del open.\n  Direccion neta open-a-ahora: levemente negativa -> **acierto tecnico pero\n  enganoso**: el viaje real fue un round-trip de ~270 pts, nada parecido a la\n  \"no-trade/chop\" que describia el plan. Se marca **parcial**.\n- **Escenario**: ni A (fade en 29401-29427 hacia POC/VAL) ni B (continuacion a\n  golden zone 29606-29696) se activaron limpio. El precio SI toco la zona \"otro\"\n  de la tabla (29515.5-29569.5, high 29546.25) pero no broken con el rechazo que\n  esperaba el escenario A; en vez de eso el orb crudo giro de bajista a alcista.\n  **Fallo de escenario** (ninguno se resolvio como se describio).\n- **Estimado de movimiento**: predicho base 96.7 pts (banda 62.9-135.4).\n  Realizado hasta ahora: 272.75 pts. Error absoluto ~176 pts (706 tk) sobre la\n  base, ~137 pts sobre el techo de la banda. **EM muy mal calibrado** para esta\n  apertura de semana.\n- **Zonas**: fade_vah (29401-29427.5) no llego. otro (29515.5-29569.5) llego,\n  reaccion ambigua/no resuelta (sigue sostenido, no genero el rechazo esperado).\n  golden_zone (29606-29696) no llego. bounce_val LONG (29277.25-29291.75,\n  tierra de nadie por score) SI llego (low 29273.50, justo debajo) y reacciono\n  con fuerza inusual para una zona de score bajo (+238 pts de rebote).\n- **Causa clasificada**: `EM_mal_calibrado` (principal) + `cambio_de_regimen`\n  (orb giro de bajista a alcista intradia, algo que el plan de pre-asia no\n  contemplaba).\n\n## ES\n\n- **Sesgo predicho**: SHORT (conviccion baja). **Realizado**: open 7723.50, low\n  7683.75, high 7724.00, ahora 7710.75. Direccion neta open-a-ahora: -12.75 pts,\n  tecnicamente a favor del corto pero con el mismo round-trip violento que NQ.\n  **Parcial**, misma logica que NQ.\n- **Escenario**: zona fade_vah (7704.23-7711.75) fue tocada y el precio sigue\n  ahi mismo ahora, sin el rechazo limpio que pedia el escenario A. golden_zone\n  (7745-7761.5) no llego. **No resuelto / parcial**.\n- **Estimado de movimiento**: predicho base 13.9 pts (banda 9.04-19.46).\n  Realizado: 40.25 pts. Error ~26.3 pts (105 tk) sobre la base. **EM mal\n  calibrado**, mismo patron que NQ (instrumentos correlacionados).\n- **Zonas**: fade_vah (7704.23-7711.75) llego, sin reaccion clara todavia (el\n  precio sigue dentro/encima). bounce_val LONG (7686.48-7688.25) rozado por el\n  low 7683.75 (ligeramente por debajo) y reboto con fuerza, igual que en NQ.\n- **Causa clasificada**: `EM_mal_calibrado` + `cambio_de_regimen` (parcial, el\n  orb crudo de ES no giro tanto como NQ, pero command si se estiro fuerte a\n  LONG).\n\n## GC\n\n- **Sesgo predicho**: SHORT (conviccion media, unico con bias direccional\n  limpio en la corrida de pre-asia). **Realizado**: open 4483.2, low 4466.0,\n  ahora 4491.8 tras un rebote de alivio hacia la zona VAL/eqZone/golden zone\n  (4483-4509.6) que el propio plan anticipaba. Direccion neta open-a-ahora:\n  +8.6 pts, leve a favor del alza pero dentro de lo que el plan esperaba como\n  paso intermedio antes de una nueva venta. **Acierto de proceso**: el guion\n  (rebote de alivio primero, sin perseguir el corto estirado) se esta\n  cumpliendo.\n- **Escenario**: el escenario A (rebote de alivio hacia 4483.2-4496.5/eqZone\n  seguido de rechazo) esta en curso; el precio ya esta en la zona intermedia,\n  aun no llega al cluster VAH/EMA200 (4507-4521.8) para el rechazo. **En\n  progreso, sin resolver**.\n- **Estimado de movimiento**: predicho base 20.06 pts (banda 13.04-28.08).\n  Realizado: 75.9 pts. Error ~55.8 pts (558 tk) sobre la base, tambien fuera de\n  la banda alta. **EM mal calibrado**, aunque menos sorprendente dado que GC ya\n  venia con el aviso de \"muy estirado\" en la corrida anterior.\n- **Zonas**: bounce_val LONG (4483.2-4488.2) llego y reaccion en curso (precio\n  ahora en 4491.8, dentro/por encima de la zona). golden_zone/fade_vah\n  (4500.3-4521.5) aun no tocada.\n- **Causa clasificada**: `EM_mal_calibrado` (comun a los tres instrumentos hoy;\n  posible causa raiz compartida: reapertura de Globex del domingo con flujo de\n  fin de mes, no un fallo de lectura individual).\n\n## Contra-caso de ayer\n\nNo aplica: la corrida de pre-asia fue la primera del sistema con cobertura\ncompleta y no dejo un `counterCase` estructurado que calificar aqui.\n\n## Nota\n\nLos tres instrumentos comparten el mismo patron: EM base severamente\nsubestimado en la apertura de la semana (fin de mes + reapertura de Globex\ntras el fin de semana), seguido de un round-trip violento que giro los\nindicadores de tendencia de NQ (y en menor medida ES) de bajista a alcista.\nEsto se completara y se convertira en incrementos formales de `zones` /\n`scorecard` (incluyendo `emCalibration`) en la proxima corrida `pre-asia`,\nque es la unica que toca esos contadores.\n"
+    "2026-08-31": "# Cierre parcial · Asia · 2026-08-31 (actualizado en pre-london 01:56 CT)\n\nCalificacion de la sesion de Asia contra el plan `plans/2026-08-31-pre-asia.json`\n(generado con el precio ya en 29340.75/7691.5/4471.0, tras el primer tramo de la\ncaida de apertura). Es un cierre PARCIAL: falta Londres y NY, se completa en la\nproxima `pre-asia`.\n\n## NQ\n\n- **Sesgo predicho**: SHORT (conviccion baja). **Realizado**: la sesion abrio en\n  29540, cayo a low 29273.50 (barrida bajo VAL/exD1-2) y remonto con fuerza hasta\n  high 29546.25, cerrando (por ahora) en 29512, apenas 28 pts por debajo del open.\n  Direccion neta open-a-ahora: levemente negativa -> **acierto tecnico pero\n  enganoso**: el viaje real fue un round-trip de ~270 pts, nada parecido a la\n  \"no-trade/chop\" que describia el plan. Se marca **parcial**.\n- **Escenario**: ni A (fade en 29401-29427 hacia POC/VAL) ni B (continuacion a\n  golden zone 29606-29696) se activaron limpio. El precio SI toco la zona \"otro\"\n  de la tabla (29515.5-29569.5, high 29546.25) pero no broken con el rechazo que\n  esperaba el escenario A; en vez de eso el orb crudo giro de bajista a alcista.\n  **Fallo de escenario** (ninguno se resolvio como se describio).\n- **Estimado de movimiento**: predicho base 96.7 pts (banda 62.9-135.4).\n  Realizado hasta ahora: 272.75 pts. Error absoluto ~176 pts (706 tk) sobre la\n  base, ~137 pts sobre el techo de la banda. **EM muy mal calibrado** para esta\n  apertura de semana.\n- **Zonas**: fade_vah (29401-29427.5) no llego. otro (29515.5-29569.5) llego,\n  reaccion ambigua/no resuelta (sigue sostenido, no genero el rechazo esperado).\n  golden_zone (29606-29696) no llego. bounce_val LONG (29277.25-29291.75,\n  tierra de nadie por score) SI llego (low 29273.50, justo debajo) y reacciono\n  con fuerza inusual para una zona de score bajo (+238 pts de rebote).\n- **Causa clasificada**: `EM_mal_calibrado` (principal) + `cambio_de_regimen`\n  (orb giro de bajista a alcista intradia, algo que el plan de pre-asia no\n  contemplaba).\n\n## ES\n\n- **Sesgo predicho**: SHORT (conviccion baja). **Realizado**: open 7723.50, low\n  7683.75, high 7724.00, ahora 7710.75. Direccion neta open-a-ahora: -12.75 pts,\n  tecnicamente a favor del corto pero con el mismo round-trip violento que NQ.\n  **Parcial**, misma logica que NQ.\n- **Escenario**: zona fade_vah (7704.23-7711.75) fue tocada y el precio sigue\n  ahi mismo ahora, sin el rechazo limpio que pedia el escenario A. golden_zone\n  (7745-7761.5) no llego. **No resuelto / parcial**.\n- **Estimado de movimiento**: predicho base 13.9 pts (banda 9.04-19.46).\n  Realizado: 40.25 pts. Error ~26.3 pts (105 tk) sobre la base. **EM mal\n  calibrado**, mismo patron que NQ (instrumentos correlacionados).\n- **Zonas**: fade_vah (7704.23-7711.75) llego, sin reaccion clara todavia (el\n  precio sigue dentro/encima). bounce_val LONG (7686.48-7688.25) rozado por el\n  low 7683.75 (ligeramente por debajo) y reboto con fuerza, igual que en NQ.\n- **Causa clasificada**: `EM_mal_calibrado` + `cambio_de_regimen` (parcial, el\n  orb crudo de ES no giro tanto como NQ, pero command si se estiro fuerte a\n  LONG).\n\n## GC\n\n- **Sesgo predicho**: SHORT (conviccion media, unico con bias direccional\n  limpio en la corrida de pre-asia). **Realizado**: open 4483.2, low 4466.0,\n  ahora 4491.8 tras un rebote de alivio hacia la zona VAL/eqZone/golden zone\n  (4483-4509.6) que el propio plan anticipaba. Direccion neta open-a-ahora:\n  +8.6 pts, leve a favor del alza pero dentro de lo que el plan esperaba como\n  paso intermedio antes de una nueva venta. **Acierto de proceso**: el guion\n  (rebote de alivio primero, sin perseguir el corto estirado) se esta\n  cumpliendo.\n- **Escenario**: el escenario A (rebote de alivio hacia 4483.2-4496.5/eqZone\n  seguido de rechazo) esta en curso; el precio ya esta en la zona intermedia,\n  aun no llega al cluster VAH/EMA200 (4507-4521.8) para el rechazo. **En\n  progreso, sin resolver**.\n- **Estimado de movimiento**: predicho base 20.06 pts (banda 13.04-28.08).\n  Realizado: 75.9 pts. Error ~55.8 pts (558 tk) sobre la base, tambien fuera de\n  la banda alta. **EM mal calibrado**, aunque menos sorprendente dado que GC ya\n  venia con el aviso de \"muy estirado\" en la corrida anterior.\n- **Zonas**: bounce_val LONG (4483.2-4488.2) llego y reaccion en curso (precio\n  ahora en 4491.8, dentro/por encima de la zona). golden_zone/fade_vah\n  (4500.3-4521.5) aun no tocada.\n- **Causa clasificada**: `EM_mal_calibrado` (comun a los tres instrumentos hoy;\n  posible causa raiz compartida: reapertura de Globex del domingo con flujo de\n  fin de mes, no un fallo de lectura individual).\n\n## Contra-caso de ayer\n\nNo aplica: la corrida de pre-asia fue la primera del sistema con cobertura\ncompleta y no dejo un `counterCase` estructurado que calificar aqui.\n\n## Nota\n\nLos tres instrumentos comparten el mismo patron: EM base severamente\nsubestimado en la apertura de la semana (fin de mes + reapertura de Globex\ntras el fin de semana), seguido de un round-trip violento que giro los\nindicadores de tendencia de NQ (y en menor medida ES) de bajista a alcista.\nEsto se completara y se convertira en incrementos formales de `zones` /\n`scorecard` (incluyendo `emCalibration`) en la proxima corrida `pre-asia`,\nque es la unica que toca esos contadores.\n\n\n## Cierre parcial · Londres -> NY (actualizado en pre-ny 08:33 CT)\n\nUpdate de lo que paso durante el tramo de Londres, calificado contra `plans/2026-08-31-pre-london.json`.\n\n### NQ\nEl escenario B de la corrida de pre-london (rechazo en el cluster mid50/exU1 29624-29634 confirmando\nsqueeze) NO se activo tal cual: el precio nunca llego a tocar esa zona (dayHi se quedo en 29546.25,\nel mismo que ya tenia a las 01:56 CT). En vez de eso el rally se quedo corto y se devolvio por completo\nhasta 29418, sin hacer nuevo extremo en ningun sentido (dayHi/dayLo identicos a pre-london: 29546.25 /\n29273.50). El AVOID de pre-london fue correcto: perseguir el long estirado (6.85 ATR) hubiera\nsignificado comprar cerca del techo del round-trip. thesisAlign paso de CONFLICT a EVOLVING: el\nstruct/htf1/htf2/weeklyDir volvieron a bajista alineado, reafirmando la tesis de fondo sin que\ncommand lo confirme todavia. **Parcial/acierto de proceso**: el AVOID protegio de comprar el squeeze,\ny la reversion que se temia (scenario B invertido: rechazo del squeeze sin llegar al nivel formal)\nse cumplio de todos modos.\n\n### ES\nMismo patron que NQ: el AVOID se mantuvo correcto (no perseguir el rally estirado 5.03 ATR), el rebote\nse devolvio completo sin hacer nuevo extremo (dayHi/dayLo sin cambio: 7724.00 / 7683.75). thesisAlign\nse mantiene EVOLVING (htfzones sigue en conflicto con dayPlanDir LONG, pero orb crudo nunca giro a\nalcista como si giro NQ en pre-london). **Acierto de proceso** en el AVOID.\n\n### GC\nEl WAIT de pre-london (chop pegado al POC, sin permiso) resulto en el mejor desenlace calificable del\ndia: el precio SI continuo el rebote hasta tocar exactamente el cluster VAH/EMA200 4507-4521.8 que la\ntesis marcaba como zona de rechazo (dayHi 4521.5, touchlog confirma reclaim=1), rechazo desde ahi, y\nextendio la baja a un NUEVO low de sesion 4445.6, mas alla del objetivo original de 4466 citado en\npre-london. thesisAlign subio de ALIGN a ALIGN reforzado: el guion completo de la tesis de fondo se\nejecuto en precio. Esta es la confirmacion mas limpia del dia para la tesis bajista de fondo de los\ntres instrumentos.\n\nNota: esta sigue siendo una calificacion PARCIAL (falta el cierre de NY); se completa en la proxima\n`pre-asia`, que es la unica corrida que incrementa `zones`/`scorecard`/calibracion.\n"
   },
   "dayThesis": {
     "2026-08-31": {
-      "NQ": "2026-08-31: Rango/transicion, sesgo bajista de fondo (weeklyDir SHORT, htf1/htf2 alineados) con conflicto puntual en htfzones.biasW (alcista, en contra). Asia ya gasto ~62% del presupuesto diario ajustado (272.75/439.74 pts) en las primeras ~2h15 desde el open, muy por encima de lo tipico (base Asia ~97 pts). H/L del dia se forma probablemente en Londres/NY si hay reversion desde el rebote hacia VAH/eqZone/golden zone; si el rebote sigue de largo por el conflicto HTF, el high del dia podria quedar mas arriba, hacia TDO 29668/golden 29606-29696. Presupuesto ADR restante: ~167 pts / 669 tk para Londres+NY.\n\n2026-08-31 (Update Londres 01:56 CT): Asia hizo un round-trip violento (open 29540, low 29273.50, ahora 29512) que giro el orb crudo de bajista a alcista (weeklyDir LONG, htf1/htf2 Alcista alineado). CONFLICT con la tesis de fondo bajista, sin ruptura confirmada (invalidacion 29811.5 intacta). Londres: no perseguir el estiramiento (6.85 ATR); vigilar pullback a eqZone/VAH 29395-29442 para continuacion, o rechazo en mid50/exU1 29624-29634 que confirmaria squeeze. Presupuesto diario ya 64% usado, quedan ~154 pts / 617 tk para Londres+NY.",
-      "ES": "2026-08-31: misma lectura que NQ (bajista de fondo con conflicto en htfzones.biasW). Precio pegado al POC en pleno NO-TRADE·CHOP. Asia ya gasto ~63% del presupuesto ajustado (39.5/63.19 pts). H/L probable si el rebote hacia VAH/eqZone/golden zone (7704-7761.5) se rechaza; sesgo de continuacion bajista hacia VAL/exD si el rechazo se confirma. Presupuesto restante: ~23.7 pts / 95 tk.\n\n2026-08-31 (Update Londres 01:56 CT): mismo round-trip que NQ pero orb crudo se mantiene bajista (weeklyDir SHORT, htf1/htf2 Bajista); solo command se estiro a LONG FUERTE (5.03 ATR). thesisAlign EVOLVING, no CONFLICT total. Precio ya dentro del cluster VAH/PDL 7699-7712, esperar enfriamiento antes de operar. Presupuesto diario 68% usado, quedan ~19.2 pts / 77 tk.",
-      "GC": "2026-08-31: unico con bias direccional limpio (drbias Bearish, htf1/htf2 alineados sin conflicto), pero MUY ESTIRADO (2.57 ATR de VWAP) tras tocar el low de sesion a solo 5 pts. drbias avisa explicitamente no perseguir ventas tardias aqui. H/L del dia probablemente se define con un rebote de alivio hacia VAL/eqZone/golden zone (4483-4509.6) antes de cualquier continuacion bajista real. Asia ya gasto ~61% del presupuesto ajustado (55.5/91.17 pts); restante ~35.7 pts / 357 tk.\n\n2026-08-31 (Update Londres 01:56 CT): unico ALIGN, haciendo el rebote de alivio hacia VAL/eqZone que la tesis de fondo esperaba antes de una nueva venta. Sigue en NO-TRADE·CHOP pegado al POC, sin permiso long/short. Vigilar rechazo en VAH/EMA200 4507-4521.8 para reanudar la baja hacia 4466. Presupuesto diario 80% usado (el mas ajustado de los tres), quedan ~18.7 pts / 187 tk."
+      "NQ": "2026-08-31 (Update NY 08:33 CT): el squeeze de Londres se devolvio por completo (rally 29273.50->29546.25 revertido a 29418), struct/htf1/htf2/weeklyDir volvieron a bajista alineado, reafirmando la tesis bajista de fondo (EVOLVING, no ALIGN aun porque command sigue NEUTRAL y htfzones.biasW=3 sigue en conflicto). Plan NY: esperar rechazo confirmado en VAH/premZone 29502-29535 (B, score 5) para reanudar la baja hacia POC/VAL; sin permiso de sesion todavia. Presupuesto diario 63% usado, quedan ~160pts/642tk para NY, menos que el reparto teorico (195p) -> no esperar un rango completo.",
+      "ES": "2026-08-31 (Update NY 08:33 CT): mismo patron que NQ, el rebote de Londres se devolvio completo, precio de vuelta en la NTZ pegado al POC. thesisAlign EVOLVING (htfzones sigue en conflicto con dayPlanDir LONG). Plan NY: A+ mapeada en VAH/PDL/premZone 7705-7716 (score 6) a solo 6-17pts, esperar el rechazo confirmado, command aun sin permisoShort. Presupuesto diario 64% usado, quedan ~22pts/89tk para NY, menos que el reparto teorico (28p).",
+      "GC": "2026-08-31 (Update NY 08:33 CT): unico ALIGN, ejecuto el guion completo: rebote hasta el cluster VAH/EMA200 4507-4521.8 (mismo nivel que la tesis marcaba), rechazo con reclaim confirmado en touchlog, y extension de la baja a un nuevo low de sesion 4445.6 (mas alla del objetivo original 4466) antes de rebotar de nuevo al POC. Plan NY: esperar un segundo test/rechazo del mismo cluster 4507-4521.8 (A+, score 7, el mas fuerte de los tres) para reanudar la baja; sin permisoShort todavia. Presupuesto diario 79% usado (el mas ajustado), quedan solo ~21pts/206tk para NY."
     }
   },
   "plans": {
@@ -1311,124 +1311,830 @@
         }
       ],
       "reviewYesterday": "2026-08-30"
+    },
+    "2026-08-31-pre-ny": {
+      "date": "2026-08-31",
+      "session": "ny",
+      "runType": "pre-ny",
+      "generatedAt": "2026-08-31T08:33:37-05:00",
+      "cleanest": "GC",
+      "summary": [
+        "NQ: WAIT · el squeeze de Londres se devolvio por completo (rally a 29546 revertido, orb y struct vuelven a bajista/BOS dn) pero command sigue NEUTRAL/DEBIL sin permiso; precio 29418 metido en zona de no-trade. Mejor zona: VAH/premZone 29502-29535 (B, score 5), a 84pts/337tk. EM base NY 195p/780tk (banda 127-273p), ojo: solo quedan ~161pts de presupuesto diario.",
+        "ES: WAIT · misma dinamica que NQ, precio 7699 en NTZ pegado al POC. A+ mapeada en VAH/PDL/premZone 7705-7716 (score 6) a solo 6-17pts/24-68tk, pero command sin permisoShort aun: esperar el rechazo, no anticiparlo. EM base NY 28p/112tk (banda 18-39p), presupuesto restante solo ~22pts.",
+        "GC: WAIT · unico que ya ejecuto el guion completo: rebote toco exacto el cluster VAH/EMA200 4507-4521.8 (dayHi 4521.5, reclaim confirmado en touchlog) y volvio a caer a un nuevo low 4445.6 antes de rebotar de nuevo a 4494. A+ en el mismo nivel 4507-4521.8 (score 7, el mas fuerte de los tres) a 12-27pts/125-270tk, sin permisoShort todavia. EM base NY 43p/434tk (banda 28-61p), presupuesto restante el mas ajustado: ~21pts.",
+        "mas limpio: GC (unica tesis ALIGN, con confirmacion real de precio en el nivel clave y el A+ de mayor score de los tres)",
+        "Datos: OK (snapshot ~4 min). Noticias: NINGUNA en la sesion de NY de hoy (ISM Manufacturing PMI es manana martes 09:00 CT, no afecta hoy). Calendario: fin-de-mes, semana-NFP (NFP viernes 04-sep).",
+        "Disciplina: limite diario $1000/3 stops; en las A+ de ES y GC el stop de referencia ronda $350-500/contrato full, dejando 0-2 contratos maximos -> revisar micros. Los tres instrumentos ya gastaron 63-79% de su presupuesto diario ajustado antes de que abra NY: el jugo restante es menor al reparto teorico de la sesion, no esperes que NY repita un rango completo."
+      ],
+      "alarm": null,
+      "dataHealth": {
+        "snapshot": "OK",
+        "builtAtAgeMin": 4,
+        "stale": [],
+        "missing": [],
+        "notes": "Las 6 fuentes frescas en los 3 instrumentos (receivedAt ~08:25 CT). orb no trae receivedAt propio; contrastado contra command sin discrepancia >0.3% en esta corrida."
+      },
+      "calendarContext": {
+        "tags": [
+          "fin-de-mes",
+          "semana-NFP"
+        ],
+        "note": "hoy (lunes 31-ago) es el ultimo dia habil de agosto, flujos de rebalanceo ya incorporados en el EM del dia; la semana cierra con NFP el viernes 04-sep. ISM Manufacturing PMI (alto impacto) es manana martes 09:00 CT, no cae en la sesion de NY de hoy."
+      },
+      "newsRisk": {
+        "level": "NINGUNA",
+        "session": "ny",
+        "events": [],
+        "note": "sin eventos en el calendario dentro de la sesion de NY de hoy; el proximo dato fuerte es el ISM Manufacturing PMI de manana martes 09:00 CT."
+      },
+      "instruments": {
+        "NQ": {
+          "biasDay": "SHORT",
+          "biasSession": "SHORT",
+          "biasAligned": false,
+          "conviction": "media",
+          "prevDay": {
+            "type": "balance / rango (vuelta a pdc tras barrido bajista)",
+            "closedAt": "n/a (referencia del viernes cerrado)",
+            "prior": "NEUTRAL",
+            "note": "el cierre del viernes no aporta prior de continuacion limpio; favorece fades de extremos, que es justo lo que Asia+Londres ya hicieron hoy"
+          },
+          "gap": {
+            "pts": 30.5,
+            "ticks": 122,
+            "size": "grande",
+            "filled": true,
+            "note": "dayOpen 29540 vs pdc 29509.50; el precio ya cruzo varias veces ambos lados durante Asia/Londres, gap sin valor de iman adicional ahora mismo"
+          },
+          "smt": {
+            "state": "ninguna",
+            "note": "NQ y ES mantienen los mismos extremos de dia (dayHi/dayLo sin cambio desde pre-london), sin divergencia fresca que leer en esta corrida"
+          },
+          "thesisAlign": {
+            "state": "EVOLVING",
+            "daysHeld": 1,
+            "note": "el squeeze de Londres se devolvio completo (struct vuelve a BOS dn, htf1/htf2 bajista alineado, weeklyDir SHORT), reafirmando la tesis de fondo; pero command sigue NEUTRAL/DEBIL sin confirmar y htfzones.biasW=3 sigue en conflicto, asi que no sube a ALIGN todavia"
+          },
+          "counterCase": "el rally de Londres (29273.50 a 29546.25, command llego a biasScore 9 FUERTE) podria no haber sido solo un squeeze: htfzones sigue con biasD=1/biasW=3 tecnicamente positivos y RS giro a 'NQ rezaga' (peor senal de liderazgo, no necesariamente bajista); si NY retoma el alza y acepta con calma sobre 29502-29535 sin devolver, la tesis bajista de fondo pierde peso real. Resolucion: se mantiene el sesgo bajista porque el precio ya devolvio el 100% de la ganancia del squeeze y el struct crudo volvio a BOS dn; conviction se queda en media, no sube a alta por el conflicto persistente en command/htfzones.biasW",
+          "verdict": {
+            "signal": "WAIT",
+            "reason": "precio 29418 dentro de la zona de no-trade, command ESPERAR/NEUTRAL sin permisoLong ni permisoShort; la mejor candidata (VAH/premZone 29502-29535) es solo B (score 5), a 84pts, sin gatillo confirmado todavia [chop / anticipar]"
+          },
+          "context": "Precio 29418.25, dentro de la NTZ de orb (29346.67-29445.38) y practicamente sobre EMA20 command (29417.00). command: biasScore 1, dir NEUTRAL, strength DEBIL, verdict ESPERAR/NEUTRAL, chop 0, trend 0, stretchAtr 0.46 (Normal, ya no estirado). El rango del dia sigue igual que a pre-london (dayHi 29546.25, dayLo 29273.50, 272.75pts/1091tk), es decir NY abre sin extremos nuevos desde el ultimo update: Londres hizo un rally hasta 29546.25 y lo devolvio entero. htf1/htf2 y weeklyDir volvieron a bajista alineado, struct BOS dn; htfzones.biasW=3 sigue siendo el unico foco de conflicto real.",
+          "scenarioA": {
+            "text": "Rebote hacia VAH/premZone/disc25 (29502.50-29535.00), rechazo ahi con BOS dn manteniendose, reanuda la baja hacia POC 29446.25 y VAL/exD1 29314.75-29352.50.",
+            "trigger": "Rechazo confirmado (mecha + cierre 5m) en 29502.50-29535.00",
+            "target": 29344.67,
+            "entryZone": [
+              29502.5,
+              29535.0
+            ]
+          },
+          "scenarioB": {
+            "text": "Si NY retoma el impulso alcista de Londres y acepta sobre 29535-29540 sin devolver, revalida el squeeze y continua hacia mid50 29624.00.",
+            "trigger": "Aceptacion sostenida (cierre 5m) sobre 29535-29540 con volumen"
+          },
+          "invalidation": {
+            "text": "Aceptacion sostenida por encima de PDH/PWH 29811.5 rompe definitivamente la tesis bajista de fondo; en el corto plazo, aceptacion sobre disc25/mid50 29530-29624 sin devolver reabriria el squeeze",
+            "level": 29811.5
+          },
+          "predictions": [
+            {
+              "id": "NQ-1",
+              "text": "rango de NY entre 127 y 273 pts",
+              "kind": "range",
+              "resolveAt": "cierre NY ~15:00 CT"
+            },
+            {
+              "id": "NQ-2",
+              "text": "direccion neta de NY bajista (cierre NY < 29418.25)",
+              "kind": "direction",
+              "resolveAt": "cierre NY",
+              "prob": 0.55
+            },
+            {
+              "id": "NQ-3",
+              "text": "toca VAH/premZone 29502.50 antes que TDO 29352.50",
+              "kind": "level_first",
+              "resolveAt": "cierre NY",
+              "prob": 0.5
+            },
+            {
+              "id": "NQ-4",
+              "text": "el escenario A (rechazo en VAH/premZone) se activa antes que el B (aceptacion y continuacion alcista)",
+              "kind": "scenario",
+              "resolveAt": "cierre NY"
+            },
+            {
+              "id": "NQ-5",
+              "text": "si NY acepta y sostiene sobre 29535 sin devolver, el dia cierra sobre 29540 (day open)",
+              "kind": "conditional",
+              "resolveAt": "cierre NY"
+            }
+          ],
+          "zones": [
+            {
+              "range": [
+                29502.5,
+                29535.0
+              ],
+              "dir": "SHORT",
+              "type": "fade_vah",
+              "confluence": 5,
+              "distPts": 84.25,
+              "distTicks": 337,
+              "winRate": "sin datos aun",
+              "n": 0,
+              "risk": {
+                "stopPts": 10.0,
+                "stopTk": 40,
+                "stopUsd": 200,
+                "tgtPts": 72.25,
+                "tgtTk": 289,
+                "tgtUsd": 1445,
+                "rr": 7.2,
+                "flag": "OK",
+                "maxContracts": 1
+              },
+              "play": {
+                "trigger": "rechazo (mecha + cierre 5m) en 29502.50-29535.00 (VAH/premZone/disc25), o barrido de 29540 (dayOpen) con cierre 5m de vuelta bajo la zona",
+                "structStop": "sobre el dayOpen 29540 + 3tk, cerca de 29542",
+                "scale": "1/2 en POC 29446.25 y mueve a BE; resto a VAL 29314.75",
+                "ifWrong": "rapido: cierre 5m sobre 29542 fuera; lento: solo mechas sobre la zona sin cierre, aguanta"
+              }
+            }
+          ],
+          "noTradeZone": [
+            29346.67,
+            29445.38
+          ],
+          "expectedMove": {
+            "low": 126.7,
+            "base": 195.0,
+            "high": 273.0,
+            "lowTk": 507,
+            "baseTk": 780,
+            "highTk": 1092,
+            "dayBudget": 433.24,
+            "dayUsed": 272.75,
+            "dayUsedPct": 63,
+            "dayRemaining": 160.49,
+            "flag": "EN CURSO",
+            "mult": 1.0
+          },
+          "keyLevels": [
+            {
+              "name": "EMA20",
+              "price": 29417.0,
+              "distPts": -1.25,
+              "distTicks": -5
+            },
+            {
+              "name": "PDL",
+              "price": 29436.25,
+              "distPts": 18.0,
+              "distTicks": 72
+            },
+            {
+              "name": "POC",
+              "price": 29446.25,
+              "distPts": 28.0,
+              "distTicks": 112
+            },
+            {
+              "name": "IBL",
+              "price": 29505.0,
+              "distPts": 86.75,
+              "distTicks": 347
+            },
+            {
+              "name": "VAH",
+              "price": 29502.5,
+              "distPts": 84.25,
+              "distTicks": 337
+            },
+            {
+              "name": "ONH",
+              "price": 29546.25,
+              "distPts": 128.0,
+              "distTicks": 512
+            },
+            {
+              "name": "dayOpen",
+              "price": 29540.0,
+              "distPts": 121.75,
+              "distTicks": 487
+            },
+            {
+              "name": "IBH",
+              "price": 29706.0,
+              "distPts": 287.75,
+              "distTicks": 1151
+            },
+            {
+              "name": "TDO",
+              "price": 29352.5,
+              "distPts": -65.75,
+              "distTicks": -263
+            },
+            {
+              "name": "ONL",
+              "price": 29273.5,
+              "distPts": -144.75,
+              "distTicks": -579
+            },
+            {
+              "name": "VAL",
+              "price": 29314.75,
+              "distPts": -103.5,
+              "distTicks": -414
+            },
+            {
+              "name": "PDH/PWH",
+              "price": 29811.5,
+              "distPts": 393.25,
+              "distTicks": 1573
+            }
+          ],
+          "news": []
+        },
+        "ES": {
+          "biasDay": "SHORT",
+          "biasSession": "SHORT",
+          "biasAligned": false,
+          "conviction": "media",
+          "prevDay": {
+            "type": "balance / rango",
+            "closedAt": "n/a (referencia del viernes cerrado)",
+            "prior": "NEUTRAL",
+            "note": "mismo prior que NQ, sin cambios desde pre-london"
+          },
+          "gap": {
+            "pts": -1.25,
+            "ticks": -5,
+            "size": "grande (por % ADR, pequeno en absoluto)",
+            "filled": true,
+            "note": "dayOpen 7723.50 vs pdc 7724.75; irrelevante en la practica, el precio ya paso por ambos niveles"
+          },
+          "smt": {
+            "state": "ninguna",
+            "note": "sin divergencia fresca con NQ, ambos mantienen los mismos extremos de dia desde pre-london"
+          },
+          "thesisAlign": {
+            "state": "EVOLVING",
+            "daysHeld": 1,
+            "note": "orb crudo (weeklyDir, htf1, htf2, struct) sigue bajista alineado y el precio volvio a la zona de no-trade sin sostener el rally; pero htfzones.biasD/biasW=3 alcista y dayPlanDir LONG siguen contradiciendo, command sigue NEUTRAL, no sube a ALIGN"
+          },
+          "counterCase": "htfzones sigue marcando biasD/biasW=3 alcista y dayPlanDir LONG pese a que biasChart/biasHTF son bajistas; si NY acepta con calma sobre el cluster PDL/VAH 7705-7716 sin devolver, el rebote deja de ser solo un respiro. Resolucion: se mantiene el sesgo bajista de sesion porque orb crudo (weeklyDir, htf1/htf2, struct) sigue bajista alineado y el precio ya volvio a la NTZ sin sostenerse arriba; conviction media, no sube a alta por el conflicto persistente en htfzones",
+          "verdict": {
+            "signal": "WAIT",
+            "reason": "A+ mapeada en VAH/PDL/premZone 7705-7716 (score 6) a solo 6-17pts, pero command sin permisoShort todavia y precio en NTZ; esperar el rechazo confirmado, no anticiparlo [anticipar]"
+          },
+          "context": "Precio 7699.00, dentro de la NTZ de orb (7693.94-7707.01) y a 8tk del EMA20 command (7699.25). command: biasScore 1, dir NEUTRAL, strength DEBIL, verdict ESPERAR/NEUTRAL, stretchAtr 0.49 (Normal), lastSig SELL RETEST hace 6 velas (senal bajista reciente, aunque sin permiso todavia). Rango del dia sin cambio desde pre-london (dayHi 7724.00, dayLo 7683.75, 40.25pts/161tk): el rebote de Londres se devolvio completo. htfzones sigue siendo el unico foco de conflicto (biasD/biasW alcista vs biasChart/biasHTF bajista).",
+          "scenarioA": {
+            "text": "Rebote hacia VAH/PDL/premZone (7705.00-7716.00, incluye golden zone 7706.75-7710.75), rechazo ahi con BOS dn manteniendose, reanuda la baja hacia POC 7691.75 y VAL/exD1 7688.25.",
+            "trigger": "Rechazo confirmado (mecha + cierre 5m) en 7705.00-7716.00",
+            "target": 7688.25,
+            "entryZone": [
+              7705.0,
+              7716.0
+            ]
+          },
+          "scenarioB": {
+            "text": "Aceptacion sostenida sobre 7716 sin rechazo, continuacion hacia zPrem/mid50 7729.50-7747.25.",
+            "trigger": "Aceptacion sostenida (cierre 5m) sobre 7716 con volumen"
+          },
+          "invalidation": {
+            "text": "Aceptacion sostenida por encima de PDH/PWH 7782.50 rompe la tesis bajista de fondo",
+            "level": 7782.5
+          },
+          "predictions": [
+            {
+              "id": "ES-1",
+              "text": "rango de NY entre 18 y 39 pts",
+              "kind": "range",
+              "resolveAt": "cierre NY ~15:00 CT"
+            },
+            {
+              "id": "ES-2",
+              "text": "direccion neta de NY bajista (cierre NY < 7699.00)",
+              "kind": "direction",
+              "resolveAt": "cierre NY",
+              "prob": 0.55
+            },
+            {
+              "id": "ES-3",
+              "text": "toca VAH/PDL 7705.00 antes que VAL 7688.25",
+              "kind": "level_first",
+              "resolveAt": "cierre NY",
+              "prob": 0.5
+            },
+            {
+              "id": "ES-4",
+              "text": "el escenario A (rechazo en 7705-7716) se activa antes que el B (aceptacion y continuacion)",
+              "kind": "scenario",
+              "resolveAt": "cierre NY"
+            },
+            {
+              "id": "ES-5",
+              "text": "si NY acepta y sostiene sobre 7716 sin devolver, el dia cierra sobre 7723.50 (day open)",
+              "kind": "conditional",
+              "resolveAt": "cierre NY"
+            }
+          ],
+          "zones": [
+            {
+              "range": [
+                7705.0,
+                7716.0
+              ],
+              "dir": "SHORT",
+              "type": "fade_vah",
+              "confluence": 6,
+              "distPts": 6.0,
+              "distTicks": 24,
+              "winRate": "sin datos aun",
+              "n": 0,
+              "risk": {
+                "stopPts": 4.0,
+                "stopTk": 16,
+                "stopUsd": 200,
+                "tgtPts": 24.25,
+                "tgtTk": 97,
+                "tgtUsd": 1213,
+                "rr": 6.1,
+                "flag": "OK",
+                "maxContracts": 1
+              },
+              "play": {
+                "trigger": "rechazo (mecha + cierre 5m) en 7705.00-7716.00 (VAH/PDL/golden zone), especialmente si retesta el PDL 7711.75",
+                "structStop": "sobre PDL 7711.75 + 3tk, cerca de 7717",
+                "scale": "1/2 en POC 7691.75 y mueve a BE; resto a VAL 7688.25",
+                "ifWrong": "rapido: cierre 5m sobre 7717 fuera; lento: solo mecha sobre la zona sin cierre, aguanta"
+              }
+            }
+          ],
+          "noTradeZone": [
+            7693.94,
+            7707.01
+          ],
+          "expectedMove": {
+            "low": 18.27,
+            "base": 28.1,
+            "high": 39.34,
+            "lowTk": 73,
+            "baseTk": 112,
+            "highTk": 157,
+            "dayBudget": 62.44,
+            "dayUsed": 40.25,
+            "dayUsedPct": 64,
+            "dayRemaining": 22.19,
+            "flag": "EN CURSO",
+            "mult": 1.0
+          },
+          "keyLevels": [
+            {
+              "name": "EMA20",
+              "price": 7699.25,
+              "distPts": 0.25,
+              "distTicks": 1
+            },
+            {
+              "name": "POC",
+              "price": 7691.75,
+              "distPts": -7.25,
+              "distTicks": -29
+            },
+            {
+              "name": "VAL",
+              "price": 7688.25,
+              "distPts": -10.75,
+              "distTicks": -43
+            },
+            {
+              "name": "VAH",
+              "price": 7709.25,
+              "distPts": 10.25,
+              "distTicks": 41
+            },
+            {
+              "name": "PDL",
+              "price": 7711.75,
+              "distPts": 12.75,
+              "distTicks": 51
+            },
+            {
+              "name": "ONL",
+              "price": 7683.75,
+              "distPts": -15.25,
+              "distTicks": -61
+            },
+            {
+              "name": "dayOpen",
+              "price": 7723.5,
+              "distPts": 24.5,
+              "distTicks": 98
+            },
+            {
+              "name": "ONH",
+              "price": 7724.0,
+              "distPts": 25.0,
+              "distTicks": 100
+            },
+            {
+              "name": "IBL",
+              "price": 7726.5,
+              "distPts": 27.5,
+              "distTicks": 110
+            },
+            {
+              "name": "IBH",
+              "price": 7760.5,
+              "distPts": 61.5,
+              "distTicks": 246
+            },
+            {
+              "name": "PDH/PWH",
+              "price": 7782.5,
+              "distPts": 83.5,
+              "distTicks": 334
+            }
+          ],
+          "news": []
+        },
+        "GC": {
+          "biasDay": "SHORT",
+          "biasSession": "SHORT",
+          "biasAligned": true,
+          "conviction": "media",
+          "prevDay": {
+            "type": "balance / rango, con sesgo bajista de fondo",
+            "closedAt": "n/a (referencia del viernes cerrado)",
+            "prior": "NEUTRAL, con sesgo bajista de fondo",
+            "note": "sin cambios desde pre-london"
+          },
+          "gap": {
+            "pts": -20.9,
+            "ticks": -209,
+            "size": "grande",
+            "filled": true,
+            "note": "dayOpen 4483.2 vs pdc 4504.1; ya tocado y superado durante el rebote de Londres (dayHi 4521.5), ahora el precio volvio a caer debajo de pdc, sigue de referencia si hay un nuevo rebote"
+          },
+          "smt": {
+            "state": "ninguna",
+            "note": "GC no participa del chequeo SMT"
+          },
+          "thesisAlign": {
+            "state": "ALIGN",
+            "daysHeld": 1,
+            "note": "el precio ejecuto el guion completo de la tesis: rebote hasta el cluster VAH/EMA200 4507-4521.8 (dayHi 4521.5, touchlog confirma reclaim), rechazo, y nuevo low de sesion en 4445.6 (mas abajo que el objetivo original 4466), antes de rebotar de nuevo hacia el POC"
+          },
+          "counterCase": "drbias.bullScore(3) sigue por encima de bearScore(2) y htfzones biasD/biasW=3 alcista con struct 'BOS up'; si el proximo test de 4507-4521.8 rompe con aceptacion en vez de rechazar, el sesgo bajista de fondo se rompe de verdad. Resolucion: se mantiene el sesgo bajista porque el precio YA rechazo ese nivel una vez hoy (reclaim confirmado) y extendio la baja mas alla del objetivo original; conviction se mantiene media, no sube a alta porque command sigue sin dar permiso y el precio esta de nuevo en chop cerca del POC",
+          "verdict": {
+            "signal": "WAIT",
+            "reason": "A+ en VAH/EMA200 4507-4521.8 (score 7, ya rechazado 1x hoy con reclaim confirmado) a 12-27pts, pero command sin permisoShort y precio metido en NTZ/golden zone; esperar la reaccion confirmada del segundo test, no perseguir el nivel de nuevo sin rechazo [anticipar]"
+          },
+          "context": "Precio 4494.50, dentro de la NTZ de orb (4489.58-4512.64) y de la golden zone htfzones (4490.5-4495.7), a 6tk del POC command (4492.8). command: biasScore 2, dir NEUTRAL, strength DEBIL, verdict ESPERAR/NEUTRAL, stretchAtr 0.26 (Normal, ya no estirado como en pre-asia/pre-london). Rango del dia se amplio desde pre-london: nuevo low de sesion 4445.6 (antes 4466), dayHi se mantiene en 4521.5 (el mismo cluster VAH/EMA200 que la tesis marcaba como zona de rechazo). emRegime AVANZADO (72% del ATR propio usado), el mas cerca de agotarse de los tres.",
+          "scenarioA": {
+            "text": "Segundo test del cluster VAH/EMA200 (4507.0-4521.8, mismo nivel que ya rechazo hoy con reclaim), rechazo con BOS dn, reanuda la baja hacia POC 4492.8 y el nuevo low de sesion 4445.6, extension hacia exD1 4434.9 (ya tocado 1x).",
+            "trigger": "Rechazo confirmado (mecha + cierre 5m) en 4507.0-4521.8",
+            "target": 4445.6,
+            "entryZone": [
+              4507.0,
+              4521.8
+            ]
+          },
+          "scenarioB": {
+            "text": "Si rompe el patron de hoy y acepta sostenido sobre 4521.8 sin rechazar, continuacion hacia zDisc 4543.3 (borde del gap sin rellenar mas arriba).",
+            "trigger": "Aceptacion sostenida (cierre 5m) sobre 4521.8 con volumen"
+          },
+          "invalidation": {
+            "text": "Aceptacion sostenida por encima de POC 4508-4509.5, mas aun sobre VAH 4514-4521.8, rompe el sesgo bajista de fondo",
+            "level": 4509.5
+          },
+          "predictions": [
+            {
+              "id": "GC-1",
+              "text": "rango de NY entre 28 y 61 pts",
+              "kind": "range",
+              "resolveAt": "cierre NY ~15:00 CT"
+            },
+            {
+              "id": "GC-2",
+              "text": "direccion neta de NY bajista (cierre NY < 4494.50)",
+              "kind": "direction",
+              "resolveAt": "cierre NY",
+              "prob": 0.55
+            },
+            {
+              "id": "GC-3",
+              "text": "toca VAH/EMA200 4507.0 antes que el low de sesion 4445.6",
+              "kind": "level_first",
+              "resolveAt": "cierre NY",
+              "prob": 0.5
+            },
+            {
+              "id": "GC-4",
+              "text": "el escenario A (segundo rechazo en 4507-4521.8) se activa antes que el B (aceptacion y continuacion)",
+              "kind": "scenario",
+              "resolveAt": "cierre NY"
+            },
+            {
+              "id": "GC-5",
+              "text": "si NY acepta y sostiene sobre 4521.8 sin devolver, el dia cierra sobre 4504.1 (pdc, borde del gap)",
+              "kind": "conditional",
+              "resolveAt": "cierre NY"
+            }
+          ],
+          "zones": [
+            {
+              "range": [
+                4507.0,
+                4521.8
+              ],
+              "dir": "SHORT",
+              "type": "fade_vah",
+              "confluence": 7,
+              "distPts": 12.5,
+              "distTicks": 125,
+              "winRate": "sin datos aun",
+              "n": 0,
+              "risk": {
+                "stopPts": 5.2,
+                "stopTk": 52,
+                "stopUsd": 520,
+                "tgtPts": 29.0,
+                "tgtTk": 290,
+                "tgtUsd": 2900,
+                "rr": 5.6,
+                "flag": "OK",
+                "maxContracts": 0
+              },
+              "play": {
+                "trigger": "rechazo (mecha + cierre 5m) en 4507.0-4521.8 en el segundo test del dia, mismo nivel que ya reclamo (reclaim) una vez",
+                "structStop": "sobre el maximo del segundo test + 3tk, cerca de 4522.5",
+                "scale": "1/2 en POC 4492.8, resto al nuevo low de sesion 4445.6",
+                "ifWrong": "rapido: cierre 5m sobre 4522.5 fuera; lento: solo mecha sin cierre, aguanta"
+              }
+            }
+          ],
+          "noTradeZone": [
+            4489.58,
+            4512.64
+          ],
+          "expectedMove": {
+            "low": 28.2,
+            "base": 43.4,
+            "high": 60.8,
+            "lowTk": 282,
+            "baseTk": 434,
+            "highTk": 608,
+            "dayBudget": 96.48,
+            "dayUsed": 75.9,
+            "dayUsedPct": 79,
+            "dayRemaining": 20.58,
+            "flag": "EN CURSO",
+            "mult": 1.0
+          },
+          "keyLevels": [
+            {
+              "name": "POC",
+              "price": 4492.8,
+              "distPts": -1.7,
+              "distTicks": -17
+            },
+            {
+              "name": "orH",
+              "price": 4491.2,
+              "distPts": -3.3,
+              "distTicks": -33
+            },
+            {
+              "name": "EMA20",
+              "price": 4496.5,
+              "distPts": 2.0,
+              "distTicks": 20
+            },
+            {
+              "name": "VWAP",
+              "price": 4490.8,
+              "distPts": -3.7,
+              "distTicks": -37
+            },
+            {
+              "name": "pdc (borde de gap)",
+              "price": 4504.1,
+              "distPts": 9.6,
+              "distTicks": 96
+            },
+            {
+              "name": "VAH",
+              "price": 4521.8,
+              "distPts": 27.3,
+              "distTicks": 273
+            },
+            {
+              "name": "orL",
+              "price": 4484.8,
+              "distPts": -9.7,
+              "distTicks": -97
+            },
+            {
+              "name": "low de sesion",
+              "price": 4445.6,
+              "distPts": -48.9,
+              "distTicks": -489
+            },
+            {
+              "name": "PDL/PWL",
+              "price": 4495.0,
+              "distPts": 0.5,
+              "distTicks": 5
+            },
+            {
+              "name": "PDH",
+              "price": 4688.0,
+              "distPts": 193.5,
+              "distTicks": 1935
+            }
+          ],
+          "news": []
+        }
+      },
+      "dayThesis": {
+        "NQ": "2026-08-31 (Update NY 08:33 CT): el squeeze de Londres se devolvio por completo (rally 29273.50->29546.25 revertido a 29418), struct/htf1/htf2/weeklyDir volvieron a bajista alineado, reafirmando la tesis bajista de fondo (EVOLVING, no ALIGN aun porque command sigue NEUTRAL y htfzones.biasW=3 sigue en conflicto). Plan NY: esperar rechazo confirmado en VAH/premZone 29502-29535 (B, score 5) para reanudar la baja hacia POC/VAL; sin permiso de sesion todavia. Presupuesto diario 63% usado, quedan ~160pts/642tk para NY, menos que el reparto teorico (195p) -> no esperar un rango completo.",
+        "ES": "2026-08-31 (Update NY 08:33 CT): mismo patron que NQ, el rebote de Londres se devolvio completo, precio de vuelta en la NTZ pegado al POC. thesisAlign EVOLVING (htfzones sigue en conflicto con dayPlanDir LONG). Plan NY: A+ mapeada en VAH/PDL/premZone 7705-7716 (score 6) a solo 6-17pts, esperar el rechazo confirmado, command aun sin permisoShort. Presupuesto diario 64% usado, quedan ~22pts/89tk para NY, menos que el reparto teorico (28p).",
+        "GC": "2026-08-31 (Update NY 08:33 CT): unico ALIGN, ejecuto el guion completo: rebote hasta el cluster VAH/EMA200 4507-4521.8 (mismo nivel que la tesis marcaba), rechazo con reclaim confirmado en touchlog, y extension de la baja a un nuevo low de sesion 4445.6 (mas alla del objetivo original 4466) antes de rebotar de nuevo al POC. Plan NY: esperar un segundo test/rechazo del mismo cluster 4507-4521.8 (A+, score 7, el mas fuerte de los tres) para reanudar la baja; sin permisoShort todavia. Presupuesto diario 79% usado (el mas ajustado), quedan solo ~21pts/206tk para NY."
+      },
+      "alertLevels": [
+        {
+          "sym": "ES",
+          "price": 7705.0,
+          "band": [
+            7705.0,
+            7716.0
+          ],
+          "dir": "SHORT",
+          "kind": "zoneA",
+          "label": "A+ fade VAH/PDL/golden zone · rechazo a favor del corto",
+          "verdict": "WAIT"
+        },
+        {
+          "sym": "GC",
+          "price": 4509.5,
+          "band": null,
+          "dir": null,
+          "kind": "invalidation",
+          "label": "invalida el corto de fondo (aceptacion sostenida)"
+        },
+        {
+          "sym": "GC",
+          "price": 4507.0,
+          "band": [
+            4507.0,
+            4521.8
+          ],
+          "dir": "SHORT",
+          "kind": "zoneA",
+          "label": "A+ fade VAH/EMA200 · segundo test del nivel ya rechazado hoy",
+          "verdict": "WAIT"
+        },
+        {
+          "sym": "ES",
+          "price": 7782.5,
+          "band": null,
+          "dir": null,
+          "kind": "invalidation",
+          "label": "invalida el corto de fondo (aceptacion sostenida)"
+        },
+        {
+          "sym": "NQ",
+          "price": 29811.5,
+          "band": null,
+          "dir": null,
+          "kind": "invalidation",
+          "label": "invalida el corto de fondo (aceptacion sostenida)"
+        }
+      ],
+      "reviewYesterday": null
     }
   },
   "planLatest": {
     "date": "2026-08-31",
-    "session": "londres",
-    "runType": "pre-london",
-    "generatedAt": "2026-08-31T02:02:23-05:00",
+    "session": "ny",
+    "runType": "pre-ny",
+    "generatedAt": "2026-08-31T08:33:37-05:00",
     "cleanest": "GC",
     "summary": [
-      "NQ: AVOID · sesgo giro a LONG (orb ahora alcista, command biasScore 9 FUERTE) pero MUY ESTIRADO (6.85 ATR) tras rally 29273.50 a 29546.25; CONFLICT con la tesis bajista de fondo, sin ruptura confirmada aun (invalidacion 29811.5). Rango esperado Londres: base 65.3 pts / 261 tk (banda 42.4-91.4 pts / 170-366 tk). Presupuesto diario ya usado 64% (272.75/427 pts).",
-      "ES: AVOID · misma dinamica que NQ pero mas tibia (orb sigue bajista, solo command se estiro a LONG FUERTE 5.03 ATR), thesisAlign EVOLVING. Precio ya dentro del cluster VAH/PDL 7699-7712. Rango esperado Londres: base 8.1 pts / 32 tk (banda 5.3-11.4 pts / 21-46 tk). Presupuesto usado 68% (40.25/59.44 pts).",
-      "GC: WAIT · unico con thesisAlign ALIGN (el rebote de alivio hacia VAL/eqZone que la tesis esperaba esta en curso), pero en NO-TRADE·CHOP pegado al POC, sin permiso long/short. Rango esperado Londres: base 7.9 pts / 79 tk (banda 5.1-11.0 pts / 51-110 tk). Presupuesto usado 80% (75.9/94.55 pts), el mas cerca de agotarse de los tres.",
-      "mas limpio: GC (unico ALIGN con su tesis, sin conflicto de sesgo, aunque en WAIT por chop; NQ y ES estan en pleno conflicto/evolucion de sesgo y muy estirados)",
-      "Datos: OK (snapshot ~7 min, 6 fuentes frescas en los 3 instrumentos). Sin noticias en la sesion de Londres hoy; NY de manana trae ISM Manufacturing PMI. Hoy es fin de mes (flujos de rebalanceo) y semana de NFP (viernes).",
-      "Disciplina: en las zonas A+/B de NQ y GC, el stop de referencia ronda $480-500/contrato full; con limite diario $1000 y 3 stops, maxContracts sale en 0 en varias -> intocable en full, usar micros o esperar mejor R:R. Los tres instrumentos ya gastaron 64-80% de su presupuesto diario en Asia, muy por encima de lo tipico: cuidado con esperar que Londres+NY repitan el patron completo de rango, el jugo restante es limitado."
+      "NQ: WAIT · el squeeze de Londres se devolvio por completo (rally a 29546 revertido, orb y struct vuelven a bajista/BOS dn) pero command sigue NEUTRAL/DEBIL sin permiso; precio 29418 metido en zona de no-trade. Mejor zona: VAH/premZone 29502-29535 (B, score 5), a 84pts/337tk. EM base NY 195p/780tk (banda 127-273p), ojo: solo quedan ~161pts de presupuesto diario.",
+      "ES: WAIT · misma dinamica que NQ, precio 7699 en NTZ pegado al POC. A+ mapeada en VAH/PDL/premZone 7705-7716 (score 6) a solo 6-17pts/24-68tk, pero command sin permisoShort aun: esperar el rechazo, no anticiparlo. EM base NY 28p/112tk (banda 18-39p), presupuesto restante solo ~22pts.",
+      "GC: WAIT · unico que ya ejecuto el guion completo: rebote toco exacto el cluster VAH/EMA200 4507-4521.8 (dayHi 4521.5, reclaim confirmado en touchlog) y volvio a caer a un nuevo low 4445.6 antes de rebotar de nuevo a 4494. A+ en el mismo nivel 4507-4521.8 (score 7, el mas fuerte de los tres) a 12-27pts/125-270tk, sin permisoShort todavia. EM base NY 43p/434tk (banda 28-61p), presupuesto restante el mas ajustado: ~21pts.",
+      "mas limpio: GC (unica tesis ALIGN, con confirmacion real de precio en el nivel clave y el A+ de mayor score de los tres)",
+      "Datos: OK (snapshot ~4 min). Noticias: NINGUNA en la sesion de NY de hoy (ISM Manufacturing PMI es manana martes 09:00 CT, no afecta hoy). Calendario: fin-de-mes, semana-NFP (NFP viernes 04-sep).",
+      "Disciplina: limite diario $1000/3 stops; en las A+ de ES y GC el stop de referencia ronda $350-500/contrato full, dejando 0-2 contratos maximos -> revisar micros. Los tres instrumentos ya gastaron 63-79% de su presupuesto diario ajustado antes de que abra NY: el jugo restante es menor al reparto teorico de la sesion, no esperes que NY repita un rango completo."
     ],
     "alarm": null,
     "dataHealth": {
       "snapshot": "OK",
-      "builtAtAgeMin": 7,
+      "builtAtAgeMin": 4,
       "stale": [],
       "missing": [],
-      "notes": "GC: discrepancia orb.vah (4507.01) vs command.vah (4521.80) de 0.33%, justo sobre el umbral de 0.3%; se uso command para el nivel. NQ: orb giro de bajista a alcista intradia (weeklyDir, htf1, htf2) desde la lectura de la corrida pre-asia, contrastado en thesisAlign."
+      "notes": "Las 6 fuentes frescas en los 3 instrumentos (receivedAt ~08:25 CT). orb no trae receivedAt propio; contrastado contra command sin discrepancia >0.3% en esta corrida."
     },
     "calendarContext": {
       "tags": [
         "fin-de-mes",
         "semana-NFP"
       ],
-      "note": "hoy es el ultimo dia habil de agosto (flujos de rebalanceo, EM +10-15% ya incorporado); la semana cierra con NFP el viernes 04-sep, pero hoy no hay eventos propios en el calendario"
+      "note": "hoy (lunes 31-ago) es el ultimo dia habil de agosto, flujos de rebalanceo ya incorporados en el EM del dia; la semana cierra con NFP el viernes 04-sep. ISM Manufacturing PMI (alto impacto) es manana martes 09:00 CT, no cae en la sesion de NY de hoy."
     },
     "newsRisk": {
       "level": "NINGUNA",
-      "session": "londres",
+      "session": "ny",
       "events": [],
-      "note": "sin eventos en el calendario para hoy (todos los eventos listados caen martes 01-sep en adelante); NY de manana trae ISM Manufacturing PMI (alto impacto) a las 09:00 CT"
+      "note": "sin eventos en el calendario dentro de la sesion de NY de hoy; el proximo dato fuerte es el ISM Manufacturing PMI de manana martes 09:00 CT."
     },
     "instruments": {
       "NQ": {
-        "biasDay": "LONG",
-        "biasSession": "LONG",
+        "biasDay": "SHORT",
+        "biasSession": "SHORT",
         "biasAligned": false,
         "conviction": "media",
         "prevDay": {
           "type": "balance / rango (vuelta a pdc tras barrido bajista)",
-          "closedAt": "n/a (dia en curso, sin cierre)",
+          "closedAt": "n/a (referencia del viernes cerrado)",
           "prior": "NEUTRAL",
-          "note": "precio 29512 practicamente sobre pdc 29509.50 tras el open 29540, low 29273.50 y recuperacion completa; el viernes cerrado (referencia pd*) no aporta prior de continuacion, favorece fades de extremos mas que tendencia limpia"
+          "note": "el cierre del viernes no aporta prior de continuacion limpio; favorece fades de extremos, que es justo lo que Asia+Londres ya hicieron hoy"
         },
         "gap": {
           "pts": 30.5,
           "ticks": 122,
           "size": "grande",
           "filled": true,
-          "note": "dayOpen 29540 vs pdc 29509.50; precio actual 29512 esta a solo 2.5 pts de pdc, gap practicamente rellenado"
+          "note": "dayOpen 29540 vs pdc 29509.50; el precio ya cruzo varias veces ambos lados durante Asia/Londres, gap sin valor de iman adicional ahora mismo"
         },
         "smt": {
           "state": "ninguna",
-          "note": "NQ y ES se movieron en lockstep (crash y rally identicos), sin divergencia de estructura visible"
+          "note": "NQ y ES mantienen los mismos extremos de dia (dayHi/dayLo sin cambio desde pre-london), sin divergencia fresca que leer en esta corrida"
         },
         "thesisAlign": {
-          "state": "CONFLICT",
+          "state": "EVOLVING",
           "daysHeld": 1,
-          "note": "orb giro de bajista a alcista intradia (weeklyDir LONG, htf1/htf2 Alcista alineado, struct BOS up) contra la tesis de fondo bajista; precio aun bajo el nivel de invalidacion PDH 29811.5, no hay ruptura confirmada"
+          "note": "el squeeze de Londres se devolvio completo (struct vuelve a BOS dn, htf1/htf2 bajista alineado, weeklyDir SHORT), reafirmando la tesis de fondo; pero command sigue NEUTRAL/DEBIL sin confirmar y htfzones.biasW=3 sigue en conflicto, asi que no sube a ALIGN todavia"
         },
-        "counterCase": "alcista real, no solo squeeze: htfzones ahora biasD/biasW=3 alineados, orb weeklyDir y htf1/htf2 tambien giraron a alcista, command biasScore 9 FUERTE con BOS up y RS NQ lidera; si acepta con calma sobre disc25 29530 y mid50 29624 sin devolver el rally, la tesis bajista de fondo esta rota, no solo en conflicto. Resolucion: se mantiene bajista de fondo mientras no cierre y sostenga sobre PDH 29811.5, pero se degrada la conviccion a media y no se pelea contra el momentum ahora mismo",
+        "counterCase": "el rally de Londres (29273.50 a 29546.25, command llego a biasScore 9 FUERTE) podria no haber sido solo un squeeze: htfzones sigue con biasD=1/biasW=3 tecnicamente positivos y RS giro a 'NQ rezaga' (peor senal de liderazgo, no necesariamente bajista); si NY retoma el alza y acepta con calma sobre 29502-29535 sin devolver, la tesis bajista de fondo pierde peso real. Resolucion: se mantiene el sesgo bajista porque el precio ya devolvio el 100% de la ganancia del squeeze y el struct crudo volvio a BOS dn; conviction se queda en media, no sube a alta por el conflicto persistente en command/htfzones.biasW",
         "verdict": {
-          "signal": "AVOID",
-          "reason": "estirado 6.85 ATR de VWAP tras el rally violento 29273.50 a 29546.25 (perseguir el long es fuga #3); un corto iria contra el sesgo de mayor peso ahora mismo (command LONG FUERTE, biasScore 9) sin rechazo confirmado en nivel [perseguir / contra-sesgo]"
+          "signal": "WAIT",
+          "reason": "precio 29418 dentro de la zona de no-trade, command ESPERAR/NEUTRAL sin permisoLong ni permisoShort; la mejor candidata (VAH/premZone 29502-29535) es solo B (score 5), a 84pts, sin gatillo confirmado todavia [chop / anticipar]"
         },
-        "context": "Precio 29512, dentro de premZone HTF (29419.75-29528.50) y muy cerca de disc25 (command 29530.00). Command: biasScore 9, dir LONG, strength FUERTE, verdict BUSCANDO LONG, chop 0, trend 1, stretchAtr 6.85 (MUY ESTIRADO), lastSig BUY RETEST hace 9 velas. orb ahora lee weeklyDir LONG y htf1/htf2 Alcista alineado (giro completo desde el bajista de la corrida pre-asia). Asia ya recorrio 272.75 pts / 1091 tk, muy por encima de cualquier presupuesto tipico de Asia, en un violento round-trip: open 29540, low 29273.50 (barrida de liquidez bajo VAL/exD1-2), rally hasta 29546.25 y ahora 29512.",
+        "context": "Precio 29418.25, dentro de la NTZ de orb (29346.67-29445.38) y practicamente sobre EMA20 command (29417.00). command: biasScore 1, dir NEUTRAL, strength DEBIL, verdict ESPERAR/NEUTRAL, chop 0, trend 0, stretchAtr 0.46 (Normal, ya no estirado). El rango del dia sigue igual que a pre-london (dayHi 29546.25, dayLo 29273.50, 272.75pts/1091tk), es decir NY abre sin extremos nuevos desde el ultimo update: Londres hizo un rally hasta 29546.25 y lo devolvio entero. htf1/htf2 y weeklyDir volvieron a bajista alineado, struct BOS dn; htfzones.biasW=3 sigue siendo el unico foco de conflicto real.",
         "scenarioA": {
-          "text": "Consolidacion/pullback hacia eqZone-VAH (29395.75-29442.49) sin romper por debajo, reclaim y continuacion alcista hacia disc25/mid50 (29530-29624) para Londres.",
-          "trigger": "Reclaim de 29420 tras pullback con cierre 5m de vuelta sobre la zona",
-          "target": 29624.0,
+          "text": "Rebote hacia VAH/premZone/disc25 (29502.50-29535.00), rechazo ahi con BOS dn manteniendose, reanuda la baja hacia POC 29446.25 y VAL/exD1 29314.75-29352.50.",
+          "trigger": "Rechazo confirmado (mecha + cierre 5m) en 29502.50-29535.00",
+          "target": 29344.67,
           "entryZone": [
-            29395.75,
-            29442.49
+            29502.5,
+            29535.0
           ]
         },
         "scenarioB": {
-          "text": "Rechazo fuerte en el cluster mid50/exU1 (29624-29633.75) tras testear el estiramiento, reversion hacia VAH 29465 y POC 29350 confirmando que el rally fue un squeeze y la tesis bajista de fondo sigue viva.",
-          "trigger": "Mecha + cierre 5m de rechazo en 29624-29634 con BOS dn"
+          "text": "Si NY retoma el impulso alcista de Londres y acepta sobre 29535-29540 sin devolver, revalida el squeeze y continua hacia mid50 29624.00.",
+          "trigger": "Aceptacion sostenida (cierre 5m) sobre 29535-29540 con volumen"
         },
         "invalidation": {
-          "text": "Cierre y sostenimiento (no solo mecha) por debajo de 29273.50 (low de Asia) reabre la baja hacia VAL/POC; al alza, aceptacion sostenida sobre PDH/PWH 29811.5 rompe definitivamente la tesis bajista de fondo",
+          "text": "Aceptacion sostenida por encima de PDH/PWH 29811.5 rompe definitivamente la tesis bajista de fondo; en el corto plazo, aceptacion sobre disc25/mid50 29530-29624 sin devolver reabriria el squeeze",
           "level": 29811.5
         },
         "predictions": [
           {
             "id": "NQ-1",
-            "text": "rango de Londres entre 42 y 91 pts",
+            "text": "rango de NY entre 127 y 273 pts",
             "kind": "range",
-            "resolveAt": "cierre Londres ~08:25 CT"
+            "resolveAt": "cierre NY ~15:00 CT"
           },
           {
             "id": "NQ-2",
-            "text": "direccion neta de Londres LONG (cierre Londres > 29512)",
+            "text": "direccion neta de NY bajista (cierre NY < 29418.25)",
             "kind": "direction",
-            "resolveAt": "cierre Londres",
-            "prob": 0.5
+            "resolveAt": "cierre NY",
+            "prob": 0.55
           },
           {
             "id": "NQ-3",
-            "text": "toca la zona 29624-29634 antes que la zona 29395-29442",
+            "text": "toca VAH/premZone 29502.50 antes que TDO 29352.50",
             "kind": "level_first",
-            "resolveAt": "cierre Londres",
-            "prob": 0.45
+            "resolveAt": "cierre NY",
+            "prob": 0.5
           },
           {
             "id": "NQ-4",
-            "text": "el escenario A (pullback y reclaim) se activa antes que el B (rechazo en 29624)",
+            "text": "el escenario A (rechazo en VAH/premZone) se activa antes que el B (aceptacion y continuacion alcista)",
             "kind": "scenario",
-            "resolveAt": "cierre Londres"
+            "resolveAt": "cierre NY"
           },
           {
             "id": "NQ-5",
-            "text": "si Londres cierra sobre 29530 (disc25) sin devolver el rally, NY abre buscando continuacion hacia 29624/29668",
+            "text": "si NY acepta y sostiene sobre 29535 sin devolver, el dia cierra sobre 29540 (day open)",
             "kind": "conditional",
             "resolveAt": "cierre NY"
           }
@@ -1436,227 +2142,209 @@
         "zones": [
           {
             "range": [
-              29395.75,
-              29442.49
-            ],
-            "dir": "LONG",
-            "type": "otro",
-            "confluence": 6,
-            "distPts": 69.51,
-            "distTicks": 278,
-            "winRate": null,
-            "n": 0,
-            "risk": {
-              "stopPts": 24.12,
-              "stopTk": 96,
-              "stopUsd": 480,
-              "tgtPts": 45.88,
-              "tgtTk": 184,
-              "tgtUsd": 920,
-              "rr": 1.9,
-              "flag": "AJUSTADO",
-              "maxContracts": 0
-            },
-            "play": {
-              "trigger": "reclaim de eqZone/VAH 29395.75-29442.49 con cierre 5m de vuelta sobre 29420 tras un pullback del estiramiento actual",
-              "structStop": "bajo el swing de la zona, cerca de 29393 + 3 tk",
-              "scale": "1/2 en VAH 29465 y mueve a BE; resto reevalua en mid50 29624 solo si el pullback fue un respiro y no reversion",
-              "ifWrong": "rapido: cierre 5m bajo 29393 fuera; lento: solo mechas bajo el eqZone sin cierre, aguanta"
-            }
-          },
-          {
-            "range": [
-              29624.0,
-              29633.75
+              29502.5,
+              29535.0
             ],
             "dir": "SHORT",
-            "type": "otro",
-            "confluence": 3,
-            "distPts": 112.0,
-            "distTicks": 448,
+            "type": "fade_vah",
+            "confluence": 5,
+            "distPts": 84.25,
+            "distTicks": 337,
             "winRate": "sin datos aun",
             "n": 0,
             "risk": {
-              "stopPts": 14.0,
-              "stopTk": 56,
-              "stopUsd": 280,
-              "tgtPts": 159.0,
-              "tgtTk": 636,
-              "tgtUsd": 3180,
-              "rr": 11.4,
+              "stopPts": 10.0,
+              "stopTk": 40,
+              "stopUsd": 200,
+              "tgtPts": 72.25,
+              "tgtTk": 289,
+              "tgtUsd": 1445,
+              "rr": 7.2,
               "flag": "OK",
               "maxContracts": 1
             },
             "play": {
-              "trigger": "rechazo (mecha + cierre 5m) en 29624-29634 sobre el cluster mid50/exU1, con senal de reversion dado el estiramiento de 6.85 ATR",
-              "structStop": "sobre el maximo del test + 3 tk, cerca de 29642",
-              "scale": "1/2 en VAH 29465, resto a POC 29350 si la reversion se confirma",
-              "ifWrong": "rapido: cierre 5m sobre 29642 fuera; lento: solo mecha sin cierre, aguanta hasta 29650"
+              "trigger": "rechazo (mecha + cierre 5m) en 29502.50-29535.00 (VAH/premZone/disc25), o barrido de 29540 (dayOpen) con cierre 5m de vuelta bajo la zona",
+              "structStop": "sobre el dayOpen 29540 + 3tk, cerca de 29542",
+              "scale": "1/2 en POC 29446.25 y mueve a BE; resto a VAL 29314.75",
+              "ifWrong": "rapido: cierre 5m sobre 29542 fuera; lento: solo mechas sobre la zona sin cierre, aguanta"
             }
           }
         ],
         "noTradeZone": [
-          29351.56,
-          29440.49
+          29346.67,
+          29445.38
         ],
         "expectedMove": {
-          "low": 42.4,
-          "base": 65.3,
-          "high": 91.4,
-          "lowTk": 170,
-          "baseTk": 261,
-          "highTk": 366,
-          "dayBudget": 427.0,
+          "low": 126.7,
+          "base": 195.0,
+          "high": 273.0,
+          "lowTk": 507,
+          "baseTk": 780,
+          "highTk": 1092,
+          "dayBudget": 433.24,
           "dayUsed": 272.75,
-          "dayUsedPct": 64,
-          "dayRemaining": 154.25,
+          "dayUsedPct": 63,
+          "dayRemaining": 160.49,
           "flag": "EN CURSO",
           "mult": 1.0
         },
         "keyLevels": [
           {
-            "name": "disc25",
-            "price": 29530.0,
-            "distPts": 18.0,
-            "distTicks": 72
-          },
-          {
-            "name": "mid50",
-            "price": 29624.0,
-            "distPts": 112.0,
-            "distTicks": 448
-          },
-          {
-            "name": "VAH",
-            "price": 29465.0,
-            "distPts": -47.0,
-            "distTicks": -188
-          },
-          {
             "name": "EMA20",
-            "price": 29475.5,
-            "distPts": -36.5,
-            "distTicks": -146
-          },
-          {
-            "name": "EMA50",
-            "price": 29430.0,
-            "distPts": -82.0,
-            "distTicks": -328
-          },
-          {
-            "name": "dayOpen",
-            "price": 29540.0,
-            "distPts": 28.0,
-            "distTicks": 112
-          },
-          {
-            "name": "pdc",
-            "price": 29509.5,
-            "distPts": -2.5,
-            "distTicks": -10
+            "price": 29417.0,
+            "distPts": -1.25,
+            "distTicks": -5
           },
           {
             "name": "PDL",
             "price": 29436.25,
-            "distPts": -75.75,
-            "distTicks": -303
+            "distPts": 18.0,
+            "distTicks": 72
           },
           {
             "name": "POC",
-            "price": 29333.5,
-            "distPts": -178.5,
-            "distTicks": -714
+            "price": 29446.25,
+            "distPts": 28.0,
+            "distTicks": 112
+          },
+          {
+            "name": "IBL",
+            "price": 29505.0,
+            "distPts": 86.75,
+            "distTicks": 347
+          },
+          {
+            "name": "VAH",
+            "price": 29502.5,
+            "distPts": 84.25,
+            "distTicks": 337
+          },
+          {
+            "name": "ONH",
+            "price": 29546.25,
+            "distPts": 128.0,
+            "distTicks": 512
+          },
+          {
+            "name": "dayOpen",
+            "price": 29540.0,
+            "distPts": 121.75,
+            "distTicks": 487
+          },
+          {
+            "name": "IBH",
+            "price": 29706.0,
+            "distPts": 287.75,
+            "distTicks": 1151
+          },
+          {
+            "name": "TDO",
+            "price": 29352.5,
+            "distPts": -65.75,
+            "distTicks": -263
+          },
+          {
+            "name": "ONL",
+            "price": 29273.5,
+            "distPts": -144.75,
+            "distTicks": -579
+          },
+          {
+            "name": "VAL",
+            "price": 29314.75,
+            "distPts": -103.5,
+            "distTicks": -414
           },
           {
             "name": "PDH/PWH",
             "price": 29811.5,
-            "distPts": 299.5,
-            "distTicks": 1198
+            "distPts": 393.25,
+            "distTicks": 1573
           }
         ],
         "news": []
       },
       "ES": {
         "biasDay": "SHORT",
-        "biasSession": "NEUTRAL",
+        "biasSession": "SHORT",
         "biasAligned": false,
-        "conviction": "baja",
+        "conviction": "media",
         "prevDay": {
           "type": "balance / rango",
-          "closedAt": "n/a (dia en curso, sin cierre)",
+          "closedAt": "n/a (referencia del viernes cerrado)",
           "prior": "NEUTRAL",
-          "note": "precio 7710.75 cerca de pdc 7724.75 (13.75 pts / 55 tk abajo) tras el mismo tipo de barrido y recuperacion que NQ"
+          "note": "mismo prior que NQ, sin cambios desde pre-london"
         },
         "gap": {
           "pts": -1.25,
           "ticks": -5,
-          "size": "grande (segun % de ADR, aunque pequeno en absoluto: 5 tk)",
+          "size": "grande (por % ADR, pequeno en absoluto)",
           "filled": true,
-          "note": "dayOpen 7723.50 vs pdc 7724.75; precio ya paso por ambos niveles durante la sesion, gap irrelevante en la practica"
+          "note": "dayOpen 7723.50 vs pdc 7724.75; irrelevante en la practica, el precio ya paso por ambos niveles"
         },
         "smt": {
           "state": "ninguna",
-          "note": "mismo movimiento que NQ (crash y rally en paralelo), sin divergencia NQ/ES visible"
+          "note": "sin divergencia fresca con NQ, ambos mantienen los mismos extremos de dia desde pre-london"
         },
         "thesisAlign": {
           "state": "EVOLVING",
           "daysHeld": 1,
-          "note": "orb sigue leyendo weeklyDir SHORT y htf1/htf2 Bajista (a diferencia de NQ, no giro), pero command se estiro a LONG FUERTE (5.03 ATR) por el rally intradia; confirmaria evolucion una aceptacion sostenida sobre VAH/PDH 7782.5, invalidaria el rebote un rechazo aqui mismo"
+          "note": "orb crudo (weeklyDir, htf1, htf2, struct) sigue bajista alineado y el precio volvio a la zona de no-trade sin sostener el rally; pero htfzones.biasD/biasW=3 alcista y dayPlanDir LONG siguen contradiciendo, command sigue NEUTRAL, no sube a ALIGN"
         },
-        "counterCase": "el rally podria ser el inicio real de un giro y no solo un squeeze: command biasScore 7 LONG FUERTE, EMA20/50/200 con pendiente alcista, BOS up en orb; si ES acepta con calma sobre 7712 sin devolver el avance, el sesgo bajista de fondo pierde peso. Resolucion: se mantiene EVOLVING (no CONFLICT total) porque orb crudo (weeklyDir, htf1, htf2) sigue bajista y ES historicamente rezaga a NQ (rs ES rezaga); se necesita mas confirmacion antes de declarar giro",
+        "counterCase": "htfzones sigue marcando biasD/biasW=3 alcista y dayPlanDir LONG pese a que biasChart/biasHTF son bajistas; si NY acepta con calma sobre el cluster PDL/VAH 7705-7716 sin devolver, el rebote deja de ser solo un respiro. Resolucion: se mantiene el sesgo bajista de sesion porque orb crudo (weeklyDir, htf1/htf2, struct) sigue bajista alineado y el precio ya volvio a la NTZ sin sostenerse arriba; conviction media, no sube a alta por el conflicto persistente en htfzones",
         "verdict": {
-          "signal": "AVOID",
-          "reason": "estirado 5.03 ATR de VWAP (rally 7683.75 a 7724.00); no perseguir el long ya dentro de la zona A+ 7699-7712, y un corto iria contra el sesgo de mayor peso (command LONG FUERTE) sin rechazo confirmado [perseguir]"
+          "signal": "WAIT",
+          "reason": "A+ mapeada en VAH/PDL/premZone 7705-7716 (score 6) a solo 6-17pts, pero command sin permisoShort todavia y precio en NTZ; esperar el rechazo confirmado, no anticiparlo [anticipar]"
         },
-        "context": "Precio 7710.75, dentro del cluster VAH/PDL (orb VAH 7705.6, command VAH 7709.25, PDL 7711.75) y de la premZone HTF (7699.25-7712.00). command: biasScore 7, dir LONG, strength FUERTE, verdict BUSCANDO LONG, stretchAtr 5.03 (MUY ESTIRADO), lastSig BUY RETEST hace 6 velas. htfzones no alineado (aligned=0): biasD/biasW=3 alcista pero biasHTF=1 debil. Asia recorrio 40.25 pts / 161 tk desde el open 7723.50, low 7683.75, ahora 7710.75, tambien muy por encima de lo tipico.",
+        "context": "Precio 7699.00, dentro de la NTZ de orb (7693.94-7707.01) y a 8tk del EMA20 command (7699.25). command: biasScore 1, dir NEUTRAL, strength DEBIL, verdict ESPERAR/NEUTRAL, stretchAtr 0.49 (Normal), lastSig SELL RETEST hace 6 velas (senal bajista reciente, aunque sin permiso todavia). Rango del dia sin cambio desde pre-london (dayHi 7724.00, dayLo 7683.75, 40.25pts/161tk): el rebote de Londres se devolvio completo. htfzones sigue siendo el unico foco de conflicto (biasD/biasW alcista vs biasChart/biasHTF bajista).",
         "scenarioA": {
-          "text": "Pausa/enfriamiento del estiramiento dentro del cluster 7699-7712, reclaim con cierre 5m sobre 7705 y continuacion hacia zPrem/mid50 (7729.50-7747.25) para Londres.",
-          "trigger": "Cierre 5m de vuelta sobre 7705 tras una pausa, sin romper 7698",
-          "target": 7747.25,
+          "text": "Rebote hacia VAH/PDL/premZone (7705.00-7716.00, incluye golden zone 7706.75-7710.75), rechazo ahi con BOS dn manteniendose, reanuda la baja hacia POC 7691.75 y VAL/exD1 7688.25.",
+          "trigger": "Rechazo confirmado (mecha + cierre 5m) en 7705.00-7716.00",
+          "target": 7688.25,
           "entryZone": [
-            7699.25,
-            7712.0
+            7705.0,
+            7716.0
           ]
         },
         "scenarioB": {
-          "text": "Rechazo en el cluster actual o al testear zPrem 7729.50-7764.75, reversion hacia VAL 7686.48 y POC 7691.25, confirmando que el rally fue un squeeze en linea con el sesgo bajista de fondo.",
-          "trigger": "Mecha + cierre 5m de rechazo en 7699-7712 o en 7729.50-7764.75"
+          "text": "Aceptacion sostenida sobre 7716 sin rechazo, continuacion hacia zPrem/mid50 7729.50-7747.25.",
+          "trigger": "Aceptacion sostenida (cierre 5m) sobre 7716 con volumen"
         },
         "invalidation": {
-          "text": "Cierre y sostenimiento por debajo de 7683.75 (low de Asia) reabre la baja; al alza, aceptacion sostenida sobre PDH/PWH 7782.5 rompe la tesis bajista de fondo",
+          "text": "Aceptacion sostenida por encima de PDH/PWH 7782.50 rompe la tesis bajista de fondo",
           "level": 7782.5
         },
         "predictions": [
           {
             "id": "ES-1",
-            "text": "rango de Londres entre 5.3 y 11.4 pts",
+            "text": "rango de NY entre 18 y 39 pts",
             "kind": "range",
-            "resolveAt": "cierre Londres ~08:25 CT"
+            "resolveAt": "cierre NY ~15:00 CT"
           },
           {
             "id": "ES-2",
-            "text": "direccion neta de Londres NEUTRAL a LONG (cierre Londres >= 7705)",
+            "text": "direccion neta de NY bajista (cierre NY < 7699.00)",
             "kind": "direction",
-            "resolveAt": "cierre Londres",
-            "prob": 0.5
+            "resolveAt": "cierre NY",
+            "prob": 0.55
           },
           {
             "id": "ES-3",
-            "text": "toca zPrem 7729.50 antes que VAL 7686.48",
+            "text": "toca VAH/PDL 7705.00 antes que VAL 7688.25",
             "kind": "level_first",
-            "resolveAt": "cierre Londres",
+            "resolveAt": "cierre NY",
             "prob": 0.5
           },
           {
             "id": "ES-4",
-            "text": "el escenario A (reclaim y continuacion) se activa antes que el B (rechazo)",
+            "text": "el escenario A (rechazo en 7705-7716) se activa antes que el B (aceptacion y continuacion)",
             "kind": "scenario",
-            "resolveAt": "cierre Londres"
+            "resolveAt": "cierre NY"
           },
           {
             "id": "ES-5",
-            "text": "si Londres sostiene sobre 7712 sin devolver el rally, NY abre buscando 7729-7747",
+            "text": "si NY acepta y sostiene sobre 7716 sin devolver, el dia cierra sobre 7723.50 (day open)",
             "kind": "conditional",
             "resolveAt": "cierre NY"
           }
@@ -1664,113 +2352,119 @@
         "zones": [
           {
             "range": [
-              7699.25,
-              7712.0
+              7705.0,
+              7716.0
             ],
-            "dir": "LONG",
-            "type": "otro",
+            "dir": "SHORT",
+            "type": "fade_vah",
             "confluence": 6,
-            "distPts": 0.0,
-            "distTicks": 0,
+            "distPts": 6.0,
+            "distTicks": 24,
             "winRate": "sin datos aun",
             "n": 0,
             "risk": {
-              "stopPts": 8.75,
-              "stopTk": 35,
-              "stopUsd": 437,
-              "tgtPts": 15.0,
-              "tgtTk": 60,
-              "tgtUsd": 750,
-              "rr": 1.7,
-              "flag": "AJUSTADO",
-              "maxContracts": 0
+              "stopPts": 4.0,
+              "stopTk": 16,
+              "stopUsd": 200,
+              "tgtPts": 24.25,
+              "tgtTk": 97,
+              "tgtUsd": 1213,
+              "rr": 6.1,
+              "flag": "OK",
+              "maxContracts": 1
             },
             "play": {
-              "trigger": "ya en la zona (7710.75 dentro de 7699.25-7712.00): esperar pausa/enfriamiento del estiramiento y reclaim confirmado con cierre 5m sobre 7705 antes de sumarse",
-              "structStop": "bajo VWAP/EMA50, cerca de 7698 + 3 tk",
-              "scale": "1/2 en zPrem 7729.50 y mueve a BE; resto a mid50 7747.25",
-              "ifWrong": "rapido: cierre 5m bajo 7698 fuera; lento: solo mecha bajo la zona sin cierre, aguanta"
+              "trigger": "rechazo (mecha + cierre 5m) en 7705.00-7716.00 (VAH/PDL/golden zone), especialmente si retesta el PDL 7711.75",
+              "structStop": "sobre PDL 7711.75 + 3tk, cerca de 7717",
+              "scale": "1/2 en POC 7691.75 y mueve a BE; resto a VAL 7688.25",
+              "ifWrong": "rapido: cierre 5m sobre 7717 fuera; lento: solo mecha sobre la zona sin cierre, aguanta"
             }
           }
         ],
         "noTradeZone": [
-          7694.62,
-          7703.6
+          7693.94,
+          7707.01
         ],
         "expectedMove": {
-          "low": 5.3,
-          "base": 8.1,
-          "high": 11.4,
-          "lowTk": 21,
-          "baseTk": 32,
-          "highTk": 46,
-          "dayBudget": 59.44,
+          "low": 18.27,
+          "base": 28.1,
+          "high": 39.34,
+          "lowTk": 73,
+          "baseTk": 112,
+          "highTk": 157,
+          "dayBudget": 62.44,
           "dayUsed": 40.25,
-          "dayUsedPct": 68,
-          "dayRemaining": 19.19,
+          "dayUsedPct": 64,
+          "dayRemaining": 22.19,
           "flag": "EN CURSO",
           "mult": 1.0
         },
         "keyLevels": [
           {
-            "name": "PDL",
-            "price": 7711.75,
-            "distPts": 1.0,
-            "distTicks": 4
-          },
-          {
-            "name": "VAH",
-            "price": 7709.25,
-            "distPts": -1.5,
-            "distTicks": -6
-          },
-          {
             "name": "EMA20",
-            "price": 7706.5,
-            "distPts": -4.25,
-            "distTicks": -17
-          },
-          {
-            "name": "EMA50",
-            "price": 7702.25,
-            "distPts": -8.5,
-            "distTicks": -34
-          },
-          {
-            "name": "VWAP",
-            "price": 7698.25,
-            "distPts": -12.5,
-            "distTicks": -50
-          },
-          {
-            "name": "dayOpen",
-            "price": 7723.5,
-            "distPts": 12.75,
-            "distTicks": 51
-          },
-          {
-            "name": "pdc",
-            "price": 7724.75,
-            "distPts": 14.0,
-            "distTicks": 56
+            "price": 7699.25,
+            "distPts": 0.25,
+            "distTicks": 1
           },
           {
             "name": "POC",
             "price": 7691.75,
-            "distPts": -19.0,
-            "distTicks": -76
+            "distPts": -7.25,
+            "distTicks": -29
           },
           {
             "name": "VAL",
             "price": 7688.25,
-            "distPts": -22.5,
-            "distTicks": -90
+            "distPts": -10.75,
+            "distTicks": -43
+          },
+          {
+            "name": "VAH",
+            "price": 7709.25,
+            "distPts": 10.25,
+            "distTicks": 41
+          },
+          {
+            "name": "PDL",
+            "price": 7711.75,
+            "distPts": 12.75,
+            "distTicks": 51
+          },
+          {
+            "name": "ONL",
+            "price": 7683.75,
+            "distPts": -15.25,
+            "distTicks": -61
+          },
+          {
+            "name": "dayOpen",
+            "price": 7723.5,
+            "distPts": 24.5,
+            "distTicks": 98
+          },
+          {
+            "name": "ONH",
+            "price": 7724.0,
+            "distPts": 25.0,
+            "distTicks": 100
+          },
+          {
+            "name": "IBL",
+            "price": 7726.5,
+            "distPts": 27.5,
+            "distTicks": 110
+          },
+          {
+            "name": "IBH",
+            "price": 7760.5,
+            "distPts": 61.5,
+            "distTicks": 246
           },
           {
             "name": "PDH/PWH",
             "price": 7782.5,
-            "distPts": 71.75,
-            "distTicks": 287
+            "distPts": 83.5,
+            "distTicks": 334
           }
         ],
         "news": []
@@ -1779,19 +2473,19 @@
         "biasDay": "SHORT",
         "biasSession": "SHORT",
         "biasAligned": true,
-        "conviction": "baja",
+        "conviction": "media",
         "prevDay": {
-          "type": "balance / rango",
-          "closedAt": "n/a (dia en curso, sin cierre)",
+          "type": "balance / rango, con sesgo bajista de fondo",
+          "closedAt": "n/a (referencia del viernes cerrado)",
           "prior": "NEUTRAL, con sesgo bajista de fondo",
-          "note": "precio 4491.8 sigue por debajo de pdc 4504.1 (12.3 pts / 123 tk); drbias mantiene bias Bearish aunque bullScore(3) > bearScore(2) en el ultimo dato, mezcla que pesa poco por si sola"
+          "note": "sin cambios desde pre-london"
         },
         "gap": {
           "pts": -20.9,
           "ticks": -209,
           "size": "grande",
-          "filled": false,
-          "note": "dayOpen 4483.2 vs pdc 4504.1; borde del gap en 4504.1 sigue sin rellenar, actua de iman al alza si el rebote continua (12.3 pts / 123 tk por encima del precio actual)"
+          "filled": true,
+          "note": "dayOpen 4483.2 vs pdc 4504.1; ya tocado y superado durante el rebote de Londres (dayHi 4521.5), ahora el precio volvio a caer debajo de pdc, sigue de referencia si hay un nuevo rebote"
         },
         "smt": {
           "state": "ninguna",
@@ -1800,26 +2494,26 @@
         "thesisAlign": {
           "state": "ALIGN",
           "daysHeld": 1,
-          "note": "el precio esta haciendo exactamente el rebote de alivio hacia VAL/eqZone/golden zone (4483-4509.6) que la tesis de fondo anticipaba antes de buscar una nueva venta; sigue bajista de fondo, aun sin gatillo limpio"
+          "note": "el precio ejecuto el guion completo de la tesis: rebote hasta el cluster VAH/EMA200 4507-4521.8 (dayHi 4521.5, touchlog confirma reclaim), rechazo, y nuevo low de sesion en 4445.6 (mas abajo que el objetivo original 4466), antes de rebotar de nuevo hacia el POC"
         },
-        "counterCase": "el rebote podria ser el inicio de un giro real, no solo un alivio: drbias.bullScore(3) ya supera a bearScore(2), EMA20/50 con pendiente alcista y struct CHoCH up. Resolucion: se mantiene el sesgo bajista de fondo porque orb weeklyDir/htf1/htf2 siguen bajistas y el precio no ha aceptado sobre POC 4492.8, pero se degrada la conviccion a baja mientras el chop continue",
+        "counterCase": "drbias.bullScore(3) sigue por encima de bearScore(2) y htfzones biasD/biasW=3 alcista con struct 'BOS up'; si el proximo test de 4507-4521.8 rompe con aceptacion en vez de rechazar, el sesgo bajista de fondo se rompe de verdad. Resolucion: se mantiene el sesgo bajista porque el precio YA rechazo ese nivel una vez hoy (reclaim confirmado) y extendio la baja mas alla del objetivo original; conviction se mantiene media, no sube a alta porque command sigue sin dar permiso y el precio esta de nuevo en chop cerca del POC",
         "verdict": {
           "signal": "WAIT",
-          "reason": "command en NO-TRADE·CHOP (chop=1, permisoLong=0, permisoShort=0), precio pegado al POC (10 tk) dentro de la zona de no-trade [chop]"
+          "reason": "A+ en VAH/EMA200 4507-4521.8 (score 7, ya rechazado 1x hoy con reclaim confirmado) a 12-27pts, pero command sin permisoShort y precio metido en NTZ/golden zone; esperar la reaccion confirmada del segundo test, no perseguir el nivel de nuevo sin rechazo [anticipar]"
         },
-        "context": "Precio 4491.8, dentro de la NTZ de orb (4489.58-4506.21) y a 10 tk del POC command (4492.8). command: biasScore 8, dir LONG (contradice a drbias/orb crudos que son Bearish/bajista, se le resta peso), verdict NO-TRADE·CHOP, chop 1, stretchAtr 0.78 (Normal, ya no estirado como en la corrida anterior). Intermercado: VIX 14.42 (bajo) y el rally fuerte de NQ/ES sugieren un contexto risk-on, que tipicamente pesa sobre el oro; sin dato de tasas o dolar programado hoy (el proximo catalizador real es NFP el viernes). Asia recorrio 75.9 pts / 759 tk desde el open 4483.2, low 4466, ahora 4491.8 tras el rebote de alivio.",
+        "context": "Precio 4494.50, dentro de la NTZ de orb (4489.58-4512.64) y de la golden zone htfzones (4490.5-4495.7), a 6tk del POC command (4492.8). command: biasScore 2, dir NEUTRAL, strength DEBIL, verdict ESPERAR/NEUTRAL, stretchAtr 0.26 (Normal, ya no estirado como en pre-asia/pre-london). Rango del dia se amplio desde pre-london: nuevo low de sesion 4445.6 (antes 4466), dayHi se mantiene en 4521.5 (el mismo cluster VAH/EMA200 que la tesis marcaba como zona de rechazo). emRegime AVANZADO (72% del ATR propio usado), el mas cerca de agotarse de los tres.",
         "scenarioA": {
-          "text": "Continua el rebote de alivio hasta el cluster VAH/EMA200 (4507-4521.8), rechazo ahi con estructura bajista, reanuda la baja hacia POC 4488 y el low de Asia 4466.",
-          "trigger": "Mecha + cierre 5m de rechazo en 4507-4521.8",
-          "target": 4466.0,
+          "text": "Segundo test del cluster VAH/EMA200 (4507.0-4521.8, mismo nivel que ya rechazo hoy con reclaim), rechazo con BOS dn, reanuda la baja hacia POC 4492.8 y el nuevo low de sesion 4445.6, extension hacia exD1 4434.9 (ya tocado 1x).",
+          "trigger": "Rechazo confirmado (mecha + cierre 5m) en 4507.0-4521.8",
+          "target": 4445.6,
           "entryZone": [
-            4507.01,
+            4507.0,
             4521.8
           ]
         },
         "scenarioB": {
-          "text": "El chop persiste dentro de la NTZ (4489.58-4506.21) sin resolver hacia ningun lado durante Londres, a la espera de un catalizador (NY o la propia apertura de Londres).",
-          "trigger": "Precio sigue atrapado en 4489.58-4506.21 sin romper con volumen"
+          "text": "Si rompe el patron de hoy y acepta sostenido sobre 4521.8 sin rechazar, continuacion hacia zDisc 4543.3 (borde del gap sin rellenar mas arriba).",
+          "trigger": "Aceptacion sostenida (cierre 5m) sobre 4521.8 con volumen"
         },
         "invalidation": {
           "text": "Aceptacion sostenida por encima de POC 4508-4509.5, mas aun sobre VAH 4514-4521.8, rompe el sesgo bajista de fondo",
@@ -1828,33 +2522,33 @@
         "predictions": [
           {
             "id": "GC-1",
-            "text": "rango de Londres entre 5.1 y 11.0 pts",
+            "text": "rango de NY entre 28 y 61 pts",
             "kind": "range",
-            "resolveAt": "cierre Londres ~08:25 CT"
+            "resolveAt": "cierre NY ~15:00 CT"
           },
           {
             "id": "GC-2",
-            "text": "direccion neta de Londres lateral/leve bajista (cierre Londres <= 4491.8 +/- 3 pts)",
+            "text": "direccion neta de NY bajista (cierre NY < 4494.50)",
             "kind": "direction",
-            "resolveAt": "cierre Londres",
-            "prob": 0.5
+            "resolveAt": "cierre NY",
+            "prob": 0.55
           },
           {
             "id": "GC-3",
-            "text": "toca VAH 4507-4521.8 antes que el low de Asia 4466",
+            "text": "toca VAH/EMA200 4507.0 antes que el low de sesion 4445.6",
             "kind": "level_first",
-            "resolveAt": "cierre Londres",
+            "resolveAt": "cierre NY",
             "prob": 0.5
           },
           {
             "id": "GC-4",
-            "text": "el escenario A (rechazo en VAH) se activa antes que continue el chop del B",
+            "text": "el escenario A (segundo rechazo en 4507-4521.8) se activa antes que el B (aceptacion y continuacion)",
             "kind": "scenario",
-            "resolveAt": "cierre Londres"
+            "resolveAt": "cierre NY"
           },
           {
             "id": "GC-5",
-            "text": "si Londres rompe y sostiene sobre 4509.5, NY abre buscando el gap sin rellenar hacia 4543 (zDisc)",
+            "text": "si NY acepta y sostiene sobre 4521.8 sin devolver, el dia cierra sobre 4504.1 (pdc, borde del gap)",
             "kind": "conditional",
             "resolveAt": "cierre NY"
           }
@@ -1862,50 +2556,50 @@
         "zones": [
           {
             "range": [
-              4507.01,
+              4507.0,
               4521.8
             ],
             "dir": "SHORT",
             "type": "fade_vah",
-            "confluence": 4,
-            "distPts": 15.21,
-            "distTicks": 152,
+            "confluence": 7,
+            "distPts": 12.5,
+            "distTicks": 125,
             "winRate": "sin datos aun",
             "n": 0,
             "risk": {
-              "stopPts": 4.79,
-              "stopTk": 48,
-              "stopUsd": 480,
-              "tgtPts": 25.0,
-              "tgtTk": 250,
-              "tgtUsd": 2500,
-              "rr": 5.2,
+              "stopPts": 5.2,
+              "stopTk": 52,
+              "stopUsd": 520,
+              "tgtPts": 29.0,
+              "tgtTk": 290,
+              "tgtUsd": 2900,
+              "rr": 5.6,
               "flag": "OK",
               "maxContracts": 0
             },
             "play": {
-              "trigger": "rechazo (mecha + cierre 5m) en 4507-4521.8 (VAH/EMA200) tras completar el rebote de alivio desde el low de Asia 4466",
-              "structStop": "sobre el maximo del test + 3 tk, cerca de 4522.5",
-              "scale": "1/2 en POC 4488, resto a orL/low de Asia 4466",
+              "trigger": "rechazo (mecha + cierre 5m) en 4507.0-4521.8 en el segundo test del dia, mismo nivel que ya reclamo (reclaim) una vez",
+              "structStop": "sobre el maximo del segundo test + 3tk, cerca de 4522.5",
+              "scale": "1/2 en POC 4492.8, resto al nuevo low de sesion 4445.6",
               "ifWrong": "rapido: cierre 5m sobre 4522.5 fuera; lento: solo mecha sin cierre, aguanta"
             }
           }
         ],
         "noTradeZone": [
           4489.58,
-          4506.21
+          4512.64
         ],
         "expectedMove": {
-          "low": 5.1,
-          "base": 7.9,
-          "high": 11.0,
-          "lowTk": 51,
-          "baseTk": 79,
-          "highTk": 110,
-          "dayBudget": 94.55,
+          "low": 28.2,
+          "base": 43.4,
+          "high": 60.8,
+          "lowTk": 282,
+          "baseTk": 434,
+          "highTk": 608,
+          "dayBudget": 96.48,
           "dayUsed": 75.9,
-          "dayUsedPct": 80,
-          "dayRemaining": 18.65,
+          "dayUsedPct": 79,
+          "dayRemaining": 20.58,
           "flag": "EN CURSO",
           "mult": 1.0
         },
@@ -1913,130 +2607,104 @@
           {
             "name": "POC",
             "price": 4492.8,
-            "distPts": 1.0,
-            "distTicks": 10
+            "distPts": -1.7,
+            "distTicks": -17
           },
           {
             "name": "orH",
-            "price": 4493.0,
-            "distPts": 1.2,
-            "distTicks": 12
+            "price": 4491.2,
+            "distPts": -3.3,
+            "distTicks": -33
           },
           {
             "name": "EMA20",
-            "price": 4484.6,
-            "distPts": -7.2,
-            "distTicks": -72
-          },
-          {
-            "name": "dayOpen",
-            "price": 4483.2,
-            "distPts": -8.6,
-            "distTicks": -86
+            "price": 4496.5,
+            "distPts": 2.0,
+            "distTicks": 20
           },
           {
             "name": "VWAP",
-            "price": 4487.5,
-            "distPts": -4.3,
-            "distTicks": -43
+            "price": 4490.8,
+            "distPts": -3.7,
+            "distTicks": -37
           },
           {
-            "name": "pdc (gap edge)",
+            "name": "pdc (borde de gap)",
             "price": 4504.1,
-            "distPts": 12.3,
-            "distTicks": 123
+            "distPts": 9.6,
+            "distTicks": 96
           },
           {
             "name": "VAH",
             "price": 4521.8,
-            "distPts": 30.0,
-            "distTicks": 300
+            "distPts": 27.3,
+            "distTicks": 273
           },
           {
-            "name": "orL / low Asia",
-            "price": 4466.0,
-            "distPts": -25.8,
-            "distTicks": -258
+            "name": "orL",
+            "price": 4484.8,
+            "distPts": -9.7,
+            "distTicks": -97
+          },
+          {
+            "name": "low de sesion",
+            "price": 4445.6,
+            "distPts": -48.9,
+            "distTicks": -489
           },
           {
             "name": "PDL/PWL",
             "price": 4495.0,
-            "distPts": 3.2,
-            "distTicks": 32
+            "distPts": 0.5,
+            "distTicks": 5
+          },
+          {
+            "name": "PDH",
+            "price": 4688.0,
+            "distPts": 193.5,
+            "distTicks": 1935
           }
         ],
         "news": []
       }
     },
     "dayThesis": {
-      "NQ": "2026-08-31 (Update Londres 01:56 CT): Asia hizo un round-trip violento (open 29540, low 29273.50, ahora 29512) que giro el orb crudo de bajista a alcista (weeklyDir LONG, htf1/htf2 Alcista alineado). CONFLICT con la tesis de fondo bajista, sin ruptura confirmada (invalidacion 29811.5 intacta). Londres: no perseguir el estiramiento (6.85 ATR); vigilar pullback a eqZone/VAH 29395-29442 para continuacion, o rechazo en mid50/exU1 29624-29634 que confirmaria squeeze. Presupuesto diario ya 64% usado, quedan ~154 pts / 617 tk para Londres+NY.",
-      "ES": "2026-08-31 (Update Londres 01:56 CT): mismo round-trip que NQ pero orb crudo se mantiene bajista (weeklyDir SHORT, htf1/htf2 Bajista); solo command se estiro a LONG FUERTE (5.03 ATR). thesisAlign EVOLVING, no CONFLICT total. Precio ya dentro del cluster VAH/PDL 7699-7712, esperar enfriamiento antes de operar. Presupuesto diario 68% usado, quedan ~19.2 pts / 77 tk.",
-      "GC": "2026-08-31 (Update Londres 01:56 CT): unico ALIGN, haciendo el rebote de alivio hacia VAL/eqZone que la tesis de fondo esperaba antes de una nueva venta. Sigue en NO-TRADE·CHOP pegado al POC, sin permiso long/short. Vigilar rechazo en VAH/EMA200 4507-4521.8 para reanudar la baja hacia 4466. Presupuesto diario 80% usado (el mas ajustado de los tres), quedan ~18.7 pts / 187 tk."
+      "NQ": "2026-08-31 (Update NY 08:33 CT): el squeeze de Londres se devolvio por completo (rally 29273.50->29546.25 revertido a 29418), struct/htf1/htf2/weeklyDir volvieron a bajista alineado, reafirmando la tesis bajista de fondo (EVOLVING, no ALIGN aun porque command sigue NEUTRAL y htfzones.biasW=3 sigue en conflicto). Plan NY: esperar rechazo confirmado en VAH/premZone 29502-29535 (B, score 5) para reanudar la baja hacia POC/VAL; sin permiso de sesion todavia. Presupuesto diario 63% usado, quedan ~160pts/642tk para NY, menos que el reparto teorico (195p) -> no esperar un rango completo.",
+      "ES": "2026-08-31 (Update NY 08:33 CT): mismo patron que NQ, el rebote de Londres se devolvio completo, precio de vuelta en la NTZ pegado al POC. thesisAlign EVOLVING (htfzones sigue en conflicto con dayPlanDir LONG). Plan NY: A+ mapeada en VAH/PDL/premZone 7705-7716 (score 6) a solo 6-17pts, esperar el rechazo confirmado, command aun sin permisoShort. Presupuesto diario 64% usado, quedan ~22pts/89tk para NY, menos que el reparto teorico (28p).",
+      "GC": "2026-08-31 (Update NY 08:33 CT): unico ALIGN, ejecuto el guion completo: rebote hasta el cluster VAH/EMA200 4507-4521.8 (mismo nivel que la tesis marcaba), rechazo con reclaim confirmado en touchlog, y extension de la baja a un nuevo low de sesion 4445.6 (mas alla del objetivo original 4466) antes de rebotar de nuevo al POC. Plan NY: esperar un segundo test/rechazo del mismo cluster 4507-4521.8 (A+, score 7, el mas fuerte de los tres) para reanudar la baja; sin permisoShort todavia. Presupuesto diario 79% usado (el mas ajustado), quedan solo ~21pts/206tk para NY."
     },
     "alertLevels": [
       {
-        "sym": "GC",
-        "price": 4507.01,
+        "sym": "ES",
+        "price": 7705.0,
         "band": [
-          4507.01,
-          4521.8
+          7705.0,
+          7716.0
         ],
         "dir": "SHORT",
         "kind": "zoneA",
-        "label": "fade VAH/EMA200 · corto a favor tras rebote de alivio",
+        "label": "A+ fade VAH/PDL/golden zone · rechazo a favor del corto",
         "verdict": "WAIT"
       },
       {
-        "sym": "NQ",
-        "price": 29442.49,
-        "band": [
-          29395.75,
-          29442.49
-        ],
-        "dir": "LONG",
-        "kind": "zoneA",
-        "label": "pullback eqZone/VAH · continuacion si el estiramiento se corrige",
-        "verdict": "AVOID"
-      },
-      {
         "sym": "GC",
-        "price": 4504.1,
-        "band": null,
-        "dir": null,
-        "kind": "gapEdge",
-        "label": "borde del gap sin rellenar (pdc)"
-      },
-      {
-        "sym": "NQ",
-        "price": 29624.0,
-        "band": [
-          29624.0,
-          29633.75
-        ],
-        "dir": "SHORT",
-        "kind": "zoneA",
-        "label": "extension mid50/exU1 · posible techo del squeeze",
-        "verdict": "AVOID"
-      },
-      {
-        "sym": "ES",
-        "price": 7699.25,
-        "band": [
-          7699.25,
-          7712.0
-        ],
-        "dir": "LONG",
-        "kind": "zoneA",
-        "label": "cluster VAH/PDL · ya en zona, esperar enfriamiento",
-        "verdict": "AVOID"
-      },
-      {
-        "sym": "NQ",
-        "price": 29811.5,
+        "price": 4509.5,
         "band": null,
         "dir": null,
         "kind": "invalidation",
         "label": "invalida el corto de fondo (aceptacion sostenida)"
+      },
+      {
+        "sym": "GC",
+        "price": 4507.0,
+        "band": [
+          4507.0,
+          4521.8
+        ],
+        "dir": "SHORT",
+        "kind": "zoneA",
+        "label": "A+ fade VAH/EMA200 · segundo test del nivel ya rechazado hoy",
+        "verdict": "WAIT"
       },
       {
         "sym": "ES",
@@ -2047,14 +2715,14 @@
         "label": "invalida el corto de fondo (aceptacion sostenida)"
       },
       {
-        "sym": "GC",
-        "price": 4509.5,
+        "sym": "NQ",
+        "price": 29811.5,
         "band": null,
         "dir": null,
         "kind": "invalidation",
         "label": "invalida el corto de fondo (aceptacion sostenida)"
       }
     ],
-    "reviewYesterday": "2026-08-30"
+    "reviewYesterday": null
   }
 }
