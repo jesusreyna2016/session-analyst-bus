@@ -339,11 +339,14 @@ el `verdict` baja a WAIT y el `reason` lo dice ("A+ pero R:R 1.1, no compensa").
 en el `summary` cuando la sesión tenga setup: "1 stop de NQ ≈ $Xt/contrato; 3 seguidos = $3X — mídelo
 contra tu límite diario". No des `GO` a una zona con `rr` < 1.5.
 
-**Sizing vs límite diario**: si `state/sa-state.json` trae `settings.dailyLossLimitUsd`, cada zona
-lleva `risk.maxContracts` = `floor(dailyLossLimitUsd / stopUsd / 3)` (deja margen para 3 intentos),
-mínimo 0. Si sale 0 → la zona es intocable con ese stop, dilo. `summary`: "límite $X ⇒ máx N minis
-en la mejor A+ (stop $Y); 3 stops seguidos = tu día". Sin `settings.dailyLossLimitUsd` →
-`maxContracts: null` y una línea en `summary` pidiéndolo.
+**Sizing vs límite diario**: si `state/sa-state.json` trae `settings.dailyLossLimitUsd` (S = ese
+valor; K = `settings.stopsBeforeDone` o 3 si falta), cada zona lleva
+`risk.maxContracts` = `floor(S / stopUsd / K)`, mínimo 0. Si sale 0 → la zona es intocable con ese
+stop en full; sugiere micros (`/10`) o pásala. `summary`: "límite $S por cuenta ⇒ máx N en la
+mejor A+ (stop $Y); K stops seguidos y se acabó el día". Para Jesus ese límite **suele ser la
+cuenta entera** (`settings.note`): pasarlo = cuenta quemada, no un mal día — dilo con esas
+palabras cuando la sesión tenga setup. Sin `settings.dailyLossLimitUsd` → `maxContracts: null` y
+una línea en `summary` pidiéndolo.
 
 ### Plan de entrada por zona (campo `play` de cada zona A+, y B si entra a la tabla)
 
