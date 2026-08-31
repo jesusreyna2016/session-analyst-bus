@@ -102,6 +102,13 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
 `pre-asia` es la corrida pesada. `pre-london` y `pre-ny` parten de `dayThesis` del día
 vigente y reportan el delta, no re-derivan todo.
 
+Reloj de los futuros de índice (CME, hora CT): cotizan casi 24 h, con **cierre diario 16:00
+CT** y **reapertura 17:00 CT** (parón de 1 h lun-jue); el viernes cierran a las 16:00 y
+reabren el domingo a las 17:00. El RTH del cash es 08:30-15:00 CT (referencia para el IB y la
+OR), pero el "día" del futuro y su H/L van de reapertura a cierre (17:00 → 16:00). Por eso:
+`pre-asia` (16:30 CT) corre en pleno parón, con el día de futuros de HOY ya cerrado →
+califícalo entero; `pre-london` (01:55 CT) y `pre-ny` (08:25 CT) corren a mitad de Globex.
+
 Días: domingo `pre-asia` sí (reapertura Globex) y además lleva la **meta-revisión semanal**
 de la semana lunes-viernes que cerró (sección 6). Sábado (día CT) → no hagas nada,
 responde "sábado, sin corrida". Feriado = día normal con nota "sesión de feriado,
@@ -171,11 +178,12 @@ viejo lo que solo refleja mercado cerrado).
    instrumento/sesión (`n ≥ 10` y `rate < 0.45`), pésala a la MITAD en el sesgo y dilo
    ("command 4/12 en GC pre-NY → medio peso"). Si `convictionCalibration` de este símbolo dice
    que "alta" no bate a "media", para poner "alta" exige 4 fuentes coincidentes, no 3.
-   **Prior del día anterior** (`prevDay`): es la **última sesión de cash COMPLETADA** (para un
-   lunes = el viernes), NO "hoy hasta ahora". SIEMPRE tiene un cierre real, así que
-   `closedAt` nunca es "n/a / día en curso": pon dónde cerró esa sesión respecto a su propio
-   rango (en el tercio alto, medio o bajo; en el extremo; etc.). Clasifícala con
-   `command.dayType` / `orb.dayType` + hod/lod de esa sesión vs `drbias.pdc`:
+   **Prior del día anterior** (`prevDay`): es el **último día de FUTUROS COMPLETADO** (la
+   sesión Globex que terminó en el cierre diario de 16:00 CT; para un lunes = el viernes), NO
+   "hoy hasta ahora". SIEMPRE tiene un cierre real, así que `closedAt` nunca es "n/a / día en
+   curso": pon dónde cerró esa sesión respecto a su propio rango (en el tercio alto, medio o
+   bajo; en el extremo; etc.). Clasifícala con `command.dayType` / `orb.dayType` + hod/lod de
+   esa sesión vs `drbias.pdc`:
    - `tendencia (alcista|bajista) cerrando en el extremo` → prior de **CONTINUACIÓN** en esa
      dirección hoy, salvo reversal confirmado en la apertura.
    - `balance / rango` → prior **NEUTRAL**; favorece fades de PDH/PDL.
