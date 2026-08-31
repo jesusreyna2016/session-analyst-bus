@@ -23,10 +23,53 @@ idiomas (español natural + inglés natural, no traducción literal torpe). Camp
   `focus.setup`/`trigger`/`invalid`/`note`, `dayThesis.NQ`/`ES`/`GC`
 NO se traducen (quedan valor único): todos los números, precios, `dir`, `kind`, `type`,
 `state`, `signal`, `flag`, `tags`, `id`, `resolveAt`, `prob`, `window` (rango horario), y los
-`ratio`/enums. En texto libre, cero nombres crudos de campos del feed: traduce el concepto
-(`struct` → "la estructura de precio" / "price structure"; `htf1`/`htf2` → "el marco de 1h/4h"
-/ "the 1h/4h frame"; `weeklyDir` → "la dirección semanal" / "the weekly direction";
-`biasScore`/`stretchAtr`/`chopIdx` → en palabras + número entre paréntesis).
+`ratio`/enums.
+
+### Prosa legible — REGLA DURA (se revisa en cada corrida)
+
+En TODO campo de texto libre para humanos (las dos versiones, `es` y `en`): **cero nombres
+crudos de campos, fuentes o enums del feed**. El lector es un trader, no ve el JSON. Si un
+token parece código (camelCase, `bias*`, `*Score`, `*Zone`, nombre de indicador, corchetes de
+tag), reescríbelo. Tabla de traducción obligatoria:
+
+| Crudo (prohibido en prosa) | Español | Inglés |
+|---|---|---|
+| `command` (el motor de sesgo) | el sesgo fusionado | the fused bias |
+| `orb` / `orb crudo` | el rango de apertura | the opening range |
+| `3reads` / `drbias` / `srzones` / `htfzones` | (nómbralo por lo que mide, no por el módulo) | idem |
+| `weeklyDir` | el sesgo semanal | the weekly bias |
+| `htf1` / `htf2` | el marco de 1h / de 4h | the 1h / 4h frame |
+| `biasHTF` | el sesgo combinado de 1h/4h | the combined 1h/4h bias |
+| `biasD` / `biasW` | el sesgo diario / semanal | the daily / weekly bias |
+| `struct` / `structure` | la estructura de precio | price structure |
+| `RS` / `rs` | la fuerza relativa NQ/ES | NQ/ES relative strength |
+| `weeklyDir/htf1/htf2/estructura/RS` juntos | las lecturas de tendencia (semanal, 1h, 4h, estructura y fuerza relativa) | the trend reads (weekly, 1h, 4h, structure and relative strength) |
+| `biasScore N` | sesgo +N/10 | bias +N/10 |
+| `stretchAtr N` | estiramiento N ATR (sobre el VWAP) | N ATR stretched (from VWAP) |
+| `chopIdx` / `chop` | índice de rango / mercado en rango | chop index / ranging |
+| `dayType 'X'` | un día de X (sin comillas ni el nombre del campo) | an X day |
+| `verdict BUSCANDO LONG` / `lastSig X` | veredicto: buscando largos / última señal: X | verdict: looking for longs / last signal: X |
+| `newsRisk` | riesgo de noticias | news risk |
+| `predictionScore` | la precisión de las predicciones | prediction accuracy |
+| `builtAt` | la antigüedad del snapshot | the snapshot age |
+| `conviction` | la convicción | conviction |
+| `thesisAlign` / `counterCase` (al citarlos) | ver el argumento contrario | see the counter-case |
+| `discZone`/`premZone`/`eqZone` | zona de descuento / premium / equilibrio | discount / premium / equilibrium zone |
+| `noTradeZone` / `inNtz` | zona de no-trade | no-trade zone |
+| `dayPlanDir` | dirección del plan del día | day-plan direction |
+
+SÍ puedes usar vocabulario de trading real (no son nombres de campo): VAH, VAL, POC, VWAP,
+EMA20/50/200, IB/IBH/IBL, OR/ORB, ONH/ONL, PDH/PDL/PWH/PWL, DO/TDO, ATR, RVOL, VIX, BOS,
+CHoCH, SMT, gap, "día de tendencia", NFP, ISM, score A+/B/C.
+
+**Los tags internos entre corchetes** (`[perseguir]`, `[anticipar]`, `[chasing]`,
+`[front-running]`, etc.) son notas para ti, **NUNCA** aparecen en `verdict.reason`, `focus.note`,
+`predictions[].text` ni ningún campo que ve el lector. Si quieres registrar el tipo de fuga,
+va en `state/sa-state.json`, no en el plan.
+
+**Auto-chequeo antes de escribir `plans/latest.json`**: relee cada string `es` y `en`; si
+encuentras un token camelCase, un `bias*`/`*Score`/`*Zone`, un nombre de indicador o un
+`[tag]`, reescríbelo. No entregues el plan con jerga de campo dentro.
 
 **En español (NO bilingüe)**: `state/sa-state.json` completo (`narrative`, `models`, `reviews`,
 `dayThesis` del estado son el cuaderno interno del agente), `plans/digest.txt`, `reviews/*.md`
@@ -96,8 +139,8 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
 | RUN_TYPE | Hora CT | Qué produce |
 |---|---|---|
 | `pre-asia` | 16:05 | **Cierre + aprendizaje del día que terminó** (sección 6) y luego **plan completo** de Asia + tesis del día |
-| `pre-london` | 01:20 | **Update enfocado**: califica Asia vs el plan, qué cambió, plan de Londres, tesis ajustada, rango restante |
-| `pre-ny` | 07:45 | **Update enfocado**: califica Londres (mañana) vs el plan, qué cambió, plan de NY, tesis ajustada, rango restante |
+| `pre-london` | 01:40 | **Update enfocado**: califica Asia vs el plan, qué cambió, plan de Londres, tesis ajustada, rango restante |
+| `pre-ny` | 08:10 | **Update enfocado**: califica Londres (mañana) vs el plan, qué cambió, plan de NY, tesis ajustada, rango restante |
 
 `pre-asia` es la corrida pesada. `pre-london` y `pre-ny` parten de `dayThesis` del día
 vigente y reportan el delta, no re-derivan todo.
@@ -107,9 +150,9 @@ CT** y **reapertura 17:00 CT** (parón de 1 h lun-jue); el viernes cierran a las
 reabren el domingo a las 17:00. El RTH del cash es 08:30-15:00 CT (referencia para el IB y la
 OR), pero el "día" del futuro y su H/L van de reapertura a cierre (17:00 → 16:00). Por eso:
 `pre-asia` (16:05 CT) corre justo tras el cierre de 16:00, en el parón, con el día de
-futuros de HOY ya cerrado → califícalo entero; `pre-london` (01:20 CT) y `pre-ny`
-(07:45 CT) corren a mitad de Globex. Las 3 se disparan ~25-40 min antes de su apertura
-para que el plan esté listo con margen de lectura.
+futuros de HOY ya cerrado → califícalo entero; `pre-london` (01:40 CT) y `pre-ny`
+(08:10 CT) corren a mitad de Globex, ~20 min antes de su apertura (Londres ~02:00 CT,
+RTH NY 08:30 CT) para que el plan esté fresco al abrir.
 
 Días: domingo `pre-asia` sí (reapertura Globex) y además lleva la **meta-revisión semanal**
 de la semana lunes-viernes que cerró (sección 6). Sábado (día CT) → no hagas nada,
@@ -119,7 +162,7 @@ hábil, dilo y haz el mejor plan posible marcándolo como "datos rezagados".
 
 Horario / DST: las rutinas se disparan por cron UTC calzado a CT. Si la hora de la corrida
 (la que trae el prompt como referencia) no cuadra con `RUN_TYPE` (p.ej. `pre-ny` corriendo
-a las 06:45 CT en vez de 07:45), es un cambio de horario de verano sin ajustar: haz la
+a las 07:10 CT en vez de 08:10), es un cambio de horario de verano sin ajustar: haz la
 corrida igual, marca en el `summary` "cron descalzado por DST, ajustar" y sigue.
 
 ---
@@ -161,7 +204,7 @@ viejo lo que solo refleja mercado cerrado).
     - `pre-asia` (16:05 CT, tras el cierre RTH de 15:00): `ibh`/`ibl` = el IB de HOY ya
       completo y congelado → fiable. El overnight aún no empezó (arranca 17:00) → `onh`/`onl`
       son el rango overnight de anoche, congelado, fiable.
-    - `pre-london` (01:20 CT) y `pre-ny` (07:45 CT, antes de la apertura RTH de 08:30):
+    - `pre-london` (01:40 CT) y `pre-ny` (08:10 CT, antes de la apertura RTH de 08:30):
       `ibh`/`ibl` = IB de la sesión RTH ANTERIOR (referencia, NO "de hoy"; el de hoy aún no se
       ha formado). El overnight está en curso → `onh`/`onl` aún se están formando, y los toques
       de ONH/ONL en `touchlog` están inflados (el nivel se mueve con el precio) con
@@ -881,6 +924,10 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   humanos va `{ "es", "en" }` con contenido natural en ambos idiomas (lista de campos en el
   bloque de formato del principio). Marca `schema: "sa-plan-2"` a nivel raíz. `state/sa-state.json`,
   `plans/digest.txt`, `reviews/*.md` y el resumen de respuesta quedan SOLO en español.
+- **Prosa legible (regla dura).** Ningún campo de texto del plan lleva nombres crudos de campo
+  (`command`, `weeklyDir`, `htf1/htf2`, `biasHTF`, `biasScore`, `stretchAtr`, `newsRisk`,
+  `discZone`…) ni tags entre corchetes (`[perseguir]`…). Usa la tabla de traducción del bloque
+  de formato y haz el auto-chequeo antes de escribir. El lector es un trader, no ve el JSON.
 - **Salidas fijas.** Toda corrida escribe además `plans/digest.txt` y `live/heartbeat.json`.
 - **No dupliques.** Si es un re-disparo de `pre-asia` para un día ya calificado, refresca el
   plan si acaso pero NO re-cuentes `zones`/`scorecard` ni los sub-objetos de calibración.
