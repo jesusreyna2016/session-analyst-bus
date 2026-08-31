@@ -110,6 +110,26 @@ márcala "dato viejo" y bájale el peso. Ignora cualquier campo `SELFTEST`.
    y ticks**, ordenados por cercanía.
 8. **Noticias**: eventos de `cc-news` dentro de la sesión, con la ventana de manos fuera
    (-15 min / +10 min de alto impacto USD).
+9. **Veredicto de un vistazo** (`verdict`): un semáforo por instrumento que PROTEGE la
+   disciplina de Jesus. Su edge es operar CONFLUENCIA a favor del sesgo en un nivel mapeado
+   (perfil VAH/POC/VAL + EMAs 20/50 + VWAP + pivotes + FVG + MTF, NO solo el perfil); sus
+   fugas son operar el chop / tierra de nadie, perseguir precio estirado, y largos contra el
+   sesgo. El veredicto debe protegerlo de esas tres. Prioridad **AVOID > WAIT > GO** (ante la
+   duda, WAIT):
+   - **AVOID** (trampa, no tocar): precio muy estirado (`command.stretchAtr` alto / la fuente
+     dice "no perseguir"), o el único setup a tiro iría CONTRA el sesgo de mayor peso, o
+     `command.verdict` lo deja en un extremo sin nivel. Protege de perseguir y de operar contra
+     el sesgo.
+   - **WAIT** (sin edge aún, quieto): en zona de no-trade / chop (`command.verdict`
+     NO-TRADE·CHOP, `chop`=1, pegado a POC), o sesgo débil / en conflicto (convicción baja o
+     `biasAligned` false), o sin zona de confluencia a tiro. Protege de operar el chop y de
+     sobreoperar.
+   - **GO** (hay edge a favor): sesgo alineado con convicción media o alta Y el precio está en
+     (o llegando a) una zona de alta confluencia (>=3) que es un nivel mapeado a favor del
+     sesgo, con permiso de sesión (`permisoLong`/`permisoShort`) y sin estar estirado. Es su
+     edge: confluencia a favor del sesgo en un borde.
+   `reason` = una línea corta en español que diga POR QUÉ (ej.: "en no-trade sobre POC, sin
+   borde"; "estirado 2.6x ATR, no perseguir"; "borde VAH a favor del corto, confluencia 5").
 
 Al final: **qué instrumento está más limpio ahora** (sesgo más claro + en borde + menor
 conflicto).
@@ -228,6 +248,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "instruments": {
     "NQ": {
       "biasDay": "SHORT", "biasSession": "SHORT", "biasAligned": true, "conviction": "alta",
+      "verdict": { "signal": "GO", "reason": "borde VAH a favor del corto, confluencia 5" },
       "context": "…",
       "scenarioA": { "text": "…", "trigger": "…", "target": 29450, "entryZone": [29655, 29660] },
       "scenarioB": { "text": "…", "trigger": "…" },
