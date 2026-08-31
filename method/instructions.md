@@ -49,7 +49,12 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
 4. Escribe `plans/latest.json` + `plans/<fecha>-<RUN_TYPE>.json` (schema sección 7).
 5. Aplica el merge sobre `state/sa-state.json` y escríbelo (sección 7). En `pre-asia`
    escribe también `reviews/<fecha>.md`.
-6. `git add -A && git commit -m "sa <RUN_TYPE> <fecha>" && git push` (o Contents API si el push falla).
+6. Sube: `git add -A && git commit -m "sa <RUN_TYPE> <fecha>"`, luego bucle
+   `git pull --rebase --autostash && git push` (hasta 6 intentos, `sleep 5` entre
+   ellos: el cron de Netlify commitea `live/market.json` cada 5 min y el push rebota
+   por non-fast-forward; como los archivos son disjuntos el rebase aplica limpio).
+   Si tras 6 intentos falla y hay `$SA_BUS_TOKEN`, usa la Contents API (abajo).
+   Verifica al final que `git log origin/main -1` es tu commit.
 7. Responde un resumen de 5-6 líneas (una por instrumento + "más limpio: X" + qué se
    calificó si es `pre-asia`).
 
