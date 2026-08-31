@@ -44,8 +44,12 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
 
 1. `git pull` para tener el bus al día. Lee `method/instructions.md` entero y síguelo.
 2. Lee `state/sa-state.json` (tu historial: úsalo como priores) y `live/market.json`
-   (mercado + noticias).
-3. Haz el análisis según `RUN_TYPE` (secciones 3-6).
+   (mercado + noticias). **Corre el chequeo de frescura (sección 2) y arma `dataHealth`.**
+   **Idempotencia**: si en `pre-asia` ya existen `plans["<hoy>-pre-asia"]` Y `reviews["<fecha_ayer>"]`,
+   esta corrida es un re-disparo del mismo día. Puedes refrescar `plans/latest.json` con datos
+   frescos, pero **NO vuelvas a incrementar `zones`/`scorecard` ni a re-contar la calificación de
+   ayer** (doble conteo). Si nada material cambió, no toques nada y dilo en el resumen.
+3. Haz el análisis según `RUN_TYPE` (secciones 3-6), respetando lo que diga `dataHealth`.
 4. Escribe `plans/latest.json` + `plans/<fecha>-<RUN_TYPE>.json` (schema sección 7).
 5. Aplica el merge sobre `state/sa-state.json` y escríbelo (sección 7). En `pre-asia`
    escribe también `reviews/<fecha>.md`.
@@ -77,10 +81,28 @@ hábil, dilo y haz el mejor plan posible marcándolo como "datos rezagados".
 ## 2 · Campos del feed por fuente
 
 `live/market.json` → `.feed` = `{ symbols: { NQ: { orb, "3reads", drbias, srzones, htfzones, command }, ES:…, GC:… }, generatedAt }`.
-Cada fuente trae `raw` (campos crudos, todo string) y `ts` (timestamp CT del indicador).
-Si una fuente falta para un símbolo, trabaja con lo que haya y anótalo como limitación.
-Si el `ts` de una fuente es >90 min más viejo que la hora de corrida (fuera de finde/feriado),
-márcala "dato viejo" y bájale el peso. Ignora cualquier campo `SELFTEST`.
+Cada fuente de `ind-ingest` trae `raw` (campos crudos, todo string), `ts` (timestamp del
+indicador, formato mixto) y `receivedAt` (ISO UTC, es el fiable). Ignora cualquier campo `SELFTEST`.
+
+### Chequeo de frescura (hazlo ANTES de analizar, arma `dataHealth`)
+
+Referencia = `now` = hora de la corrida en UTC. En finde/feriado relaja los umbrales (no marques
+viejo lo que solo refleja mercado cerrado).
+
+- **`builtAt`** (snapshot entero): edad = `now − builtAt`. > 20 min en día hábil = el cron de
+  Netlify se cortó y TODO el plan es sospechoso → `dataHealth.snapshot = "VIEJO"`, dilo en la
+  primera línea del `summary`.
+- **Por fuente de `ind-ingest`** (3reads, drbias, srzones, htfzones, command): edad = `now − receivedAt`.
+  - < 25 min → fresca, peso normal.
+  - 25–90 min → **vieja**: métela en `dataHealth.stale` como `"<fuente>@<SYM> <edad>"`, pésala a la
+    mitad, y no bases una zona SOLO en ella.
+  - > 90 min → **muerta**: trátala como si faltara (va a `dataHealth.missing`), no la uses.
+- **`orb`** no trae `receivedAt`. Contrasta sus niveles (vah/poc/val/pdh/pdl) con los de `command`
+  (trae los mismos): si discrepan > 0.3 % está congelado → usa `command` para niveles y anótalo en
+  `dataHealth.notes`.
+- Si una fuente **falta** para un símbolo → `dataHealth.missing`, no inventes sus zonas.
+- **Regla dura**: si `command` (síntesis) o ≥ 3 fuentes crudas de un instrumento están viejas/muertas,
+  su `conviction` no pasa de "baja" y su `verdict.signal` NO puede ser "GO".
 
 - **orb** (backbone): `biasDir`, `weeklyDir`, `dayType`, `price`, `levels` (vah/poc/val/vwap/pdh/pdl/dayOpen/orH/orL/pwh/pwl/tdo/ema5/ema15/ema50), `noTradeZone`, `signal`, `struct`, `regime`, `vol`, `htf1`, `htf2`, `rs`, `inNtz`.
 - **3reads.raw**: `context` (LONG/SHORT/UNCLEAR), `ctrl1h`/`ctrl4h`, `trendOK`, `inDiscount`, `chop`, `chopIdx`, `atrD`, `atrDtk`, `rangeToday`, `rangeTodayTk`, `emUsedPct`, `emRemain`, `emRemainTk`, `emRegime` (EXPANSIÓN/AVANZADO/AGOTADO), `vix`, `vixRank`, `vixState`, `ema20tk`/`ema50tk`/`ema200tk`/`vwaptk` (+ slopes), `emaBias`, `smtBull`/`smtBear`, `csdUp`, `exU`/`exD` (4 extensiones del rango previo c/u), `exTouchU`/`exTouchD`, `pdh/pdl/pwh/pwl/do/vah/poc/val/swHi/swLo`.
@@ -143,18 +165,38 @@ zonas S/R multi-TF y FVG/iFVG (srzones), oferta/demanda/liquidez/golden/premium/
 (htfzones), extensiones del rango previo (3reads exU/exD), PDH/PDL/PWH/PWL, day open,
 VWAP, PD Mid.
 
-**Score de confluencia** (suma):
-- +2 a favor del sesgo de sesión
-- +1 por cada fuente independiente que la marca (perfil, S/R, S/D, FVG, fib/golden)
-- +1 si coincide EMA20/50 o VWAP dentro de la zona
-- +1 si hay FVG/iFVG solapado
-- +1 si es extremo del perfil (VAH/VAL) o de premium/discount
-- −2 si cae en zona de no-trade / tierra de nadie
-- −2 si va en contra del sesgo sin ser borde de reversión claro
+**Score de confluencia** (el EDGE COMPLETO de Jesus, suma; una A+ toca varios a la vez):
+- +2 a favor del sesgo de sesión Y del de mayor peso (`command.dir`)
+- +1 nivel de perfil en la zona: VAH / POC / VAL (actual o previo)
+- +1 pivote en la zona: PDH / PDL / PWH / PWL / DO / TDO
+- +1 EMA 20 en la zona · +1 EMA 50 en la zona (`command.ema20`/`ema50`, ±5 ticks)
+- +1 VWAP en la zona
+- +1 FVG / iFVG solapado (`srzones.fvg`); +1 extra si es del TF de la sesión o mayor
+- +1 zona S/R multi-TF (`srzones`) o S/D (`htfzones`) coincidente
+- +1 premium/discount o golden zone a favor (`htfzones` · `command.disc25`/`prem75`)
+- +1 **BARRIDA DE LIQUIDEZ**: la zona está justo más allá de un PDH/PDL/PWH/PWL/swing o del
+  rango de Asia, de modo que el precio la alcanza BARRIENDO liquidez y puede revertir
+  (`command.lastSig` = SWEEP, `srzones.resBroken`/`supBroken`, `3reads.exTouchU`/`exTouchD`,
+  mecha que rompe el nivel y cierra de vuelta). +1 extra si además hay reclaim (cierre de
+  vuelta dentro del rango tras barrer).
+- +1 **CONTEXTO DE SESIÓN** a favor: Asia = rango/acumulación → fade de extremos; Londres =
+  expansión/manipulación → sweep + reclaim del extremo de Asia; NY = continuación o reversión
+  de lo de Londres. La zona encaja con lo que esa sesión suele hacer (mira `models.<SYM>`).
+- +1 MTF alineado: `htfzones.biasHTF` y `biasD` en la dirección de la zona
+- −2 si cae en no-trade / tierra de nadie (entre niveles, sin NADA de lo de arriba)
+- −2 si va contra el sesgo de mayor peso sin ser borde de reversión claro (sweep + rechazo)
+- −1 si el precio ya está muy estirado hacia esa zona (`command.stretchAtr` ≥ 2)
+
+**Clasificación** (manda el `verdict` y qué entra en la tabla):
+- **A+** (score ≥ 6): confluencia real a favor del sesgo en un nivel mapeado → candidata a GO.
+- **B** (score 3–5): plausible pero floja → WAIT, pide confirmación extra.
+- **Tierra de nadie** (score ≤ 2): NO es zona. Nunca va a la tabla, nunca es GO. Si el precio
+  está aquí sin una A+/B a tiro → `verdict` = WAIT/AVOID y se dice fuerte ("no hay borde").
 
 Cruza el **tipo de zona** con `zones` (clave `<instrumento>|<sesion>|<tipo>`; tipos:
 `fade_vah`, `fade_val`, `poc_reversion`, `poc_breakout`, `bounce_val`, `bounce_vah`,
-`sweep_pdh`, `sweep_pdl`, `asia_range_break`, `golden_zone`, `supply`, `demand`,
+`sweep_pdh`, `sweep_pdl`, `sweep_pwh`, `sweep_pwl`, `sweep_asiaH`, `sweep_asiaL`,
+`liq_reclaim` (barrida + reclaim), `asia_range_break`, `golden_zone`, `supply`, `demand`,
 `ext_target`, `otro`) y añade su **win-rate histórico** (o "sin datos aún" si n<5).
 
 Tabla por instrumento, rankeada por score y luego win-rate (máx 5):
@@ -245,10 +287,11 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "generatedAt": "2026-08-31T16:31:00-05:00",
   "cleanest": "NQ",
   "summary": ["NQ: …", "ES: …", "GC: …", "más limpio: NQ"],
+  "dataHealth": { "snapshot": "OK", "builtAtAgeMin": 4, "stale": [], "missing": [], "notes": "" },
   "instruments": {
     "NQ": {
       "biasDay": "SHORT", "biasSession": "SHORT", "biasAligned": true, "conviction": "alta",
-      "verdict": { "signal": "GO", "reason": "borde VAH a favor del corto, confluencia 5" },
+      "verdict": { "signal": "GO", "reason": "borde VAH a favor del corto, confluencia 6 (perfil+EMA50+VWAP+sweep PDH+sesión)" },
       "context": "…",
       "scenarioA": { "text": "…", "trigger": "…", "target": 29450, "entryZone": [29655, 29660] },
       "scenarioB": { "text": "…", "trigger": "…" },
@@ -294,8 +337,17 @@ los últimos ~12. Borra lo más viejo en el mismo write.
 - Si falta una fuente para un instrumento, dilo explícito y no inventes sus zonas.
 - Nunca el número sin la unidad: siempre puntos y ticks juntos.
 - Plan accionable y corto. Nada de relleno.
-- Coherente con el edge de Jesus: bordes del perfil a favor del sesgo, cero tierra de nadie.
-  Si lo más honesto es "hoy no hay setup limpio", dilo.
+- Coherente con el edge de Jesus: **confluencia a favor del sesgo en un nivel mapeado**
+  (perfil + EMA 20/50 + VWAP + pivotes + FVG + MTF + barridas de liquidez + contexto de sesión),
+  cero tierra de nadie. Si lo más honesto es "hoy no hay setup limpio", dilo.
+- **`verdict` es OBLIGATORIO en los 3 instrumentos** (`{signal: GO|WAIT|AVOID, reason: "..."}`),
+  nunca `null`. El `reason` nombra la confluencia concreta (para GO) o la fuga que evita (para
+  WAIT/AVOID: chop/tierra de nadie, precio estirado, contra el sesgo de mayor peso).
+- **Datos viejos = plan con asterisco.** Corre el chequeo de frescura (sección 2) ANTES de
+  analizar. Si `dataHealth.snapshot` es "VIEJO" o hay fuentes en `stale`/`missing`, ponlo en la
+  primera línea del `summary` y no des un "GO" apoyado en una fuente vieja.
+- **No dupliques.** Si es un re-disparo de `pre-asia` para un día ya calificado, refresca el
+  plan si acaso pero NO re-cuentes `zones`/`scorecard`.
 - Cierra siempre con `git push` (o Contents API si falla). Si no pudiste escribir el bus,
   dilo claro en el resumen: el Command Center se quedaría con el plan anterior.
 - JSON válido en `plans/*.json` y `state/sa-state.json` (sin comentarios, sin comas colgantes).
