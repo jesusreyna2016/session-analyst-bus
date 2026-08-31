@@ -31,7 +31,7 @@ working dir. Trabajas con archivos, no con HTTP.
   `scorecard`; añade la entrada nueva a `reviews`/`dayThesis`/`plans`; pon `planLatest`.
 - `reviews/<fecha>.md` — solo en `pre-asia`: la calificación del día que cerró (sección 6).
 - `reviews/<fecha>-semana.md` — solo domingo `pre-asia`: la meta-revisión de la semana (sección 6).
-- `plans/digest.txt` — resumen de 6-9 líneas para el móvil (sección 7), en cada corrida.
+- `plans/digest.txt` — resumen de 7-10 líneas (≤60 car/línea) para el móvil (sección 7), en cada corrida.
 - `live/heartbeat.json` — `{ lastRun, runType, ok, note }` al final de CADA corrida, aunque el
   plan salga con asterisco. Sirve para detectar corridas caídas (lastRun > 8 h = algo falló).
 
@@ -68,7 +68,7 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
    por non-fast-forward; como los archivos son disjuntos el rebase aplica limpio).
    Si tras 6 intentos falla y hay `$SA_BUS_TOKEN`, usa la Contents API (abajo).
    Verifica al final que `git log origin/main -1` es tu commit.
-7. Responde un resumen de 5-8 líneas (la línea `!! alarma` primero si `plan.alarm` != null +
+7. Responde un resumen de 6-9 líneas (la línea `!! alarma` primero si `plan.alarm` != null, luego `>> focus` +
    una por instrumento con su `verdict` + "más limpio: X" + qué se calificó si es `pre-asia`
    + nota de sizing/límite diario si aplica + cualquier CONFLICT de tesis o tag de calendario
    relevante). Es el mismo contenido que `plans/digest.txt`.
@@ -151,8 +151,11 @@ viejo lo que solo refleja mercado cerrado).
    instrumento/sesión (`n ≥ 10` y `rate < 0.45`), pésala a la MITAD en el sesgo y dilo
    ("command 4/12 en GC pre-NY → medio peso"). Si `convictionCalibration` de este símbolo dice
    que "alta" no bate a "media", para poner "alta" exige 4 fuentes coincidentes, no 3.
-   **Prior del día anterior** (`prevDay`): clasifica el día que cerró con `command.dayType` /
-   `orb.dayType` + dónde cerró vs su rango (hod/lod vs `drbias.pdc`):
+   **Prior del día anterior** (`prevDay`): es la **última sesión de cash COMPLETADA** (para un
+   lunes = el viernes), NO "hoy hasta ahora". SIEMPRE tiene un cierre real, así que
+   `closedAt` nunca es "n/a / día en curso": pon dónde cerró esa sesión respecto a su propio
+   rango (en el tercio alto, medio o bajo; en el extremo; etc.). Clasifícala con
+   `command.dayType` / `orb.dayType` + hod/lod de esa sesión vs `drbias.pdc`:
    - `tendencia (alcista|bajista) cerrando en el extremo` → prior de **CONTINUACIÓN** en esa
      dirección hoy, salvo reversal confirmado en la apertura.
    - `balance / rango` → prior **NEUTRAL**; favorece fades de PDH/PDL.
@@ -210,6 +213,11 @@ viejo lo que solo refleja mercado cerrado).
    están a tiro, **apertura mensual** y **H/L del mes previo**. Marca cuáles ya se tocaron hoy
    con su nº de toques (de `touchlog`): un nivel que aguantó el 1er test pero lleva 2-3 toques
    es más frágil.
+   **Integridad de nombres**: cada nivel se etiqueta con el nombre del campo del que sale.
+   PDH/PDL/PWH/PWL/DO/TDO salen de `command.raw.pdh/pdl/pwh/pwl/dayOpen/tdo`; ONH/ONL de
+   `onh/onl`; IBH/IBL de `ibh/ibl`; mensual de `mOpen/pmh/pml`. NUNCA reetiquetes un valor de
+   IB u overnight como "PDH" (ni al revés): si dos campos traen el mismo precio, lístalo una
+   vez con los dos nombres, no lo inventes.
 8. **Noticias** (de `news.events`; `ts` es epoch ms → conviértelo a CT). Por cada evento de
    alto impacto (o medio USD) que caiga en la sesión o en los ~45 min previos: título, hora CT
    y ventana de **manos fuera** (alto = −15 / +10 min · medio USD = −5 / +5). Clasifica el
@@ -272,10 +280,15 @@ cuando aplique:
 argumento CONTRARIO a tu sesgo: qué fuente, pivote, gap o lectura HTF apoyaría el lado opuesto
 y qué haría el precio para darte la razón a ti-que-te-equivocas (ej.: "alcista pese al corto:
 htfzones biasW=3, gap sin rellenar arriba, ES no confirmó el low; si acepta sobre TDO 29668 el
-corto muere"). Luego di si lo mantienes o si el contra-caso es lo bastante fuerte para bajar
-`conviction`, cambiar el escenario primario o girar el sesgo. Va en `counterCase` del
-instrumento (1-2 frases: el argumento + tu resolución); si movió algo, se nota en
-`conviction` y en `verdict.reason`. Sin `counterCase` el plan del instrumento está incompleto.
+corto muere"). Luego resuélvelo con una de estas 3 salidas explícitas, no siempre la misma:
+- **lo mantengo**: el contra-caso no cambia nada (di por qué es débil).
+- **lo mantengo pero degrado**: bajo `conviction` un escalón y/o cambio el escenario primario.
+- **GIRA**: el contra-caso es más fuerte que mi lectura → cambio `biasSession` (y `biasDay` si
+  aplica) al lado del contra-caso AHORA MISMO, y el plan entero se reescribe sobre ese sesgo.
+El contra-caso tiene que poder girar el plan, no solo matizarlo: si dos corridas seguidas del
+mismo instrumento lo resuelven como "mantengo" idéntico, revísalo, puede que te estés
+aferrando. Va en `counterCase` (1-2 frases: argumento + cuál de las 3 salidas). Sin
+`counterCase` el plan del instrumento está incompleto.
 
 **Predicciones falsables (obligatorio, por instrumento).** 3-5 afirmaciones concretas y
 comprobables al cierre, cada una con su ventana horaria CT cuando aplique. Cubre al menos:
@@ -285,9 +298,14 @@ invalidación) se activa, (e) una condicional "si X al abrir la siguiente sesió
 Cada una: `{ id, text, kind: "range"|"direction"|"level_first"|"scenario"|"conditional",
 resolveAt: "<sesión o hora CT>", prob: <0-1 opcional para las probabilísticas> }`. Van en
 `predictions` del instrumento. Prohibido lo no falsable ("podría subir", "ojo con el nivel").
+**Al menos UNA predicción por instrumento tiene que ser una llamada de convicción real**:
+`prob ≥ 0.65` o `≤ 0.35` (te mojas). Si no hay ninguna afirmación de alta convicción hoy para
+ese instrumento, dilo explícito en el `context` ("sin lectura de convicción para NQ hoy, todo
+sale 0.5") en vez de rellenar con cinco 0.55.
 
 Al final: **qué instrumento está más limpio ahora** (sesgo más claro + en borde + menor
-conflicto).
+conflicto), y destílalo en el objeto **`focus`** (sección 7): la única mejor oportunidad de
+los 3, con su ventana horaria, gatillo, invalidación y una nota anti-fuga.
 
 ---
 
@@ -342,8 +360,11 @@ Cruza el **tipo de zona** con `zones` (clave `<instrumento>|<sesion>|<tipo>`; ti
 `sweep_pdh`, `sweep_pdl`, `sweep_pwh`, `sweep_pwl`, `sweep_asiaH`, `sweep_asiaL`,
 `sweep_onh`, `sweep_onl` (barrida del extremo overnight), `ib_fade` (rechazo del borde del
 Initial Balance de vuelta al centro), `ib_break` (ruptura y continuación del IB),
+`pullback_cont` (retroceso a un nivel a favor de la tendencia y continuación),
+`retest_break` (ruptura de un nivel y retest del mismo desde el otro lado),
 `liq_reclaim` (barrida + reclaim), `asia_range_break`, `golden_zone`, `supply`, `demand`,
-`ext_target`, `otro`) y añade su **win-rate histórico** (o "sin datos aún" si n<5).
+`ext_target`, `otro`) y añade su **win-rate histórico**. Convención única: `"sin datos aun"`
+(string) siempre que `n < 5`; nunca `null` ni `0` para "no medido".
 
 **Confianza por muestra** (no sobre-ajustes con pocos datos):
 - `n < 10` → el win-rate es informativo: se muestra, NO mueve el score ni el `verdict`.
@@ -410,6 +431,10 @@ una línea en `summary` pidiéndolo.
 - **`scale`**: parciales atados a niveles: "1/2 en POC 29500 y mueve a BE; resto a VAL 29430".
 - **`ifWrong`**: qué invalida RÁPIDO vs LENTO: "rápido: cierre 5m sobre 29674 → fuera; lento:
   solo mechas sin cierre → aguanta hasta 29690".
+- **`window`**: la ventana horaria CT en la que este setup se juega de verdad (cuándo estar en
+  la pantalla), p.ej. `"20:00-23:00 CT"` (Asia), `"02:00-05:00 CT"` (Londres), `"08:30-11:00
+  CT"` (primera parte de NY). Fuera de esa ventana la zona es solo referencia. Sale de
+  `models.<SYM>` (reparto por hora) y del `byHourCT` de la zona si tiene datos.
 
 ---
 
@@ -491,7 +516,8 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   causas, 3 lecciones concretas). El mismo texto se escribe en `reviews/<fecha_ayer>.md`.
 - `zones`: el objeto `zones` COMPLETO actualizado. Por cada zona calificada, en su clave
   `<instrumento>|<sesion>|<tipo>` incrementa `{proposed, reached, respected, failed}` y
-  recalcula `winRate = respected / max(1, reached)`, `n` (= reached) y estos agregados del
+  recalcula `winRate` (= `respected / max(1, reached)` si `n ≥ 5`, si no el string
+  `"sin datos aun"`), `n` (= reached) y estos agregados del
   detalle de reacción:
   - `ft`: distribución del seguimiento en ticks tras respetar → `{ p25, median, p75 }` (la
     `median` sustituye a la vieja media para fijar objetivos realistas).
@@ -601,6 +627,9 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "runType": "pre-asia",
   "generatedAt": "2026-08-31T16:31:00-05:00",
   "cleanest": "NQ",
+  "focus": { "sym": "NQ", "verdict": "GO", "setup": "A+ fade VAH 29655-29660",
+             "window": "20:00-23:00 CT", "trigger": "rechazo mecha+cierre 5m; o sweep 29672 y cierre 5m bajo VAH",
+             "invalid": "cierre 5m > 29674", "note": "a favor del corto en un nivel que ya rechazó; espera el rechazo, no lo anticipes" },
   "summary": ["NQ: …", "ES: …", "GC: …", "más limpio: NQ"],
   "alarm": null,
   "dataHealth": { "snapshot": "OK", "builtAtAgeMin": 4, "stale": [], "missing": [], "notes": "" },
@@ -636,7 +665,8 @@ Es el plan estructurado que pinta el Command Center. Schema:
                     "tgtUsd": 4100, "rr": 3.7, "flag": "OK", "maxContracts": 2 },
           "play": { "trigger": "FVG 1-5m + reclaim de 29657; o barrido de 29672 y cierre 5m bajo VAH",
                     "structStop": "sobre swing 29674 +3tk", "scale": "1/2 en POC 29500 y BE; resto a VAL 29430",
-                    "ifWrong": "rápido: cierre 5m sobre 29674 → fuera; lento: solo mechas → aguanta a 29690" } }
+                    "ifWrong": "rápido: cierre 5m sobre 29674 → fuera; lento: solo mechas → aguanta a 29690",
+                    "window": "20:00-23:00 CT" } }
       ],
       "noTradeZone": [29498, 29657],
       "expectedMove": { "low": 55, "base": 85, "high": 120, "lowTk": 220, "baseTk": 340, "highTk": 480,
@@ -668,6 +698,13 @@ llega. No metas zonas B ni tierra de nadie.
 `counterCase` y `predictions` van por instrumento (obligatorios, sección 3). `predictions` es
 la lista de afirmaciones falsables que la corrida `pre-asia` siguiente califica (sección 6).
 
+`focus` (obligatorio, top-level): la ÚNICA mejor oportunidad de los 3 instrumentos, destilada
+para leer en 5 segundos y para que el Command Center la pinte directa.
+`{ sym, verdict (GO|WAIT|AVOID), setup (tipo+nivel en una frase), window (ventana horaria CT),
+trigger (gatillo exacto), invalid (qué la mata), note (1 frase, casi siempre un recordatorio
+anti-fuga) }`. Es el `cleanest` con su mejor zona. Si NINGÚN instrumento tiene setup (todo
+WAIT sin zona a tiro), `focus.verdict` = "WAIT" y `note` = "hoy no hay nada, no fuerces".
+
 `alarm` (string o `null`): una sola línea, presente SOLO si se cumple al menos una de:
 (a) alguna `narrative` se rompió en esta corrida (`thesisAlign` CONFLICT + ruptura confirmada);
 (b) `dataHealth.snapshot` = "VIEJO" o hay fuentes en `missing`;
@@ -681,17 +718,21 @@ PRIMERA línea del `summary` y del `digest.txt`, con prefijo `!! `.
 
 ### Archivo `plans/digest.txt` · todas las corridas
 
-6-9 líneas, texto plano, para leer de un vistazo en el móvil. Formato exacto:
+7-10 líneas, texto plano, para leer de un vistazo en el móvil. **Cada línea ≤ 60 caracteres**
+(en un móvil más de eso envuelve y mata el "de un vistazo"): abrevia sin piedad
+(`corto`/`largo` no "sesgo bajista"; rangos `29502-35` no `29502-29535`; `EM 195p` sin ticks).
+Formato exacto:
 
 ```
 SA <RUN_TYPE> <fecha> <hora CT>
-!! <alarma>            ← SOLO si plan.alarm != null; si no, se omite esta línea
-NQ  <GO|WAIT|AVOID> · <sesgo sesión> · mejor: <tipo+dir de la A+ o "sin setup"> · EM base <p>p/<tk>t
-ES  <…>
-GC  <…>
-Limpio: <SYM>. <1 frase de la tesis del día>.
-Datos: <OK|VIEJO>. Noticias: <NINGUNA|MEDIA|ALTA>. Calendario: <tags o "-">.
-Precisión 20d: sesgo <NQ/ES/GC %>. Predicciones <rate global %>.
+!! <alarma>            ← SOLO si plan.alarm != null; si no, se omite
+>> <FOCUS.sym> <FOCUS.setup> · <FOCUS.window>   ← la línea que más importa
+NQ <GO|WAIT|AVOID> · <corto|largo|sin sesgo> · <tipo A+ o "sin setup"> · EM <p>p
+ES <…>
+GC <…>
+Limpio: <SYM>. <media frase>.
+Datos <OK|VIEJO> · Noticias <NINGUNA|MEDIA|ALTA> · Cal <tags o -> 
+Prec 20d: sesgo <%> · pred <%>   (o "sin datos aun")
 ```
 
 ### Archivo `live/heartbeat.json` · todas las corridas
@@ -764,10 +805,23 @@ los últimos ~12. Borra lo más viejo en el mismo write.
 - **Entrada por zona.** Cada zona A+ (y B en tabla) lleva `play` (`trigger` exacto, `structStop`,
   `scale`, `ifWrong`). Sin `play`, la zona no va a la tabla.
 - **Contra-caso OBLIGATORIO** en los 3 instrumentos (`counterCase`): el mejor argumento del lado
-  contrario + tu resolución. Sin él el plan del instrumento está incompleto.
+  contrario + una de 3 salidas explícitas (mantengo / mantengo pero degrado / GIRA). Tiene que
+  poder girar `biasSession`; si dos corridas seguidas del mismo instrumento lo resuelven
+  idéntico como "mantengo", revísalo. Sin él el plan del instrumento está incompleto.
 - **Predicciones falsables OBLIGATORIAS** en los 3 (`predictions`, 3-5 c/u, con `kind` y
-  `resolveAt`). Nada de afirmaciones no comprobables. La `pre-asia` siguiente las califica y
-  alimenta `predictionScore`; si `rate < 0.45` (n≥15) para un `kind`, sé más cauto con ese tipo.
+  `resolveAt`). Nada de afirmaciones no comprobables. **Al menos una por instrumento con
+  convicción real** (`prob ≥ 0.65` o `≤ 0.35`), o dilo explícito en `context`. La `pre-asia`
+  siguiente las califica y alimenta `predictionScore`; si `rate < 0.45` (n≥15) para un `kind`,
+  sé más cauto con ese tipo.
+- **`focus` OBLIGATORIO** (top-level): la única mejor oportunidad de los 3, `{ sym, verdict,
+  setup, window, trigger, invalid, note }`. Si no hay ningún setup, `verdict:"WAIT"` +
+  `note:"hoy no hay nada, no fuerces"`.
+- **Nombres de nivel.** Cada nivel de `keyLevels`/zonas se etiqueta con el campo del que sale
+  (PDH/PDL/PWH/PWL/DO/TDO de sus campos, ONH/ONL de `onh/onl`, IBH/IBL de `ibh/ibl`). Nunca
+  reetiquetes un valor de IB u overnight como pivote.
+- **`winRate`.** Una sola convención: string `"sin datos aun"` con `n < 5`; nunca `null` ni `0`.
+- **`window` en cada zona A+.** La ventana horaria CT en la que el setup se juega (sale del
+  reparto por hora de `models` / `byHourCT`). Fuera de ella la zona es solo referencia.
 - **Línea de alarma.** `plan.alarm` es una línea SOLO si hay tesis rota hoy, datos VIEJOS/fuente
   caída, precisión 20d bajo umbral (sesgo <0.45 · escenario A <0.30 · predicciones <0.40),
   calendario FOMC/NFP hoy, cron descalzado por DST, o es domingo (meta-semana). Si no, `null`
