@@ -20,7 +20,7 @@ working dir. Trabajas con archivos, no con HTTP.
 
 **Lees** (todos relativos a la raíz del repo):
 - `method/instructions.md` — este documento, la fuente de verdad.
-- `state/sa-state.json` — tu historial acumulado: `{ instructions, narrative, models:{NQ,ES,GC}, zones, scorecard, reviews:{<fecha>:md}, dayThesis:{<fecha>:md}, plans:{<fecha>-<sesion>:obj}, planLatest }`.
+- `state/sa-state.json` — tu historial acumulado: `{ instructions, settings, narrative, models:{NQ,ES,GC}, zones, scorecard, reviews:{<fecha>:md}, dayThesis:{<fecha>:md}, plans:{<fecha>-<sesion>:obj}, planLatest }`. `settings` = config de Jesus (p.ej. `dailyLossLimitUsd`); si falta, sigue sin ella. `scorecard` incluye los sub-objetos de calibración (sección 6).
 - `live/market.json` — `{ builtAt, feed, news }`. `feed` = lo de la sección 2 (NQ/ES/GC con orb/3reads/drbias/srzones/htfzones/command). `news` = calendario económico. Netlify lo refresca cada 5 min; si `builtAt` tiene >90 min en día hábil, márcalo "datos rezagados".
 
 **Escribes** (y luego haces `git add -A && git commit && git push`):
@@ -30,6 +30,9 @@ working dir. Trabajas con archivos, no con HTTP.
   (merge, no reemplazo): actualiza `narrative`, los `models` que cambiaron, `zones`,
   `scorecard`; añade la entrada nueva a `reviews`/`dayThesis`/`plans`; pon `planLatest`.
 - `reviews/<fecha>.md` — solo en `pre-asia`: la calificación del día que cerró (sección 6).
+- `plans/digest.txt` — resumen de 6-8 líneas para el móvil (sección 7), en cada corrida.
+- `live/heartbeat.json` — `{ lastRun, runType, ok, note }` al final de CADA corrida, aunque el
+  plan salga con asterisco. Sirve para detectar corridas caídas (lastRun > 8 h = algo falló).
 
 Si `git push` falla por credenciales, reintenta una vez; si sigue fallando, usa la
 **Contents API de GitHub** (`PUT https://api.github.com/repos/jesusreyna2016/session-analyst-bus/contents/<ruta>`
@@ -50,17 +53,22 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
    frescos, pero **NO vuelvas a incrementar `zones`/`scorecard` ni a re-contar la calificación de
    ayer** (doble conteo). Si nada material cambió, no toques nada y dilo en el resumen.
 3. Haz el análisis según `RUN_TYPE` (secciones 3-6), respetando lo que diga `dataHealth`.
-4. Escribe `plans/latest.json` + `plans/<fecha>-<RUN_TYPE>.json` (schema sección 7).
+4. Escribe `plans/latest.json` + `plans/<fecha>-<RUN_TYPE>.json` (schema sección 7) y
+   `plans/digest.txt` (sección 7).
 5. Aplica el merge sobre `state/sa-state.json` y escríbelo (sección 7). En `pre-asia`
-   escribe también `reviews/<fecha>.md`.
+   escribe también `reviews/<fecha>.md`. Actualiza los sub-objetos de calibración del
+   `scorecard` (sección 6) solo en `pre-asia`.
+5b. Escribe `live/heartbeat.json` = `{ lastRun: <ISO UTC>, runType: <RUN_TYPE>, ok: <true
+   salvo que el plan vaya con asterisco>, note: "<1 frase>" }`.
 6. Sube: `git add -A && git commit -m "sa <RUN_TYPE> <fecha>"`, luego bucle
    `git pull --rebase --autostash && git push` (hasta 6 intentos, `sleep 5` entre
    ellos: el cron de Netlify commitea `live/market.json` cada 5 min y el push rebota
    por non-fast-forward; como los archivos son disjuntos el rebase aplica limpio).
    Si tras 6 intentos falla y hay `$SA_BUS_TOKEN`, usa la Contents API (abajo).
    Verifica al final que `git log origin/main -1` es tu commit.
-7. Responde un resumen de 5-6 líneas (una por instrumento + "más limpio: X" + qué se
-   calificó si es `pre-asia`).
+7. Responde un resumen de 5-7 líneas (una por instrumento con su `verdict` + "más limpio: X" +
+   qué se calificó si es `pre-asia` + nota de sizing/límite diario si aplica + cualquier
+   CONFLICT de tesis o tag de calendario relevante). Es el mismo contenido que `plans/digest.txt`.
 
 | RUN_TYPE | Hora CT | Qué produce |
 |---|---|---|
@@ -75,6 +83,11 @@ Días: domingo `pre-asia` sí (reapertura Globex). Sábado (día CT) → no haga
 responde "sábado, sin corrida". Feriado = día normal con nota "sesión de feriado,
 poco volumen esperado". Si `live/market.json` tiene `builtAt` de hace >6 h en día
 hábil, dilo y haz el mejor plan posible marcándolo como "datos rezagados".
+
+Horario / DST: las rutinas se disparan por cron UTC calzado a CT. Si la hora de la corrida
+(la que trae el prompt como referencia) no cuadra con `RUN_TYPE` (p.ej. `pre-ny` corriendo
+a las 07:25 CT en vez de 08:25), es un cambio de horario de verano sin ajustar: haz la
+corrida igual, marca en el `summary` "cron descalzado por DST, ajustar" y sigue.
 
 ---
 
@@ -119,6 +132,10 @@ viejo lo que solo refleja mercado cerrado).
    3reads.context + drbias.bias). Cruza con `command.raw.dir`/`verdict`/`strength` (voz
    fusionada de mayor peso). Di si están **alineados o en conflicto** y con qué
    convicción (alta si 3+ fuentes coinciden). Menciona VIX/vixRank y régimen.
+   **Peso de fuentes**: si `scorecard.sourceReliability` marca una fuente como floja para este
+   instrumento/sesión (`n ≥ 10` y `rate < 0.45`), pésala a la MITAD en el sesgo y dilo
+   ("command 4/12 en GC pre-NY → medio peso"). Si `convictionCalibration` de este símbolo dice
+   que "alta" no bate a "media", para poner "alta" exige 4 fuentes coincidentes, no 3.
    **Prior del día anterior** (`prevDay`): clasifica el día que cerró con `command.dayType` /
    `orb.dayType` + dónde cerró vs su rango (hod/lod vs `drbias.pdc`):
    - `tendencia (alcista|bajista) cerrando en el extremo` → prior de **CONTINUACIÓN** en esa
@@ -143,6 +160,10 @@ viejo lo que solo refleja mercado cerrado).
    ya lo rellenó. Un gap sin rellenar es un imán: su borde (= `pdc`) es objetivo / nivel de
    reacción para los escenarios, más aún si el sesgo apunta hacia él. Escribe
    `gap: { pts, ticks, size, filled, note }`.
+   **Intermercado (solo GC)**: una línea cualitativa del contexto macro que el feed no trae,
+   dentro del `context` de GC: dirección del riesgo (usa VIX + ES como proxy: ES arriba y VIX
+   abajo = risk-on, suele pesar sobre el oro; risk-off lo apoya) y si hay dato de tipos o dólar
+   en `news`. Si no hay señal clara, dilo ("sin lectura macro clara").
    **Chequeo de continuidad** (`thesisAlign`, obligatorio en los 3, como `verdict`): compara
    el sesgo del día + el escenario primario de HOY contra la última entrada de `narrative` de
    ese instrumento y clasifica:
@@ -185,6 +206,12 @@ viejo lo que solo refleja mercado cerrado).
      = WAIT, `reason` nombra el evento ("NFP en 12 min, no operes el spike").
    - En `pre-asia`/`pre-london`, si la sesión que entra no tiene noticias pero la SIGUIENTE sí
      (dato NY fuerte), dilo en la tesis del día: "NY con ISM 09:00, plan corto hasta que asiente".
+   **Estructura del calendario** (`calendarContext`): marca si hoy / esta semana cae en:
+   semana de NFP (1er viernes del mes) · día o semana de FOMC · triple witching / OpEx (3er
+   viernes de mar/jun/sep/dic) · último día hábil del mes o del trimestre (flujos de
+   rebalanceo). Efecto: FOMC y NFP → trata el día como `newsRisk` ALTA aunque `news.events`
+   venga flojo; OpEx y fin de trimestre → EM +10-15 % y más mechas, fía menos de la dirección
+   intradía. Escribe `calendarContext: { tags: [...], note }` a nivel de plan.
 9. **Veredicto de un vistazo** (`verdict`): un semáforo por instrumento que PROTEGE la
    disciplina de Jesus. Su edge es CONFLUENCIA a favor del sesgo en un nivel mapeado con
    gatillo (sección 4). Prioridad **AVOID > WAIT > GO** (ante la duda, WAIT):
@@ -312,6 +339,23 @@ el `verdict` baja a WAIT y el `reason` lo dice ("A+ pero R:R 1.1, no compensa").
 en el `summary` cuando la sesión tenga setup: "1 stop de NQ ≈ $Xt/contrato; 3 seguidos = $3X — mídelo
 contra tu límite diario". No des `GO` a una zona con `rr` < 1.5.
 
+**Sizing vs límite diario**: si `state/sa-state.json` trae `settings.dailyLossLimitUsd`, cada zona
+lleva `risk.maxContracts` = `floor(dailyLossLimitUsd / stopUsd / 3)` (deja margen para 3 intentos),
+mínimo 0. Si sale 0 → la zona es intocable con ese stop, dilo. `summary`: "límite $X ⇒ máx N minis
+en la mejor A+ (stop $Y); 3 stops seguidos = tu día". Sin `settings.dailyLossLimitUsd` →
+`maxContracts: null` y una línea en `summary` pidiéndolo.
+
+### Plan de entrada por zona (campo `play` de cada zona A+, y B si entra a la tabla)
+
+- **`trigger`**: el patrón de confirmación EXACTO, nunca "esperar que aguante". Ej.: "FVG de
+  1-5m + reclaim del borde 29657; o barrido de 29672 y cierre 5m de vuelta bajo VAH". Prohibido
+  market al toque (fuga #1 · anticipar).
+- **`structStop`**: dónde va el stop respecto a ESTRUCTURA, no al borde de la zona: "sobre el
+  swing 29674 + 3 tk". Su distancia debería casar con `risk.stopPts`.
+- **`scale`**: parciales atados a niveles: "1/2 en POC 29500 y mueve a BE; resto a VAL 29430".
+- **`ifWrong`**: qué invalida RÁPIDO vs LENTO: "rápido: cierre 5m sobre 29674 → fuera; lento:
+  solo mechas sin cierre → aguanta hasta 29690".
+
 ---
 
 ## 5 · Estimado de movimiento de la sesión
@@ -324,8 +368,10 @@ contra tu límite diario". No des `GO` a una zona con `rr` < 1.5.
    hasta tener % medido en `models.*`. Usa el medido cuando exista.
 3. **Rango restante del día** = presupuesto − recorrido (`rangeToday`/`rangeNow`/`command.raw.dayRangePts`; contrasta con `command.raw.remPts` y `atrPctUsed`).
 4. **Salida por instrumento**:
-   - Rango esperado de la sesión: **baja / base / alta** en puntos y ticks (base = reparto;
-     baja = base×0.65, alta = base×1.4)
+   - **Corrección de calibración**: si `scorecard.emCalibration["<SYM>|<sesion>"]` tiene
+     `n ≥ 10`, multiplica base/baja/alta por su `mult` (0.7–1.4) y anótalo (`expectedMove.mult`).
+   - Rango esperado de la sesión: **baja / base / alta** en puntos y ticks (base = reparto ×
+     mult; baja = base×0.65, alta = base×1.4)
    - Rango del día: recorrido vs presupuesto (%) y restante en puntos/ticks
    - Bandera: `EXPANSIÓN` (recorrido <45 % y no agotado) · `EN CURSO` · `AGOTADO` (>85 %)
 
@@ -350,6 +396,14 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   (rebote·rechazo·ruptura) / falló`. Cuenta hits y misses.
 - **Niveles**: cuáles se tagearon, cuáles aguantaron
 - **Narrativa**: sigue viva / evolucionó / se rompió, y por qué
+- **Régimen**: ¿siguió igual (chop/balance/tendencia) o cambió? actualiza el contador de
+  sesiones-en-este-régimen
+- **Fuentes**: de las 6, ¿cuáles clavaron la dirección NETA de la sesión y cuáles no?
+  (alimenta `sourceReliability`)
+- **Convicción**: la etiqueta que pusiste (alta/media/baja) ¿acertó el sesgo? (alimenta
+  `convictionCalibration`)
+- **Oportunidad perdida**: ¿algún instrumento que dejaste en WAIT/AVOID tenía una A+ propia
+  que SÍ reaccionó y dio ≥ 1R? (alimenta `missedOps`)
 - **Causa del fallo** (clasifica cada uno): `sesgo_mal_leido` · `noticia_no_anticipada` ·
   `cambio_de_regimen` · `zona_sin_confluencia_real` · `EM_mal_calibrado` · `narrativa_rota` ·
   `ejecucion_del_dato` (indicador dio dato tarde/erróneo)
@@ -375,8 +429,11 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
 - `narrative`: primero decide si el día CONFIRMÓ / EVOLUCIONÓ / ROMPIÓ la tesis vigente de cada
   instrumento (cruza con las causas de fallo de arriba). Luego reescribe la tesis como
   `Continuidad: <daysHeld> días · <confirmada | evolucionó el <fecha>: <qué cambió> | reiniciada
-  el <fecha> tras romperse: <causa>>` + `estado (acumulación/distribución/tendencia/rango) +
-  ubicación vs niveles HTF + qué esperas 1-3 días + qué lo confirma / qué lo invalida`.
+  el <fecha> tras romperse: <causa>>` + `Régimen: <chop|balance|tendencia up|tendencia dn|
+  transición> · <N sesiones así> · <qué esperar> (ej. "5ª sesión de balance → sube prob. de
+  expansión"; "3er día de tendencia → riesgo de agotamiento/reversión")` + `estado
+  (acumulación/distribución/tendencia/rango) + ubicación vs niveles HTF + qué esperas 1-3 días
+  + qué lo confirma / qué lo invalida`.
   - Confirmada o evolucionó → `daysHeld` += 1. Rota (rompió) → la entrada nueva ES la tesis
     nueva y `daysHeld` vuelve a 1, con la causa de ruptura anotada.
   Fecha cada entrada. Conserva 1-2 entradas previas, borra lo más viejo. Manda el documento
@@ -384,7 +441,27 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   `thesisAlign.daysHeld`.)
 - `scorecard`: el objeto completo con tallies rodantes (20 y 60 días) de: acierto de sesgo %,
   hit-rate escenario A, hit-rate A o B, error medio de EM en ticks, hit-rate de zonas. Por
-  instrumento y por sesión.
+  instrumento y por sesión. **Más los sub-objetos de calibración de abajo.**
+
+### Calibración · sub-objetos de `scorecard` (solo `pre-asia` los toca)
+
+- **`sourceReliability`**: `{ "<SYM>|<sesion>|<fuente>": { calls, hits, rate, n } }`. Cada
+  review, por instrumento/sesión, +1 `calls` a cada una de las 6 fuentes y +1 `hits` si su
+  dirección/bias coincidió con la dirección NETA realizada de esa sesión. `rate = hits/max(1,
+  calls)`, `n = calls`. → lo aplica la sección 3.1 (fuente floja = medio peso).
+- **`emCalibration`**: `{ "<SYM>|<sesion>": { n, meanErrTk, biasTk, mult } }`. `biasTk` = media
+  con signo de (realizado − predicho_base) en ticks. Con `n ≥ 10`: `mult = clamp(media_realizado
+  / media_predicho_base, 0.7, 1.4)`. → lo aplica la sección 5.4.
+- **`convictionCalibration`**: `{ "<SYM>": { alta:{n,hits,rate}, media:{…}, baja:{…} } }` sobre
+  acierto de sesgo. Si con `n ≥ 15` el `rate` de "alta" no supera al de "media" por ≥ 10 pts →
+  anótalo en `models` y la sección 3.1 sube el listón de "alta" a 4 fuentes.
+- **`missedOps`**: `{ "<SYM>|<sesion>": { waitAvoid, wouldvePaid, rate } }`. +1 `waitAvoid` cada
+  vez que el veredicto fue WAIT/AVOID; +1 `wouldvePaid` si además una A+ del propio plan dio
+  ≥ 1R. Si `rate > 0.35` con `n ≥ 10` → el agente es demasiado conservador ahí: anótalo en
+  `models` y afloja SOLO el criterio de WAIT por "sin zona a tiro" / "sesgo débil" para ese
+  instrumento/sesión (nunca el de chop, no-trade ni noticias).
+
+Poda: cada sub-objeto guarda ventana rodante de ~60 días; borra lo más viejo en el mismo write.
 
 ---
 
@@ -403,6 +480,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "cleanest": "NQ",
   "summary": ["NQ: …", "ES: …", "GC: …", "más limpio: NQ"],
   "dataHealth": { "snapshot": "OK", "builtAtAgeMin": 4, "stale": [], "missing": [], "notes": "" },
+  "calendarContext": { "tags": ["semana-NFP"], "note": "NFP viernes; día tratado como newsRisk ALTA" },
   "newsRisk": { "level": "ALTA", "session": "ny",
     "events": [ { "title": "ISM Manufacturing PMI", "ct": "09:00", "impact": "high", "handsOff": "08:45-09:10" } ],
     "note": "no operar los primeros 30 min de NY hasta que asiente el dato" },
@@ -423,11 +501,14 @@ Es el plan estructurado que pinta el Command Center. Schema:
         { "range": [29655, 29660], "dir": "SHORT", "type": "fade_vah", "confluence": 6,
           "distPts": 12.5, "distTicks": 50, "winRate": 0.67, "n": 9,
           "risk": { "stopPts": 14, "stopTk": 56, "stopUsd": 280, "tgtPts": 205, "tgtTk": 820,
-                    "tgtUsd": 4100, "rr": 3.7, "flag": "OK" } }
+                    "tgtUsd": 4100, "rr": 3.7, "flag": "OK", "maxContracts": 2 },
+          "play": { "trigger": "FVG 1-5m + reclaim de 29657; o barrido de 29672 y cierre 5m bajo VAH",
+                    "structStop": "sobre swing 29674 +3tk", "scale": "1/2 en POC 29500 y BE; resto a VAL 29430",
+                    "ifWrong": "rápido: cierre 5m sobre 29674 → fuera; lento: solo mechas → aguanta a 29690" } }
       ],
       "noTradeZone": [29498, 29657],
       "expectedMove": { "low": 55, "base": 85, "high": 120, "lowTk": 220, "baseTk": 340, "highTk": 480,
-                        "dayBudget": 310, "dayUsed": 90, "dayUsedPct": 29, "dayRemaining": 220, "flag": "EXPANSIÓN" },
+                        "dayBudget": 310, "dayUsed": 90, "dayUsedPct": 29, "dayRemaining": 220, "flag": "EXPANSIÓN", "mult": 1.0 },
       "keyLevels": [ { "name": "VAH", "price": 29659.79, "distPts": 12.4, "distTicks": 50 } ],
       "news": [ { "title": "…", "ct": "…", "handsOff": ["…", "…"] } ]
     },
@@ -451,6 +532,25 @@ actual de cada símbolo. `kind` ∈ `zoneA` (zonas A+ de la tabla) · `invalidat
 cada `invalidation`) · `gapEdge` (borde de un gap sin rellenar). Es lo que un aviso (widget del
 Command Center o alerta de TradingView sembrada) usa para tocar el hombro cuando el precio
 llega. No metas zonas B ni tierra de nadie.
+
+### Archivo `plans/digest.txt` · todas las corridas
+
+6-8 líneas, texto plano, para leer de un vistazo en el móvil. Formato exacto:
+
+```
+SA <RUN_TYPE> <fecha> <hora CT>
+NQ  <GO|WAIT|AVOID> · <sesgo sesión> · mejor: <tipo+dir de la A+ o "sin setup"> · EM base <p>p/<tk>t
+ES  <…>
+GC  <…>
+Limpio: <SYM>. <1 frase de la tesis del día>.
+Datos: <OK|VIEJO>. Noticias: <NINGUNA|MEDIA|ALTA>. Calendario: <tags o "-">.
+```
+
+### Archivo `live/heartbeat.json` · todas las corridas
+
+`{ "lastRun": "<ISO UTC>", "runType": "<RUN_TYPE>", "ok": <bool>, "note": "<1 frase>" }`.
+`ok` = false si el plan salió con asterisco (datos viejos, fuente caída, no se pudo escribir el
+bus). Un consumidor externo avisa si `lastRun` tiene > 8 h en día hábil.
 
 ### Merge sobre `state/sa-state.json`
 
@@ -505,8 +605,17 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   bordes de gap. Ordenada por cercanía. Solo A+, invalidaciones y `gapEdge`.
 - **Aprendizaje con freno.** Win-rate con `n < 10` no mueve el `verdict`; con `n ≥ 10` sí
   (baja la zona si `winRate < 0.40`). No inventes histórico: si no hay datos, "sin datos aún".
+- **Calibración.** Aplica `sourceReliability` (sección 3.1), `emCalibration.mult` (sección 5.4)
+  y el listón de convicción de `convictionCalibration` (sección 3.1) SOLO cuando el `n` de cada
+  uno llega al umbral. Los sub-objetos de calibración se tocan solo en `pre-asia`.
+- **Entrada por zona.** Cada zona A+ (y B en tabla) lleva `play` (`trigger` exacto, `structStop`,
+  `scale`, `ifWrong`). Sin `play`, la zona no va a la tabla.
+- **Sizing.** Si hay `settings.dailyLossLimitUsd`, cada zona lleva `risk.maxContracts`; si no,
+  `null` y una línea en `summary` pidiéndolo.
+- **`calendarContext` siempre.** FOMC / NFP → el día es `newsRisk` ALTA aunque `news` venga flojo.
+- **Salidas fijas.** Toda corrida escribe además `plans/digest.txt` y `live/heartbeat.json`.
 - **No dupliques.** Si es un re-disparo de `pre-asia` para un día ya calificado, refresca el
-  plan si acaso pero NO re-cuentes `zones`/`scorecard`.
+  plan si acaso pero NO re-cuentes `zones`/`scorecard` ni los sub-objetos de calibración.
 - Cierra siempre con `git push` (o Contents API si falla). Si no pudiste escribir el bus,
   dilo claro en el resumen: el Command Center se quedaría con el plan anterior.
 - JSON válido en `plans/*.json` y `state/sa-state.json` (sin comentarios, sin comas colgantes).
