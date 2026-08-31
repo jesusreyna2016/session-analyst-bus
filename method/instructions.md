@@ -121,6 +121,23 @@ viejo lo que solo refleja mercado cerrado).
    convicción (alta si 3+ fuentes coinciden). Menciona VIX/vixRank y régimen.
 2. **Contexto**: dónde está el precio en el perfil (vs VAH/POC/VAL, premium/discount,
    golden zone), qué hizo la sesión anterior, y la tesis multi-día vigente de `narrative`.
+   **Chequeo de continuidad** (`thesisAlign`, obligatorio en los 3, como `verdict`): compara
+   el sesgo del día + el escenario primario de HOY contra la última entrada de `narrative` de
+   ese instrumento y clasifica:
+   - **ALIGN**: el día empuja en la misma dirección que la tesis de fondo y el precio sigue
+     donde la tesis lo anticipaba. Cuenta como confluencia (la tesis lleva `daysHeld` días
+     viva); la convicción puede subir.
+   - **EVOLVING**: la tesis sigue en pie pero un supuesto cambió (nivel clave tageado, VIX
+     saltó, régimen mutando). No la rompe, pide reescritura. Convicción tope "media"; nombra
+     en `note` qué confirmaría la evolución.
+   - **CONFLICT**: el sesgo del día o el escenario primario van CONTRA la dirección de la
+     tesis de fondo, o el precio ya tocó lo que la tesis marcaba como invalidación. Es terreno
+     de las fugas #1 (anticipar) y #2 (contra el sesgo mayor): la convicción NO puede ser
+     "alta" y el `verdict` NO es GO, salvo que el setup sea una reversión limpia en zona A+
+     (score ≥ 6) JUSTO en el nivel que la propia tesis marca como su invalidación (operas la
+     ruptura confirmada de la tesis de fondo, no la anticipas). Si el choque es "el día quiere
+     ir contra la tesis y el precio está en tierra de nadie" → AVOID.
+   Escribe `thesisAlign: { state, daysHeld, note }` por instrumento (`note` = una línea).
 3. **Escenarios**:
    - **A (primario)**: qué esperas, disparador (nivel + condición), objetivo, en qué zona se entra a favor.
    - **B (alterno)**: el segundo camino más probable y su disparador.
@@ -313,10 +330,16 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   - "ES: fade_vah a favor del sesgo bajista = 71 % (n=14), en contra = 33 %"
   Mantén una sección "Reparto de rango por sesión (medido)" con % reales cuando n≥10, y
   "Patrones" para lo demás. Poda lo desmentido. Manda solo los modelos que cambiaron.
-- `narrative`: reescribe la tesis de cada instrumento como `estado (acumulación/distribución/
-  tendencia/rango) + ubicación vs niveles HTF + qué esperas 1-3 días + qué lo confirma / qué
-  lo invalida`. Fecha cada entrada. Conserva 1-2 entradas previas, borra lo más viejo. Manda
-  el documento completo.
+- `narrative`: primero decide si el día CONFIRMÓ / EVOLUCIONÓ / ROMPIÓ la tesis vigente de cada
+  instrumento (cruza con las causas de fallo de arriba). Luego reescribe la tesis como
+  `Continuidad: <daysHeld> días · <confirmada | evolucionó el <fecha>: <qué cambió> | reiniciada
+  el <fecha> tras romperse: <causa>>` + `estado (acumulación/distribución/tendencia/rango) +
+  ubicación vs niveles HTF + qué esperas 1-3 días + qué lo confirma / qué lo invalida`.
+  - Confirmada o evolucionó → `daysHeld` += 1. Rota (rompió) → la entrada nueva ES la tesis
+    nueva y `daysHeld` vuelve a 1, con la causa de ruptura anotada.
+  Fecha cada entrada. Conserva 1-2 entradas previas, borra lo más viejo. Manda el documento
+  completo. (`daysHeld` vive dentro del propio texto de `narrative`; el plan lo copia a
+  `thesisAlign.daysHeld`.)
 - `scorecard`: el objeto completo con tallies rodantes (20 y 60 días) de: acierto de sesgo %,
   hit-rate escenario A, hit-rate A o B, error medio de EM en ticks, hit-rate de zonas. Por
   instrumento y por sesión.
@@ -344,6 +367,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "instruments": {
     "NQ": {
       "biasDay": "SHORT", "biasSession": "SHORT", "biasAligned": true, "conviction": "alta",
+      "thesisAlign": { "state": "ALIGN", "daysHeld": 3, "note": "el día confirma la distribución de fondo; precio aún bajo PDH" },
       "verdict": { "signal": "GO", "reason": "borde VAH a favor del corto, confluencia 6 (perfil+EMA50+VWAP+sweep PDH+sesión)" },
       "context": "…",
       "scenarioA": { "text": "…", "trigger": "…", "target": 29450, "entryZone": [29655, 29660] },
@@ -381,6 +405,10 @@ Lee el objeto, aplica cambios, escríbelo entero. Campos:
   `reviews["<hoy>"]` entero añadiendo el cierre parcial de la sesión que terminó (si no
   existe, créalo); añade `plans["<hoy>-<RUN_TYPE>"]`; pon `planLatest`; toca `models`/
   `zones`/`scorecard`/`narrative` solo si algo material cambió.
+  **Excepción `narrative`**: si `thesisAlign.state`=CONFLICT en esta corrida intradía Y el
+  precio confirmó la ruptura (cierre de la sesión que terminó más allá del nivel de
+  invalidación de la tesis), reescribe `narrative` de ese instrumento aquí mismo (tesis
+  nueva, `daysHeld`=1, causa) y anótalo en el `Update` de `dayThesis`.
 
 Poda: `reviews` conserva los últimos ~10 por fecha, `dayThesis` los últimos ~5, `plans`
 los últimos ~12. Borra lo más viejo en el mismo write.
@@ -403,6 +431,10 @@ los últimos ~12. Borra lo más viejo en el mismo write.
 - **`verdict` es OBLIGATORIO en los 3 instrumentos** (`{signal: GO|WAIT|AVOID, reason: "..."}`),
   nunca `null`. El `reason` nombra la confluencia concreta (para GO) o la fuga que evita (para
   WAIT/AVOID: chop/tierra de nadie, precio estirado, contra el sesgo de mayor peso).
+- **Continuidad de tesis.** Si el día CHOCA con la narrativa multi-día (`thesisAlign.state`
+  =CONFLICT), la convicción no pasa de "media" y no hay GO salvo reversión confirmada en zona
+  A+ sobre el nivel de invalidación de la propia tesis. Nombra el choque en el `reason` del
+  `verdict` y en el `summary`. `thesisAlign` es OBLIGATORIO en los 3 instrumentos.
 - **Datos viejos = plan con asterisco.** Corre el chequeo de frescura (sección 2) ANTES de
   analizar. Si `dataHealth.snapshot` es "VIEJO" o hay fuentes en `stale`/`missing`, ponlo en la
   primera línea del `summary` y no des un "GO" apoyado en una fuente vieja.
