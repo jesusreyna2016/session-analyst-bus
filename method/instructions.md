@@ -126,7 +126,9 @@ viejo lo que solo refleja mercado cerrado).
 - **drbias.raw**: `bias` (Bullish/Bearish/Neutral), `zone` (Premium/Discount/Equilibrium), `bullScore`/`bearScore`, `setup`, `setupGo`, `opTarget`/`opInval`/`opR`, `tradeActive`/`tradeTarget`/`tradeInval`/`tradeR`, `hitTarget`/`hitInval`, `hod`/`lod`, `rangeNow`/`rangeNowTk`, `atrD`/`atrDtk`, `atrPct`, `remATR`/`remATRtk`, `rvol`, `vix`/`vixRegime`, `stretchAtr`, `emaBull`/`emaBear`, `dayType`, `vwap`, `pdMid`, `pdh/pdl/pdc/pwh/pwl/open`, `poc/vah/val`, `zDisc`/`zPrem`, `plan` (texto).
 - **srzones.raw**: `zones` = `TF:R|S:lo:hi;…` (R=resistencia, S=soporte), `fvg` = `TFlabel:bull|bear:lo:hi;…`, `resBroken`/`supBroken`, `vwap`.
 - **htfzones.raw**: `biasChart`/`biasHTF`/`biasD`/`biasW` (score, ≥2 alcista, ≤-2 bajista), `aligned`, `dayPlanDir` (LONG/SHORT/MIXTO), `structure` (up/dn/nd), `adr`/`adrTk`, `rangeToday`, `adrPct`, `dayOpen`/`weekOpen`, `pdh/pdl/pwh/pwl`, `premZone`/`discZone`/`eqZone`/`goldenZone`/`demandZone`/`supplyZone`/`liqUp`/`liqDn` (todas `lo:hi`).
-- **command.raw** (síntesis · el sesgo YA fusionado del all-in-one, úsalo como voz de mayor peso y para contrastar contra las 4 fuentes crudas): `biasScore` (score ponderado EMA+VWAP+DayOpen+estructura+FVG+confluencia NQ/ES+HTF), `dir` (LONG/SHORT/NEUTRAL), `strength` (FUERTE/MODERADO/DEBIL), `verdict` (veredicto Portero: NO-TRADE·CHOP / BUSCANDO LONG|SHORT / …·lejos de nivel / ESPERAR·NEUTRAL), `chop`/`trend`/`chopIdx`, `nearName` (nivel edge más cercano: PDH/PDL/POC/VAH/VAL actual o previo), `nearTk` (distancia en ticks), `nearLevel` (1 si está pegado a un edge), `goLong`/`goShort` (gate sesgo+régimen+ubicación), `permisoLong`/`permisoShort` (gate anterior + ventana de sesión válida), `dayType` (Balance/Día de tendencia/Aceptación al alza|baja), `stretchAtr`/`stretchTxt` (distancia a VWAP en ATR), `lastSig`/`lastSigAgo` (último gatillo y hace cuántas velas), `inAsia`/`inLon`/`inNy`, `pdh/pdl/pwh/pwl/dayOpen/tdo/poc/vah/val/ema20/ema50/ema200/vwap/orH/orL`, `disc25`/`mid50`/`prem75` (zonas 25/50/75 del rango previo), `dayRangePts`/`atrPctUsed`/`remPts`/`dayATR` (presupuesto de rango: recorrido, % ATR usado, saldo en ticks), `vix`, `biasOpen`/`sesgoDir` (sesgo al abrir la OR). Si `command` está pero contradice a 3+ fuentes crudas, gana el consenso crudo y anótalo.
+- **command.raw** (síntesis · el sesgo YA fusionado del all-in-one, úsalo como voz de mayor peso y para contrastar contra las 4 fuentes crudas): `biasScore` (score ponderado EMA+VWAP+DayOpen+estructura+FVG+confluencia NQ/ES+HTF), `dir` (LONG/SHORT/NEUTRAL), `strength` (FUERTE/MODERADO/DEBIL), `verdict` (veredicto Portero: NO-TRADE·CHOP / BUSCANDO LONG|SHORT / …·lejos de nivel / ESPERAR·NEUTRAL), `chop`/`trend`/`chopIdx`, `nearName` (nivel edge más cercano: PDH/PDL/POC/VAH/VAL actual o previo), `nearTk` (distancia en ticks), `nearLevel` (1 si está pegado a un edge), `goLong`/`goShort` (gate sesgo+régimen+ubicación), `permisoLong`/`permisoShort` (gate anterior + ventana de sesión válida), `dayType` (Balance/Día de tendencia/Aceptación al alza|baja), `stretchAtr`/`stretchTxt` (distancia a VWAP en ATR), `lastSig`/`lastSigAgo` (último gatillo y hace cuántas velas), `inAsia`/`inLon`/`inNy`, `pdh/pdl/pwh/pwl/dayOpen/tdo/poc/vah/val/ema20/ema50/ema200/vwap/orH/orL`, `disc25`/`mid50`/`prem75` (zonas 25/50/75 del rango previo), `dayRangePts`/`atrPctUsed`/`remPts`/`dayATR` (presupuesto de rango: recorrido, % ATR usado, saldo en ticks), `vix`, `biasOpen`/`sesgoDir` (sesgo al abrir la OR).
+  **Referencia extra** (parche 31 ago): `onh`/`onl` (rango overnight = Globex 17:00 CT a apertura RTH, congelado), `ibh`/`ibl` (Initial Balance = 1ª hora del RTH) + `ibBrk` (`up`/`dn`/`none`, ruptura del IB ya congelado), `mOpen` (apertura del mes en curso), `pmh`/`pml` (H/L del mes previo). Y `touchlog`: string del día con los niveles ya tocados, grupos `NOMBRE:nToques:maxWickTicks:reclaim` unidos por `~` (nombres: VAH POC VAL PDH PDL PWH PWL DO TDO ONH ONL IBH IBL). `maxWickTicks` = perforación máxima del nivel en ticks; `reclaim` = 1 si en algún toque el precio cerró de vuelta del lado de origen. Es la fuente directa del índice de toque y del wick-through en la sección 6 (no reconstruyas eso del hod/lod).
+  Si `command` está pero contradice a 3+ fuentes crudas, gana el consenso crudo y anótalo.
 
 ---
 
@@ -194,7 +196,11 @@ viejo lo que solo refleja mercado cerrado).
 5. **Estimado de movimiento de la sesión** (sección 5).
 6. **Zona de no-trade**: `orb.noTradeZone` + tierra de nadie entre niveles.
 7. **Niveles en juego**: lista con precio y **distancia desde el precio actual en puntos
-   y ticks**, ordenados por cercanía.
+   y ticks**, ordenados por cercanía. Incluye, además del perfil y pivotes, los de referencia
+   extra de `command.raw`: **ONH/ONL** (rango overnight), **IBH/IBL** (Initial Balance) y, si
+   están a tiro, **apertura mensual** y **H/L del mes previo**. Marca cuáles ya se tocaron hoy
+   con su nº de toques (de `touchlog`): un nivel que aguantó el 1er test pero lleva 2-3 toques
+   es más frágil.
 8. **Noticias** (de `news.events`; `ts` es epoch ms → conviértelo a CT). Por cada evento de
    alto impacto (o medio USD) que caiga en la sesión o en los ~45 min previos: título, hora CT
    y ventana de **manos fuera** (alto = −15 / +10 min · medio USD = −5 / +5). Clasifica el
@@ -281,12 +287,14 @@ conflicto).
 Junta candidatas de todas las fuentes: bordes del perfil VAH/POC/VAL (el edge de Jesus),
 zonas S/R multi-TF y FVG/iFVG (srzones), oferta/demanda/liquidez/golden/premium/discount
 (htfzones), extensiones del rango previo (3reads exU/exD), PDH/PDL/PWH/PWL, day open,
-VWAP, PD Mid.
+VWAP, PD Mid, **ONH/ONL** (rango overnight), **IBH/IBL** (Initial Balance del RTH),
+**apertura mensual** y **H/L del mes previo** (`command.raw` referencia extra).
 
 **Score de confluencia** (el EDGE COMPLETO de Jesus, suma; una A+ toca varios a la vez):
 - +2 a favor del sesgo de sesión Y del de mayor peso (`command.dir`)
 - +1 nivel de perfil en la zona: VAH / POC / VAL (actual o previo)
-- +1 pivote en la zona: PDH / PDL / PWH / PWL / DO / TDO
+- +1 pivote en la zona: PDH / PDL / PWH / PWL / DO / TDO / ONH / ONL / IBH / IBL / apertura
+  mensual / H-L mes previo
 - +1 EMA 20 en la zona · +1 EMA 50 en la zona (`command.ema20`/`ema50`, ±5 ticks)
 - +1 VWAP en la zona
 - +1 FVG / iFVG solapado (`srzones.fvg`); +1 extra si es del TF de la sesión o mayor
@@ -323,6 +331,8 @@ para no inflar la clasificación.
 Cruza el **tipo de zona** con `zones` (clave `<instrumento>|<sesion>|<tipo>`; tipos:
 `fade_vah`, `fade_val`, `poc_reversion`, `poc_breakout`, `bounce_val`, `bounce_vah`,
 `sweep_pdh`, `sweep_pdl`, `sweep_pwh`, `sweep_pwl`, `sweep_asiaH`, `sweep_asiaL`,
+`sweep_onh`, `sweep_onl` (barrida del extremo overnight), `ib_fade` (rechazo del borde del
+Initial Balance de vuelta al centro), `ib_break` (ruptura y continuación del IB),
 `liq_reclaim` (barrida + reclaim), `asia_range_break`, `golden_zone`, `supply`, `demand`,
 `ext_target`, `otro`) y añade su **win-rate histórico** (o "sin datos aún" si n<5).
 
@@ -432,7 +442,10 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   (rebote·rechazo·ruptura) / falló`. Cuenta hits y misses.
 - **Reacción en la zona (detalle)**: por cada zona que LLEGÓ, registra:
   - **hora CT del primer toque** (para el corte por hora de sesión)
-  - **índice de toque**: ¿fue el 1er, 2º o 3er+ test de ese nivel en la sesión?
+  - **índice de toque** y **wick-through en ticks**: sácalos de `command.raw.touchlog` de ese
+    día (grupo `NOMBRE:nToques:maxWickTicks:reclaim`) cuando el nivel de la zona esté ahí; si
+    no está en `touchlog`, recae en hod/lod. `nToques` = índice de toque; `maxWickTicks`
+    alimenta también el `maeTk` si el nivel era el borde de la zona.
   - **llegada**: `command.stretchAtr` al tocar → `calmada` (<1.5) o `estirada` (≥2). Llegada
     impulsiva suele hacer overshoot.
   - **MFE y MAE en ticks desde el toque**: cuánto fue a favor y, sobre todo, **cuánto fue en
