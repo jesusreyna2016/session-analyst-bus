@@ -11,6 +11,13 @@ entradas. No hay journal ni portero aquí: esto es puramente técnico.
 Formato de todo texto: español, directo, sin guión largo (usa coma, punto o ·).
 Números de precio con los decimales del instrumento. Distancias siempre en **puntos
 y ticks**.
+**Prosa legible en los campos que lee Jesus** (`summary`, `focus`, `context`, `dayThesis`,
+`counterCase`, `narrative`, `reviews`): NUNCA nombres crudos de campos del feed. Traduce el
+concepto: `struct` → "la estructura de precio"; `htf1`/`htf2` → "el marco de 1h / 4h";
+`weeklyDir` → "la dirección semanal"; `htfzones.biasW=3` → "el sesgo semanal de las zonas
+altas (todavía alcista)"; `biasScore`/`stretchAtr`/`chopIdx` → descríbelo en palabras con el
+número entre paréntesis si hace falta. Los nombres de campo solo valen en `dataHealth.notes` y
+en notas técnicas internas, no en el plan que se lee.
 
 ## Transporte: el repo bus (NO hay red a tradedadlog.com)
 
