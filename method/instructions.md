@@ -125,7 +125,8 @@ viejo lo que solo refleja mercado cerrado).
    - **A (primario)**: qué esperas, disparador (nivel + condición), objetivo, en qué zona se entra a favor.
    - **B (alterno)**: el segundo camino más probable y su disparador.
    - **Invalidación**: qué precio o cierre mata la narrativa del día.
-4. **Zonas de alta probabilidad** (sección 4).
+4. **Zonas de alta probabilidad** (sección 4), cada una con su `risk` (stop, objetivo, R:R en
+   puntos/ticks/$ por contrato).
 5. **Estimado de movimiento de la sesión** (sección 5).
 6. **Zona de no-trade**: `orb.noTradeZone` + tierra de nadie entre niveles.
 7. **Niveles en juego**: lista con precio y **distancia desde el precio actual en puntos
@@ -216,10 +217,30 @@ Cruza el **tipo de zona** con `zones` (clave `<instrumento>|<sesion>|<tipo>`; ti
 
 Tabla por instrumento, rankeada por score y luego win-rate (máx 5):
 
-| Zona (rango) | Dir | Tipo | Confluencia | Dist (pts / ticks) | Win-rate hist |
-|---|---|---|---|---|---|
+| Zona (rango) | Dir | Tipo | Confluencia | Dist (pts / ticks) | R:R | Win-rate hist |
+|---|---|---|---|---|---|---|
 
 La zona de no-trade va aparte, nunca en la tabla.
+
+### Riesgo por zona (campo `risk` de cada zona)
+
+Para cada zona de la tabla calcula el objeto `risk` (por **1 contrato full**; micro = / 10):
+- **`stopPts`** = |borde de la zona − invalidación| + colchón chico (2–4 ticks). `stopTk` = `stopPts`/tick.
+  `stopUsd` = `stopTk` × valor del tick ($5 NQ · $12.50 ES · $10 GC).
+- **`tgtPts`** = |entrada − objetivo|, siendo el objetivo el de `scenarioA` o el siguiente nivel
+  opuesto realista en la dirección del trade (POC, VAL/VAH, pivote, ext). `tgtTk`, `tgtUsd` igual.
+- **`rr`** = `tgtPts` / `stopPts` (1 decimal).
+- **`flag`**:
+  - `OBJETIVO_BLOQUEADO` si hay un nivel fuerte en contra entre la entrada y el objetivo dentro
+    del primer 40 % del camino (el objetivo no es realista sin comerse esa resistencia).
+  - `FLOJO` si `rr` < 1.3 · `AJUSTADO` si 1.3 ≤ `rr` < 2 · `OK` si `rr` ≥ 2.
+  - `STOP_ANCHO` si `stopPts` > 40 % del `expectedMove.base` de la sesión (el stop se come casi
+    todo el recorrido esperado: o achica el objetivo o pásala).
+
+**Chequeo de presupuesto**: si la mejor zona A+ sale `FLOJO` / `STOP_ANCHO` / `OBJETIVO_BLOQUEADO`,
+el `verdict` baja a WAIT y el `reason` lo dice ("A+ pero R:R 1.1, no compensa"). Nota de disciplina
+en el `summary` cuando la sesión tenga setup: "1 stop de NQ ≈ $Xt/contrato; 3 seguidos = $3X — mídelo
+contra tu límite diario". No des `GO` a una zona con `rr` < 1.5.
 
 ---
 
@@ -313,7 +334,9 @@ Es el plan estructurado que pinta el Command Center. Schema:
       "invalidation": { "text": "…", "level": 29710 },
       "zones": [
         { "range": [29655, 29660], "dir": "SHORT", "type": "fade_vah", "confluence": 6,
-          "distPts": 12.5, "distTicks": 50, "winRate": 0.67, "n": 9 }
+          "distPts": 12.5, "distTicks": 50, "winRate": 0.67, "n": 9,
+          "risk": { "stopPts": 14, "stopTk": 56, "stopUsd": 280, "tgtPts": 205, "tgtTk": 820,
+                    "tgtUsd": 4100, "rr": 3.7, "flag": "OK" } }
       ],
       "noTradeZone": [29498, 29657],
       "expectedMove": { "low": 55, "base": 85, "high": 120, "lowTk": 220, "baseTk": 340, "highTk": 480,
@@ -350,7 +373,10 @@ los últimos ~12. Borra lo más viejo en el mismo write.
 ## 8 · Reglas de calidad
 
 - Si falta una fuente para un instrumento, dilo explícito y no inventes sus zonas.
-- Nunca el número sin la unidad: siempre puntos y ticks juntos.
+- Nunca el número sin la unidad: siempre puntos y ticks juntos. El riesgo en $ es **por 1
+  contrato full** (micro = / 10); dilo.
+- **R:R manda sobre el bonito.** Una zona A+ con `risk.flag` FLOJO / STOP_ANCHO / OBJETIVO_BLOQUEADO
+  no es GO (baja a WAIT, el `reason` lo explica). Nunca GO con `rr` < 1.5.
 - Plan accionable y corto. Nada de relleno.
 - Coherente con el edge de Jesus: **confluencia a favor del sesgo en un nivel mapeado**
   (perfil + EMA 20/50 + VWAP + pivotes + FVG + MTF + barridas de liquidez + contexto de sesión),
