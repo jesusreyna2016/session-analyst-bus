@@ -89,6 +89,7 @@ working dir. Trabajas con archivos, no con HTTP.
 - `method/instructions.md` — este documento, la fuente de verdad.
 - `state/sa-state.json` — tu historial acumulado: `{ instructions, settings, narrative, models:{NQ,ES,GC}, zones, scorecard, reviews:{<fecha>:md}, dayThesis:{<fecha>:md}, plans:{<fecha>-<sesion>:obj}, planLatest }`. `settings` = config de Jesus (p.ej. `dailyLossLimitUsd`); si falta, sigue sin ella. `scorecard` incluye los sub-objetos de calibración (sección 6).
 - `live/market.json` — `{ builtAt, feed, news }`. `feed` = lo de la sección 2 (NQ/ES/GC con orb/3reads/drbias/srzones/htfzones/command). `news` = calendario económico. Netlify lo refresca cada 5 min; si `builtAt` tiene >90 min en día hábil, márcalo "datos rezagados".
+- `live/journal.json` — OPCIONAL (puede faltar). Digest DE-IDENTIFICADO de la EJECUCIÓN real de Jesus, publicado por su journal (sin $/P&L/balance). `{ schema:"journal-digest-1", updatedAt, window:{days}, rollup, byDay:[...] }`. `rollup` = `{ days, disciplinedPct, avgTradesPerDay, gradedTrades, againstBiasRate, outsideEdgeRate, overtradeDays, revengeDays }`. Cada `byDay` = `{ date, trades, disciplined, maxLossStreak, overtrade, revenge, roundTrip, graded, withBias, againstBias, validEdge, outsideEdge }`. Es lo que Jesus HIZO, no lo que tú predijiste. Úsalo en la calificación pre-asia (sección 6) para medir plan-vs-ejecución y afinar los recordatorios anti-fuga del plan.
 
 **Escribes** (y luego haces `git add -A && git commit && git push`):
 - `plans/latest.json` — el plan de esta corrida (schema sección 7).
@@ -591,6 +592,20 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
 
 - `reviews["<fecha_ayer>"]`: scorecard legible (tabla sesión×instrumento, hits/misses,
   causas, 3 lecciones concretas). El mismo texto se escribe en `reviews/<fecha_ayer>.md`.
+- **Plan vs EJECUCIÓN** (si existe `live/journal.json`, sección "Transporte"): además de calificar
+  tu PREDICCIÓN vs el mercado, califica el PLAN vs lo que Jesus HIZO. Cruza `byDay` (por fecha)
+  con tus planes de esos días:
+  - Si `againstBias` > 0 en un día donde tu `biasSession` estaba claro → nombra la fuga
+    contra-tendencia en `reviews` y súbela de tono en el `focus.note`/recordatorios de los
+    próximos planes de ese instrumento.
+  - Si `outsideEdge` alto (o `outsideEdgeRate` del `rollup` > 0.35) → Jesus operó tierra de nadie;
+    endurece el lenguaje de "solo A+ con gatillo" y considera bajar la convicción por defecto.
+  - `overtrade`/`revenge`/`maxLossStreak` reflejan churn y revenge-sizing → si se repiten, el
+    `focus.note` del plan debe recordar el circuit-breaker (2 pérdidas → fuera) antes que cualquier setup.
+  - Escribe un sub-objeto `scorecard.execution` = `{ "<SYM>": {days,n,withBias,againstBias,validEdge,outsideEdge,disciplinedPct} }`
+    con ventana rodante ~45 días, para que la tendencia (¿mejora la disciplina?) module cuán duro
+    insistes en el anti-fuga. NUNCA inventes ejecución: si falta `live/journal.json` o un día no está
+    en `byDay`, di "sin datos de ejecución" y califica solo la predicción.
 - `zones`: el objeto `zones` COMPLETO actualizado. Por cada zona calificada, en su clave
   `<instrumento>|<sesion>|<tipo>` incrementa `{proposed, reached, respected, failed}` y
   recalcula `winRate` (= `respected / max(1, reached)` si `n ≥ 5`, si no el string
