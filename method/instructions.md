@@ -270,11 +270,13 @@ viejo lo que solo refleja mercado cerrado).
    dentro del `context` de ese instrumento.
    - **GC**: dirección del riesgo (usa VIX + ES como proxy: ES arriba y VIX abajo = risk-on,
      suele pesar sobre el oro; risk-off lo apoya) y si hay dato de tipos o dólar en `news`.
-   - **CL**: es materia prima, no índice, y su motor real (inventarios EIA de los miércoles
-     ~09:30 CT, OPEP, oferta/geopolítica) NO viene en el feed. Di explícitamente si HOY es
-     miércoles (día de EIA) y trátalo como ventana de no-trade. Fuera de eso, apóyate casi
-     solo en la estructura de precio y niveles; el sesgo macro que puedes leer es dólar
-     (dólar fuerte pesa sobre CL) y apetito de riesgo. No fuerces correlación con los índices.
+   - **CL**: es materia prima, no índice. Su motor real es el inventario EIA (miércoles
+     ~09:30 CT; lunes feriado → jueves), OPEP y oferta/geopolítica. `news` YA trae estos
+     eventos: los que llevan `"oil"` en `tags` (o título de inventario de crudo / EIA / OPEP).
+     Si uno cae en la sesión que entra, es **ventana de no-trade de CL** (usa su `ts` real, no
+     adivines por el día). Fuera de esas ventanas, apóyate casi solo en estructura de precio y
+     niveles; el sesgo macro que puedes leer es dólar (dólar fuerte pesa sobre CL) y apetito
+     de riesgo. No fuerces correlación con los índices.
    Si no hay señal clara, dilo ("sin lectura macro clara").
    **Chequeo de continuidad** (`thesisAlign`, obligatorio en todos, como `verdict`): compara
    el sesgo del día + el escenario primario de HOY contra la última entrada de `narrative` de
@@ -327,6 +329,9 @@ viejo lo que solo refleja mercado cerrado).
      = WAIT, `reason` nombra el evento ("NFP en 12 min, no operes el spike").
    - En `pre-asia`/`pre-london`, si la sesión que entra no tiene noticias pero la SIGUIENTE sí
      (dato NY fuerte), dilo en la tesis del día: "NY con ISM 09:00, plan corto hasta que asiente".
+   - Los eventos con `"oil"` en `tags` cuentan SOLO para el `newsRisk` de **CL** (su ventana de
+     manos fuera es −15 / +20 por la volatilidad del inventario); no elevan el `newsRisk` de
+     los índices. Al revés, un dato macro USD de alto impacto sí cuenta también para CL.
    **Estructura del calendario** (`calendarContext`): marca si hoy / esta semana cae en:
    semana de NFP (1er viernes del mes) · día o semana de FOMC · triple witching / OpEx (3er
    viernes de mar/jun/sep/dic) · último día hábil del mes o del trimestre (flujos de
