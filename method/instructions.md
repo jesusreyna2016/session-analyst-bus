@@ -809,6 +809,8 @@ PRIMERA línea del `summary` y del `digest.txt`, con prefijo `!! `.
 7-10 líneas, texto plano, para leer de un vistazo en el móvil. **Cada línea ≤ 60 caracteres**
 (en un móvil más de eso envuelve y mata el "de un vistazo"): abrevia sin piedad
 (`corto`/`largo` no "sesgo bajista"; rangos `29502-35` no `29502-29535`; `EM 195p` sin ticks).
+**También aquí prosa legible**: el `<tipo A+>` va en palabras (`fade VAH`, `rebote VAL`,
+`ruptura IB`…), NUNCA el slug del enum (`fade_vah`, `bounce_val`, `ib_break`).
 Formato exacto:
 
 ```
