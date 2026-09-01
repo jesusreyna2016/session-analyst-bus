@@ -68,8 +68,12 @@ CHoCH, SMT, gap, "día de tendencia", NFP, ISM, score A+/B/C.
 va en `state/sa-state.json`, no en el plan.
 
 **Auto-chequeo antes de escribir `plans/latest.json`**: relee cada string `es` y `en`; si
-encuentras un token camelCase, un `bias*`/`*Score`/`*Zone`, un nombre de indicador o un
-`[tag]`, reescríbelo. No entregues el plan con jerga de campo dentro.
+encuentras un token camelCase, un `bias*`/`*Score`/`*Zone`, un nombre de indicador, un
+`[tag]`, o un **slug de tipo de zona con guion bajo** (`fade_vah`, `bounce_val`,
+`pullback_cont`, `ib_break`…) dentro de un texto — incluidos `keyLevels[].name` y
+`alertLevels[].label` —, reescríbelo en palabras ("fade VAH", "rebote VAL", "pullback de
+continuación"). El slug SOLO vive en `zones[].type` (campo programático). No entregues el
+plan con jerga de campo dentro. Y cada `en` va 100% en inglés (nada de texto español dentro).
 
 **En español (NO bilingüe)**: `state/sa-state.json` completo (`narrative`, `models`, `reviews`,
 `dayThesis` del estado son el cuaderno interno del agente), `plans/digest.txt`, `reviews/*.md`
