@@ -117,10 +117,22 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
 1. `git pull` para tener el bus al día. Lee `method/instructions.md` entero y síguelo.
 2. Lee `state/sa-state.json` (tu historial: úsalo como priores) y `live/market.json`
    (mercado + noticias). **Corre el chequeo de frescura (sección 2) y arma `dataHealth`.**
-   **Idempotencia**: si en `pre-asia` ya existen `plans["<hoy>-pre-asia"]` Y `reviews["<fecha_ayer>"]`,
-   esta corrida es un re-disparo del mismo día. Puedes refrescar `plans/latest.json` con datos
-   frescos, pero **NO vuelvas a incrementar `zones`/`scorecard` ni a re-contar la calificación de
-   ayer** (doble conteo). Si nada material cambió, no toques nada y dilo en el resumen.
+   **Idempotencia / doble disparo** (el scheduler cloud a veces re-despacha una corrida larga;
+   se ha visto 10-35 min después, sin sesión nueva en la API). ANTES de analizar, comprueba:
+   ¿ya existe `plans["<hoy>-<RUN_TYPE>"]` Y `heartbeat.lastRun` tiene < 45 min con el mismo
+   `runType`? Si ambas → es un re-disparo del mismo día, entra en **modo refresco**:
+   - **NO reconstruyas el plan entero.** Relee el feed y actualiza en `plans/latest.json` SOLO
+     lo que se movió de verdad: precio, estiramiento/ATR, `dataHealth.builtAtAgeMin`, `generatedAt`,
+     y el `verdict`/`alarm` de un instrumento únicamente si CAMBIÓ de estado. Deja intactos
+     escenarios, zonas, niveles, predicciones, `counterCase`, `smt`, `dayThesis`.
+   - **NO toques `state/sa-state.json`**: nada de re-incrementar `zones`/`scorecard`/sub-objetos
+     de calibración, nada de re-calificar ayer (doble conteo).
+   - `heartbeat.note` = `"re-disparo de <RUN_TYPE> (<n> min tras el anterior): <qué se movió, o 'sin cambios materiales'>"`.
+     `plans/digest.txt` añade ` (re-check)` a su primera línea y solo reescribe las líneas afectadas.
+   - Si NADA material se movió: toca solo `heartbeat.json`, commitea, y dilo en el resumen.
+     No reescribas `plans/latest.json` ni `state`.
+   Fuera de ese caso (re-disparo de `pre-asia` con `reviews["<fecha_ayer>"]` ya escrito, o
+   cualquier corrida normal en su horario), sigue el flujo completo de abajo.
 3. Haz el análisis según `RUN_TYPE` (secciones 3-6), respetando lo que diga `dataHealth`.
 4. Escribe `plans/latest.json` + `plans/<fecha>-<RUN_TYPE>.json` (schema sección 7) y
    `plans/digest.txt` (sección 7).
@@ -862,6 +874,14 @@ PRIMERA línea del `summary` y del `digest.txt`, con prefijo `!! `.
 (`corto`/`largo` no "sesgo bajista"; rangos `29502-35` no `29502-29535`; `EM 195p` sin ticks).
 **También aquí prosa legible**: el `<tipo A+>` va en palabras (`fade VAH`, `rebote VAL`,
 `ruptura IB`…), NUNCA el slug del enum (`fade_vah`, `bounce_val`, `ib_break`).
+
+**Abreviaturas: lista cerrada.** Usa SOLO estas; no inventes paréntesis ni sufijos sueltos:
+`EM <n>p` (movimiento esperado en puntos) · `Nd` (N días) · `A+`/`B` (calidad de zona) ·
+`<n>A` (n ATR de estiramiento) · `cont` (continuación) · `sin sesgo` (biasSession NEUTRAL) ·
+`OK`/`VIEJO` (datos) · `NINGUNA`/`MEDIA`/`ALTA` (noticias). Prohibido: `(idx)`, `(ruido)`,
+`(max)`, `(re-check)` salvo el de la primera línea, `resid`, y cualquier `(...)` improvisado.
+Si algo no cabe en una abreviatura de la lista, va en la línea `Limpio:` o se omite.
+
 Formato exacto:
 
 ```
@@ -994,8 +1014,10 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   `discZone`…) ni tags entre corchetes (`[perseguir]`…). Usa la tabla de traducción del bloque
   de formato y haz el auto-chequeo antes de escribir. El lector es un trader, no ve el JSON.
 - **Salidas fijas.** Toda corrida escribe además `plans/digest.txt` y `live/heartbeat.json`.
-- **No dupliques.** Si es un re-disparo de `pre-asia` para un día ya calificado, refresca el
-  plan si acaso pero NO re-cuentes `zones`/`scorecard` ni los sub-objetos de calibración.
+- **No dupliques.** Si es un re-disparo del mismo día (`plans["<hoy>-<RUN_TYPE>"]` ya existe y
+  `heartbeat.lastRun` < 45 min, mismo `runType`), entra en modo refresco del paso 2: actualiza
+  en `plans/latest.json` solo lo que se movió, NO re-cuentes `zones`/`scorecard`/calibración ni
+  re-califiques ayer.
 - Cierra siempre con `git push` (o Contents API si falla). Si no pudiste escribir el bus,
   dilo claro en el resumen: el Command Center se quedaría con el plan anterior.
 - JSON válido en `plans/*.json` y `state/sa-state.json` (sin comentarios, sin comas colgantes).
