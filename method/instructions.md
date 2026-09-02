@@ -274,7 +274,13 @@ viejo lo que solo refleja mercado cerrado).
      ~09:30 CT; lunes feriado → jueves), OPEP y oferta/geopolítica. `news` YA trae estos
      eventos: los que llevan `"oil"` en `tags` (o título de inventario de crudo / EIA / OPEP).
      Si uno cae en la sesión que entra, es **ventana de no-trade de CL** (usa su `ts` real, no
-     adivines por el día). Fuera de esas ventanas, apóyate casi solo en estructura de precio y
+     adivines por el día). Al nombrarlo en prosa, deriva "hoy / mañana / <día>" del `ts` frente
+     a la FECHA del plan, no de la sesión de Asia: un EIA con `ts` miércoles 14:30Z, citado en
+     la corrida `pre-london` del propio miércoles, es **HOY**, no "mañana". Si el `ts` no cae en
+     la sesión que entra pero sí más tarde el mismo día (típico: EIA a las 14:30Z queda fuera
+     del cierre de Londres 12:00Z), `newsRisk` de CL para esta sesión es `NINGUNA`, pero dilo en
+     la tesis del día ("EIA hoy 09:30 CT, plan de NY corto hasta que asiente"). Fuera de esas
+     ventanas, apóyate casi solo en estructura de precio y
      niveles; el sesgo macro que puedes leer es dólar (dólar fuerte pesa sobre CL) y apetito
      de riesgo. No fuerces correlación con los índices.
    Si no hay señal clara, dilo ("sin lectura macro clara").
@@ -662,6 +668,10 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   "Patrones (provisional, n=X)". Cada `pre-asia` revisa si una regla medida se ha desmentido en
   sus últimas ~10 ocurrencias → bájala a provisional o bórrala. Poda lo desmentido. Manda solo
   los modelos que cambiaron.
+  - **Primera aparición de un instrumento** (no existe `models.<SYM>`): créalo ya en esa misma
+    corrida con un stub honesto ("Patrones (provisional, n=1): <lo que viste hoy>. Sin reparto
+    de rango medido aún.") para que empiece a acumular desde la noche 1, en vez de quedar
+    ausente hasta juntar n≥10.
 - `narrative`: primero decide si el día CONFIRMÓ / EVOLUCIONÓ / ROMPIÓ la tesis vigente de cada
   instrumento (cruza con las causas de fallo de arriba). Luego reescribe la tesis como
   `Continuidad: <daysHeld> días · <confirmada | evolucionó el <fecha>: <qué cambió> | reiniciada
@@ -870,10 +880,13 @@ Ejec <n>d: contra-sesgo <%> · fuera zona <%><· churn si aplica>   ← SOLO si 
 ```
 
 La línea **`Ejec`** sale de `scorecard.execution` (lo que Jesus HIZO, del journal
-de-identificado). `<n>` = `days` de la ventana; los `%` = `againstBias/n` y `outsideEdge/n`
-del agregado (`ALL` si no hay desglose por instrumento). Añade ` · churn` si algún día del
-tramo trae `overtrade`, `revenge` o `roundTrip`. Si no existe `scorecard.execution` (falta
-`live/journal.json` o va sin datos), **omite la línea entera**, no pongas ceros.
+de-identificado). `<n>` = `days` de la ventana. Los `%` se calculan sobre trades
+**calificados**, NO sobre `n` (que incluye trades sin sesgo claro y diluye la tasa):
+`contra-sesgo % = againstBias / (withBias + againstBias)` · `fuera zona % = outsideEdge /
+(validEdge + outsideEdge)`. Usa el agregado (`ALL` si no hay desglose por instrumento);
+redondea al entero. Añade ` · churn` si algún día del tramo trae `overtrade`, `revenge` o
+`roundTrip`. Si no existe `scorecard.execution` (falta `live/journal.json` o va sin datos),
+**omite la línea entera**, no pongas ceros.
 
 ### Archivo `live/heartbeat.json` · todas las corridas
 
