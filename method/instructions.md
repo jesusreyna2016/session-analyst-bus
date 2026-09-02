@@ -145,14 +145,14 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
 |---|---|---|
 | `pre-asia` | 16:05 | **Cierre + aprendizaje del día que terminó** (sección 6) y luego **plan completo** de Asia + tesis del día |
 | `pre-london` | 01:25 | **Update enfocado**: califica Asia vs el plan, qué cambió, plan de Londres, tesis ajustada, rango restante |
-| `pre-ny` | 07:45 | **Update enfocado**: califica Londres (mañana) vs el plan, qué cambió, plan de NY, tesis ajustada, rango restante |
+| `pre-ny` | 07:55 | **Update enfocado**: califica Londres (mañana) vs el plan, qué cambió, plan de NY, tesis ajustada, rango restante |
 
 `pre-asia` es la corrida pesada. `pre-london` y `pre-ny` parten de `dayThesis` del día
 vigente y reportan el delta, no re-derivan todo.
 
 La "Cron CT" es cuándo DISPARA la rutina, no cuándo queda el plan. El arranque en la
 nube más la corrida se comen ~15-25 min, así que el plan publicado (commit + `digest.txt`)
-llega ~01:45 CT para Londres y ~08:10 CT para NY, unos 15-20 min antes de cada apertura.
+llega ~01:45 CT para Londres y ~08:15 CT para NY, ~15 min antes de la apertura RTH de 08:30.
 
 Reloj de los futuros de índice (CME, hora CT): cotizan casi 24 h, con **cierre diario 16:00
 CT** y **reapertura 17:00 CT** (parón de 1 h lun-jue); el viernes cierran a las 16:00 y
@@ -160,7 +160,7 @@ reabren el domingo a las 17:00. El RTH del cash es 08:30-15:00 CT (referencia pa
 OR), pero el "día" del futuro y su H/L van de reapertura a cierre (17:00 → 16:00). Por eso:
 `pre-asia` (cron 16:05 CT) corre justo tras el cierre de 16:00, en el parón, con el día de
 futuros de HOY ya cerrado → califícalo entero; `pre-london` (cron 01:25 CT) y `pre-ny`
-(cron 07:45 CT) corren a mitad de Globex y su plan queda publicado ~15-20 min antes de
+(cron 07:55 CT) corren a mitad de Globex y su plan queda publicado ~15-20 min antes de
 cada apertura (Londres ~02:00 CT, RTH NY 08:30 CT) para que esté fresco al abrir.
 
 Días: domingo `pre-asia` sí (reapertura Globex) y además lleva la **meta-revisión semanal**
@@ -171,7 +171,7 @@ hábil, dilo y haz el mejor plan posible marcándolo como "datos rezagados".
 
 Horario / DST: las rutinas se disparan por cron UTC calzado a CT. Si la hora de la corrida
 (la que trae el prompt como referencia) no cuadra con `RUN_TYPE` (p.ej. `pre-ny` corriendo
-a las 06:45 CT en vez de ~07:45), es un cambio de horario de verano sin ajustar: haz la
+a las 06:55 CT en vez de ~07:55), es un cambio de horario de verano sin ajustar: haz la
 corrida igual, marca en el `summary` "cron descalzado por DST, ajustar" y sigue.
 
 ---
@@ -219,7 +219,7 @@ viejo lo que solo refleja mercado cerrado).
     - `pre-asia` (16:05 CT, tras el cierre RTH de 15:00): `ibh`/`ibl` = el IB de HOY ya
       completo y congelado → fiable. El overnight aún no empezó (arranca 17:00) → `onh`/`onl`
       son el rango overnight de anoche, congelado, fiable.
-    - `pre-london` (cron 01:25 CT) y `pre-ny` (cron 07:45 CT, antes de la apertura RTH de 08:30):
+    - `pre-london` (cron 01:25 CT) y `pre-ny` (cron 07:55 CT, antes de la apertura RTH de 08:30):
       `ibh`/`ibl` = IB de la sesión RTH ANTERIOR (referencia, NO "de hoy"; el de hoy aún no se
       ha formado). El overnight está en curso → `onh`/`onl` aún se están formando, y los toques
       de ONH/ONL en `touchlog` están inflados (el nivel se mueve con el precio) con
