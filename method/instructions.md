@@ -364,8 +364,9 @@ viejo lo que solo refleja mercado cerrado).
      `command.verdict` lo deja en un extremo sin nivel. Protege de PERSEGUIR y de operar CONTRA
      el sesgo (sus fugas #2 y #3, abajo).
    - **WAIT** (sin edge aún, quieto): en no-trade / chop (`command.verdict` NO-TRADE·CHOP,
-     `chop`=1, pegado a POC); o sesgo débil / en conflicto (convicción baja o `biasAligned`
-     false); o sin zona A+/B a tiro; o el día ya recorrió >70 % del presupuesto y el precio
+     `chop`=1, pegado a POC); o sesgo débil / en conflicto (convicción baja, o `biasSession`
+     no coincide con `biasDay`, o `biasSession` NEUTRAL); o sin zona A+/B a tiro; o el día ya
+     recorrió >70 % del presupuesto y el precio
      está a mitad de rango (poco jugo, alto riesgo de chop restante). Protege de OPERAR EL CHOP,
      SOBREOPERAR y ANTICIPAR (fugas #1, #4, #7).
    - **GO** (hay edge a favor): sesgo alineado con convicción media/alta Y el precio está EN
@@ -566,8 +567,12 @@ una línea en `summary` pidiéndolo.
    el grueso del rango llega tras el EIA de las 09:30 CT. Usa el % medido cuando exista.
 3. **Rango restante del día** = presupuesto − recorrido (`rangeToday`/`rangeNow`/`command.raw.dayRangePts`; contrasta con `command.raw.remPts` y `atrPctUsed`).
 4. **Salida por instrumento**:
-   - **Corrección de calibración**: si `scorecard.emCalibration["<SYM>|<sesion>"]` tiene
-     `n ≥ 10`, multiplica base/baja/alta por su `mult` (0.7–1.4) y anótalo (`expectedMove.mult`).
+   - **Corrección de calibración**: mira `scorecard.emCalibration["<SYM>|<sesion>"]`:
+     - `n ≥ 10` → multiplica base/baja/alta por su `mult` (0.7–1.4) y anótalo (`expectedMove.mult`).
+     - `5 ≤ n < 10` **y** `biasTk` con el mismo signo en toda la ventana (error consistente, no
+       ruido) → corrección **provisional a media fuerza**: `mult_prov = 1 + 0.5·(mult − 1)`,
+       recortado a 0.8–1.25; anótalo como `expectedMove.mult` + `" (provisional, n=X)"`.
+     - `n < 5` → sin corrección (`mult` 1.0).
    - Rango esperado de la sesión: **baja / base / alta** en puntos y ticks (base = reparto ×
      mult; baja = base×0.65, alta = base×1.4)
    - Rango del día: recorrido vs presupuesto (%) y restante en puntos/ticks
@@ -707,9 +712,11 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   review, por instrumento/sesión, +1 `calls` a cada una de las 6 fuentes y +1 `hits` si su
   dirección/bias coincidió con la dirección NETA realizada de esa sesión. `rate = hits/max(1,
   calls)`, `n = calls`. → lo aplica la sección 3.1 (fuente floja = medio peso).
-- **`emCalibration`**: `{ "<SYM>|<sesion>": { n, meanErrTk, biasTk, mult } }`. `biasTk` = media
-  con signo de (realizado − predicho_base) en ticks. Con `n ≥ 10`: `mult = clamp(media_realizado
-  / media_predicho_base, 0.7, 1.4)`. → lo aplica la sección 5.4.
+- **`emCalibration`**: `{ "<SYM>|<sesion>": { n, meanErrTk, biasTk, mult, biasTkSign } }`.
+  `biasTk` = media con signo de (realizado − predicho_base) en ticks; `biasTkSign` = `"+"`,
+  `"-"` o `"mixto"` según si todas las muestras de la ventana comparten signo. Con `n ≥ 5`:
+  `mult = clamp(media_realizado / media_predicho_base, 0.7, 1.4)` (con `5 ≤ n < 10` la 5.4 solo
+  aplica media fuerza y solo si `biasTkSign` ≠ `"mixto"`). → lo aplica la sección 5.4.
 - **`convictionCalibration`**: `{ "<SYM>": { alta:{n,hits,rate}, media:{…}, baja:{…} } }` sobre
   acierto de sesgo. Si con `n ≥ 15` el `rate` de "alta" no supera al de "media" por ≥ 10 pts →
   anótalo en `models` y la sección 3.1 sube el listón de "alta" a 4 fuentes.
@@ -780,7 +787,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
     "note": { "es": "no operar los primeros 30 min de NY hasta que asiente el dato", "en": "don't trade the first 30 min of NY until the print settles" } },
   "instruments": {
     "NQ": {
-      "biasDay": "SHORT", "biasSession": "SHORT", "biasAligned": true, "conviction": "alta",
+      "biasDay": "SHORT", "biasSession": "SHORT", "conviction": "alta",
       "prevDay": { "type": { "es": "tendencia bajista cerrando en el extremo", "en": "downtrend closing at the low" },
                    "closedAt": { "es": "cerca del low", "en": "near the low" },
                    "prior": { "es": "CONTINUACIÓN corto", "en": "short CONTINUATION" },
