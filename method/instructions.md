@@ -98,7 +98,8 @@ working dir. Trabajas con archivos, no con HTTP.
   (merge, no reemplazo): actualiza `narrative`, los `models` que cambiaron, `zones`,
   `scorecard`; añade la entrada nueva a `reviews`/`dayThesis`/`plans`; pon `planLatest`.
 - `reviews/<fecha>.md` — solo en `pre-asia`: la calificación del día que cerró (sección 6).
-- `reviews/<fecha>-semana.md` — solo domingo `pre-asia`: la meta-revisión de la semana (sección 6).
+- `reviews/<fecha>-semana.md` — solo `RUN_TYPE=weekly` (rutina de sábado): la meta-revisión de la semana (sección 6.1).
+- `reviews/weekly-latest.md` — solo `weekly`: copia idéntica de la meta-revisión más reciente en una ruta fija (la lee el Command Center por `raw.githubusercontent`, que no puede listar carpetas).
 - `plans/digest.txt` — resumen de 7-10 líneas (≤60 car/línea) para el móvil (sección 7), en cada corrida.
 - `live/heartbeat.json` — `{ lastRun, runType, ok, note }` al final de CADA corrida, aunque el
   plan salga con asterisco. Sirve para detectar corridas caídas (lastRun > 8 h = algo falló).
@@ -112,7 +113,13 @@ con `Authorization: Bearer $SA_BUS_TOKEN`, body `{message, content(base64), bran
 
 ## 1 · Flujo de cada corrida
 
-El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`.
+El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny` | `weekly`.
+
+`weekly` (rutina de sábado, 10:00 CT) es una corrida aparte y ligera: NO produce plan
+de sesión ni toca `plans/`. Solo lee los planes + `reviews/` diarios + `state` +
+`live/journal.json` de la semana lunes-viernes que cerró y escribe la meta-revisión
+(sección 6.1). Su flujo entero está en 6.1; el resto de esta sección 1 y las secciones
+3-5 y 7 son para las tres corridas de sesión.
 
 1. `git pull` para tener el bus al día. Lee `method/instructions.md` entero y síguelo.
 2. Lee `state/sa-state.json` (tu historial: úsalo como priores) y `live/market.json`
@@ -137,9 +144,9 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
 4. Escribe `plans/latest.json` + `plans/<fecha>-<RUN_TYPE>.json` (schema sección 7) y
    `plans/digest.txt` (sección 7).
 5. Aplica el merge sobre `state/sa-state.json` y escríbelo (sección 7). En `pre-asia`
-   escribe también `reviews/<fecha>.md`; los **domingos** además `reviews/<fecha>-semana.md`
-   (meta-revisión semanal, sección 6). Actualiza los sub-objetos de calibración del
-   `scorecard` (sección 6) solo en `pre-asia`.
+   escribe también `reviews/<fecha>.md`. Actualiza los sub-objetos de calibración del
+   `scorecard` (sección 6) solo en `pre-asia`. La meta-revisión semanal ya NO va aquí:
+   la hace la rutina `weekly` del sábado (sección 6.1).
 5b. Escribe `live/heartbeat.json` = `{ lastRun: <ISO UTC>, runType: <RUN_TYPE>, ok: <true
    salvo que el plan vaya con asterisco>, note: "<1 frase>" }`.
 6. Sube: `git add -A && git commit -m "sa <RUN_TYPE> <fecha>"`, luego bucle
@@ -158,6 +165,7 @@ El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny`
 | `pre-asia` | 16:05 | **Cierre + aprendizaje del día que terminó** (sección 6) y luego **plan completo** de Asia + tesis del día |
 | `pre-london` | 01:25 | **Update enfocado**: califica Asia vs el plan, qué cambió, plan de Londres, tesis ajustada, rango restante |
 | `pre-ny` | 07:55 | **Update enfocado**: califica Londres (mañana) vs el plan, qué cambió, plan de NY, tesis ajustada, rango restante |
+| `weekly` | sáb 10:00 | **Meta-revisión** de la semana lun-vie que cerró (sección 6.1). Sin plan de sesión. |
 
 `pre-asia` es la corrida pesada. `pre-london` y `pre-ny` parten de `dayThesis` del día
 vigente y reportan el delta, no re-derivan todo.
@@ -175,11 +183,13 @@ futuros de HOY ya cerrado → califícalo entero; `pre-london` (cron 01:25 CT) y
 (cron 07:55 CT) corren a mitad de Globex y su plan queda publicado ~15-20 min antes de
 cada apertura (Londres ~02:00 CT, RTH NY 08:30 CT) para que esté fresco al abrir.
 
-Días: domingo `pre-asia` sí (reapertura Globex) y además lleva la **meta-revisión semanal**
-de la semana lunes-viernes que cerró (sección 6). Sábado (día CT) → no hagas nada,
-responde "sábado, sin corrida". Feriado = día normal con nota "sesión de feriado,
-poco volumen esperado". Si `live/market.json` tiene `builtAt` de hace >6 h en día
-hábil, dilo y haz el mejor plan posible marcándolo como "datos rezagados".
+Días: domingo `pre-asia` sí (reapertura Globex), corrida normal de cierre+plan. La
+**meta-revisión semanal** ya no cuelga del domingo: es la rutina `weekly` que dispara el
+**sábado** 10:00 CT (sección 6.1). Sábado, si te disparan como `pre-asia`/`pre-london`/
+`pre-ny` (no `weekly`) → no hagas nada, responde "sábado, sin corrida". Feriado = día
+normal con nota "sesión de feriado, poco volumen esperado". Si `live/market.json` tiene
+`builtAt` de hace >6 h en día hábil, dilo y haz el mejor plan posible marcándolo como
+"datos rezagados".
 
 Horario / DST: las rutinas se disparan por cron UTC calzado a CT. Si la hora de la corrida
 (la que trae el prompt como referencia) no cuadra con `RUN_TYPE` (p.ej. `pre-ny` corriendo
@@ -638,19 +648,33 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
 - `reviews["<fecha_ayer>"]`: scorecard legible (tabla sesión×instrumento, hits/misses,
   causas, 3 lecciones concretas). El mismo texto se escribe en `reviews/<fecha_ayer>.md`.
 - **Plan vs EJECUCIÓN** (si existe `live/journal.json`, sección "Transporte"): además de calificar
-  tu PREDICCIÓN vs el mercado, califica el PLAN vs lo que Jesus HIZO. Cruza `byDay` (por fecha)
+  tu PREDICCIÓN vs el mercado, califica el PLAN vs lo que Jesus HIZO. Esta parte es una
+  **autopsia de la ejecución de anoche**, no un pie de página: va en `reviews/<fecha_ayer>.md`
+  bajo su propio encabezado `## Plan vs ejecución` y, si el día de ayer tuvo `biasSession`
+  claro en ≥1 instrumento Y `againstBias > withBias` (o `disciplined=false` con `overtrade`),
+  **abre el review con esa frase**, antes del scorecard de mercado. Cruza `byDay` (por fecha)
   con tus planes de esos días:
-  - Si `againstBias` > 0 en un día donde tu `biasSession` estaba claro → nombra la fuga
-    contra-tendencia en `reviews` y súbela de tono en el `focus.note`/recordatorios de los
+  - **Día de ayer, trade a trade hasta donde llegue el digest**: `trades`, `graded`,
+    `withBias` vs `againstBias`, `validEdge` vs `outsideEdge`, `maxLossStreak`, y los flags
+    `disciplined`/`overtrade`/`revenge`/`roundTrip`. Traduce a una frase de veredicto:
+    "operó CONTRA el plan" / "siguió el plan pero sobre-operó" / "día limpio, N trades en zona".
+  - Si `againstBias > 0` en un día donde tu `biasSession` estaba claro → nombra la fuga
+    contra-tendencia, di **qué lado** era el correcto ("el plan tenía NQ corto todo el día;
+    40 de 75 trades fueron largos") y súbela de tono en el `focus.note`/recordatorios de los
     próximos planes de ese instrumento.
   - Si `outsideEdge` alto (o `outsideEdgeRate` del `rollup` > 0.35) → Jesus operó tierra de nadie;
     endurece el lenguaje de "solo A+ con gatillo" y considera bajar la convicción por defecto.
-  - `overtrade`/`revenge`/`maxLossStreak` reflejan churn y revenge-sizing → si se repiten, el
-    `focus.note` del plan debe recordar el circuit-breaker (2 pérdidas → fuera) antes que cualquier setup.
-  - Escribe un sub-objeto `scorecard.execution` = `{ "<SYM>": {days,n,withBias,againstBias,validEdge,outsideEdge,disciplinedPct} }`
-    con ventana rodante ~45 días, para que la tendencia (¿mejora la disciplina?) module cuán duro
-    insistes en el anti-fuga. NUNCA inventes ejecución: si falta `live/journal.json` o un día no está
-    en `byDay`, di "sin datos de ejecución" y califica solo la predicción.
+  - `overtrade`/`revenge`/`roundTrip`/`maxLossStreak` reflejan churn y revenge-sizing → si el
+    día de ayer los tuvo, el `focus.note` del plan de HOY abre recordando el circuit-breaker
+    (2 pérdidas → fuera) antes que cualquier setup. Si se repiten ≥3 días de la ventana,
+    dilo en `narrative` como patrón, no como incidente aislado.
+  - **Comparación con la ventana**: ¿ayer fue mejor o peor que la media rodante de
+    `scorecard.execution.ALL` en disciplina y contra-sesgo? Una línea con ▲/▼.
+  - Escribe/actualiza `scorecard.execution` (`ALL` + `<SYM>` si el journal separa) =
+    `{days,n,withBias,againstBias,validEdge,outsideEdge,disciplinedPct,note}` con ventana
+    rodante ~45 días, para que la tendencia module cuán duro insistes en el anti-fuga.
+    NUNCA inventes ejecución: si falta `live/journal.json` o un día no está en `byDay`, di
+    "sin datos de ejecución" y califica solo la predicción.
 - `zones`: el objeto `zones` COMPLETO actualizado. Por cada zona calificada, en su clave
   `<instrumento>|<sesion>|<tipo>` incrementa `{proposed, reached, respected, failed}` y
   recalcula `winRate` (= `respected / max(1, reached)` si `n ≥ 5`, si no el string
@@ -735,25 +759,53 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
 
 Poda: cada sub-objeto guarda ventana rodante de ~60 días; borra lo más viejo en el mismo write.
 
-### Meta-revisión semanal (solo domingo `pre-asia`)
+## 6.1 · Meta-revisión semanal (`RUN_TYPE=weekly`, rutina de sábado)
 
-El domingo, después de la calificación normal del día, produce además un balance de la semana
-de trading que cerró (lunes a viernes). Va en `reviews/<fecha>-semana.md` y en el estado como
-`reviews["<fecha>-semana"]`. 6-10 líneas, sin relleno:
-- **Marcador de la semana** por instrumento: acierto de sesgo %, hit-rate escenario A, % de
-  sesiones dentro de la banda de EM, y `predictionScore.rate` global. Compara con la semana
-  anterior (▲/▼).
-- **Qué se repitió**: el patrón o la fuga que volvió a aparecer (ej. "3ª semana seguida en que
-  ES Londres deja WAIT que habría pagado ≥1R"; "GC pre-NY sobre-estima el rango los martes").
-- **Ajuste aplicado**: UN cambio concreto que ya metiste en `models`/`zones`/calibración esta
-  corrida a raíz de lo anterior (ej. "subo el listón de 'alta' a 4 fuentes en NQ"; "bajo
-  `fade_val` ES asia a provisional, 38 % n=12"). Si no hubo ninguno, dilo: "sin ajuste, muestra
-  aún corta".
-- **Lección de la semana**: una frase, la que más pesa.
-- **Régimen**: en qué régimen entró y salió la semana cada instrumento y qué implica para la
-  que empieza.
-Poda: `reviews` conserva ~6 entradas `-semana`. La primera línea del `digest.txt` del domingo
-lleva `!! meta-semana escrita` como recordatorio.
+Corrida propia, ligera, del sábado ~10:00 CT. NO hace plan de sesión, NO toca `plans/`,
+NO re-califica días (eso ya lo hizo cada `pre-asia`), NO re-incrementa `zones`/`scorecard`
+ni sub-objetos de calibración (doble conteo). Solo LEE y produce el balance de la semana
+lunes-viernes que cerró.
+
+**Flujo:**
+1. `git checkout main && git pull --rebase --autostash origin main`.
+2. Día CT: `TZ=America/Chicago date +"%A %Y-%m-%d"`. Si NO es sábado, responde
+   "no es sábado, weekly no corre" y termina sin escribir nada.
+3. Determina la ventana: el lunes-viernes que acaba de cerrar (viernes = ayer).
+4. Lee:
+   - `state/sa-state.json` — `scorecard` (predictionScore, execution, emCalibration,
+     convictionCalibration, sourceReliability), `models`, `zones`, `narrative`, y las
+     entradas `reviews["<fecha>"]` de los 5 días.
+   - `reviews/<fecha>.md` de los 5 días (por si el estado poda antes).
+   - `plans/<fecha>-<sesion>.json` de la semana para el marcador de sesgo/escenario/EM.
+   - `live/journal.json` — el `rollup` de 7 días y los `byDay` de la semana (ejecución real).
+   - Si hay `reviews/<fecha>-semana.md` de la semana anterior, léela para el ▲/▼.
+5. Escribe **`reviews/<sábado>-semana.md`** Y **`reviews/weekly-latest.md`** (idénticos),
+   más `state.reviews["<sábado>-semana"]` = el mismo texto. 8-12 líneas, bilingüe donde
+   sea prosa, sin relleno:
+   - **Marcador de la semana** por instrumento: acierto de sesgo %, hit-rate escenario A,
+     % de sesiones dentro de la banda de EM, `predictionScore.rate` global. ▲/▼ vs la
+     semana anterior.
+   - **Ejecución de la semana** (de `journal.json`): días disciplinados / 5, `againstBiasRate`
+     y `outsideEdgeRate` del rollup con ▲/▼, días de `overtrade`/`revenge`, la racha de
+     pérdidas peor. Una frase sobre si la disciplina mejora o empeora y qué fuga manda.
+   - **Qué se repitió**: el patrón o la fuga que volvió a aparecer (ej. "3ª semana seguida
+     en que ES Londres deja WAIT que habría pagado ≥1R"; "GC pre-NY sobre-estima el rango
+     los martes").
+   - **Propuestas de método** (sección propia, encabezado `## Propuestas de método`): 1-3
+     cambios CONCRETOS al método o a los modelos que la semana sugiere, cada uno con la
+     evidencia (n, %) y el archivo/campo que tocaría. **NO los apliques** — los revisa
+     Jesus. Si no hay ninguno con muestra suficiente, escribe "sin propuestas, muestra
+     corta" y ya.
+   - **Lección de la semana**: una frase, la que más pesa.
+   - **Régimen**: en qué régimen entró y salió cada instrumento y qué implica para la
+     semana que empieza.
+6. `live/heartbeat.json` = `{ lastRun:<ISO UTC>, runType:"weekly", ok:true, note:"<1 frase>" }`.
+7. `git add -A && git commit -m "sa weekly <sábado>"`, luego el bucle de push habitual
+   (6 intentos, `sleep 5`). Verifica `git log origin/main -1`.
+8. Responde 6-9 líneas con el marcador + la lección + cuántas propuestas de método dejaste,
+   y si el push quedó confirmado.
+
+Poda: `reviews` conserva ~8 entradas `-semana`; borra la más vieja en el mismo write.
 
 ---
 
@@ -869,8 +921,7 @@ NINGÚN instrumento tiene setup (todo WAIT sin zona a tiro), `focus.verdict` = "
 (c) `scorecard` de 20 días con acierto de sesgo < 0.45, o hit-rate de escenario A < 0.30, o
 `predictionScore.rate` global < 0.40 en algún instrumento;
 (d) `calendarContext.tags` trae FOMC o NFP para hoy;
-(e) cron descalzado por DST;
-(f) domingo (`!! meta-semana escrita`).
+(e) cron descalzado por DST.
 Si no se cumple ninguna, `alarm` es `null` (no la inventes). Cuando no es `null`, es la
 PRIMERA línea del `summary` y del `digest.txt`, con prefijo `!! `.
 
@@ -929,8 +980,9 @@ Lee el objeto, aplica cambios, escríbelo entero. Campos:
   `reviews["<fecha_ayer>"]` (= el mismo md que va en `reviews/<fecha_ayer>.md`); añade
   `dayThesis["<hoy>"]` = tesis del día (qué esperas en Asia/Londres/NY, dónde se forma
   probablemente el H/L del día, presupuesto ADR); añade `plans["<hoy>-pre-asia"]` = el plan;
-  pon `planLatest` = el plan. **Domingo**: además `reviews["<hoy>-semana"]` = la meta-revisión
-  semanal (= `reviews/<hoy>-semana.md`).
+  pon `planLatest` = el plan.
+- **`weekly`** (sábado): SOLO `reviews["<sábado>-semana"]` = la meta-revisión (= `reviews/<sábado>-semana.md`
+  y `reviews/weekly-latest.md`). No toca `narrative`/`models`/`zones`/`scorecard`/`plans`/`planLatest`.
 - **`pre-london` / `pre-ny`**: reescribe `dayThesis["<hoy>"]` añadiéndole una sección
   `Update <sesion> · <hora>` (qué cambió, plan de la sesión, rango restante); reescribe
   `reviews["<hoy>"]` entero añadiendo el cierre parcial de la sesión que terminó (si no
@@ -1004,11 +1056,12 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   reparto por hora de `models` / `byHourCT`). Fuera de ella la zona es solo referencia.
 - **Línea de alarma.** `plan.alarm` es una línea SOLO si hay tesis rota hoy, datos VIEJOS/fuente
   caída, precisión 20d bajo umbral (sesgo <0.45 · escenario A <0.30 · predicciones <0.40),
-  calendario FOMC/NFP hoy, cron descalzado por DST, o es domingo (meta-semana). Si no, `null`
+  calendario FOMC/NFP hoy, o cron descalzado por DST. Si no, `null`
   (no la inventes). Cuando existe, va primera en `summary` y en `digest.txt` con `!! `.
-- **Meta-revisión semanal.** Domingo `pre-asia` escribe `reviews/<fecha>-semana.md` +
-  `reviews["<fecha>-semana"]` (sección 6): marcador de la semana, qué se repitió, el ajuste
-  concreto aplicado, la lección, el régimen de entrada/salida.
+- **Meta-revisión semanal.** La rutina `weekly` del sábado (sección 6.1) escribe
+  `reviews/<sábado>-semana.md` + `reviews/weekly-latest.md` + `reviews["<sábado>-semana"]`:
+  marcador de la semana, ejecución de la semana, qué se repitió, propuestas de método
+  (sin aplicar), la lección, el régimen de entrada/salida.
 - **Sizing.** Si hay `settings.dailyLossLimitUsd`, cada zona lleva `risk.maxContracts`; si no,
   `null` y una línea en `summary` pidiéndolo.
 - **`calendarContext` siempre.** FOMC / NFP → el día es `newsRisk` ALTA aunque `news` venga flojo.
