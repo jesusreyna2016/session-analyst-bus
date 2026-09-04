@@ -18,7 +18,8 @@ idiomas (español natural + inglés natural, no traducción literal torpe). Camp
 - por instrumento: `context`, `counterCase`, `verdict.reason`, `prevDay.type`/`closedAt`/`prior`/
   `note`, `gap.size`/`note`, `smt.note`, `thesisAlign.note`, `scenarioA.text`/`trigger`,
   `scenarioB.text`/`trigger`, `invalidation.text`, cada `predictions[].text`,
-  cada `zones[].play.trigger`/`structStop`/`scale`/`ifWrong`, cada `keyLevels[].name`
+  cada `zones[].play.trigger`/`structStop`/`scale`/`ifWrong`, cada `zones[].fvg[].role`,
+  cada `keyLevels[].name`
 - otros: `dataHealth.notes`, `calendarContext.note`, `newsRisk.note`, cada `alertLevels[].label`,
   `focus.setup`/`trigger`/`invalid`/`note`, `dayThesis.NQ`/`ES`/`GC`/`YM`/`CL`
 NO se traducen (quedan valor único): todos los números, precios, `dir`, `kind`, `type`,
@@ -452,7 +453,12 @@ VWAP, PD Mid, **ONH/ONL** (rango overnight), **IBH/IBL** (Initial Balance del RT
   mensual / H-L mes previo
 - +1 EMA 20 en la zona · +1 EMA 50 en la zona (`command.ema20`/`ema50`, ±5 ticks)
 - +1 VWAP en la zona
-- +1 FVG / iFVG solapado (`srzones.fvg`); +1 extra si es del TF de la sesión o mayor
+- +1 FVG / iFVG solapado (`srzones.fvg`); +1 extra si es del TF de la sesión o mayor.
+  **Siempre que un FVG/iFVG entre en el score de una zona, la salida lo hace explícito**, no
+  se queda dentro del número: la zona lleva el campo `fvg` (lista, ver esquema abajo) con TF,
+  dirección y rango exacto; `verdict.reason` lo nombra en el paréntesis de confluencia; y si la
+  zona es la del `focus`, el `focus.setup` lo cita. Un FVG del TF de sesión o mayor cuenta como
+  confluencia dura (peso 2), no como adorno.
 - +1 zona S/R multi-TF (`srzones`) o S/D (`htfzones`) coincidente
 - +1 premium/discount o golden zone a favor (`htfzones` · `command.disc25`/`prem75`)
 - +1 **BARRIDA DE LIQUIDEZ**: la zona está justo más allá de un PDH/PDL/PWH/PWL/swing o del
@@ -563,6 +569,23 @@ una línea en `summary` pidiéndolo.
   la pantalla), p.ej. `"20:00-23:00 CT"` (Asia), `"02:00-05:00 CT"` (Londres), `"08:30-11:00
   CT"` (primera parte de NY). Fuera de esa ventana la zona es solo referencia. Sale de
   `models.<SYM>` (reparto por hora) y del `byHourCT` de la zona si tiene datos.
+
+**Campo `fvg` de la zona** (hermano de `play`, NO dentro de él). Lista, una entrada por
+FVG/iFVG de `srzones.fvg` que solapa el rango de la zona. `[]` si no hay ninguno. Cada entrada:
+
+```
+{ "tf": "15m", "dir": "bull", "range": [29466.25, 29503.50],
+  "weight": 2,                       // 1 = solapa · 2 = del TF de sesión o mayor
+  "role": { "es": "gatillo + invalidación", "en": "trigger + invalidation" } }
+```
+
+- `role` dice CÓMO se usa en esta zona: `gatillo` (su reclaim es el `play.trigger`),
+  `invalidación` (su borde lejano es el `ifWrong`/`invalidation`), `confluencia` (solo suma al
+  score) o combinaciones. Cuando `role` incluye gatillo o invalidación, **el rango exacto del
+  FVG tiene que aparecer también en `play.trigger` / `play.ifWrong` / `invalidation.text`** (una
+  sola verdad, sin números que no casen).
+- Ordena la lista por `weight` desc y, a igualdad, por cercanía al borde de entrada.
+- Si la zona tiene `fvg` no vacío, `verdict.reason` lo nombra: `"…, FVG 15m 29466-29503 (peso 2)"`.
 
 ---
 
@@ -824,9 +847,9 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "schema": "sa-plan-2",
   "cleanest": "NQ",
   "focus": { "sym": "NQ", "verdict": "GO", "window": "20:00-23:00 CT",
-             "setup": { "es": "A+ fade VAH 29655-29660", "en": "A+ VAH fade 29655-29660" },
-             "trigger": { "es": "rechazo mecha+cierre 5m; o sweep 29672 y cierre 5m bajo VAH", "en": "wick rejection + 5m close; or 29672 sweep and 5m close below VAH" },
-             "invalid": { "es": "cierre 5m > 29674", "en": "5m close > 29674" },
+             "setup": { "es": "A+ fade VAH 29655-29660 + FVG 1h 29655-29668", "en": "A+ VAH fade 29655-29660 + 1h FVG 29655-29668" },
+             "trigger": { "es": "reclaim del FVG 1h 29655-29668 tras rechazo; o sweep 29672 y cierre 5m bajo VAH", "en": "1h FVG 29655-29668 reclaim after rejection; or 29672 sweep and 5m close below VAH" },
+             "invalid": { "es": "cierre 5m > 29668 (borde alto del FVG 1h)", "en": "5m close > 29668 (1h FVG high edge)" },
              "note": { "es": "a favor del corto en un nivel que ya rechazó; espera el rechazo, no lo anticipes", "en": "with the short at a level that already rejected; wait for the rejection, don't front-run it" } },
   "summary": { "es": ["NQ: …", "ES: …", "GC: …", "más limpio: NQ"], "en": ["NQ: …", "ES: …", "GC: …", "cleanest: NQ"] },
   "alarm": null,
@@ -851,7 +874,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
       "thesisAlign": { "state": "ALIGN", "daysHeld": 3, "note": { "es": "el día confirma la distribución de fondo; precio aún bajo PDH", "en": "the day confirms the underlying distribution; price still below PDH" } },
       "counterCase": { "es": "alcista pese al corto: el sesgo semanal de las zonas altas sigue positivo y hay un gap sin rellenar arriba; se mantiene el corto salvo aceptación sobre TDO 29668, ahí giraría a largo",
                        "en": "bullish despite the short: the weekly higher-timeframe bias is still positive and there's an unfilled gap above; the short holds unless price accepts over TDO 29668, then it would flip long" },
-      "verdict": { "signal": "GO", "reason": { "es": "borde VAH a favor del corto, confluencia 6 (perfil+EMA50+VWAP+barrida PDH+sesión)", "en": "VAH edge with the short, confluence 6 (profile+EMA50+VWAP+PDH sweep+session)" } },
+      "verdict": { "signal": "GO", "reason": { "es": "borde VAH a favor del corto, confluencia 6 (perfil+EMA50+VWAP+barrida PDH+sesión+FVG 1h 29655-29668 peso 2)", "en": "VAH edge with the short, confluence 6 (profile+EMA50+VWAP+PDH sweep+session+1h FVG 29655-29668 weight 2)" } },
       "context": { "es": "…", "en": "…" },
       "scenarioA": { "text": { "es": "…", "en": "…" }, "trigger": { "es": "…", "en": "…" }, "target": 29450, "entryZone": [29655, 29660] },
       "scenarioB": { "text": { "es": "…", "en": "…" }, "trigger": { "es": "…", "en": "…" } },
@@ -865,13 +888,15 @@ Es el plan estructurado que pinta el Command Center. Schema:
       "zones": [
         { "range": [29655, 29660], "dir": "SHORT", "type": "fade_vah", "confluence": 6,
           "distPts": 12.5, "distTicks": 50, "winRate": 0.67, "n": 9,
+          "fvg": [ { "tf": "1h", "dir": "bear", "range": [29655, 29668], "weight": 2,
+                     "role": { "es": "gatillo + invalidación", "en": "trigger + invalidation" } } ],
           "risk": { "stopPts": 14, "stopTk": 56, "stopUsd": 280, "tgtPts": 205, "tgtTk": 820,
                     "tgtUsd": 4100, "rr": 3.7, "flag": "OK", "maxContracts": 2 },
           "play": { "window": "20:00-23:00 CT",
-                    "trigger": { "es": "FVG 1-5m + reclaim de 29657; o barrido de 29672 y cierre 5m bajo VAH", "en": "1-5m FVG + 29657 reclaim; or 29672 sweep and 5m close below VAH" },
+                    "trigger": { "es": "reclaim del FVG 1h 29655-29668 tras rechazo; o barrido de 29672 y cierre 5m bajo VAH", "en": "1h FVG 29655-29668 reclaim after rejection; or 29672 sweep and 5m close below VAH" },
                     "structStop": { "es": "sobre swing 29674 +3tk", "en": "above the 29674 swing +3tk" },
                     "scale": { "es": "1/2 en POC 29500 y BE; resto a VAL 29430", "en": "1/2 at POC 29500 and move to BE; rest to VAL 29430" },
-                    "ifWrong": { "es": "rápido: cierre 5m sobre 29674 → fuera; lento: solo mechas → aguanta a 29690", "en": "fast: 5m close above 29674 → out; slow: wicks only → hold to 29690" } } }
+                    "ifWrong": { "es": "rápido: cierre 5m sobre 29668 (borde alto del FVG 1h) → fuera; lento: solo mechas → aguanta a 29690", "en": "fast: 5m close above 29668 (1h FVG high edge) → out; slow: wicks only → hold to 29690" } } }
       ],
       "noTradeZone": [29498, 29657],
       "expectedMove": { "low": 55, "base": 85, "high": 120, "lowTk": 220, "baseTk": 340, "highTk": 480,
@@ -1036,6 +1061,11 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   uno llega al umbral. Los sub-objetos de calibración se tocan solo en `pre-asia`.
 - **Entrada por zona.** Cada zona A+ (y B en tabla) lleva `play` (`trigger` exacto, `structStop`,
   `scale`, `ifWrong`). Sin `play`, la zona no va a la tabla.
+- **FVG a la vista.** Toda zona lleva `fvg` (lista; `[]` si ninguno solapa). Si tiene FVG/iFVG
+  solapado no basta con sumarlo al `confluence`: la entrada `fvg` (TF, dir, rango, `weight`,
+  `role`), la mención en `verdict.reason`, y el rango exacto en `play.trigger`/`play.ifWrong`
+  cuando el `role` sea gatillo o invalidación. Si la zona del `focus` tiene FVG, `focus.setup`
+  lo cita. Un peso 2 (TF de sesión o mayor) es confluencia dura, trátalo como tal en el `reason`.
 - **Contra-caso OBLIGATORIO** en cada instrumento del plan (`counterCase`): el mejor argumento del lado
   contrario + una de 3 salidas explícitas (mantengo / mantengo pero degrado / GIRA). Tiene que
   poder girar `biasSession`; si dos corridas seguidas del mismo instrumento lo resuelven
