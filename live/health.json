@@ -1,52 +1,60 @@
 {
-  "checkedAt": "2026-09-04T18:48:51Z",
-  "status": "ok",
-  "snapshot": { "builtAt": "2026-09-04T18:45:13.005Z", "ageMin": 4, "state": "OK" },
-  "webhook": { "lastSeenMin": 4, "state": "ok" },
-  "news": { "ageMin": 10, "count": 23, "state": "ok" },
+  "checkedAt": "2026-09-05T00:47:41Z",
+  "status": "down",
+  "snapshot": { "builtAt": "2026-09-04T22:00:29.858Z", "ageMin": 167, "state": "VIEJO" },
+  "webhook": { "lastSeenMin": 226, "state": "silencioso" },
+  "news": { "ageMin": 182, "count": 23, "state": "stale" },
   "sa": { "lastRun": "2026-09-04T13:28:20Z", "runType": "pre-ny", "lateBy": null },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 4, "state": "fresh" },
-      "3reads": { "ageMin": 4, "state": "fresh" },
-      "drbias": { "ageMin": 4, "state": "fresh" },
-      "srzones": { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command": { "ageMin": 4, "state": "fresh" }
+      "orb": { "ageMin": 226, "state": "dead" },
+      "3reads": { "ageMin": 226, "state": "dead" },
+      "drbias": { "ageMin": 226, "state": "dead" },
+      "srzones": { "ageMin": 226, "state": "dead" },
+      "htfzones": { "ageMin": 226, "state": "dead" },
+      "command": { "ageMin": 226, "state": "dead" }
     },
     "ES": {
-      "orb": { "ageMin": 4, "state": "fresh" },
-      "3reads": { "ageMin": 4, "state": "fresh" },
-      "drbias": { "ageMin": 4, "state": "fresh" },
-      "srzones": { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command": { "ageMin": 4, "state": "fresh" }
+      "orb": { "ageMin": 226, "state": "dead" },
+      "3reads": { "ageMin": 226, "state": "dead" },
+      "drbias": { "ageMin": 226, "state": "dead" },
+      "srzones": { "ageMin": 226, "state": "dead" },
+      "htfzones": { "ageMin": 226, "state": "dead" },
+      "command": { "ageMin": 226, "state": "dead" }
     },
     "GC": {
-      "orb": { "ageMin": 9, "state": "fresh" },
-      "3reads": { "ageMin": 9, "state": "fresh" },
-      "drbias": { "ageMin": 9, "state": "fresh" },
-      "srzones": { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command": { "ageMin": 9, "state": "fresh" }
+      "orb": { "ageMin": 226, "state": "dead" },
+      "3reads": { "ageMin": 226, "state": "dead" },
+      "drbias": { "ageMin": 226, "state": "dead" },
+      "srzones": { "ageMin": 226, "state": "dead" },
+      "htfzones": { "ageMin": 226, "state": "dead" },
+      "command": { "ageMin": 226, "state": "dead" }
     },
     "YM": {
-      "orb": { "ageMin": 4, "state": "fresh" },
-      "3reads": { "ageMin": 4, "state": "fresh" },
-      "drbias": { "ageMin": 4, "state": "fresh" },
-      "srzones": { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command": { "ageMin": 4, "state": "fresh" }
+      "orb": { "ageMin": 226, "state": "dead" },
+      "3reads": { "ageMin": 226, "state": "dead" },
+      "drbias": { "ageMin": 226, "state": "dead" },
+      "srzones": { "ageMin": 226, "state": "dead" },
+      "htfzones": { "ageMin": 226, "state": "dead" },
+      "command": { "ageMin": 226, "state": "dead" }
     },
     "CL": {
-      "orb": { "ageMin": 9, "state": "fresh" },
-      "3reads": { "ageMin": 9, "state": "fresh" },
-      "drbias": { "ageMin": 9, "state": "fresh" },
-      "srzones": { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command": { "ageMin": 9, "state": "fresh" }
+      "orb": { "ageMin": 226, "state": "dead" },
+      "3reads": { "ageMin": 226, "state": "dead" },
+      "drbias": { "ageMin": 226, "state": "dead" },
+      "srzones": { "ageMin": 226, "state": "dead" },
+      "htfzones": { "ageMin": 226, "state": "dead" },
+      "command": { "ageMin": 226, "state": "dead" }
     }
   },
-  "issues": [],
-  "note": { "es": "todo fresco, 4 min", "en": "all fresh, 4 min" }
+  "issues": [
+    "snapshot VIEJO (167 min)",
+    "webhook silencioso (226 min)",
+    "orb/3reads/drbias/srzones/htfzones/command dead@NQ,ES,GC,YM,CL (226 min)",
+    "news stale (182 min)"
+  ],
+  "note": {
+    "es": "corte total de la tuberia: snapshot de 167 min y las 5 fuentes de los 5 simbolos llevan 226 min sin actualizarse, probable caida del cron sa-bus-snapshot o del feed de TradingView",
+    "en": "full pipeline outage: snapshot is 167 min old and all 5 sources across all 5 symbols have not updated in 226 min, likely the sa-bus-snapshot cron or TradingView feed is down"
+  }
 }
