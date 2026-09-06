@@ -605,7 +605,16 @@ FVG/iFVG de `srzones.fvg` que solapa el rango de la zona. `[]` si no hay ninguno
      - `5 ≤ n < 10` **y** `biasTk` con el mismo signo en toda la ventana (error consistente, no
        ruido) → corrección **provisional a media fuerza**: `mult_prov = 1 + 0.5·(mult − 1)`,
        recortado a 0.8–1.25; anótalo como `expectedMove.mult` + `" (provisional, n=X)"`.
-     - `n < 5` → sin corrección (`mult` 1.0).
+     - `n < 5` → sin corrección (`mult` 1.0). **Pero** si `1 ≤ n < 5` y `biasTk` sale con el
+       MISMO signo en toda la ventana (error consistente, no un solo outlier) y
+       `|mediana(biasTk)| ≥ 0.20·baseTk`, es señal de que el EM viene sesgado aunque aún no
+       haya muestra para corregirlo: **NO toques `mult`**, pero arma
+       `expectedMove.underCal = { "dir": "+"|"-", "n": <int>, "note": {es,en} }` como aviso
+       (`+` = realizado > predicho → ensancha; `-` = realizado < predicho → recorta). Refuerza
+       el aviso —no lo crea— que la celda `<SYM>|<sesion>` haya salido como `EM_mal_calibrado`
+       en algún review reciente. El aviso NO ensancha nada por su cuenta: le dice a quien lee
+       que mueva stop/target a mano en esa dirección hasta que `n ≥ 5` habilite la corrección
+       provisional. Si no se cumplen las tres condiciones, `underCal = null`.
    - Rango esperado de la sesión: **baja / base / alta** en puntos y ticks (base = reparto ×
      mult; baja = base×0.65, alta = base×1.4)
    - Rango del día: recorrido vs presupuesto (%) y restante en puntos/ticks
@@ -900,7 +909,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
       ],
       "noTradeZone": [29498, 29657],
       "expectedMove": { "low": 55, "base": 85, "high": 120, "lowTk": 220, "baseTk": 340, "highTk": 480,
-                        "dayBudget": 310, "dayUsed": 90, "dayUsedPct": 29, "dayRemaining": 220, "flag": "EXPANSIÓN", "mult": 1.0 },
+                        "dayBudget": 310, "dayUsed": 90, "dayUsedPct": 29, "dayRemaining": 220, "flag": "EXPANSIÓN", "mult": 1.0, "underCal": null },
       "keyLevels": [ { "name": { "es": "VAH", "en": "VAH" }, "price": 29659.79, "distPts": 12.4, "distTicks": 50 } ],
       "news": [ { "title": "…", "ct": "…", "handsOff": ["…", "…"] } ]
     },
@@ -959,7 +968,8 @@ PRIMERA línea del `summary` y del `digest.txt`, con prefijo `!! `.
 `ruptura IB`…), NUNCA el slug del enum (`fade_vah`, `bounce_val`, `ib_break`).
 
 **Abreviaturas: lista cerrada.** Usa SOLO estas; no inventes paréntesis ni sufijos sueltos:
-`EM <n>p` (movimiento esperado en puntos) · `Nd` (N días) · `A+`/`B` (calidad de zona) ·
+`EM <n>p` (movimiento esperado en puntos) · `EM+`/`EM-` (EM históricamente corto/largo aquí,
+n<5, ensancha/recorta a mano) · `Nd` (N días) · `A+`/`B` (calidad de zona) ·
 `<n>A` (n ATR de estiramiento) · `cont` (continuación) · `sin sesgo` (biasSession NEUTRAL) ·
 `OK`/`VIEJO` (datos) · `NINGUNA`/`MEDIA`/`ALTA` (noticias). Prohibido: `(idx)`, `(ruido)`,
 `(max)`, `(re-check)` salvo el de la primera línea, `resid`, y cualquier `(...)` improvisado.
@@ -990,6 +1000,11 @@ de-identificado). `<n>` = `days` de la ventana. Los `%` se calculan sobre trades
 redondea al entero. Añade ` · churn` si algún día del tramo trae `overtrade`, `revenge` o
 `roundTrip`. Si no existe `scorecard.execution` (falta `live/journal.json` o va sin datos),
 **omite la línea entera**, no pongas ceros.
+
+**Marcador `EM+`/`EM-`**: si un instrumento trae `expectedMove.underCal` (no null), pega el
+marcador al final de su token EM en la línea del instrumento (`NQ WAIT · sin sesgo · rebote
+VAL · EM 102p EM+`), `+`/`-` según `underCal.dir`. Es el aviso de ensanchar/recortar a mano
+(ver sección 5). Nunca lo pongas si `underCal` es null.
 
 ### Archivo `live/heartbeat.json` · todas las corridas
 
