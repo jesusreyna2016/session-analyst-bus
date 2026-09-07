@@ -114,13 +114,13 @@ con `Authorization: Bearer $SA_BUS_TOKEN`, body `{message, content(base64), bran
 
 ## 1 · Flujo de cada corrida
 
-El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `pre-london` | `pre-ny` | `weekly`.
+El prompt de la rutina te da `RUN_TYPE` ∈ `pre-asia` | `asia-2` | `pre-london` | `pre-ny` | `weekly`.
 
 `weekly` (rutina de sábado, 10:00 CT) es una corrida aparte y ligera: NO produce plan
 de sesión ni toca `plans/`. Solo lee los planes + `reviews/` diarios + `state` +
 `live/journal.json` de la semana lunes-viernes que cerró y escribe la meta-revisión
 (sección 6.1). Su flujo entero está en 6.1; el resto de esta sección 1 y las secciones
-3-5 y 7 son para las tres corridas de sesión.
+3-5 y 7 son para las corridas de sesión (`pre-asia`, `asia-2`, `pre-london`, `pre-ny`).
 
 1. `git pull` para tener el bus al día. Lee `method/instructions.md` entero y síguelo.
 2. Lee `state/sa-state.json` (tu historial: úsalo como priores) y `live/market.json`
@@ -164,12 +164,55 @@ de sesión ni toca `plans/`. Solo lee los planes + `reviews/` diarios + `state` 
 | RUN_TYPE | Cron CT | Qué produce |
 |---|---|---|
 | `pre-asia` | 16:05 | **Cierre + aprendizaje del día que terminó** (sección 6) y luego **plan completo** de Asia + tesis del día |
+| `asia-2` | 19:00 | **Update ligero** tras la apertura real de Tokio: qué del plan de Asia aguantó el chop de la reapertura, si se activó sesgo/setup, `focus` y rango restante refrescados. NO re-deriva, NO califica, NO toca `state`. |
 | `pre-london` | 01:25 | **Update enfocado**: califica Asia vs el plan, qué cambió, plan de Londres, tesis ajustada, rango restante |
 | `pre-ny` | 07:55 | **Update enfocado**: califica Londres (mañana) vs el plan, qué cambió, plan de NY, tesis ajustada, rango restante |
 | `weekly` | sáb 10:00 | **Meta-revisión** de la semana lun-vie que cerró (sección 6.1). Sin plan de sesión. |
 
-`pre-asia` es la corrida pesada. `pre-london` y `pre-ny` parten de `dayThesis` del día
-vigente y reportan el delta, no re-derivan todo.
+`pre-asia` es la corrida pesada. `asia-2`, `pre-london` y `pre-ny` parten de `dayThesis` del
+día vigente y reportan el delta, no re-derivan todo. `asia-2` es la más ligera: mismo día CT
+y misma `session:"asia"` que el `pre-asia` de esa tarde, no abre sesión nueva.
+
+### `RUN_TYPE=asia-2` · update ligero tras abrir Tokio
+
+La reapertura de Globex (17:00 CT) suele ser chop; la volatilidad real de Asia no arranca
+hasta que abre Tokio (~19:00 CT / 00:00Z). El `pre-asia` (16:05 CT) publicó el plan con el
+día de futuros recién cerrado; `asia-2` lo confirma o lo ajusta con 2-3 h de precio real.
+
+**Entra en juego solo si** existe `plans["<hoy>-pre-asia"]` con `session:"asia"` del mismo
+día CT. Si no existe (el `pre-asia` falló), corre igual pero arma el plan de Asia desde cero
+con el flujo de `pre-asia` SIN la parte de cierre/calificación (sección 6), y dilo en
+`heartbeat.note`.
+
+**Lee**: `plans/latest.json` (el plan de `pre-asia`), `live/market.json` fresco,
+`state/sa-state.json` solo como prior (no lo reescribas).
+
+**Actualiza EN SITIO sobre `plans/latest.json`**, sin re-derivar:
+- `generatedAt`, `runType:"asia-2"`, `dataHealth` (re-corre el chequeo de frescura, sección 2).
+- Por instrumento: precio y estiramiento/ATR actuales; `expectedMove.dayUsed` /
+  `dayUsedPct` / `dayRemaining` con el recorrido real desde la reapertura; `verdict` y
+  `alarm` SOLO si cambiaron de estado; una frase en `context` de qué niveles/zonas del plan
+  aguantaron o se rompieron en el chop de la reapertura.
+- `zones[].play`: si el gatillo ya se dio, la ventana venció o la invalidación se tocó,
+  dilo (ajusta `window` / `trigger` / `ifWrong`); no re-puntúes la confluencia ni muevas
+  los rangos de las zonas.
+- `focus`: refréscalo. Si su setup ya disparó o se invalidó, mueve el `focus` a la
+  siguiente mejor oportunidad viva; si sigue en pie, actualiza `trigger` / `invalid` /
+  `window`.
+- `counterCase`, `predictions`, `smt`, `gap`, `prevDay`, `thesisAlign`, `scenarioA/B`,
+  `zones[].range/confluence/risk`, `expectedMove.underCal`, `keyLevels`, `dayThesis`,
+  `alertLevels`: **intactos**, salvo que un nivel citado ya no exista.
+
+**NO** escribas `state/sa-state.json`, `reviews/`, ni re-incrementes `zones` / `scorecard`.
+
+**Escribe**: `plans/latest.json`, `plans/<hoy>-asia-2.json`, `plans/digest.txt` (solo
+reescribe las líneas que se movieron; la primera línea es `SA asia-2 <fecha> <hora CT>`),
+`live/heartbeat.json` (`runType:"asia-2"`, `note` = qué aguantó / qué se activó / "sin
+cambios materiales"). Si NADA material se movió: toca solo `heartbeat.json`, commitea y
+dilo en el resumen; no reescribas `plans/latest.json`.
+
+**Idempotencia**: si ya hay `plans["<hoy>-asia-2"]` y `heartbeat.lastRun` tiene < 45 min
+con `runType:"asia-2"`, es re-disparo → **modo refresco** (sección 1, paso 2).
 
 La "Cron CT" es cuándo DISPARA la rutina, no cuándo queda el plan. El arranque en la
 nube más la corrida se comen ~15-25 min, así que el plan publicado (commit + `digest.txt`)
