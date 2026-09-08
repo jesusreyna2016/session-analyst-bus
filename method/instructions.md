@@ -190,18 +190,36 @@ con el flujo de `pre-asia` SIN la parte de cierre/calificación (sección 6), y 
 **Actualiza EN SITIO sobre `plans/latest.json`**, sin re-derivar:
 - `generatedAt`, `runType:"asia-2"`, `dataHealth` (re-corre el chequeo de frescura, sección 2).
 - Por instrumento: precio y estiramiento/ATR actuales; `expectedMove.dayUsed` /
-  `dayUsedPct` / `dayRemaining` con el recorrido real desde la reapertura; `verdict` y
-  `alarm` SOLO si cambiaron de estado; una frase en `context` de qué niveles/zonas del plan
-  aguantaron o se rompieron en el chop de la reapertura.
+  `dayUsedPct` / `dayRemaining` con el recorrido real desde la reapertura; `verdict.signal` y
+  `alarm` SOLO si cambiaron de estado; `verdict.reason` siempre que su redacción dependa de
+  algo que ya cambió (p. ej. "espera a que vuelva el feed" cuando el feed ya volvió); una
+  frase en `context` de qué niveles/zonas del plan aguantaron o se rompieron en el chop de
+  la reapertura.
 - `zones[].play`: si el gatillo ya se dio, la ventana venció o la invalidación se tocó,
   dilo (ajusta `window` / `trigger` / `ifWrong`); no re-puntúes la confluencia ni muevas
   los rangos de las zonas.
 - `focus`: refréscalo. Si su setup ya disparó o se invalidó, mueve el `focus` a la
   siguiente mejor oportunidad viva; si sigue en pie, actualiza `trigger` / `invalid` /
   `window`.
+- `keyLevels`: recomputa `distPts` / `distTicks` desde el precio fresco. Si un nivel es un
+  placeholder del apagón ("último precio conocido (HH:MM CT)", "cierre provisional") y ahora
+  hay precio/cierre real, renómbralo o quítalo.
 - `counterCase`, `predictions`, `smt`, `gap`, `prevDay`, `thesisAlign`, `scenarioA/B`,
-  `zones[].range/confluence/risk`, `expectedMove.underCal`, `keyLevels`, `dayThesis`,
-  `alertLevels`: **intactos**, salvo que un nivel citado ya no exista.
+  `zones[].range/confluence/risk`, `expectedMove.underCal`, `dayThesis`, `alertLevels`:
+  **intactos en su lógica** (dirección, niveles, targets, probabilidades). Solo pasa el
+  barrido de reconciliación de abajo sobre su redacción; y quítalos solo si un nivel citado
+  ya no existe.
+
+**Reconciliación de lenguaje stale** (solo si el `pre-asia` se escribió con datos
+degradados: su `dataHealth.stale` / `missing` venía no vacío, o sus notas mencionaban una
+caída de feed). Si `asia-2` ya ve el feed sano, esas condiciones se resolvieron: barre de
+TODOS los campos que arrastras (incluidos `summary` y los "intactos") las frases del tipo
+"feed sin refrescar hace Xh", "sin precio fresco", "cierre provisional / no llegó al cierre
+real", "confirma con el primer precio fresco al reabrir", "si en las horas sin datos…".
+Reemplázalas por el hecho ya conocido: el precio real de la reapertura, el nivel concreto
+que confirma o niega cada escenario, y si el cierre RTH quedó disponible. NO cambies
+dirección, niveles, targets ni probabilidades: solo la parte de la redacción que decía "no
+se sabe todavía". Si el `pre-asia` tenía datos limpios, no toques nada de esto.
 
 **NO** escribas `state/sa-state.json`, `reviews/`, ni re-incrementes `zones` / `scorecard`.
 
