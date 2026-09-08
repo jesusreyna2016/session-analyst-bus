@@ -1,52 +1,58 @@
 {
-  "checkedAt": "2026-09-08T12:48:26Z",
+  "checkedAt": "2026-09-08T18:48:36Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-09-08T12:45:13.613Z", "ageMin": 3, "state": "OK" },
-  "webhook": { "lastSeenMin": 3, "state": "ok" },
-  "news": { "ageMin": 23, "count": 16, "state": "ok" },
-  "sa": { "lastRun": "2026-09-08T07:36:30Z", "runType": "pre-london", "lateBy": null },
+  "snapshot": { "builtAt": "2026-09-08T18:45:17.291Z", "ageMin": 3, "state": "OK" },
+  "webhook": { "lastSeenMin": 4, "state": "ok" },
+  "news": { "ageMin": 28, "count": 16, "state": "ok" },
+  "sa": { "lastRun": "2026-09-08T13:32:20Z", "runType": "pre-ny", "lateBy": null },
   "sources": {
-    "YM": {
-      "orb": { "ageMin": 3, "state": "fresh" },
-      "3reads": { "ageMin": 3, "state": "fresh" },
-      "drbias": { "ageMin": 3, "state": "fresh" },
-      "srzones": { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command": { "ageMin": 3, "state": "fresh" }
-    },
-    "GC": {
-      "orb": { "ageMin": 3, "state": "fresh" },
-      "3reads": { "ageMin": 8, "state": "fresh" },
-      "drbias": { "ageMin": 3, "state": "fresh" },
-      "srzones": { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command": { "ageMin": 3, "state": "fresh" }
-    },
     "NQ": {
-      "orb": { "ageMin": 3, "state": "fresh" },
-      "3reads": { "ageMin": 3, "state": "fresh" },
-      "drbias": { "ageMin": 3, "state": "fresh" },
-      "srzones": { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command": { "ageMin": 3, "state": "fresh" }
-    },
-    "CL": {
-      "orb": { "ageMin": 3, "state": "frozen" },
-      "3reads": { "ageMin": 8, "state": "fresh" },
-      "drbias": { "ageMin": 3, "state": "fresh" },
-      "srzones": { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command": { "ageMin": 3, "state": "fresh" }
+      "orb": { "ageMin": 4, "state": "fresh" },
+      "3reads": { "ageMin": 4, "state": "fresh" },
+      "drbias": { "ageMin": 4, "state": "fresh" },
+      "srzones": { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command": { "ageMin": 4, "state": "fresh" }
     },
     "ES": {
-      "orb": { "ageMin": 3, "state": "fresh" },
+      "orb": { "ageMin": 4, "state": "fresh" },
+      "3reads": { "ageMin": 4, "state": "fresh" },
+      "drbias": { "ageMin": 4, "state": "fresh" },
+      "srzones": { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command": { "ageMin": 4, "state": "fresh" }
+    },
+    "GC": {
+      "orb": { "ageMin": 8, "state": "fresh" },
       "3reads": { "ageMin": 3, "state": "fresh" },
+      "drbias": { "ageMin": 3, "state": "fresh" },
+      "srzones": { "ageMin": 3, "state": "fresh" },
+      "htfzones": { "ageMin": 3, "state": "fresh" },
+      "command": { "ageMin": 3, "state": "fresh" }
+    },
+    "YM": {
+      "orb": { "ageMin": 4, "state": "fresh" },
+      "3reads": { "ageMin": 4, "state": "fresh" },
+      "drbias": { "ageMin": 4, "state": "fresh" },
+      "srzones": { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command": { "ageMin": 4, "state": "fresh" }
+    },
+    "CL": {
+      "orb": { "ageMin": 9, "state": "frozen" },
+      "3reads": { "ageMin": 369, "state": "dead" },
       "drbias": { "ageMin": 3, "state": "fresh" },
       "srzones": { "ageMin": 3, "state": "fresh" },
       "htfzones": { "ageMin": 3, "state": "fresh" },
       "command": { "ageMin": 3, "state": "fresh" }
     }
   },
-  "issues": [ "orb@CL frozen (vah 94.01 vs command 94.33, 0.34%)" ],
-  "note": { "es": "orb de CL congelado por discrepancia con command (0.34%), resto fresco", "en": "CL orb frozen, discrepancy vs command (0.34%), rest fresh" }
+  "issues": [
+    "orb@CL frozen (poc Δ0.55% vs command, 9 min)",
+    "3reads@CL dead (369 min)"
+  ],
+  "note": {
+    "es": "CL con orb congelado (poc desalineado 0.55% vs command) y 3reads muerto (369 min); resto del bus fresco.",
+    "en": "CL orb looks frozen (poc off 0.55% vs command) and 3reads is dead (369 min); rest of the bus is fresh."
+  }
 }
