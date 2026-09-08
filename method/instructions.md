@@ -386,8 +386,10 @@ viejo lo que solo refleja mercado cerrado).
      ir contra la tesis y el precio está en tierra de nadie" → AVOID.
    Escribe `thesisAlign: { state, daysHeld, note }` por instrumento (`note` = una línea).
 3. **Escenarios**:
-   - **A (primario)**: qué esperas, disparador (nivel + condición), objetivo, en qué zona se entra a favor.
-   - **B (alterno)**: el segundo camino más probable y su disparador.
+   - **A (primario)**: qué esperas, disparador (nivel + condición), objetivo (`target`), y si aplica un
+     segundo objetivo `target2` (el siguiente nivel en la dirección del trade), en qué zona se entra a favor.
+   - **B (alterno)**: el segundo camino más probable y su disparador; si el flip abre una zona concreta
+     (p.ej. la zona dorada del retroceso), da sus límites en `zone: [lo, hi]`.
    - **Invalidación**: qué precio o cierre mata la narrativa del día.
 4. **Zonas de alta probabilidad** (sección 4), cada una con su `risk` (stop, objetivo, R:R en
    puntos/ticks/$ por contrato).
@@ -946,8 +948,8 @@ Es el plan estructurado que pinta el Command Center. Schema:
                        "en": "bullish despite the short: the weekly higher-timeframe bias is still positive and there's an unfilled gap above; the short holds unless price accepts over TDO 29668, then it would flip long" },
       "verdict": { "signal": "GO", "reason": { "es": "borde VAH a favor del corto, confluencia 6 (perfil+EMA50+VWAP+barrida PDH+sesión+FVG 1h 29655-29668 peso 2)", "en": "VAH edge with the short, confluence 6 (profile+EMA50+VWAP+PDH sweep+session+1h FVG 29655-29668 weight 2)" } },
       "context": { "es": "…", "en": "…" },
-      "scenarioA": { "text": { "es": "…", "en": "…" }, "trigger": { "es": "…", "en": "…" }, "target": 29450, "entryZone": [29655, 29660] },
-      "scenarioB": { "text": { "es": "…", "en": "…" }, "trigger": { "es": "…", "en": "…" } },
+      "scenarioA": { "text": { "es": "…", "en": "…" }, "trigger": { "es": "…", "en": "…" }, "target": 29450, "target2": 29400, "entryZone": [29655, 29660] },
+      "scenarioB": { "text": { "es": "…", "en": "…" }, "trigger": { "es": "…", "en": "…" }, "zone": [29614, 29646] },
       "invalidation": { "text": { "es": "…", "en": "…" }, "level": 29710 },
       "predictions": [
         { "id": "NQ-1", "kind": "range", "resolveAt": "cierre Asia 01:00 CT",
