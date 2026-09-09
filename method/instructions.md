@@ -76,6 +76,13 @@ encuentras un token camelCase, un `bias*`/`*Score`/`*Zone`, un nombre de indicad
 continuación"). El slug SOLO vive en `zones[].type` (campo programático). No entregues el
 plan con jerga de campo dentro. Y cada `en` va 100% en inglés (nada de texto español dentro).
 
+**Chequeo de coherencia de niveles** (mismo momento, antes de escribir): por cada instrumento,
+el punto medio de cada `zones[].range` y de `scenarioA.entryZone` NO puede caer dentro de
+`noTradeZone`. Si cae, recorta `noTradeZone` al borde de esa zona (sección 6); si tras recortar
+queda sin ancho, la zona era tierra de nadie → sácala de la tabla y `verdict` a WAIT/AVOID.
+También: `scenarioA.target`/`target2` del lado correcto del sesgo respecto a la entrada, e
+`invalidation.level` del lado del stop. Un plan que se contradice a sí mismo no se emite.
+
 **En español (NO bilingüe)**: `state/sa-state.json` completo (`narrative`, `models`, `reviews`,
 `dayThesis` del estado son el cuaderno interno del agente), `plans/digest.txt`, `reviews/*.md`
 y el resumen de respuesta de la corrida.
@@ -394,7 +401,14 @@ viejo lo que solo refleja mercado cerrado).
 4. **Zonas de alta probabilidad** (sección 4), cada una con su `risk` (stop, objetivo, R:R en
    puntos/ticks/$ por contrato).
 5. **Estimado de movimiento de la sesión** (sección 5).
-6. **Zona de no-trade**: `orb.noTradeZone` + tierra de nadie entre niveles.
+6. **Zona de no-trade** (`noTradeZone`): `orb.noTradeZone` + tierra de nadie entre niveles.
+   **Regla dura de consistencia**: `noTradeZone` NO puede contener la entrada de ninguna zona A+
+   ni de `scenarioA.entryZone`. La A+ vive en el BORDE del no-trade o FUERA de él, nunca con el
+   fill adentro. Si el borde del no-trade te tapa la entrada de la A+, recorta el `noTradeZone`
+   hasta el borde de esa zona (en un corto, baja el techo del no-trade hasta el `lo` de la A+;
+   en un largo, sube el piso hasta el `hi`). Si al recortarlo el no-trade se queda sin ancho, o
+   si de verdad la única zona cae en medio del chop, entonces esa zona ES tierra de nadie: fuera
+   de la tabla y `verdict` no-GO. Comprueba esto en el auto-chequeo antes de escribir el plan.
 7. **Niveles en juego**: lista con precio y **distancia desde el precio actual en puntos
    y ticks**, ordenados por cercanía. Incluye, además del perfil y pivotes, los de referencia
    extra de `command.raw`: **ONH/ONL** (rango overnight), **IBH/IBL** (Initial Balance) y, si
@@ -583,7 +597,9 @@ Tabla por instrumento, rankeada por score y luego win-rate (máx 5):
 | Zona (rango) | Dir | Tipo | Confluencia | Dist (pts / ticks) | R:R | Win-rate hist |
 |---|---|---|---|---|---|---|
 
-La zona de no-trade va aparte, nunca en la tabla.
+La zona de no-trade va aparte, nunca en la tabla. Y nunca solapa la entrada de una zona A+ de
+la tabla (ver la regla dura de consistencia en la sección 6): si el `noTradeZone` que traes de
+`orb` se come el fill de tu mejor zona, recórtalo al borde de esa zona antes de emitirlo.
 
 ### Riesgo por zona (campo `risk` de cada zona)
 
@@ -970,7 +986,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
                     "scale": { "es": "1/2 en POC 29500 y BE; resto a VAL 29430", "en": "1/2 at POC 29500 and move to BE; rest to VAL 29430" },
                     "ifWrong": { "es": "rápido: cierre 5m sobre 29668 (borde alto del FVG 1h) → fuera; lento: solo mechas → aguanta a 29690", "en": "fast: 5m close above 29668 (1h FVG high edge) → out; slow: wicks only → hold to 29690" } } }
       ],
-      "noTradeZone": [29498, 29657],
+      "noTradeZone": [29498, 29648],
       "expectedMove": { "low": 55, "base": 85, "high": 120, "lowTk": 220, "baseTk": 340, "highTk": 480,
                         "dayBudget": 310, "dayUsed": 90, "dayUsedPct": 29, "dayRemaining": 220, "flag": "EXPANSIÓN", "mult": 1.0, "underCal": null },
       "keyLevels": [ { "name": { "es": "VAH", "en": "VAH" }, "price": 29659.79, "distPts": 12.4, "distTicks": 50 } ],
