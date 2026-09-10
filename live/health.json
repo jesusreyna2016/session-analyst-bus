@@ -1,11 +1,19 @@
 {
-  "checkedAt": "2026-09-10T12:48:23Z",
-  "status": "ok",
-  "snapshot": { "builtAt": "2026-09-10T12:45:11.669Z", "ageMin": 3, "state": "OK" },
-  "webhook":  { "lastSeenMin": 3, "state": "ok" },
-  "news":     { "ageMin": 3, "count": 16, "state": "ok" },
-  "sa":       { "lastRun": "2026-09-10T07:02:18Z", "runType": "pre-london", "lateBy": null },
+  "checkedAt": "2026-09-10T18:47:36Z",
+  "status": "warn",
+  "snapshot": { "builtAt": "2026-09-10T18:45:18.434Z", "ageMin": 2, "state": "OK" },
+  "webhook":  { "lastSeenMin": 2, "state": "ok" },
+  "news":     { "ageMin": 2, "count": 16, "state": "ok" },
+  "sa":       { "lastRun": "2026-09-10T13:29:57Z", "runType": "pre-ny", "lateBy": null },
   "sources": {
+    "GC": {
+      "orb":      { "ageMin": 3, "state": "fresh" },
+      "3reads":   { "ageMin": 3, "state": "fresh" },
+      "drbias":   { "ageMin": 3, "state": "fresh" },
+      "srzones":  { "ageMin": 3, "state": "fresh" },
+      "htfzones": { "ageMin": 3, "state": "fresh" },
+      "command":  { "ageMin": 3, "state": "fresh" }
+    },
     "NQ": {
       "orb":      { "ageMin": 3, "state": "fresh" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
@@ -22,24 +30,16 @@
       "htfzones": { "ageMin": 3, "state": "fresh" },
       "command":  { "ageMin": 3, "state": "fresh" }
     },
-    "GC": {
-      "orb":      { "ageMin": 3, "state": "fresh" },
-      "3reads":   { "ageMin": 3, "state": "fresh" },
-      "drbias":   { "ageMin": 3, "state": "fresh" },
-      "srzones":  { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command":  { "ageMin": 3, "state": "fresh" }
-    },
     "YM": {
-      "orb":      { "ageMin": 3, "state": "fresh" },
-      "3reads":   { "ageMin": 3, "state": "fresh" },
-      "drbias":   { "ageMin": 3, "state": "fresh" },
-      "srzones":  { "ageMin": 8, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command":  { "ageMin": 3, "state": "fresh" }
+      "orb":      { "ageMin": 2, "state": "fresh" },
+      "3reads":   { "ageMin": 2, "state": "fresh" },
+      "drbias":   { "ageMin": 2, "state": "fresh" },
+      "srzones":  { "ageMin": 2, "state": "fresh" },
+      "htfzones": { "ageMin": 2, "state": "fresh" },
+      "command":  { "ageMin": 2, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 3, "state": "fresh" },
+      "orb":      { "ageMin": 3, "state": "frozen" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
@@ -47,6 +47,11 @@
       "command":  { "ageMin": 3, "state": "fresh" }
     }
   },
-  "issues": [],
-  "note": { "es": "todo fresco, 3 min", "en": "all fresh, 3 min" }
+  "issues": [
+    "orb@CL frozen (val +3.6% vs command, poc +1.4%)"
+  ],
+  "note": {
+    "es": "todo fresco salvo orb@CL congelado (val/poc desalineados vs command, edad baja)",
+    "en": "all fresh except orb@CL frozen (val/poc mismatched vs command, low age)"
+  }
 }
