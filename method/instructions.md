@@ -361,7 +361,8 @@ viejo lo que solo refleja mercado cerrado).
    **Peso de fuentes**: si `scorecard.sourceReliability` marca una fuente como floja para este
    instrumento/sesión (`n ≥ 10` y `rate < 0.45`), pésala a la MITAD en el sesgo y dilo
    ("command 4/12 en GC pre-NY → medio peso"). Si `convictionCalibration` de este símbolo dice
-   que "alta" no bate a "media", para poner "alta" exige 4 fuentes coincidentes, no 3.
+   que "alta" no bate a "media" (o el símbolo está en `state.overrides.convictionBar4`), para
+   poner "alta" exige 4 fuentes coincidentes, no 3.
    **Prior del día anterior** (`prevDay`): es el **último día de FUTUROS COMPLETADO** (la
    sesión Globex que terminó en el cierre diario de 16:00 CT; para un lunes = el viernes), NO
    "hoy hasta ahora". SIEMPRE tiene un cierre real, así que `closedAt` nunca es "n/a / día en
@@ -383,6 +384,22 @@ viejo lo que solo refleja mercado cerrado).
    Anótala en el `context` de los índices implicados y súmala como +1 de confluencia (sección 4) a una zona
    de reversión en la dirección que la SMT favorece. GC y CL no participan (mercados distintos). Escribe `smt: { state:
    "alcista"|"bajista"|"ninguna", note }` en NQ, ES e YM (en GC y CL siempre `"ninguna"`).
+   **Conflicto de marcos** (`frameConflict`, por instrumento): es `true` cuando el marco de
+   FONDO (diario/semanal: `orb.weeklyDir` + `htfzones.biasD`/`biasW` + estructura HTF de
+   `command`) y el marco de SESIÓN (`orb.biasDir` + `3reads.ctrl1h` + estructura 1h) apuntan en
+   direcciones **opuestas** (no "neutral vs algo": opuestas de verdad, p.ej. diario +3 alcista
+   vs 1h bajista confirmado), o cuando las **2 últimas sesiones** de ese instrumento cerraron
+   sin resolución neta (whipsaw, |cierre−apertura| < 20 % del rango de la sesión). Escribe
+   `frameConflict: { on: <bool>, note }` — `note` nombra los dos marcos ("diario +3/+3 vs 1h
+   estructura bajista, 2ª sesión sin resolver"). Lo usa el `verdict` (bullet 9) y las
+   predicciones.
+   **Riesgo de whipsaw** (`whipsawRisk`, por instrumento): estimación 0-1 de que la sesión que
+   entra sea de chop / sin resolución direccional. Sube con: `frameConflict.on` (+0.35),
+   ADR realizado hoy < 35 % (+0.2), estructura en balance/rango pegada a POC (+0.2), 1-2
+   sesiones previas sin resolver (+0.15 c/u), `command.chop`=1 (+0.15); baja con tendencia
+   clara de 3reads + `command.strength` FUERTE alineado (−0.3). `clamp(0,1)`. Escribe
+   `whipsawRisk: { score: <0-1>, note }`. Es una llamada FALSABLE: la `pre-asia` siguiente la
+   califica (sección 6, `whipsawCal`).
 2. **Contexto**: dónde está el precio en el perfil (vs VAH/POC/VAL, premium/discount,
    golden zone), qué hizo la sesión anterior, y la tesis multi-día vigente de `narrative`.
    **Gap de apertura** (`gap`): mide `command.dayOpen − drbias.pdc` en pts y ticks. Clasifica
@@ -496,6 +513,18 @@ viejo lo que solo refleja mercado cerrado).
      `risk.rr` ≥ 1.5 y flag no malo, con un gatillo esperable ahí (FVG/iFVG, reclaim, rechazo,
      cambio de estructura), y **fuera de la ventana de manos fuera** si hay noticia. Nunca
      "esperando" que un nivel aguante sin que haya rechazado antes.
+   **Freno por conflicto de marcos**: si `frameConflict.on` = true, el `verdict` **NO puede ser
+   GO** aunque exista una A+ (score ≥ 6) — queda en WAIT (o AVOID si además está estirado /
+   iría contra el sesgo mayor): en día de marcos opuestos el edge es NO estar dentro (es donde
+   Jesus hace churn). Única excepción para GO: reversión confirmada JUSTO en el nivel de
+   invalidación de uno de los dos marcos (operas la ruptura de un marco, no la anticipas),
+   igual que `thesisAlign` CONFLICT. El `reason` abre nombrando los dos marcos.
+   **Freno por whipsaw**: si `whipsawRisk.score ≥ 0.6`, la convicción no pasa de "media" y el
+   `summary` + `focus.note` abren nombrándolo ("día de chop probable, no fuerces").
+   **Listón de GO por histórico**: si `scorecard.verdictScore["<SYM>|<sesion>"].go.rate < 0.45`
+   con `n ≥ 12`, sube el listón de GO para ese instrumento/sesión: exige `confluence ≥ 7` **o**
+   `winN ≥ 8` a favor (win-rate encogido ≥ 0.55). Dilo en el `reason` ("GO 4/13 histórico aquí
+   → pido confluencia 7").
    `reason` = una línea que diga POR QUÉ y qué fuga evita (ej.: "en no-trade sobre POC, sin borde
    [chop]"; "estirado 2.6x ATR, no perseguir [perseguir]"; "único setup sería largo contra el
    sesgo bajista [contra-sesgo]"; "A+ en VAH: perfil+EMA50+VWAP+sweep PDH+sesión, a favor del corto").
@@ -541,6 +570,17 @@ resolveAt: "<sesión o hora CT>", prob: <0-1 opcional para las probabilísticas>
 `prob ≥ 0.65` o `≤ 0.35` (te mojas). Si no hay ninguna afirmación de alta convicción hoy para
 ese instrumento, dilo explícito en el `context` ("sin lectura de convicción para NQ hoy, todo
 sale 0.5") en vez de rellenar con cinco 0.55.
+**Override**: los `<SYM>|<kind>` que estén en `state.overrides.predictionSkip` (los retiró el
+weekly por `rate < 0.40`, `n ≥ 20`) dejan de ser obligatorios: no tienes que emitir ese
+`kind` para ese símbolo. Puedes seguir haciéndolo si hoy tienes una lectura fuerte, pero no
+cuenta como incumplir la regla de cobertura.
+**Dirección indecisa**: cuando `frameConflict.on` = true, la predicción de `kind:"direction"`
+puede declararse indecisa: `{ ..., kind:"direction", indeciso: true, prob: null, text: "dirección
+neta INDECISA: marcos opuestos (<diario> vs <1h>)" }`. Una `direction` indecisa **no cuenta**
+en `predictionScore` (no suma `n`, ni acierto ni fallo): es honestidad, no cobardía. Solo con
+`frameConflict.on` real, y **máximo una por instrumento** (las otras 2-4 predicciones siguen
+siendo falsables normales: rango, level_first, condicional). No la uses para esquivar una
+llamada que sí podías hacer.
 
 Al final: **qué instrumento está más limpio ahora** (sesgo más claro + en borde + menor
 conflicto), y destílalo en el objeto **`focus`** (sección 7): la única mejor oportunidad de
@@ -624,7 +664,8 @@ baja a `<sym>|<tipo>`; si tampoco, usa `<tipo>` (siempre disponible como piso).
 
 **Encogimiento** sobre el nivel elegido, con `k = 4` (el prior vale 4 pseudo-observaciones):
 `winRate = (k · p0 + respectedEff) / (k + reachedEff)`
-`p0` = prior del arquetipo del tipo:
+`p0` = prior del arquetipo del tipo (si `state.overrides.zonePriors["<arquetipo>"]` existe, ese
+valor MANDA sobre el de abajo — lo ajustó el weekly con `winN ≥ 30`):
 - **reversión** (`fade_vah` `fade_val` `poc_reversion` `bounce_val` `bounce_vah` `golden_zone`
   `ib_fade`) → `0.55`
 - **continuación** (`pullback_cont` `retest_break` `poc_breakout` `ib_break`
@@ -806,11 +847,26 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   `convictionCalibration`)
 - **Oportunidad perdida**: ¿algún instrumento que dejaste en WAIT/AVOID tenía una A+ propia
   que SÍ reaccionó y dio ≥ 1R? (alimenta `missedOps`)
+- **Veredicto** (alimenta `verdictScore`): por instrumento/sesión, califica el `verdict` que
+  diste:
+  - **GO** → `hit` si el setup dio ≥ 1R (a favor de la dirección del GO) ANTES de tocar su
+    invalidación; si no, `miss`.
+  - **AVOID** → `save` si el precio hizo en esa sesión algo que habría hecho perder a quien
+    entrara ahí (reversión violenta, sweep y vuelta, ruptura fallida contra el que perseguía);
+    `overcautious` si la sesión resultó tranquila / operable sin drama.
+  - **WAIT** → la mitad de "arrepentimiento" ya la lleva `missedOps` (A+ propia que hubiera
+    pagado); no la re-cuentes aquí.
+- **Whipsaw** (alimenta `whipsawCal`): ¿acertó `whipsawRisk`? Marca la sesión realizada como
+  `chop` (rango < 40 % del ADR y |cierre−apertura| < 25 % del rango, o `command` en chop la
+  mayor parte) o `resuelta` (dirección neta clara). `hit` si `whipsawRisk.score ≥ 0.5` y la
+  sesión fue `chop`, o `< 0.5` y fue `resuelta`. Brier `(score − esChop)²`.
 - **Predicciones**: por cada `predictions` de los planes de ayer → `acierto | parcial | fallo`
   con el VALOR REAL al lado (rango real de la sesión, dirección neta, qué nivel se tocó
   primero, si el escenario se activó). Puntúa acierto=1 · parcial=0.5 · fallo=0. Las que
   llevan `prob` van además con Brier `(prob − resultado)²` (menor es mejor). (alimenta
-  `predictionScore`)
+  `predictionScore`). **Las `direction` con `indeciso:true` se OMITEN del tally** (no suman
+  `n`, ni `score`, ni `brier`): no son ni acierto ni fallo. Anótalas aparte en el review como
+  "N direcciones declaradas indecisas por conflicto de marcos".
 - **Contra-caso**: ¿el `counterCase` de ayer acabó siendo el que mandó? Si el lado contrario
   ganó y tú lo habías descrito, cuéntalo como acierto de proceso; si ganó y NO lo viste, es
   `sesgo_mal_leido` y una lección.
@@ -892,6 +948,27 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
     corrida con un stub honesto ("Patrones (provisional, n=1): <lo que viste hoy>. Sin reparto
     de rango medido aún.") para que empiece a acumular desde la noche 1, en vez de quedar
     ausente hasta juntar n≥10.
+- `hypotheses`: **registro estructurado de las hipótesis provisionales**. Antes vivían como
+  prosa suelta en `models` ("provisional, vigilar la próxima ruptura") y era fácil no
+  revisitarlas. Ahora cada una es un objeto:
+  `{ "<id>": { claim, sym, evidenceN, hits, formed:"<fecha>", confirmWhen, refuteWhen, status:
+  "abierta"|"confirmada"|"refutada"|"sin_senal", lastChecked:"<fecha>", note } }`.
+  `confirmWhen`/`refuteWhen` son criterios comprobables ("evidenceN≥5 y hits/evidenceN≥0.7" /
+  "3 ocurrencias seguidas en contra"). Cada `pre-asia`, en ESTE orden:
+  1. Toda observación del review de hoy que escribirías como "provisional, vigilar la próxima
+     X" se registra AQUÍ como hipótesis `abierta` (con su `confirmWhen`/`refuteWhen`), además
+     de la nota en `models`.
+  2. Por cada hipótesis `abierta`: si el día que cerró fue una ocurrencia de su condición,
+     `evidenceN += 1` y `hits += 1` si salió a favor; actualiza `lastChecked`. Evalúa
+     `confirmWhen`/`refuteWhen`.
+  3. `confirmada` → súbela a `models.<SYM>` como regla ("medida" si `evidenceN ≥ 10`, "patrón"
+     si menos); consérvala 2 corridas con `status:"confirmada"` y luego púdala.
+  4. `refutada` → una línea en `models` ("descartada el <fecha>: <claim> no se sostuvo,
+     <hits>/<evidenceN>") y púdala.
+  5. `abierta` con `evidenceN` bajo y > 30 días sin ocurrencia → `status:"sin_senal"`, púdala
+     en la siguiente corrida.
+  Poda: máx ~20 `abierta`; si sobran, cierra primero las más viejas sin señal. `pre-london`/
+  `pre-ny` NO tocan `hypotheses` (solo `pre-asia`).
 - `narrative`: primero decide si el día CONFIRMÓ / EVOLUCIONÓ / ROMPIÓ la tesis vigente de cada
   instrumento (cruza con las causas de fallo de arriba). Luego reescribe la tesis como
   `Continuidad: <daysHeld> días · <confirmada | evolucionó el <fecha>: <qué cambió> | reiniciada
@@ -934,7 +1011,20 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   de precisión dura del agente. Si `rate < 0.45` con `n ≥ 15` para un `kind` → anótalo en
   `models` ("`level_first` NQ 41 % n=17: no fío del orden de toque en Asia") y sé más cauto
   con ese tipo de afirmación. Si `brier > 0.30` → tus probabilidades están mal calibradas,
-  acércalas a 0.5.
+  acércalas a 0.5. Las `direction` indecisas no entran aquí.
+- **`verdictScore`**: `{ "<SYM>|<sesion>": { go:{n,hits,rate}, avoid:{n,saves,overcautious,rate} } }`.
+  Es el agente calificando su SALIDA principal (GO/WAIT/AVOID), no sus entradas.
+  `go.rate = hits/max(1,n)`; `avoid.rate = saves/max(1,n)`. Aplicación:
+  - `go.rate < 0.45` con `n ≥ 12` → la sección 3.9 sube el listón de GO ahí (confluence ≥ 7 o
+    `winN ≥ 8`). Anótalo en `models`.
+  - `avoid.rate < 0.40` con `n ≥ 10` → estás abusando del AVOID: varios deberían ser WAIT.
+    Anótalo en `models` y en la 3.9 exige para AVOID que además de estirado/contra-sesgo haya
+    un nivel fuerte en contra a < 20 % del recorrido, si no baja a WAIT.
+  - El lado WAIT lo cubre `missedOps` (no se duplica).
+- **`whipsawCal`**: `{ "<SYM>": { n, hits, rate, brier } }` sobre el acierto de `whipsawRisk`
+  (ver arriba, bullet "Whipsaw"). Si `rate > 0.62` con `n ≥ 15` → `whipsawRisk` tiene skill:
+  la 3.9 puede usar `score ≥ 0.6` para forzar WAIT (no solo tope de convicción). Si
+  `rate < 0.45` con `n ≥ 15` → no tiene skill, degrádalo a informativo y revísalo en `models`.
 
 Poda: cada sub-objeto guarda ventana rodante de ~60 días; borra lo más viejo en el mismo write.
 
@@ -942,8 +1032,9 @@ Poda: cada sub-objeto guarda ventana rodante de ~60 días; borra lo más viejo e
 
 Corrida propia, ligera, del sábado ~10:00 CT. NO hace plan de sesión, NO toca `plans/`,
 NO re-califica días (eso ya lo hizo cada `pre-asia`), NO re-incrementa `zones`/`scorecard`
-ni sub-objetos de calibración (doble conteo). Solo LEE y produce el balance de la semana
-lunes-viernes que cerró.
+ni sub-objetos de calibración (doble conteo). LEE y produce el balance de la semana
+lunes-viernes que cerró. Lo ÚNICO que puede escribir en `state` es `state.overrides` (la
+clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
 
 **Flujo:**
 1. `git checkout main && git pull --rebase --autostash origin main`.
@@ -970,11 +1061,23 @@ lunes-viernes que cerró.
    - **Qué se repitió**: el patrón o la fuga que volvió a aparecer (ej. "3ª semana seguida
      en que ES Londres deja WAIT que habría pagado ≥1R"; "GC pre-NY sobre-estima el rango
      los martes").
-   - **Propuestas de método** (sección propia, encabezado `## Propuestas de método`): 1-3
-     cambios CONCRETOS al método o a los modelos que la semana sugiere, cada uno con la
-     evidencia (n, %) y el archivo/campo que tocaría. **NO los apliques** — los revisa
-     Jesus. Si no hay ninguno con muestra suficiente, escribe "sin propuestas, muestra
-     corta" y ya.
+   - **Cambios de la semana**: dos clases.
+     - **Auto-aplicables** (clase segura, reversible, SOLO tocan `state.overrides`, nunca el
+       .md ni recuentan nada) — el weekly SÍ los aplica y los lista bajo `## Cambios
+       aplicados` con antes/después y evidencia:
+       * retirar un `<SYM>|<kind>` de predicción obligatoria si `predictionScore.rate < 0.40`
+         y `n ≥ 20` → añádelo a `overrides.predictionSkip`.
+       * ajustar el prior de un arquetipo de `zones` en ±0.05 si el `winRate` agregado del
+         nivel `<tipo>` (con `winN ≥ 30`) diverge > 0.10 del prior vigente → escribe
+         `overrides.zonePriors["<arquetipo>"]`.
+       * subir a 4 fuentes el listón de "alta" para un símbolo si `convictionCalibration` ya
+         lo pide con `n ≥ 20` → añádelo a `overrides.convictionBar4`.
+       Cada override lleva `{ value, since:"<sábado>", evidence:"<n, %>" }`. Si una condición
+       deja de cumplirse 2 semanas seguidas, el weekly RETIRA el override (y lo dice).
+     - **Estructurales** (todo lo demás: lógica de `verdict`, umbrales duros, secciones
+       nuevas): bajo `## Propuestas de método`, con evidencia y campo que tocaría. **NO los
+       apliques** — los revisa Jesus.
+     Si nada llega a muestra en ninguna clase, escribe "sin cambios, muestra corta".
    - **Lección de la semana**: una frase, la que más pesa.
    - **Régimen**: en qué régimen entró y salió cada instrumento y qué implica para la
      semana que empieza.
@@ -1027,6 +1130,8 @@ Es el plan estructurado que pinta el Command Center. Schema:
                "size": { "es": "normal", "en": "normal" },
                "note": { "es": "borde en pdc 29612, imán al alza si rebota", "en": "edge at pdc 29612, an upside magnet if it bounces" } },
       "smt": { "state": "alcista", "note": { "es": "NQ nuevo low, ES no confirma: cuidado cortos nuevos", "en": "NQ new low, ES doesn't confirm: careful with new shorts" } },
+      "frameConflict": { "on": false, "note": { "es": "diario y 1h ambos bajistas, sin conflicto", "en": "daily and 1h both bearish, no conflict" } },
+      "whipsawRisk": { "score": 0.25, "note": { "es": "tendencia bajista clara, bajo riesgo de chop", "en": "clear downtrend, low chop risk" } },
       "thesisAlign": { "state": "ALIGN", "daysHeld": 3, "note": { "es": "el día confirma la distribución de fondo; precio aún bajo PDH", "en": "the day confirms the underlying distribution; price still below PDH" } },
       "counterCase": { "es": "alcista pese al corto: el sesgo semanal de las zonas altas sigue positivo y hay un gap sin rellenar arriba; se mantiene el corto salvo aceptación sobre TDO 29668, ahí giraría a largo",
                        "en": "bullish despite the short: the weekly higher-timeframe bias is still positive and there's an unfilled gap above; the short holds unless price accepts over TDO 29668, then it would flip long" },
@@ -1092,6 +1197,11 @@ llega. No metas zonas B ni tierra de nadie.
 
 `counterCase` y `predictions` van por instrumento (obligatorios, sección 3). `predictions` es
 la lista de afirmaciones falsables que la corrida `pre-asia` siguiente califica (sección 6).
+`frameConflict { on, note }` y `whipsawRisk { score, note }` son OBLIGATORIOS por instrumento
+(sección 3.1). Con `frameConflict.on` = true el `verdict` no puede ser GO (WAIT, o AVOID)
+salvo la excepción de ruptura de marco; con `whipsawRisk.score ≥ 0.6` la convicción no pasa de
+"media". Una predicción `direction` puede llevar `indeciso: true` (+ `prob: null`) SOLO si
+`frameConflict.on`.
 
 `focus` (obligatorio, top-level): la ÚNICA mejor oportunidad de todos los instrumentos, destilada
 para leer en 5 segundos y para que el Command Center la pinte directa.
@@ -1123,6 +1233,8 @@ PRIMERA línea del `summary` y del `digest.txt`, con prefijo `!! `.
 `EM <n>p` (movimiento esperado en puntos) · `EM+`/`EM-` (EM históricamente corto/largo aquí,
 n<5, ensancha/recorta a mano) · `Nd` (N días) · `A+`/`B` (calidad de zona) ·
 `<n>A` (n ATR de estiramiento) · `cont` (continuación) · `sin sesgo` (biasSession NEUTRAL) ·
+`chop!` (pega al final de la línea del instrumento si `frameConflict.on` o `whipsawRisk.score`
+≥ 0.6: día de marcos opuestos / chop probable) ·
 `OK`/`VIEJO` (datos) · `NINGUNA`/`MEDIA`/`ALTA` (noticias). Prohibido: `(idx)`, `(ruido)`,
 `(max)`, `(re-check)` salvo el de la primera línea, `resid`, y cualquier `(...)` improvisado.
 Si algo no cabe en una abreviatura de la lista, va en la línea `Limpio:` o se omite.
@@ -1133,7 +1245,7 @@ Formato exacto:
 SA <RUN_TYPE> <fecha> <hora CT>
 !! <alarma>            ← SOLO si plan.alarm != null; si no, se omite
 >> <FOCUS.sym> <FOCUS.setup> · <FOCUS.window>   ← la línea que más importa
-NQ <GO|WAIT|AVOID> · <corto|largo|sin sesgo> · <tipo A+ o "sin setup"> · EM <p>p
+NQ <GO|WAIT|AVOID> · <corto|largo|sin sesgo> · <tipo A+ o "sin setup"> · EM <p>p<· chop! si aplica>
 ES <…>
 GC <…>
 YM <…>          ← solo si YM entró en `instruments` esta corrida
@@ -1168,13 +1280,16 @@ bus). Un consumidor externo avisa si `lastRun` tiene > 8 h en día hábil.
 
 Lee el objeto, aplica cambios, escríbelo entero. Campos:
 - **`pre-asia`**: reescribe `narrative`; actualiza los `models.<SYM>` que cambiaron;
-  `zones` (playbook) y `scorecard` completos (incluye `predictionScore`); añade
+  `zones` (playbook) y `scorecard` completos (incluye `predictionScore`, `verdictScore`,
+  `whipsawCal`); actualiza `hypotheses` (resuelve las abiertas, registra las nuevas); añade
   `reviews["<fecha_ayer>"]` (= el mismo md que va en `reviews/<fecha_ayer>.md`); añade
   `dayThesis["<hoy>"]` = tesis del día (qué esperas en Asia/Londres/NY, dónde se forma
   probablemente el H/L del día, presupuesto ADR); añade `plans["<hoy>-pre-asia"]` = el plan;
   pon `planLatest` = el plan.
-- **`weekly`** (sábado): SOLO `reviews["<sábado>-semana"]` = la meta-revisión (= `reviews/<sábado>-semana.md`
-  y `reviews/weekly-latest.md`). No toca `narrative`/`models`/`zones`/`scorecard`/`plans`/`planLatest`.
+- **`weekly`** (sábado): `reviews["<sábado>-semana"]` = la meta-revisión (= `reviews/<sábado>-semana.md`
+  y `reviews/weekly-latest.md`) y, si el paso 5 disparó algún cambio de la clase segura,
+  `state.overrides` (retirar/añadir entradas con su `since`/`evidence`). No toca
+  `narrative`/`models`/`zones`/`scorecard`/`plans`/`planLatest`.
 - **`pre-london` / `pre-ny`**: reescribe `dayThesis["<hoy>"]` añadiéndole una sección
   `Update <sesion> · <hora>` (qué cambió, plan de la sesión, rango restante); reescribe
   `reviews["<hoy>"]` entero añadiendo el cierre parcial de la sesión que terminó (si no
@@ -1210,6 +1325,21 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   =CONFLICT), la convicción no pasa de "media" y no hay GO salvo reversión confirmada en zona
   A+ sobre el nivel de invalidación de la propia tesis. Nombra el choque en el `reason` del
   `verdict` y en el `summary`. `thesisAlign` es OBLIGATORIO en cada instrumento del plan.
+- **Conflicto de marcos y whipsaw.** `frameConflict { on, note }` y `whipsawRisk { score, note }`
+  son OBLIGATORIOS por instrumento (sección 3.1). `frameConflict.on` = true → `verdict` NO
+  puede ser GO (queda WAIT, o AVOID si estirado/contra-sesgo), salvo reversión confirmada EN el
+  nivel de invalidación de uno de los marcos; el `reason` abre nombrando los dos marcos.
+  `whipsawRisk.score ≥ 0.6` → convicción tope "media" y el `summary`/`focus.note` lo nombran.
+  `whipsawRisk` es falsable: la `pre-asia` siguiente lo califica en `whipsawCal`.
+- **Veredicto calificado.** La `pre-asia` califica el `verdict` de ayer, no solo las
+  predicciones: `verdictScore["<SYM>|<sesion>"]` con `go{n,hits,rate}` (GO que dio ≥1R antes de
+  invalidar) y `avoid{n,saves,rate}` (AVOID que evitó una pérdida real). `go.rate < 0.45`
+  (n≥12) → sube el listón de GO ahí (confluence ≥7 o `winN ≥ 8`). `avoid.rate < 0.40` (n≥10) →
+  estás abusando del AVOID. El lado WAIT lo cubre `missedOps`.
+- **Registro de hipótesis.** Toda hipótesis provisional ("vigilar la próxima X") va en
+  `state.hypotheses` como objeto con `confirmWhen`/`refuteWhen`, no solo como prosa en
+  `models`. Cada `pre-asia` resuelve las `abierta` contra el día que cerró y mueve a
+  `confirmada`/`refutada`/`sin_senal`. Solo `pre-asia` toca `hypotheses`.
 - **Datos viejos = plan con asterisco.** Corre el chequeo de frescura (sección 2) ANTES de
   analizar. Si `dataHealth.snapshot` es "VIEJO" o hay fuentes en `stale`/`missing`, ponlo en la
   primera línea del `summary` y no des un "GO" apoyado en una fuente vieja.
@@ -1260,8 +1390,12 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   (no la inventes). Cuando existe, va primera en `summary` y en `digest.txt` con `!! `.
 - **Meta-revisión semanal.** La rutina `weekly` del sábado (sección 6.1) escribe
   `reviews/<sábado>-semana.md` + `reviews/weekly-latest.md` + `reviews["<sábado>-semana"]`:
-  marcador de la semana, ejecución de la semana, qué se repitió, propuestas de método
-  (sin aplicar), la lección, el régimen de entrada/salida.
+  marcador de la semana, ejecución de la semana, qué se repitió, la lección, el régimen de
+  entrada/salida. **Cambios**: los de la clase segura (retirar un `kind` de predicción flojo,
+  ajustar un prior de arquetipo ±0.05, subir a 4 fuentes el listón de "alta") el weekly SÍ los
+  aplica en `state.overrides` y los lista bajo `## Cambios aplicados`; los estructurales van
+  bajo `## Propuestas de método` sin aplicar (los revisa Jesus). `state.overrides` lo leen la
+  sección 3 (`predictionSkip`, `convictionBar4`) y la sección 4 (`zonePriors`).
 - **Sizing.** Si hay `settings.dailyLossLimitUsd`, cada zona lleva `risk.maxContracts`; si no,
   `null` y una línea en `summary` pidiéndolo.
 - **`calendarContext` siempre.** FOMC / NFP → el día es `newsRisk` ALTA aunque `news` venga flojo.
