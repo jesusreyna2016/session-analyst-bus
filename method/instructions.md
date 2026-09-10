@@ -607,18 +607,49 @@ Initial Balance de vuelta al centro), `ib_break` (ruptura y continuación del IB
 `pullback_cont` (retroceso a un nivel a favor de la tendencia y continuación),
 `retest_break` (ruptura de un nivel y retest del mismo desde el otro lado),
 `liq_reclaim` (barrida + reclaim), `asia_range_break`, `golden_zone`, `supply`, `demand`,
-`ext_target`, `otro`) y añade su **win-rate histórico**. Convención única: `"sin datos aun"`
-(string) siempre que `n < 5`; nunca `null` ni `0` para "no medido".
+`ext_target`, `otro`) y añade su **win-rate histórico**. El `winRate` es **SIEMPRE un número
+en [0,1]**, nunca `null`, nunca `0` como "no medido", nunca el string `"sin datos aun"` (esa
+convención queda retirada). Se obtiene por **pooling jerárquico + encogimiento a un prior**:
 
-**Confianza por muestra** (no sobre-ajustes con pocos datos):
-- `n < 10` → el win-rate es informativo: se muestra, NO mueve el score ni el `verdict`.
-- `n ≥ 10` y `winRate < 0.40` → la zona baja un escalón (A+ → B, B → tierra de nadie) aunque
-  el score diga otra cosa; el `reason` lo dice ("fade_vah NQ asia 34 % en n=14").
-- `n ≥ 10` y `winRate ≥ 0.65` → la zona puede sostener A+ con score 5 (un punto de gracia).
-- `n ≥ 20` manda sobre el score si hay conflicto: si el histórico dice que este tipo no paga
-  en esta sesión, no es GO por bonito que se vea el mapa.
+**Pooling jerárquico** — tres niveles de clave, del más específico al más general:
+1. `<sym>|<sesion>|<tipo>` (hoja, lo que se incrementa en el review)
+2. `<sym>|<tipo>` (suma de las 3 sesiones de ese símbolo/tipo)
+3. `<tipo>` (suma de los 5 símbolos × 3 sesiones)
 
-**Cortes de la zona** (de `zones`, solo si el corte concreto tiene `n ≥ 8`): antes de dar GO,
+Para calcular el `winRate` de una zona, junta `reached`/`respected` **efectivos** en cada
+nivel = `live + 0.5 · seed` (el sub-objeto `seed` lo deja el backfill del paso A y está
+**congelado**: los reviews en vivo NUNCA lo tocan; el ×0.5 lo descuenta porque es de
+resolución horaria). Elige el nivel más específico con `reachedEff ≥ 8`; si la hoja no llega,
+baja a `<sym>|<tipo>`; si tampoco, usa `<tipo>` (siempre disponible como piso).
+
+**Encogimiento** sobre el nivel elegido, con `k = 4` (el prior vale 4 pseudo-observaciones):
+`winRate = (k · p0 + respectedEff) / (k + reachedEff)`
+`p0` = prior del arquetipo del tipo:
+- **reversión** (`fade_vah` `fade_val` `poc_reversion` `bounce_val` `bounce_vah` `golden_zone`
+  `ib_fade`) → `0.55`
+- **continuación** (`pullback_cont` `retest_break` `poc_breakout` `ib_break`
+  `asia_range_break`) → `0.50`
+- **sweep/reclaim** (`sweep_*`, `liq_reclaim`) → `0.58`
+- **oferta/demanda** (`supply` `demand`) → `0.52`
+- **objetivo/otro** (`ext_target` `otro`) → `0.45`
+
+La zona lleva además `winSource` (`"leaf" | "symType" | "type"` — qué nivel se usó) y `winN` =
+`reachedEff` de ese nivel. El `reason`/`digest` citan los tres cuando el win-rate mueve algo
+("fade_vah NQ asia 0.38, winN 11 vía symType").
+
+**Confianza por muestra** (el `winRate` ya está encogido, pero cuánto puede MOVER depende de
+`winN`):
+- `winN < 8` → domina el prior: el win-rate es informativo, se muestra, NO mueve score ni
+  `verdict`.
+- `8 ≤ winN < 20` → puede mover UN escalón: `winRate < 0.40` baja la zona (A+ → B, B → tierra
+  de nadie); `winRate ≥ 0.68` la sostiene con score 5 (punto de gracia). El `reason` lo dice
+  ("fade_vah NQ asia 0.36 en winN 14 → baja a B").
+- `winN ≥ 20` manda sobre el score si hay conflicto: si el histórico dice que este tipo no
+  paga en esta sesión, no es GO por bonito que se vea el mapa.
+
+**Cortes de la zona** (`byHourCT`/`byTouch`/`byConf`/`byRegime`/`byArrival`) NO se poolean ni
+usan `seed`: son solo de la hoja `<sym>|<sesion>|<tipo>` y solo con datos en vivo. Solo si el
+corte concreto tiene `n ≥ 8`: antes de dar GO,
 mira si la hora esperada del gatillo, el índice de toque probable, el régimen de hoy, la
 llegada (calmada/estirada) o el bucket de confluencia caen en un corte con `winRate < 0.40` →
 baja la zona un escalón y dilo en el `reason` ("fade_vah NQ 0/2 en tierra de nadie tras 00:00
@@ -820,10 +851,14 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
     NUNCA inventes ejecución: si falta `live/journal.json` o un día no está en `byDay`, di
     "sin datos de ejecución" y califica solo la predicción.
 - `zones`: el objeto `zones` COMPLETO actualizado. Por cada zona calificada, en su clave
-  `<instrumento>|<sesion>|<tipo>` incrementa `{proposed, reached, respected, failed}` y
-  recalcula `winRate` (= `respected / max(1, reached)` si `n ≥ 5`, si no el string
-  `"sin datos aun"`), `n` (= reached) y estos agregados del
-  detalle de reacción:
+  hoja `<instrumento>|<sesion>|<tipo>` incrementa `{proposed, reached, respected, failed}`
+  (solo la hoja; los niveles `<sym>|<tipo>` y `<tipo>` NO se almacenan, se suman al leer) y
+  **NUNCA toques el sub-objeto `seed`** (lo dejó el backfill del paso A, está congelado).
+  Recalcula `winRate` con el **pooling jerárquico + encogimiento** de la sección 4
+  (`live + 0.5·seed` por nivel → nivel más específico con `reachedEff ≥ 8` → encoge con
+  `k=4` al prior del arquetipo), y escribe `winSource` (`leaf|symType|type`) y `winN`
+  (`reachedEff` del nivel usado). `n` = `reached` de la hoja (solo en vivo). Nunca escribas
+  `"sin datos aun"`. Además estos agregados del detalle de reacción:
   - `ft`: distribución del seguimiento en ticks tras respetar → `{ p25, median, p75 }` (la
     `median` sustituye a la vieja media para fijar objetivos realistas).
   - `maeTk`: media del MAE en ticks tras respetar (el "cuánto va en contra antes de funcionar";
@@ -836,8 +871,8 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   - `byRegime`: `{ "chop": {n,winRate}, "balance": {…}, "tendencia": {…} }` — el mismo fade
     puede ser 70 % en balance y 30 % en tendencia.
   - `byArrival`: `{ "calmada": {n,winRate}, "estirada": {…} }`.
-  Ejemplo de entrada:
-  `{ "NQ|asia|fade_vah": { "proposed": 12, "reached": 9, "respected": 6, "failed": 3, "winRate": 0.67, "n": 9, "ft": { "p25": 18, "median": 34, "p75": 61 }, "maeTk": 9, "byHourCT": { "20": {"reached":4,"respected":3}, "21": {"reached":3,"respected":2}, "00": {"reached":2,"respected":1} }, "byTouch": { "1": {"reached":6,"respected":5}, "2": {"reached":2,"respected":1}, "3+": {"reached":1,"respected":0} }, "byConf": { "6": {"n":5,"winRate":0.6}, "7": {"n":3,"winRate":0.67}, "8+": {"n":1,"winRate":1} }, "byRegime": { "balance": {"n":6,"winRate":0.83}, "chop": {"n":2,"winRate":0.0}, "tendencia": {"n":1,"winRate":0.0} }, "byArrival": { "calmada": {"n":6,"winRate":0.83}, "estirada": {"n":3,"winRate":0.33} } } }`
+  Ejemplo de entrada (`seed` lo puso el backfill y no se toca; `winRate` sale del pooling):
+  `{ "NQ|asia|fade_vah": { "proposed": 12, "reached": 9, "respected": 6, "failed": 3, "seed": { "proposed": 2, "reached": 2, "respected": 2, "failed": 0 }, "winRate": 0.66, "winSource": "leaf", "winN": 10, "n": 9, "ft": { "p25": 18, "median": 34, "p75": 61 }, "maeTk": 9, "byHourCT": { "20": {"reached":4,"respected":3}, "21": {"reached":3,"respected":2}, "00": {"reached":2,"respected":1} }, "byTouch": { "1": {"reached":6,"respected":5}, "2": {"reached":2,"respected":1}, "3+": {"reached":1,"respected":0} }, "byConf": { "6": {"n":5,"winRate":0.6}, "7": {"n":3,"winRate":0.67}, "8+": {"n":1,"winRate":1} }, "byRegime": { "balance": {"n":6,"winRate":0.83}, "chop": {"n":2,"winRate":0.0}, "tendencia": {"n":1,"winRate":0.0} }, "byArrival": { "calmada": {"n":6,"winRate":0.83}, "estirada": {"n":3,"winRate":0.33} } } }`
   Los cortes (`byHourCT`/`byTouch`/`byConf`/`byRegime`/`byArrival`) dirigen el plan solo con
   `n ≥ 8` en el corte concreto; por debajo son informativos. Poda cada corte a ventana rodante
   ~60 días.
@@ -1008,7 +1043,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
       ],
       "zones": [
         { "range": [29655, 29660], "dir": "SHORT", "type": "fade_vah", "confluence": 6,
-          "distPts": 12.5, "distTicks": 50, "winRate": 0.67, "n": 9,
+          "distPts": 12.5, "distTicks": 50, "winRate": 0.66, "winSource": "leaf", "winN": 10, "n": 9,
           "fvg": [ { "tf": "1h", "dir": "bear", "range": [29655, 29668], "weight": 2,
                      "role": { "es": "gatillo + invalidación", "en": "trigger + invalidation" } } ],
           "risk": { "stopPts": 14, "stopTk": 56, "stopUsd": 280, "tgtPts": 205, "tgtTk": 820,
@@ -1183,11 +1218,12 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   sesgo y en los objetivos, no los ignores.
 - **`alertLevels` siempre** (aunque no haya ningún GO): al menos las invalidaciones y los
   bordes de gap. Ordenada por cercanía. Solo A+, invalidaciones y `gapEdge`.
-- **Aprendizaje con freno.** Win-rate con `n < 10` no mueve el `verdict`; con `n ≥ 10` sí
-  (baja la zona si `winRate < 0.40`). Los cortes de `zones` (`byHourCT`/`byTouch`/`byConf`/
-  `byRegime`/`byArrival`) dirigen solo con `n ≥ 8` en ese corte. `maeTk` sustituye al colchón
-  del stop y `ft.median` ancla el 1er parcial, ambos con `n ≥ 8`. No inventes histórico: si no
-  hay datos, "sin datos aún".
+- **Aprendizaje con freno.** El `winRate` sale del pooling jerárquico + encogimiento (sección
+  4): siempre un número, pero solo MUEVE el `verdict` con `winN ≥ 8` (un escalón hasta
+  `winN < 20`, manda con `winN ≥ 20`). Los cortes de `zones` (`byHourCT`/`byTouch`/`byConf`/
+  `byRegime`/`byArrival`) NO se poolean ni usan `seed` y dirigen solo con `n ≥ 8` en vivo en
+  ese corte. `maeTk` sustituye al colchón del stop y `ft.median` ancla el 1er parcial, ambos
+  hoja-en-vivo con `n ≥ 8`. El `seed` (backfill del paso A) está congelado y pesa ×0.5.
 - **Calibración.** Aplica `sourceReliability` (sección 3.1), `emCalibration.mult` (sección 5.4)
   y el listón de convicción de `convictionCalibration` (sección 3.1) SOLO cuando el `n` de cada
   uno llega al umbral. Los sub-objetos de calibración se tocan solo en `pre-asia`.
@@ -1213,7 +1249,9 @@ los últimos ~12. Borra lo más viejo en el mismo write.
 - **Nombres de nivel.** Cada nivel de `keyLevels`/zonas se etiqueta con el campo del que sale
   (PDH/PDL/PWH/PWL/DO/TDO de sus campos, ONH/ONL de `onh/onl`, IBH/IBL de `ibh/ibl`). Nunca
   reetiquetes un valor de IB u overnight como pivote.
-- **`winRate`.** Una sola convención: string `"sin datos aun"` con `n < 5`; nunca `null` ni `0`.
+- **`winRate`.** SIEMPRE número en [0,1] (pooling jerárquico + encogimiento al prior, sección
+  4). Nunca `null`, nunca `0` como "no medido", nunca el string `"sin datos aun"`. Acompáñalo
+  de `winSource` (`leaf|symType|type`) y `winN`.
 - **`window` en cada zona A+.** La ventana horaria CT en la que el setup se juega (sale del
   reparto por hora de `models` / `byHourCT`). Fuera de ella la zona es solo referencia.
 - **Línea de alarma.** `plan.alarm` es una línea SOLO si hay tesis rota hoy, datos VIEJOS/fuente
