@@ -101,11 +101,11 @@ working dir. Trabajas con archivos, no con HTTP.
 
 **Escribes** (y luego haces `git add -A && git commit && git push`):
 - `plans/latest.json` — el plan de esta corrida (schema sección 7).
-- `plans/<fecha>-<RUN_TYPE>.json` — copia fechada del mismo plan. `<fecha>` = YYYY-MM-DD CT.
+- `plans/<fecha>-<RUN_TYPE>.json` — copia fechada del mismo plan. `<fecha>` = `<hoy>`, la fecha de ciclo (definición en la sección 1, "Fecha del ciclo · `<hoy>`"). NO es el reloj de pared de la corrida: `pre-london`/`pre-ny` corren de madrugada y usan el día de la sesión, no el anterior.
 - `state/sa-state.json` — el MISMO objeto que leíste, con tus cambios aplicados
   (merge, no reemplazo): actualiza `narrative`, los `models` que cambiaron, `zones`,
   `scorecard`; añade la entrada nueva a `reviews`/`dayThesis`/`plans`; pon `planLatest`.
-- `reviews/<fecha>.md` — solo en `pre-asia`: la calificación del día que cerró (sección 6).
+- `reviews/<fecha>.md` — solo en `pre-asia`: la calificación del día que cerró; `<fecha>` = `<fecha_ayer>` (= `<hoy>` − 1 día calendario, sección 1). Es la misma fecha con la que se cruza `live/journal.json`.
 - `reviews/<fecha>-semana.md` — solo `RUN_TYPE=weekly` (rutina de sábado): la meta-revisión de la semana (sección 6.1).
 - `reviews/weekly-latest.md` — solo `weekly`: copia idéntica de la meta-revisión más reciente en una ruta fija (la lee el Command Center por `raw.githubusercontent`, que no puede listar carpetas).
 - `plans/digest.txt` — resumen de 7-10 líneas (≤60 car/línea) para el móvil (sección 7), en cada corrida.
@@ -176,9 +176,41 @@ de sesión ni toca `plans/`. Solo lee los planes + `reviews/` diarios + `state` 
 | `pre-ny` | 07:55 | **Update enfocado**: califica Londres (mañana) vs el plan, qué cambió, plan de NY, tesis ajustada, rango restante |
 | `weekly` | sáb 10:00 | **Meta-revisión** de la semana lun-vie que cerró (sección 6.1). Sin plan de sesión. |
 
+### Fecha del ciclo · `<hoy>`, `<fecha>`, `<fecha_ayer>`
+
+Las cuatro corridas de sesión de un mismo ciclo (`pre-asia` → `asia-2` → `pre-london` →
+`pre-ny`) comparten UNA fecha de ciclo, `<hoy>`. Todo lo que se escribe fechado usa esa
+misma fecha: `plans/<fecha>-<RUN_TYPE>.json`, el campo `date` del plan, la cabecera de
+`plans/digest.txt`, y las claves `dayThesis["<hoy>"]` / `plans["<hoy>-…"]` / `reviews["<hoy>"]`.
+
+**`<hoy>` = la fecha CT del día de la sesión RTH de NY (apertura del cash 08:30 CT) hacia
+la que apunta este ciclo.** En la práctica:
+- `pre-asia` (16:05 CT) y `asia-2` (19:00 CT) corren por la tarde-noche, tras el cierre de
+  futuros de 16:00 y en/antes de la reapertura de 17:00 que ARRANCA ese día de sesión →
+  `<hoy>` = **el día calendario CT siguiente** al del reloj de pared de la corrida.
+- `pre-london` (01:25 CT) y `pre-ny` (07:55 CT) corren ya dentro de ese día de sesión →
+  `<hoy>` = **el día calendario CT actual** (su propio reloj de pared).
+
+Regla mecánica: si la hora CT de la corrida es ≥ 14:00 → `<hoy>` = mañana; si es < 14:00 →
+`<hoy>` = hoy. Así los cuatro run types de un ciclo caen en la misma `<hoy>`, y para
+`pre-london`/`pre-ny` esa `<hoy>` coincide con su reloj de pared.
+
+**`<fecha>` (nombres de archivo y campo `date`) = `<hoy>`.**
+
+**`<fecha_ayer>` = `<hoy>` menos un día calendario** = el día de futuros que acaba de
+cerrar a las 16:00 CT (lo que califica `pre-asia`, sección 6) y la fecha con la que se
+cruza `live/journal.json` (`byDay[].date`). En la corrida de **domingo** (`pre-asia`),
+`<fecha_ayer>` para el review y el cruce con el journal es el **viernes** que cerró, no
+el sábado.
+
+Ejemplo (ciclo del martes por la tarde al miércoles): `pre-asia` del martes 16:26 CT →
+`<hoy>` = **miércoles** → escribe `plans/<miércoles>-pre-asia.json` y `reviews/<martes>.md`
+(el martes que cerró). `pre-ny` del miércoles 08:31 CT → misma `<hoy>` = **miércoles** →
+`plans/<miércoles>-pre-ny.json`. El plan del miércoles nunca se archiva como martes.
+
 `pre-asia` es la corrida pesada. `asia-2`, `pre-london` y `pre-ny` parten de `dayThesis` del
-día vigente y reportan el delta, no re-derivan todo. `asia-2` es la más ligera: mismo día CT
-y misma `session:"asia"` que el `pre-asia` de esa tarde, no abre sesión nueva.
+día vigente y reportan el delta, no re-derivan todo. `asia-2` es la más ligera: misma
+fecha de ciclo `<hoy>` y misma `session:"asia"` que el `pre-asia` de esa tarde, no abre sesión nueva.
 
 ### `RUN_TYPE=asia-2` · update ligero tras abrir Tokio
 
@@ -186,8 +218,9 @@ La reapertura de Globex (17:00 CT) suele ser chop; la volatilidad real de Asia n
 hasta que abre Tokio (~19:00 CT / 00:00Z). El `pre-asia` (16:05 CT) publicó el plan con el
 día de futuros recién cerrado; `asia-2` lo confirma o lo ajusta con 2-3 h de precio real.
 
-**Entra en juego solo si** existe `plans["<hoy>-pre-asia"]` con `session:"asia"` del mismo
-día CT. Si no existe (el `pre-asia` falló), corre igual pero arma el plan de Asia desde cero
+**Entra en juego solo si** existe `plans["<hoy>-pre-asia"]` con `session:"asia"` de la misma
+fecha de ciclo `<hoy>` (el `pre-asia` de esa misma tarde-noche; sección 1). Si no existe (el
+`pre-asia` falló), corre igual pero arma el plan de Asia desde cero
 con el flujo de `pre-asia` SIN la parte de cierre/calificación (sección 6), y dilo en
 `heartbeat.note`.
 
@@ -1004,6 +1037,11 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "reviewYesterday": "<fecha_ayer o null>"
 }
 ```
+
+`date` = la fecha de ciclo `<hoy>` (sección 1, "Fecha del ciclo"), es decir el día de la
+sesión RTH de NY. Para `pre-london`/`pre-ny` coincide con el día calendario de `generatedAt`;
+para `pre-asia`/`asia-2` `date` es el día calendario SIGUIENTE al de `generatedAt`. `generatedAt`
+siempre es el instante real de la corrida.
 
 Todo campo `{ "es", "en" }` lleva `schema: "sa-plan-2"` a nivel raíz para que el consumidor
 sepa que el formato es bilingüe (un plan viejo sin ese marcador trae strings sueltos y el
