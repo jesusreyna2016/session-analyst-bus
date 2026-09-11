@@ -1,1 +1,1 @@
-@/tmp/instructions_for_mcp.md
+PLACEHOLDER_REPLACE_WITH_FULL
