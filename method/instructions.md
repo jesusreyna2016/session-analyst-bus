@@ -1,5 +1,1 @@
-# Session Analyst
-
-TEMPORARY - RESTORING FULL FILE
-
-See method/reachability.md
+file:///tmp/instructions_for_mcp.md
