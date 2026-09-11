@@ -1,1 +1,5 @@
-PLACEHOLDER_REPLACE_WITH_FULL
+# Session Analyst
+
+TEMPORARY - RESTORING FULL FILE
+
+See method/reachability.md
