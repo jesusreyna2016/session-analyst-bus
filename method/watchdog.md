@@ -16,6 +16,8 @@ Solo el checkout del repo bus. Sin red a tradedadlog.com. Lee:
   Lo escribe Netlify cada ~5 min; es el espejo de todo lo que recibe la web.
 - `live/heartbeat.json` — `{ lastRun, runType, ok, note }`. Última corrida del Session Analyst.
 - `state/sa-state.json` — solo para leer `scorecard`/nada crítico; NO lo reescribas.
+- `method/reachability.md` — regla dura de alcance; el Session Analyst debe aplicarla.
+  Si el plan latest viola alcance (zona primary inalcanzable sin AVOID/WAIT claro), anótalo.
 
 ## Umbrales (mismos que la sección 2 de `instructions.md`)
 
@@ -86,6 +88,9 @@ JSON válido, sin comentarios. Reescríbelo entero cada corrida:
 - `issues` — lista corta, la más grave primero, formato `"<qué>@<SYM> (<edad>)"`.
   Vacía si `status` = `ok`.
 - `note` — una frase bilingüe. Si `ok`: `"todo fresco, N min"` / `"all fresh, N min"`.
+
+## STEROIDS · alcance de zona
+El Session Analyst debe aplicar `method/reachability.md` en cada corrida. Si `plans/latest.json` trae `zones[0]` con reach inalcanzable (ratio>0.9) y verdict no es AVOID/WAIT con "sin borde a tiro", marca warn en health (`reach.unactionable=true`).
 
 ## Subida
 
