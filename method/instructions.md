@@ -218,8 +218,11 @@ Ejemplo (ciclo del martes por la tarde al miércoles): `pre-asia` del martes 16:
 `plans/<miércoles>-pre-ny.json`. El plan del miércoles nunca se archiva como martes.
 
 `pre-asia` es la corrida pesada. `asia-2`, `pre-london` y `pre-ny` parten de `dayThesis` del
-día vigente y reportan el delta, no re-derivan todo. `asia-2` es la más ligera: misma
-fecha de ciclo `<hoy>` y misma `session:"asia"` que el `pre-asia` de esa tarde, no abre sesión nueva.
+día vigente y reportan el delta (no reinventan la tesis multi-día desde cero).
+`asia-2` es la más ligera: misma fecha de ciclo `<hoy>` y misma `session:"asia"` que el
+`pre-asia` de esa tarde, no abre sesión nueva, y NO mueve rangos de zonas.
+`pre-london` y `pre-ny` SÍ abren sesión nueva (`london` / `ny`) y **obligatoriamente
+rehacen la tabla de zonas** (regla dura abajo): no basta con retocar `play.window`.
 
 ### `RUN_TYPE=asia-2` · update ligero tras abrir Tokio
 
@@ -280,6 +283,43 @@ dilo en el resumen; no reescribas `plans/latest.json`.
 
 **Idempotencia**: si ya hay `plans["<hoy>-asia-2"]` y `heartbeat.lastRun` tiene < 45 min
 con `runType:"asia-2"`, es re-disparo → **modo refresco** (sección 1, paso 2).
+
+### `RUN_TYPE=pre-london` / `pre-ny` · update enfocado (sesión NUEVA)
+
+Abren sesión distinta a la del plan previo (`asia` → `london`, o `london` → `ny`).
+Parten de `dayThesis` y del plan vigente para el delta (qué pasó, qué aguantó), pero el
+plan de la sesión que ENTRA no es un rename del anterior.
+
+**Regla dura · zonas al cambiar de sesión (NO negociable):**
+1. Pon `session` = `"london"` (`pre-london`) o `"ny"` (`pre-ny`).
+2. **Reconstruye `zones[]` por instrumento** con el flujo completo de la sección 4
+   (candidatas frescas del feed + score de confluencia + pooling/`winRate` + `risk` +
+   `play`), usando la sesión que entra:
+   - `play.window` en horas CT de esa sesión (Londres ~01:30-07:15; NY ~08:30-15:00,
+     recorta al jugo restante).
+   - Aplica cortes `byHourCT` / `byRegime` / `byArrival` de la clave
+     `<SYM>|<sesion>|<tipo>` de la sesión NUEVA, no de Asia.
+3. **Prohibido** copiar `zones[].range` / `type` / `confluence` / `risk` del plan de la
+   sesión anterior solo porque el precio no se movió mucho. Si tras re-puntuar el mismo
+   rango sigue siendo A+ o B válido para la sesión nueva, puedes conservar el rango, pero
+   debes haberlo **re-evaluado** (score, win-rate de esa sesión, play, risk) y decirlo en
+   `context` ("misma zona VAH 7615-7632, re-score Londres = A+ 7"). Si el score cae a
+   tierra de nadie o el `byHourCT` de Londres/NY la mata → fuera de tabla.
+4. Refresca `alertLevels` desde las zonas nuevas (no dejes `zoneA` huérfanos de Asia).
+5. `focus`, `scenarioA/B`, `predictions`, `verdict`, `expectedMove` (reparto de la sesión
+   que entra + restante del día), `keyLevels` distancias: de la sesión nueva.
+6. Califica en prosa corta la sesión que acaba (Asia en `pre-london`, Londres en
+   `pre-ny`) vs el plan: qué zonas se tocaron / respetaron / fallaron. Eso alimenta el
+   `context` y, si aplica, notas en `dayThesis`; el recuento numérico de `state.zones` /
+   scorecard sigue siendo solo `pre-asia`.
+
+**NO** trates `pre-london`/`pre-ny` como `asia-2`: ahí está prohibido mover rangos; aquí
+está prohibido dejarlos idénticos sin re-score.
+
+**Idempotencia**: re-disparo <45 min del mismo `RUN_TYPE` → modo refresco (sección 1);
+si no hay cambio material de precio/permisos/verdicts, no reescribas el plan. Un refresco
+NO es excusa para saltarse la reconstrucción de zonas en la **primera** corrida del
+`RUN_TYPE` ese día.
 
 La "Cron CT" es cuándo DISPARA la rutina, no cuándo queda el plan. El arranque en la
 nube más la corrida se comen ~15-25 min, así que el plan publicado (commit + `digest.txt`)
@@ -1428,6 +1468,9 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   sesgo y en los objetivos, no los ignores.
 - **`alertLevels` siempre** (aunque no haya ningún GO): al menos las invalidaciones y los
   bordes de gap. Ordenada por cercanía. Solo A+, invalidaciones y `gapEdge`.
+- **Zonas al cambiar de sesión.** En `pre-london`/`pre-ny` la tabla `zones[]` se
+  reconstruye para la sesión que entra (re-score). Prohibido publicar el mismo
+  `range`/`type` que Asia (o que Londres) sin re-evaluación explícita.
 - **Models accionables.** Cada `models.<SYM>` activo usa el contrato de reglas
   (id `R-…` + SI/ENTONCES + n + status). El plan cita los ids que aplicó hoy.
 - **Aprendizaje con freno.** El `winRate` sale del pooling jerárquico + encogimiento (sección
