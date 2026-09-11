@@ -976,22 +976,51 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   Los cortes (`byHourCT`/`byTouch`/`byConf`/`byRegime`/`byArrival`) dirigen el plan solo con
   `n ≥ 8` en el corte concreto; por debajo son informativos. Poda cada corte a ventana rodante
   ~60 días.
-- `models`: `{ "NQ": "<md>", ... }` — añade aprendizajes **concretos y medibles**, no genéricos:
-  - "GC en pre-NY con vixRank>75 expandió 1.3-1.6× el ADR en 6 de 7 casos"
-  - "NQ Asia rara vez pasa del 25 % del ADR los lunes (media 18 %, n=9)"
-  - "ES: fade_vah a favor del sesgo bajista = 71 % (n=14), en contra = 33 %"
-  - Cuando un corte de `zones` sea claro, súbelo aquí en prosa: "NQ fade_vah: 5/6 antes de las
-    22:00 CT, 0/3 después (byHourCT)"; "GC sweep_pdl: 1er toque 80 %, 2º toque 25 % (byTouch)";
-    "ES bounce_val: solo paga en balance, 0/4 en tendencia (byRegime)".
-  Mantén una sección "Reparto de rango por sesión (medido)" con % reales cuando n≥10, y
-  "Patrones" para lo demás. Una regla solo se declara **"medida"** con n≥10; por debajo va en
-  "Patrones (provisional, n=X)". Cada `pre-asia` revisa si una regla medida se ha desmentido en
-  sus últimas ~10 ocurrencias → bájala a provisional o bórrala. Poda lo desmentido. Manda solo
-  los modelos que cambiaron.
-  - **Primera aparición de un instrumento** (no existe `models.<SYM>`): créalo ya en esa misma
-    corrida con un stub honesto ("Patrones (provisional, n=1): <lo que viste hoy>. Sin reparto
-    de rango medido aún.") para que empiece a acumular desde la noche 1, en vez de quedar
-    ausente hasta juntar n≥10.
+- `models`: `{ "NQ": "<md>", ... }` · aprendizajes **accionables** (no diario suelto).
+  Mantén `## Reparto de rango por sesión (medido)` con % reales cuando n≥10 (priores si no).
+  El conocimiento que dirige el plan vive en `### Reglas` con este **contrato obligatorio**
+  para toda entrada nueva o promovida:
+
+  ```
+  ### Reglas
+  - `R-<SYM>-<slug>` · status: provisional|medida|descartada · n=<int> · since:<fecha>
+    SI: <condición observable en live/market o plan (campos o hechos, no vibes)>
+    ENTONCES: <efecto concreto en el plan de HOY: sesgo / EM / verdict / zona / prediction>
+    EVIDENCIA: <hits>/<n> o celda scorecard (ej. predictionScore["NQ|direction"])
+    RETIRAR SI: <criterio falsable en ≤10 ocurrencias o 14 días>
+  ```
+
+  Reglas del contrato:
+  - Máx 12 activas (`provisional`+`medida`) por SYM. Si sobran, poda la más vieja sin
+    evidencia nueva o la de menor n.
+  - `medida` solo con n≥10 Y hits/n ≥ umbral del claim (default 0.60 salvo que el claim
+    diga otro).
+  - `provisional`: n<10 o hits/n bajo umbral; igual exige SI/ENTONCES.
+  - `descartada`: 1 línea + fecha; no cuenta en el tope de 12; conserva ~5 recientes.
+  - Prohibido bullets sueltos fuera de `### Reglas` / `## Reparto` / `## Patrones (cola)`.
+    La cola son notas de 1 día aún no convertidas a regla (máx 5); a la 2ª ocurrencia
+    similar → subir a Reglas o a `hypotheses`.
+  - Cuando un corte de `zones` sea claro, conviértelo a Regla (no solo prosa):
+    SI byHourCT/byTouch/byRegime… ENTONCES efecto en el plan.
+
+  **Aplicación en el plan** (cada corrida que lea models):
+  - Antes de fijar sesgo/EM/verdict/predictions de un SYM, lee Reglas activas cuya SI
+    sea verdadera HOY.
+  - Si aplicas una: cítala con el id en `context` o `verdict.reason` (`R-NQ-…`).
+    Si ninguna aplica, no inventes.
+  - Si una Regla `medida` contradice el sesgo de fuentes: degrada conviction un escalón
+    citando el id, o GIRA vía `counterCase` (no la ignores).
+
+  Cada `pre-asia` revisa Reglas `medida`: si las últimas ~10 ocurrencias la desmienten →
+  baja a provisional o `descartada`. Manda solo los modelos que cambiaron.
+
+  **Migración (primera pre-asia post-parche de contrato):** reescribe cada
+  `models.<SYM>` al contrato. Notas viejas sin SI/ENTONCES → `## Patrones (cola)` o
+  `hypotheses` si son "vigilar próxima X". No borres evidencia; reclasifica.
+
+  - **Primera aparición de un instrumento** (no existe `models.<SYM>`): créalo ya con
+    stub honesto bajo el contrato (`### Reglas` vacío o 1 provisional del día + Reparto
+    sin datos) para acumular desde la noche 1.
 - `hypotheses`: **registro estructurado de las hipótesis provisionales**. Antes vivían como
   prosa suelta en `models` ("provisional, vigilar la próxima ruptura") y era fácil no
   revisitarlas. Ahora cada una es un objeto:
@@ -1396,6 +1425,8 @@ los últimos ~12. Borra lo más viejo en el mismo write.
   sesgo y en los objetivos, no los ignores.
 - **`alertLevels` siempre** (aunque no haya ningún GO): al menos las invalidaciones y los
   bordes de gap. Ordenada por cercanía. Solo A+, invalidaciones y `gapEdge`.
+- **Models accionables.** Cada `models.<SYM>` activo usa el contrato de reglas
+  (id `R-…` + SI/ENTONCES + n + status). El plan cita los ids que aplicó hoy.
 - **Aprendizaje con freno.** El `winRate` sale del pooling jerárquico + encogimiento (sección
   4): siempre un número, pero solo MUEVE el `verdict` con `winN ≥ 8` (un escalón hasta
   `winN < 20`, manda con `winN ≥ 20`). Los cortes de `zones` (`byHourCT`/`byTouch`/`byConf`/
