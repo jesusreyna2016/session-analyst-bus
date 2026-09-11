@@ -9,3 +9,7 @@ Canal de datos entre Netlify (que sí tiene red) y las rutinas cloud del Session
 - `reviews/<fecha>.md` · calificación del día (pre-asia)
 
 Repo de trabajo, historial ruidoso por diseño. No tocar a mano salvo el método.
+
+## STEROIDS v2
+
+See [`README-STEROIDS.md`](./README-STEROIDS.md) for overlay Pine + HUD 2.0 apply notes (`overlay/`, `hud/`, `scripts/`, `APPLY.md`).
