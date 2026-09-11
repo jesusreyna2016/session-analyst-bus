@@ -82,6 +82,12 @@ el punto medio de cada `zones[].range` y de `scenarioA.entryZone` NO puede caer 
 queda sin ancho, la zona era tierra de nadie → sácala de la tabla y `verdict` a WAIT/AVOID.
 También: `scenarioA.target`/`target2` del lado correcto del sesgo respecto a la entrada, e
 `invalidation.level` del lado del stop. Un plan que se contradice a sí mismo no se emite.
+Además (selección A / direction):
+- Escenario A tiene disparador de nivel (precio + condición). Si no, inválido.
+- Si `scenarioAHitPct` 20d < 30 (`n≥10`) en ese SYM, `focus` NO puede citar solo A
+  sin zona A+ a tiro; y la predicción `scenario` de A lleva `prob` ≤ 0.55.
+- Si hay `direction` con `prob≥0.65`, verificar que NO hay `frameConflict.on` ni
+  `whipsawRisk.score ≥ 0.5`.
 
 **En español (NO bilingüe)**: `state/sa-state.json` completo (`narrative`, `models`, `reviews`,
 `dayThesis` del estado son el cuaderno interno del agente), `plans/digest.txt`, `reviews/*.md`
@@ -443,11 +449,31 @@ viejo lo que solo refleja mercado cerrado).
      ir contra la tesis y el precio está en tierra de nadie" → AVOID.
    Escribe `thesisAlign: { state, daysHeld, note }` por instrumento (`note` = una línea).
 3. **Escenarios**:
-   - **A (primario)**: qué esperas, disparador (nivel + condición), objetivo (`target`), y si aplica un
-     segundo objetivo `target2` (el siguiente nivel en la dirección del trade), en qué zona se entra a favor.
+   - **A (primario)**: el camino MÁS PROBABLE de la sesión dada (i) el régimen
+     (chop/balance/tendencia), (ii) el consenso de fuentes con peso, (iii) el
+     prior de `prevDay`, (iv) si hay zona A+ a tiro a favor del sesgo. NO es
+     "el camino que más me gusta" ni "el que mejor se lee en prosa". Disparador
+     (nivel + condición), objetivo (`target`), y si aplica un segundo objetivo
+     `target2` (el siguiente nivel en la dirección del trade), en qué zona se
+     entra a favor.
    - **B (alterno)**: el segundo camino más probable y su disparador; si el flip abre una zona concreta
      (p.ej. la zona dorada del retroceso), da sus límites en `zone: [lo, hi]`.
    - **Invalidación**: qué precio o cierre mata la narrativa del día.
+   **Selección de A (regla dura)**:
+   1. Enumera 2-3 caminos candidatos con un `prob` implícito (0-1) cada uno
+      (aunque solo A/B salgan al plan). A = el de mayor probabilidad.
+   2. Si el top-2 está a ≤0.10 de distancia, A debe ser el más FALSABLE
+      (nivel + condición + ventana CT) O el anclado a la zona A+/B de mayor
+      `winRate` encogido con `winN ≥ 8`. Si ninguno cumple, A = el de mayor
+      prob y `conviction` baja un escalón.
+   3. Si `scorecard.scenarioAHitPct["<SYM>"].pct` en ventana 20d es < 30
+      con `n ≥ 10`, A es "candidato débil":
+      - NO ancles el `focus` ni la 1ª línea del `summary` a A salvo que
+        haya zona A+ confirmada a tiro.
+      - `prob` de la predicción `kind:"scenario"` para A ≤ 0.55.
+      - El `digest` nombra B con el mismo peso que A ("A o B, no te cases").
+   4. Prohibido: A = continuación genérica del sesgo sin disparador de nivel.
+      Si no hay disparador concreto, A no existe → WAIT y dile por qué.
 4. **Zonas de alta probabilidad** (sección 4), cada una con su `risk` (stop, objetivo, R:R en
    puntos/ticks/$ por contrato).
 5. **Estimado de movimiento de la sesión** (sección 5).
@@ -574,13 +600,31 @@ sale 0.5") en vez de rellenar con cinco 0.55.
 weekly por `rate < 0.40`, `n ≥ 20`) dejan de ser obligatorios: no tienes que emitir ese
 `kind` para ese símbolo. Puedes seguir haciéndolo si hoy tienes una lectura fuerte, pero no
 cuenta como incumplir la regla de cobertura.
-**Dirección indecisa**: cuando `frameConflict.on` = true, la predicción de `kind:"direction"`
-puede declararse indecisa: `{ ..., kind:"direction", indeciso: true, prob: null, text: "dirección
-neta INDECISA: marcos opuestos (<diario> vs <1h>)" }`. Una `direction` indecisa **no cuenta**
-en `predictionScore` (no suma `n`, ni acierto ni fallo): es honestidad, no cobardía. Solo con
-`frameConflict.on` real, y **máximo una por instrumento** (las otras 2-4 predicciones siguen
-siendo falsables normales: rango, level_first, condicional). No la uses para esquivar una
-llamada que sí podías hacer.
+**Dirección indecisa / calibrada**:
+- `indeciso: true` está permitido cuando CUALQUIERA de:
+  (a) `frameConflict.on` = true, o
+  (b) `whipsawRisk.score ≥ 0.6`, o
+  (c) `biasSession` NEUTRAL / convicción baja y las fuentes top-2 discrepan.
+  Forma: `{ ..., kind:"direction", indeciso: true, prob: null, text: "dirección
+  neta INDECISA: <motivo concreto>" }`. Una `direction` indecisa **no cuenta**
+  en `predictionScore` (no suma `n`, ni acierto ni fallo): es honestidad, no cobardía.
+  **Máximo una por instrumento** (las otras 2-4 predicciones siguen siendo falsables
+  normales: rango, level_first, condicional). No la uses para esquivar una llamada
+  que sí podías hacer.
+- Si emites `direction` con dirección (no indecisa):
+  * `prob` es OBLIGATORIO (0-1).
+  * Si `predictionScore["<SYM>|direction"].brier` > 0.25 con `n ≥ 15`,
+    recorta `prob` hacia 0.5 en ±0.10 (no te mojes más de lo que el Brier
+    justifica) y dilo en `context` ("direction recalibrada por Brier").
+  * Si ese mismo celda tiene `rate < 0.40` y `n ≥ 15`, trata `direction`
+    como si estuviera en `predictionSkip` aunque el weekly aún no lo haya
+    escrito: puedes omitirla; si la emites, `prob` ∈ [0.45, 0.55] salvo
+    evidencia excepcional (3+ fuentes FUERTE alineadas + zona A+).
+- Prohibido: `direction` con `prob ≥ 0.65` en día con `whipsawRisk ≥ 0.5`
+  o `frameConflict.on`.
+- **Nota de umbral**: el weekly sigue exigiendo `n ≥ 20` para escribir
+  `overrides.predictionSkip` formal. Este freno provisional a `n≥15` aplica
+  solo al kind `direction`, sin esperar al override del sábado.
 
 Al final: **qué instrumento está más limpio ahora** (sesgo más claro + en borde + menor
 conflicto), y destílalo en el objeto **`focus`** (sección 7): la única mejor oportunidad de
@@ -1067,6 +1111,10 @@ clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
        aplicados` con antes/después y evidencia:
        * retirar un `<SYM>|<kind>` de predicción obligatoria si `predictionScore.rate < 0.40`
          y `n ≥ 20` → añádelo a `overrides.predictionSkip`.
+       * excepción `direction`: si `predictionScore["<SYM>|direction"].rate < 0.40`
+         y `n ≥ 15` (en vez de 20), el weekly SÍ puede añadir
+         `overrides.predictionSkip["<SYM>|direction"]` con evidence. Otros kinds
+         siguen en `n ≥ 20`.
        * ajustar el prior de un arquetipo de `zones` en ±0.05 si el `winRate` agregado del
          nivel `<tipo>` (con `winN ≥ 30`) diverge > 0.10 del prior vigente → escribe
          `overrides.zonePriors["<arquetipo>"]`.
