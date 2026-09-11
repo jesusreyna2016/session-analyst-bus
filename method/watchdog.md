@@ -1,5 +1,12 @@
 # Watchdog · vigilante de datos del bus
 
+> **STEROIDS note**: el HUD Command Center 2.0 (`hud/command-center-2.html`) consume
+> `live/health.json` igual que el CC actual. No cambies el schema de salida. Opcional: si
+> detectas que `plans/latest.json` existe pero **ningún** `instruments.*.tvPayload` tras
+> una corrida post-STEROIDS, añade a `issues` un warn suave
+> `"sa:tvPayload missing (steroids)"` — solo warn, nunca `down`.
+
+
 Rutina mecánica, NO analítica. No opina de mercado. Solo comprueba que la
 tubería que alimenta al Command Center y al Session Analyst sigue viva, y deja
 el veredicto en `live/health.json` para que el Command Center lo pinte.
