@@ -1,0 +1,264 @@
+//@version=6
+indicator("SA Plan Overlay v2", overlay=true, max_boxes_count=64, max_lines_count=64, max_labels_count=64)
+
+// =============================================================================
+// Session Analyst · Overlay v2
+// Paste a compact plan payload (from Command Center / HUD / digest TV lines).
+// Format: key=value;key=value  · ranges lo-hi  · whitespace tolerated
+// Classic keys: SYM SESS BIAS SIG AZ BZ NT FVG FVGDIR FVGTF INVAL STOP T1 T2 RR EM WIN
+// New keys:     VSCORE FCONFLICT WHIP DIR HYP PRED
+// =============================================================================
+
+payloadIn = input.string("", "Plan payload", tooltip="Paste SYM=…;AZ=… payload from SA HUD / digest")
+
+// ---- helpers ----
+f_trim(string s) =>
+    string out = s
+    while str.length(out) > 0 and (str.substring(out, 0, 1) == " " or str.substring(out, 0, 1) == "\t")
+        out := str.substring(out, 1)
+    while str.length(out) > 0 and (str.substring(out, str.length(out) - 1) == " " or str.substring(out, str.length(out) - 1) == "\t")
+        out := str.substring(out, 0, str.length(out) - 1)
+    out
+
+f_upper(string s) =>
+    str.upper(f_trim(s))
+
+f_parse_num(string s) =>
+    string t = f_trim(s)
+    float n = na
+    if str.length(t) > 0
+        n := str.tonumber(t)
+    n
+
+f_parse_range(string s) =>
+    string t = f_trim(s)
+    float lo = na
+    float hi = na
+    if str.length(t) > 0
+        int dash = str.pos(t, "-")
+        // allow en-dash lookalikes already normalized by builder; also try mid
+        if na(dash) or dash < 0
+            dash := str.pos(t, "–")
+        if not na(dash) and dash > 0 and dash < str.length(t) - 1
+            lo := f_parse_num(str.substring(t, 0, dash))
+            hi := f_parse_num(str.substring(t, dash + 1))
+            if not na(lo) and not na(hi) and lo > hi
+                float tmp = lo
+                lo := hi
+                hi := tmp
+    [lo, hi]
+
+f_get(string raw, string key) =>
+    string needle = key + "="
+    string src = raw
+    string val = ""
+    // split by ; manually
+    string rest = src
+    bool found = false
+    for i = 0 to 40
+        if found or str.length(rest) == 0
+            break
+        int semi = str.pos(rest, ";")
+        string part = na(semi) or semi < 0 ? rest : str.substring(rest, 0, semi)
+        rest := na(semi) or semi < 0 ? "" : str.substring(rest, semi + 1)
+        part := f_trim(part)
+        if str.length(part) >= str.length(needle) and str.substring(f_upper(part), 0, str.length(needle)) == f_upper(needle)
+            // value after first '='
+            int eq = str.pos(part, "=")
+            if not na(eq) and eq >= 0
+                val := f_trim(str.substring(part, eq + 1))
+                found := true
+    val
+
+f_sym_root(string t) =>
+    string s = f_upper(t)
+    // strip common futures suffixes: NQ1!, ESM2026, NQ2026, /NQ, MNQ
+    s := str.replace_all(s, "/", "")
+    if str.length(s) >= 3 and str.substring(s, 0, 3) == "MNQ"
+        s := "NQ"
+    if str.length(s) >= 3 and str.substring(s, 0, 3) == "MES"
+        s := "ES"
+    if str.length(s) >= 3 and str.substring(s, 0, 3) == "MYM"
+        s := "YM"
+    if str.length(s) >= 3 and str.substring(s, 0, 3) == "MGC"
+        s := "GC"
+    if str.length(s) >= 3 and str.substring(s, 0, 3) == "MCL"
+        s := "CL"
+    // take leading letters before digits / !
+    string letters = ""
+    for i = 0 to math.min(str.length(s) - 1, 7)
+        string ch = str.substring(s, i, i + 1)
+        if ch >= "A" and ch <= "Z"
+            letters += ch
+        else
+            break
+    letters
+
+f_chart_root() =>
+    f_sym_root(syminfo.root != "" ? syminfo.root : syminfo.ticker)
+
+f_overlaps(float a0, float a1, float b0, float b1) =>
+    not na(a0) and not na(a1) and not na(b0) and not na(b1) and math.min(a1, b1) >= math.max(a0, b0)
+
+// ---- parse payload (recompute each bar; cheap string ops) ----
+string raw = payloadIn
+string pSYM = f_upper(f_get(raw, "SYM"))
+string pSESS = f_get(raw, "SESS")
+string pBIAS = f_upper(f_get(raw, "BIAS"))
+string pSIG = f_upper(f_get(raw, "SIG"))
+string pDIR = f_upper(f_get(raw, "DIR"))
+string pHYP = f_get(raw, "HYP")
+string pPRED = f_get(raw, "PRED")
+string pFVGDIR = f_get(raw, "FVGDIR")
+string pFVGTF = f_get(raw, "FVGTF")
+
+[azLo, azHi] = f_parse_range(f_get(raw, "AZ"))
+[bzLo, bzHi] = f_parse_range(f_get(raw, "BZ"))
+[ntLo, ntHi] = f_parse_range(f_get(raw, "NT"))
+[fvgLo, fvgHi] = f_parse_range(f_get(raw, "FVG"))
+float pINVAL = f_parse_num(f_get(raw, "INVAL"))
+float pSTOP = f_parse_num(f_get(raw, "STOP"))
+float pT1 = f_parse_num(f_get(raw, "T1"))
+float pT2 = f_parse_num(f_get(raw, "T2"))
+float pRR = f_parse_num(f_get(raw, "RR"))
+float pEM = f_parse_num(f_get(raw, "EM"))
+float pVSCORE = f_parse_num(f_get(raw, "VSCORE"))
+float pWHIP = f_parse_num(f_get(raw, "WHIP"))
+float pFCONFLICT = f_parse_num(f_get(raw, "FCONFLICT"))
+
+bool gate = str.length(pSYM) == 0 or f_sym_root(pSYM) == f_chart_root() or f_sym_root(pSYM) == f_sym_root(syminfo.ticker)
+bool hasPayload = str.length(f_trim(raw)) > 0 and str.length(pSYM) > 0
+bool drawOk = hasPayload and gate
+
+// hide FVG if overlaps AZ
+bool showFvg = drawOk and not na(fvgLo) and not na(fvgHi) and not f_overlaps(fvgLo, fvgHi, azLo, azHi)
+
+// ---- draw boxes/lines from bar_index-60 to +forward ----
+int left = bar_index - 80
+int right = bar_index + 40
+
+var box bAZ = na
+var box bBZ = na
+var box bNT = na
+var box bFVG = na
+var line lInval = na
+var line lStop = na
+var line lT1 = na
+var line lT2 = na
+var label labPanel = na
+
+if barstate.islast and drawOk
+    if not na(bAZ)
+        box.delete(bAZ)
+    if not na(bBZ)
+        box.delete(bBZ)
+    if not na(bNT)
+        box.delete(bNT)
+    if not na(bFVG)
+        box.delete(bFVG)
+    if not na(lInval)
+        line.delete(lInval)
+    if not na(lStop)
+        line.delete(lStop)
+    if not na(lT1)
+        line.delete(lT1)
+    if not na(lT2)
+        line.delete(lT2)
+    if not na(labPanel)
+        label.delete(labPanel)
+
+    // AZ A+
+    if not na(azLo) and not na(azHi)
+        bAZ := box.new(left, azHi, right, azLo, bgcolor=color.new(color.lime, 85), border_color=color.new(color.lime, 40), border_width=1, extend=extend.none)
+        label.new(right, azHi, "AZ A+", style=label.style_label_left, color=color.new(color.lime, 70), textcolor=color.lime, size=size.small)
+
+    // BZ B
+    if not na(bzLo) and not na(bzHi)
+        bBZ := box.new(left, bzHi, right, bzLo, bgcolor=color.new(color.aqua, 90), border_color=color.new(color.aqua, 50), border_width=1)
+
+    // NT dashed feel via translucent + border
+    if not na(ntLo) and not na(ntHi)
+        bNT := box.new(left, ntHi, right, ntLo, bgcolor=color.new(color.gray, 92), border_color=color.new(color.orange, 35), border_style=line.style_dashed, border_width=1)
+
+    if showFvg
+        color fc = str.lower(pFVGDIR) == "bull" ? color.new(color.teal, 88) : color.new(color.purple, 88)
+        bFVG := box.new(left, fvgHi, right, fvgLo, bgcolor=fc, border_color=color.new(color.purple, 50), border_width=1)
+        label.new(right, (fvgLo + fvgHi) / 2, "FVG " + pFVGTF, style=label.style_label_left, color=color.new(color.purple, 70), textcolor=color.silver, size=size.tiny)
+
+    if not na(pINVAL)
+        lInval := line.new(left, pINVAL, right, pINVAL, color=color.red, style=line.style_dotted, width=2)
+        label.new(right, pINVAL, "INVAL", style=label.style_label_left, color=color.new(color.red, 70), textcolor=color.red, size=size.small)
+
+    if not na(pSTOP)
+        lStop := line.new(left, pSTOP, right, pSTOP, color=color.maroon, style=line.style_solid, width=1)
+        label.new(right, pSTOP, "STOP", style=label.style_label_left, color=color.new(color.maroon, 70), textcolor=color.maroon, size=size.small)
+
+    if not na(pT1)
+        lT1 := line.new(left, pT1, right, pT1, color=color.green, style=line.style_solid, width=1)
+        label.new(right, pT1, "T1", style=label.style_label_left, color=color.new(color.green, 70), textcolor=color.green, size=size.small)
+
+    if not na(pT2)
+        lT2 := line.new(left, pT2, right, pT2, color=color.olive, style=line.style_dashed, width=1)
+        label.new(right, pT2, "T2", style=label.style_label_left, color=color.new(color.olive, 70), textcolor=color.olive, size=size.small)
+
+    // status panel (right)
+    string dirShow = str.length(pDIR) > 0 ? pDIR : pBIAS
+    string panel = pSYM + " · " + pSESS + "\n" + pSIG + " · " + dirShow
+    if not na(pRR)
+        panel += "\nRR " + str.tostring(pRR, "#.#")
+    if not na(pEM)
+        panel += " · EM " + str.tostring(pEM, "#")
+    if not na(pVSCORE)
+        panel += "\nVSCORE " + str.tostring(pVSCORE, "#")
+    if not na(pFCONFLICT)
+        panel += " · FC " + str.tostring(pFCONFLICT, "#")
+    if not na(pWHIP)
+        panel += " · WHIP " + str.tostring(pWHIP, "#.##")
+    if str.length(pHYP) > 0
+        panel += "\nHYP " + pHYP
+    if str.length(pPRED) > 0
+        panel += "\nPRED " + pPRED
+    if not gate
+        panel := "SYM gate OFF\n" + pSYM + " ≠ chart"
+    labPanel := label.new(bar_index + 8, high, panel, style=label.style_label_left, color=color.new(color.black, 20), textcolor=color.white, size=size.normal)
+
+else if barstate.islast and hasPayload and not gate
+    if not na(labPanel)
+        label.delete(labPanel)
+    labPanel := label.new(bar_index, high, "SA Overlay: SYM " + pSYM + " ≠ " + f_chart_root(), style=label.style_label_down, color=color.new(color.red, 40), textcolor=color.white, size=size.small)
+
+// ---- alert conditions ----
+bool inAZ = drawOk and not na(azLo) and not na(azHi) and high >= azLo and low <= azHi
+bool hitSL = drawOk and not na(pSTOP) and ((pBIAS == "SHORT" and high >= pSTOP) or (pBIAS == "LONG" and low <= pSTOP) or (pDIR == "SHORT" and high >= pSTOP) or (pDIR == "LONG" and low <= pSTOP))
+bool hitT1 = drawOk and not na(pT1) and ((pBIAS == "SHORT" and low <= pT1) or (pBIAS == "LONG" and high >= pT1) or (pDIR == "SHORT" and low <= pT1) or (pDIR == "LONG" and high >= pT1))
+bool hitT2 = drawOk and not na(pT2) and ((pBIAS == "SHORT" and low <= pT2) or (pBIAS == "LONG" and high >= pT2) or (pDIR == "SHORT" and low <= pT2) or (pDIR == "LONG" and high >= pT2))
+bool invalBreak = drawOk and not na(pINVAL) and ((pBIAS == "SHORT" and close > pINVAL) or (pBIAS == "LONG" and close < pINVAL) or (pDIR == "SHORT" and close > pINVAL) or (pDIR == "LONG" and close < pINVAL))
+
+// +1R → BE proxy: distance entry mid-AZ to STOP == 1R; price moved 1R toward T1
+float entryMid = not na(azLo) and not na(azHi) ? (azLo + azHi) / 2.0 : na
+float rDist = not na(entryMid) and not na(pSTOP) ? math.abs(entryMid - pSTOP) : na
+bool plus1r = drawOk and not na(rDist) and rDist > 0 and not na(pT1) and ((pBIAS == "SHORT" or pDIR == "SHORT") ? (entryMid - close) >= rDist : (close - entryMid) >= rDist)
+
+alertcondition(inAZ, title="SA - Zona A+", message="SA Overlay: price inside Zona A+")
+alertcondition(hitSL, title="SA - SL", message="SA Overlay: STOP touched")
+alertcondition(hitT1, title="SA - T1", message="SA Overlay: T1 touched")
+alertcondition(hitT2, title="SA - T2", message="SA Overlay: T2 touched")
+alertcondition(invalBreak, title="SA - inval break", message="SA Overlay: invalidation broken")
+alertcondition(plus1r, title="SA - +1R→BE", message="SA Overlay: +1R — consider BE")
+
+if inAZ
+    alert("SA - Zona A+ · " + pSYM + " " + pSIG, alert.freq_once_per_bar)
+if hitSL
+    alert("SA - SL · " + pSYM + " STOP=" + str.tostring(pSTOP), alert.freq_once_per_bar)
+if hitT1
+    alert("SA - T1 · " + pSYM + " T1=" + str.tostring(pT1), alert.freq_once_per_bar)
+if hitT2
+    alert("SA - T2 · " + pSYM + " T2=" + str.tostring(pT2), alert.freq_once_per_bar)
+if invalBreak
+    alert("SA - inval break · " + pSYM + " INVAL=" + str.tostring(pINVAL), alert.freq_once_per_bar)
+if plus1r
+    alert("SA - +1R→BE · " + pSYM, alert.freq_once_per_bar)
+
+// plot dummy for data window
+plot(drawOk and not na(azLo) ? azLo : na, "AZ lo", display=display.data_window)
+plot(drawOk and not na(azHi) ? azHi : na, "AZ hi", display=display.data_window)
