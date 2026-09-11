@@ -136,11 +136,187 @@ header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:s
     <code>hud/tv-payload.js</code> / <code>scripts/build-tv-payload.mjs</code>.
   </p>
 </div>
+<script src="./tv-payload.js"></script>
 <script>
-PLACEHOLDER_INLINE_PAYLOAD
-</script>
-<script>
-PLACEHOLDER_APP_JS
+(function(){
+  var plan=null, health=null, selected=null;
+  var SYMS=["NQ","ES","GC","YM","CL"];
+  var $ = function(id){ return document.getElementById(id); };
+  function setStatus(t){ $("status").textContent=t; }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]);}); }
+  function L(x){ return SAPayload.L(x); }
+
+  function loadJson(url){
+    return fetch(url,{cache:"no-store"}).then(function(r){
+      if(!r.ok) throw new Error(url+" "+r.status);
+      return r.json();
+    });
+  }
+
+  function renderHealth(){
+    var el=$("health");
+    if(!health){
+      el.innerHTML='<div class="hcell"><div class="k">health</div><div class="v" style="color:var(--dim)">—</div></div>';
+      return;
+    }
+    var st=String(health.status||"?").toLowerCase();
+    var cls=st==="ok"?"ok":(st==="down"?"down":"warn");
+    var snap=health.snapshot||{}, wh=health.webhook||{}, news=health.news||{}, sa=health.sa||{};
+    el.innerHTML=
+      '<div class="hcell '+cls+'"><div class="k">bus health</div><div class="v">'+esc(st.toUpperCase())+'</div></div>'+
+      '<div class="hcell"><div class="k">snapshot</div><div class="v" style="font-size:13px">'+esc(snap.state||"?")+' · '+esc(snap.ageMin)+"m</div></div>"+
+      '<div class="hcell"><div class="k">webhook</div><div class="v" style="font-size:13px">'+esc(wh.state||"?")+'</div></div>'+
+      '<div class="hcell"><div class="k">news</div><div class="v" style="font-size:13px">'+esc(news.state||"?")+' · n='+esc(news.count)+'</div></div>'+
+      '<div class="hcell"><div class="k">SA last</div><div class="v" style="font-size:12px">'+esc(sa.runType||"—")+'</div></div>';
+  }
+
+  function sessionLabel(p){
+    if(!p) return "—";
+    return (p.session||"?")+" · "+(p.runType||"")+" · "+(p.date||"");
+  }
+
+  function renderTimeline(){
+    var el=$("timeline");
+    if(!plan){ el.innerHTML=""; return; }
+    var sess=["pre-asia","asia","asia-2","pre-london","london","pre-ny","ny"];
+    var cur=(plan.runType||plan.session||"").toLowerCase();
+    el.innerHTML=sess.map(function(s){
+      var active = cur===s || (plan.session&&s.indexOf(String(plan.session).toLowerCase())===0 && (s==="asia"||s==="london"||s==="ny"));
+      // softer: mark runType chip
+      active = cur===s;
+      return '<div class="tchip'+(active?" active":"")+'"><div class="t">SESSION</div>'+s+'</div>';
+    }).join("")+
+    '<div class="tchip active"><div class="t">NOW</div>'+esc(sessionLabel(plan))+'</div>'+
+    (plan.cleanest?'<div class="tchip"><div class="t">CLEANEST</div>'+esc(plan.cleanest)+'</div>':"");
+  }
+
+  function sigClass(sig){
+    sig=String(sig||"WAIT").toUpperCase();
+    return sig==="GO"?"go":(sig==="AVOID"?"avoid":"wait");
+  }
+
+  function renderCards(){
+    var el=$("cards");
+    if(!plan||!plan.instruments){ el.innerHTML=""; return; }
+    el.innerHTML=SYMS.map(function(sym){
+      var d=plan.instruments[sym]; if(!d) return "";
+      var sig=(d.verdict&&d.verdict.signal)||"WAIT";
+      var cls=sigClass(sig);
+      var bias=String(d.biasSession||"").toUpperCase();
+      var z=(d.zones&&d.zones[0])||null;
+      var az=z&&z.range?z.range[0]+"–"+z.range[1]:"sin AZ";
+      var fc=d.frameConflict&&d.frameConflict.on;
+      var whip=d.whipsawRisk&&d.whipsawRisk.score;
+      return '<div class="card '+cls+'" data-sym="'+sym+'">'+
+        '<div class="sym">'+sym+'</div>'+
+        '<div class="sig">'+esc(String(sig).toUpperCase())+'</div>'+
+        '<div class="meta">'+esc(bias)+" · "+esc(az)+'</div>'+
+        '<div class="row">'+
+          (fc?'<span class="chip bad">FCONFLICT</span>':'<span class="chip">frames ok</span>')+
+          (whip!=null?'<span class="chip">WHIP '+esc(whip)+'</span>':'')+
+          (z&&z.risk&&z.risk.rr!=null?'<span class="chip hot">RR '+esc(z.risk.rr)+'</span>':'')+
+        '</div>'+
+        '<div class="heatstrip"><div class="c '+cls+'"></div><div class="c '+cls+'"></div><div class="c '+cls+'"></div></div>'+
+      '</div>';
+    }).join("");
+    Array.prototype.forEach.call(el.querySelectorAll(".card"), function(card){
+      card.addEventListener("click", function(){ selectSym(card.getAttribute("data-sym")); });
+    });
+  }
+
+  function selectSym(sym){
+    selected=sym;
+    var d=plan&&plan.instruments&&plan.instruments[sym];
+    var box=$("detail");
+    if(!d){ box.className="detail"; return; }
+    var payload=SAPayload.buildPayload(sym,d,plan);
+    var reason=L(d.verdict&&d.verdict.reason);
+    var counter=L(d.counterCase);
+    var preds=(d.predictions||[]).map(function(p){
+      return '<li><b>'+esc(p.kind)+'</b> · '+esc(L(p.text))+' <span style="color:var(--faint)">@ '+esc(p.resolveAt||"")+'</span></li>';
+    }).join("");
+    box.className="detail open";
+    box.innerHTML=
+      '<h2>'+esc(sym)+' · drill-down</h2>'+
+      '<div class="cols"><div>'+
+        '<p><b>Veredicto:</b> '+esc((d.verdict&&d.verdict.signal)||"")+' — '+esc(reason)+'</p>'+
+        '<p><b>Counter-case:</b> '+esc(counter)+'</p>'+
+        '<p><b>Predicciones</b></p><ul>'+preds+'</ul>'+
+      '</div><div>'+
+        '<p><b>Invalidación</b> '+esc(d.invalidation&&d.invalidation.level)+'</p>'+
+        '<p><b>EM base</b> '+esc(d.expectedMove&&d.expectedMove.base)+'</p>'+
+        '<p><b>thesisAlign</b> '+esc(d.thesisAlign&&d.thesisAlign.state)+' · '+esc(d.thesisAlign&&d.thesisAlign.daysHeld)+'d</p>'+
+        '<div class="actions">'+
+          '<button class="btn primary" id="copyTv">Copy TV payload</button>'+
+          '<button class="btn" id="copyClassic">Copy classic only</button>'+
+        '</div>'+
+        '<div class="payload-box" id="payloadOut">'+esc(payload)+'</div>'+
+      '</div></div>';
+    $("copyTv").onclick=function(){ copyText(payload, this); };
+    $("copyClassic").onclick=function(){ copyText(SAPayload.buildClassic(sym,d,plan), this); };
+  }
+
+  function copyText(txt, btn){
+    function ok(){ var o=btn.textContent; btn.textContent="✓ copied"; setTimeout(function(){btn.textContent=o;},1200); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(ok, function(){ fallback(); });
+    } else fallback();
+    function fallback(){
+      var ta=document.createElement("textarea"); ta.value=txt; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); ok(); }catch(e){}
+      document.body.removeChild(ta);
+    }
+  }
+
+  function renderAlarm(){
+    var el=$("alarm");
+    if(!plan||!plan.alarm){ el.className="alarm"; return; }
+    var t=L(plan.alarm);
+    if(!t){ el.className="alarm"; return; }
+    el.className="alarm show";
+    el.textContent="ALARM · "+t;
+  }
+
+  function renderAll(){
+    renderHealth(); renderTimeline(); renderCards(); renderAlarm();
+    if(selected) selectSym(selected);
+    else if(plan&&plan.focus&&plan.focus.sym) selectSym(plan.focus.sym);
+  }
+
+  function tryFetch(){
+    setStatus("fetching…");
+    var paths=[
+      ["../plans/latest.json","../live/health.json"],
+      ["./plans/latest.json","./live/health.json"],
+      ["/plans/latest.json","/live/health.json"]
+    ];
+    function attempt(i){
+      if(i>=paths.length){ setStatus("fetch failed — use file inputs"); return; }
+      Promise.all([loadJson(paths[i][0]), loadJson(paths[i][1]).catch(function(){return null;})])
+        .then(function(pair){
+          plan=pair[0]; health=pair[1]; setStatus("loaded "+paths[i][0]); renderAll();
+        })
+        .catch(function(){ attempt(i+1); });
+    }
+    attempt(0);
+  }
+
+  $("btnFetch").onclick=tryFetch;
+  $("filePlan").onchange=function(e){
+    var f=e.target.files&&e.target.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){ try{ plan=JSON.parse(r.result); setStatus("plan: "+f.name); renderAll(); }catch(err){ setStatus("bad plan JSON"); } };
+    r.readAsText(f);
+  };
+  $("fileHealth").onchange=function(e){
+    var f=e.target.files&&e.target.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){ try{ health=JSON.parse(r.result); setStatus("health: "+f.name); renderHealth(); }catch(err){ setStatus("bad health JSON"); } };
+    r.readAsText(f);
+  };
+
+  tryFetch();
+})();
 </script>
 </body>
 </html>
