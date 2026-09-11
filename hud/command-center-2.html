@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Session Analyst · Command Center 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;500;600;700&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#04060c; --panel:#0b0f1a; --panel-2:#0e131f; --border:rgba(126,160,224,.12);
+  --txt:#e7ecf7; --dim:#8a95b0; --faint:#525d78;
+  --cyan:#3fd8e6; --lime:#5fe08a; --amber:#f5b944; --red:#ff5f74; --violet:#9d8cff;
+  --go:rgba(95,224,138,.14); --wait:rgba(245,185,68,.12); --avoid:rgba(255,95,116,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;color:var(--txt);
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  background:
+    radial-gradient(1100px 520px at 82% -12%, rgba(63,216,230,.06), transparent 60%),
+    radial-gradient(900px 480px at 8% 112%, rgba(157,140,255,.05), transparent 58%),
+    var(--bg);
+  padding:14px 16px 40px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(120,160,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,255,.045) 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(circle at 50% 25%,black,transparent 92%);
+}
+.wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.brand{display:flex;flex-direction:column;gap:2px}
+.brand h1{font-family:Orbitron,sans-serif;font-size:18px;letter-spacing:1px}
+.brand .sub{font-size:11px;color:var(--dim)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn,.filebtn{
+  font:inherit;font-size:11px;font-weight:600;letter-spacing:.4px;
+  padding:7px 12px;border-radius:8px;border:1px solid var(--border);
+  background:var(--panel);color:var(--txt);cursor:pointer;
+}
+.btn:hover,.filebtn:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn.primary{background:rgba(63,216,230,.12);border-color:rgba(63,216,230,.35);color:var(--cyan)}
+.filebtn input{display:none}
+#status{font-size:10px;color:var(--dim);min-width:160px}
+.health{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;
+  margin-bottom:14px;
+}
+.hcell{
+  background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 12px;
+}
+.hcell .k{font-size:9px;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+.hcell .v{font-family:Orbitron,sans-serif;font-size:14px;margin-top:4px}
+.hcell.ok .v{color:var(--lime)} .hcell.warn .v{color:var(--amber)} .hcell.down .v{color:var(--red)}
+.timeline{
+  display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;
+}
+.tchip{
+  flex:0 0 auto;padding:8px 12px;border-radius:10px;border:1px solid var(--border);
+  background:var(--panel-2);font-size:11px;
+}
+.tchip.active{border-color:var(--cyan);box-shadow:0 0 18px -8px rgba(63,216,230,.5)}
+.tchip .t{color:var(--dim);font-size:9px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.card{
+  background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:12px;
+  cursor:pointer;transition:border-color .15s, transform .15s;
+}
+.card:hover{border-color:var(--border-hot, rgba(120,200,255,.3));transform:translateY(-1px)}
+.card.go{background:linear-gradient(180deg,var(--go),var(--panel))}
+.card.wait{background:linear-gradient(180deg,var(--wait),var(--panel))}
+.card.avoid{background:linear-gradient(180deg,var(--avoid),var(--panel))}
+.card .sym{font-family:Orbitron,sans-serif;font-size:16px;font-weight:800}
+.card .sig{font-size:22px;font-weight:800;margin:6px 0 2px;font-family:Orbitron,sans-serif}
+.card.go .sig{color:var(--lime)} .card.wait .sig{color:var(--amber)} .card.avoid .sig{color:var(--red)}
+.card .meta{font-size:10px;color:var(--dim);line-height:1.45}
+.card .row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.chip{font-size:9px;padding:3px 7px;border-radius:6px;border:1px solid var(--border);color:var(--dim)}
+.chip.hot{color:var(--cyan);border-color:rgba(63,216,230,.35)}
+.chip.bad{color:var(--red);border-color:rgba(255,95,116,.35)}
+.detail{
+  display:none;background:var(--panel);border:1px solid var(--border);border-radius:14px;
+  padding:16px;margin-bottom:14px;
+}
+.detail.open{display:block}
+.detail h2{font-family:Chakra Petch,sans-serif;font-size:15px;margin-bottom:8px}
+.detail .cols{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+@media(max-width:800px){.detail .cols{grid-template-columns:1fr}}
+.detail p,.detail li{font-size:12px;color:var(--dim);line-height:1.55}
+.detail ul{padding-left:16px;margin:6px 0}
+.payload-box{
+  margin-top:10px;padding:10px;border-radius:10px;background:#060914;border:1px solid var(--border);
+  font-size:10px;word-break:break-all;color:var(--cyan);
+}
+.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.heatstrip{display:flex;gap:4px;margin:8px 0 0}
+.heatstrip .c{flex:1;height:8px;border-radius:3px;background:rgba(255,255,255,.05)}
+.heatstrip .c.go{background:var(--lime)} .heatstrip .c.wait{background:var(--amber)} .heatstrip .c.avoid{background:var(--red)}
+.note{font-size:10px;color:var(--faint);margin-top:18px;line-height:1.5}
+.alarm{
+  display:none;margin-bottom:12px;padding:10px 12px;border-radius:12px;
+  border:1px solid rgba(255,95,116,.35);background:rgba(255,95,116,.08);font-size:12px;color:var(--red);
+}
+.alarm.show{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>SA COMMAND CENTER 2.0</h1>
+      <div class="sub">Session Analyst · Overlay v2 bridge · offline-capable</div>
+    </div>
+    <div class="controls">
+      <button class="btn primary" id="btnFetch">Fetch bus JSON</button>
+      <label class="filebtn">Plan JSON<input type="file" id="filePlan" accept="application/json,.json" /></label>
+      <label class="filebtn">Health JSON<input type="file" id="fileHealth" accept="application/json,.json" /></label>
+      <span id="status">idle</span>
+    </div>
+  </header>
+
+  <div class="alarm" id="alarm"></div>
+  <div class="health" id="health"></div>
+  <div class="timeline" id="timeline"></div>
+  <div class="grid" id="cards"></div>
+  <div class="detail" id="detail"></div>
+  <p class="note">
+    Relative fetch tries <code>../plans/latest.json</code> and <code>../live/health.json</code>
+    (host HUD next to the bus on Netlify/static). Browsers block file:// CORS — use the file
+    inputs offline, or serve the bus folder over http. Payload builder matches
+    <code>hud/tv-payload.js</code> / <code>scripts/build-tv-payload.mjs</code>.
+  </p>
+</div>
+<script>
+PLACEHOLDER_INLINE_PAYLOAD
+</script>
+<script>
+PLACEHOLDER_APP_JS
+</script>
+</body>
+</html>
