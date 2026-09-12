@@ -89,6 +89,16 @@ JSON válido, sin comentarios. Reescríbelo entero cada corrida:
   Vacía si `status` = `ok`.
 - `note` — una frase bilingüe. Si `ok`: `"todo fresco, N min"` / `"all fresh, N min"`.
 
+
+## Journal digest
+Lee `live/journal.json`. Si `updatedAt` tiene > 72 h en día hábil (lun–vie CT), añade issue
+`"journal stale (<n> h)"` y sube a `warn` si aún no lo está. No inventes entradas de journal.
+
+## Orb frozen (recordatorio)
+`orb` vs `command` con discrepancia > 0.3 % ya marca `frozen`. Si GC/CL (u otro) llevan
+`frozen` ≥ 2 checks seguidos, incluye en `note` que hay que revisar el indicador/export
+TradingView de ese símbolo (no es un fallo del Session Analyst).
+
 ## STEROIDS · alcance de zona
 El Session Analyst debe aplicar `method/reachability.md` en cada corrida. Si `plans/latest.json` trae `zones[0]` con reach inalcanzable (ratio>0.9) y verdict no es AVOID/WAIT con "sin borde a tiro", marca warn en health (`reach.unactionable=true`).
 

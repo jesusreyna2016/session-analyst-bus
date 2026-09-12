@@ -69,5 +69,32 @@ Antes de escribir `plans/latest.json`, verifica:
 Esta regla **no** baja el listón de confluencia: sigue exigiendo A+ (≥6) para GO. Solo
 impide que una A+ inalcanzable se vista de plan del día.
 
+
+## Update forzado (latencia / día agotado)
+
+Además del rankeo de zonas, en **asia-2 / pre-london / pre-ny** (y cualquier re-disparo):
+
+1. Si `command.remPts` (o equivalente) es **0 / AGOTADO** y `zones[0]` ya no es TÁCTICA vs
+   precio vivo → reescribe el plan: o bien nueva zona táctica cerca de precio, o
+   `verdict=AVOID|WAIT` con frase **"sin borde a tiro; día sin presupuesto"**. No dejes
+   colgado el plan de la mañana como operable.
+2. Si el precio se movió tanto que `reachRatio` de `zones[0]` pasó de TÁCTICA a WATCH desde
+   `generatedAt`, el update **debe** cambiar `zones[0]` / digest / `tvPayload` (no solo
+   heartbeat "sin cambios materiales").
+
+## Shock macro no calendarizado
+
+Si en la ventana reciente (~60–90 min) **≥3 instrumentos** rompen o invalidan su tesis
+vigente (o `dayThesis`) **sin** evento alineado en `news.events` / calendario cargado:
+
+- Sube `newsRisk.level` a **ALTA** para la sesión en curso y la siguiente.
+- Ensancha `expectedMove.base` un escalón (como OpEx/fin de trimestre: +10–15%, o el
+  siguiente bucket del método).
+- En `digest` / `summary`: marca explícito **"shock macro no calendarizado"**.
+- No inventes el evento; di que el feed de noticias no lo anticipó.
+
+Evidencia de diseño: semana 2026-09-07/11 (BCE+PPI, CPI) — 2 shocks, cada uno rompiendo 3+
+tesis antes de la siguiente corrida.
+
 ## Cumplimiento
 Si `instructions.md` y este archivo divergen, gana **este archivo** para alcance de zonas.
