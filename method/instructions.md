@@ -456,6 +456,26 @@ viejo lo que solo refleja mercado cerrado).
    ya lo rellenó. Un gap sin rellenar es un imán: su borde (= `pdc`) es objetivo / nivel de
    reacción para los escenarios, más aún si el sesgo apunta hacia él. Escribe
    `gap: { pts, ticks, size, filled, note }`.
+   **Gap de fin de semana** (`weekendGap`): SOLO en la corrida de `pre-asia` del **domingo**
+   (los mercados de fin de semana de IG solo cotizan sáb-dom y cierran ~21:40 UTC, minutos antes
+   de que corras; en cualquier otro run type o día es `null`). Es una lectura ANTICIPADA del gap de
+   la reapertura de Globex del domingo 17:00 CT frente al cierre del viernes, útil porque el `gap`
+   medido (`command.dayOpen − pdc`) todavía no existe hasta que abre. Con WebFetch lee estas páginas
+   y saca el **cambio en % y en puntos vs cierre del viernes** (NO el nivel absoluto: es un CFD
+   sintético de IG con basis frente al futuro, y CL va en la escala de puntos de IG, no en $/barril):
+   - NQ → `https://www.ig.com/en/indices/markets-indices/weekend-us-tech-100-e1`
+   - YM → `https://www.ig.com/en/indices/markets-indices/weekend-wall-street`
+   - GC → `https://www.ig.com/en/indices/markets-indices/weekend-gold`
+   - CL → `https://www.ig.com/uk/indices/markets-indices/weekend-oil---us-crude`
+   - ES → no tiene página propia: deriva su gap del promedio de NQ e YM (el S&P queda entre ambos,
+     algo más pegado a YM) y márcalo `source:"proxy NQ/YM"`.
+   Si quieres cifra propia, convierte el % al precio del instrumento del feed; basta con el % y el
+   signo. Reglas de seguridad: si una página no responde, o el cambio viene `0.0`/nulo (referencia
+   sin fijar), pon el `weekendGap` de ese símbolo en `null` con nota "sin lectura", NO inventes un gap.
+   Es señal de sentimiento/posicionamiento de fin de semana con peso BAJO (IG sintético): informa qué
+   lado abre y si es probable un gap-fill hacia el cierre del viernes, entra en `context`/`gap.note` y
+   puede sumar a un escenario, pero NUNCA es por sí sola un gatillo de GO ni mueve el `verdict` a GO.
+   Escribe `weekendGap: { pct, pts, dir: "arriba"|"abajo"|"plano", source, note }`.
    **Intermercado (GC y CL)**: una línea cualitativa del contexto macro que el feed no trae,
    dentro del `context` de ese instrumento.
    - **GC**: dirección del riesgo (usa VIX + ES como proxy: ES arriba y VIX abajo = risk-on,
@@ -1256,6 +1276,8 @@ Es el plan estructurado que pinta el Command Center. Schema:
       "gap": { "pts": -18.5, "ticks": -74, "filled": false,
                "size": { "es": "normal", "en": "normal" },
                "note": { "es": "borde en pdc 29612, imán al alza si rebota", "en": "edge at pdc 29612, an upside magnet if it bounces" } },
+      "weekendGap": { "pct": -1.03, "pts": -303.6, "dir": "abajo", "source": "IG Weekend US Tech 100",
+                      "note": { "es": "IG finde apunta a reapertura ~1% bajo el cierre del viernes; refuerza el corto pero peso bajo", "en": "IG weekend points to a reopen ~1% below Friday close; supports the short but low weight" } },
       "smt": { "state": "alcista", "note": { "es": "NQ nuevo low, ES no confirma: cuidado cortos nuevos", "en": "NQ new low, ES doesn't confirm: careful with new shorts" } },
       "frameConflict": { "on": false, "note": { "es": "diario y 1h ambos bajistas, sin conflicto", "en": "daily and 1h both bearish, no conflict" } },
       "whipsawRisk": { "score": 0.25, "note": { "es": "tendencia bajista clara, bajo riesgo de chop", "en": "clear downtrend, low chop risk" } },
@@ -1473,6 +1495,10 @@ los últimos ~12. Borra lo más viejo en el mismo write.
 - **Día anterior y gap.** `prevDay` y `gap` son OBLIGATORIOS en cada instrumento del plan; `smt` en
   NQ, ES e YM (GC y CL = `"ninguna"`). El prior del día anterior y un gap sin rellenar pesan en el
   sesgo y en los objetivos, no los ignores.
+- **Gap de fin de semana.** En la `pre-asia` del **domingo** lee `weekendGap` de las páginas IG por
+  WebFetch (sección 3) y ponlo en cada instrumento (`null` con nota "sin lectura" si la página falla o
+  el cambio viene 0.0/nulo, y ES por proxy NQ/YM). Fuera del domingo `pre-asia` es `null`. Peso BAJO
+  (IG sintético): informa el lado del gap, nunca es gatillo de GO por sí solo.
 - **`alertLevels` siempre** (aunque no haya ningún GO): al menos las invalidaciones y los
   bordes de gap. Ordenada por cercanía. Solo A+, invalidaciones y `gapEdge`.
 - **Zonas al cambiar de sesión.** En `pre-london`/`pre-ny` la tabla `zones[]` se
