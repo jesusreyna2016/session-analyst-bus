@@ -65,8 +65,8 @@
    "orb@CL"
   ],
   "notes": {
-   "es": "La antigüedad del snapshot es fresca (<2h), pero es fin de semana: las 5 fuentes de ind-ingest de cada instrumento llegaron el viernes ~16:01 CT (cierre de futuros), lo normal para el parón de fin de semana -- se trata como el último día de futuros completado, no como snapshot roto. El rango de apertura (orb) llegó vacío en los 5 instrumentos esta corrida (no solo viejo, sin ningún campo) -- se usó el sesgo fusionado para todos los niveles de perfil y pivotes, según la regla de contraste de la sección 2.",
-   "en": "The snapshot's age is fresh (<2h), but it's the weekend: every instrument's ind-ingest sources came in Friday ~16:01 CT (futures close), normal for the weekend pause -- treated as the last completed futures day, not a broken snapshot. The opening range read came back empty for all 5 instruments this run (not just stale, no fields at all) -- the fused bias was used for all profile/pivot levels, per section 2's cross-check rule."
+   "es": "La antigüedad del snapshot es fresca (<2h), pero es fin de semana: las 5 fuentes de ind-ingest de cada instrumento llegaron el viernes ~16:01 CT (cierre de futuros), lo normal para el parón de fin de semana -- se trata como el último día de futuros completado, no como snapshot roto. El rango de apertura (orb) llegó vacío en los 5 instrumentos esta corrida (no solo viejo, sin ningún campo) -- se usó el sesgo fusionado para todos los niveles de perfil y pivotes, según la regla de contraste de la sección 2. Intento de leer weekendGap (IG weekend markets) via WebFetch: las 4 paginas (NQ/YM/GC/CL) fallaron por bloqueo de red del entorno (egress denegado a ig.com) -- weekendGap queda null en los 5 instrumentos con nota de sin lectura, sin inventar el gap.",
+   "en": "The snapshot's age is fresh (<2h), but it's the weekend: every instrument's ind-ingest sources came in Friday ~16:01 CT (futures close), normal for the weekend pause -- treated as the last completed futures day, not a broken snapshot. The opening range read came back empty for all 5 instruments this run (not just stale, no fields at all) -- the fused bias was used for all profile/pivot levels, per section 2's cross-check rule. Attempt to read weekendGap (IG weekend markets) via WebFetch: all 4 pages (NQ/YM/GC/CL) failed due to this environment network block (egress denied to ig.com) -- weekendGap is null for all 5 instruments with a no-reading note, no gap invented."
   }
  },
  "calendarContext": {
@@ -509,7 +509,17 @@
      "distTicks": -1858
     }
    ],
-   "news": []
+   "news": [],
+   "weekendGap": {
+    "pct": null,
+    "pts": null,
+    "dir": null,
+    "source": "IG Weekend US Tech 100",
+    "note": {
+     "es": "sin lectura: www.ig.com bloqueado por la politica de red de este entorno (egress denegado), no se pudo leer el gap sintetico de fin de semana",
+     "en": "no reading: www.ig.com is blocked by this environment network policy (egress denied), could not read the weekend synthetic gap"
+    }
+   }
   },
   "ES": {
    "biasDay": "LONG",
@@ -919,7 +929,17 @@
      "distTicks": 423
     }
    ],
-   "news": []
+   "news": [],
+   "weekendGap": {
+    "pct": null,
+    "pts": null,
+    "dir": null,
+    "source": "proxy NQ/YM",
+    "note": {
+     "es": "sin lectura: www.ig.com bloqueado por la politica de red de este entorno (egress denegado), no se pudo leer el gap sintetico de fin de semana",
+     "en": "no reading: www.ig.com is blocked by this environment network policy (egress denied), could not read the weekend synthetic gap"
+    }
+   }
   },
   "GC": {
    "biasDay": "SHORT",
@@ -1334,7 +1354,17 @@
      "distTicks": -608
     }
    ],
-   "news": []
+   "news": [],
+   "weekendGap": {
+    "pct": null,
+    "pts": null,
+    "dir": null,
+    "source": "IG Weekend Gold",
+    "note": {
+     "es": "sin lectura: www.ig.com bloqueado por la politica de red de este entorno (egress denegado), no se pudo leer el gap sintetico de fin de semana",
+     "en": "no reading: www.ig.com is blocked by this environment network policy (egress denied), could not read the weekend synthetic gap"
+    }
+   }
   },
   "YM": {
    "biasDay": "LONG",
@@ -1758,7 +1788,17 @@
      "distTicks": 1251
     }
    ],
-   "news": []
+   "news": [],
+   "weekendGap": {
+    "pct": null,
+    "pts": null,
+    "dir": null,
+    "source": "IG Weekend Wall Street",
+    "note": {
+     "es": "sin lectura: www.ig.com bloqueado por la politica de red de este entorno (egress denegado), no se pudo leer el gap sintetico de fin de semana",
+     "en": "no reading: www.ig.com is blocked by this environment network policy (egress denied), could not read the weekend synthetic gap"
+    }
+   }
   },
   "CL": {
    "biasDay": "SHORT",
@@ -2092,7 +2132,17 @@
      "distTicks": -462
     }
    ],
-   "news": []
+   "news": [],
+   "weekendGap": {
+    "pct": null,
+    "pts": null,
+    "dir": null,
+    "source": "IG Weekend Oil - US Crude",
+    "note": {
+     "es": "sin lectura: www.ig.com bloqueado por la politica de red de este entorno (egress denegado), no se pudo leer el gap sintetico de fin de semana",
+     "en": "no reading: www.ig.com is blocked by this environment network policy (egress denied), could not read the weekend synthetic gap"
+    }
+   }
   }
  },
  "dayThesis": {
