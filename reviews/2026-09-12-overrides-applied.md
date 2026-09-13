@@ -19,8 +19,16 @@ Aplicación manual post meta-review `2026-09-07/09-11` (Jesus autorizó corregir
 
 4. **Watchdog** — warn por `journal.json` stale >72h hábil; nota si orb frozen se arrastra.
 
+## Añadido más tarde (2026-09-12, Jesus lo pidió explícitamente)
+
+5. **`state.overrides.zonePriors`** (manual, autorizado por Jesus):
+   - `bounce_val` → `0.68` (winN 136, +0.13 vs prior reversión 0.55)
+   - `golden_zone` → `0.32` (winN 82, -0.23 vs prior reversión 0.55)
+   El weekly lo había dejado como observación; se aplica ahora porque ambos cruzan
+   winN≥30 y divergen >0.10 del prior de grupo (umbral de la sección 6.1). El
+   encogimiento (`k=4`) sigue frenando el efecto a nivel de zona con winN bajo.
+
 ## No aplicado (fuera de alcance aquí)
 
 - Regenerar `live/journal.json` (pipeline externo; stale desde 2026-09-08).
 - Arreglar indicadores TV que producen `orb@GC/CL frozen` (revisión manual TradingView).
-- `zonePriors` (weekly lo dejó como observación).
