@@ -1,17 +1,17 @@
 {
-  "checkedAt": "2026-09-14T00:49:55Z",
+  "checkedAt": "2026-09-14T06:49:19Z",
   "status": "warn",
   "snapshot": {
-    "builtAt": "2026-09-14T00:45:14.047Z",
-    "ageMin": 5,
+    "builtAt": "2026-09-14T06:45:14.861Z",
+    "ageMin": 4,
     "state": "OK"
   },
   "webhook": {
-    "lastSeenMin": 5,
+    "lastSeenMin": 4,
     "state": "ok"
   },
   "news": {
-    "ageMin": 5,
+    "ageMin": 13,
     "count": 23,
     "state": "ok"
   },
@@ -22,28 +22,28 @@
   },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 5, "state": "fresh" },
-      "3reads": { "ageMin": 5, "state": "fresh" },
-      "drbias": { "ageMin": 5, "state": "fresh" },
-      "srzones": { "ageMin": 5, "state": "fresh" },
-      "htfzones": { "ageMin": 5, "state": "fresh" },
-      "command": { "ageMin": 5, "state": "fresh" }
+      "orb": { "ageMin": 4, "state": "fresh" },
+      "3reads": { "ageMin": 4, "state": "fresh" },
+      "drbias": { "ageMin": 4, "state": "fresh" },
+      "srzones": { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command": { "ageMin": 4, "state": "fresh" }
     },
     "ES": {
-      "orb": { "ageMin": 5, "state": "fresh" },
-      "3reads": { "ageMin": 5, "state": "fresh" },
-      "drbias": { "ageMin": 5, "state": "fresh" },
-      "srzones": { "ageMin": 5, "state": "fresh" },
-      "htfzones": { "ageMin": 5, "state": "fresh" },
-      "command": { "ageMin": 5, "state": "fresh" }
+      "orb": { "ageMin": 4, "state": "fresh" },
+      "3reads": { "ageMin": 4, "state": "fresh" },
+      "drbias": { "ageMin": 4, "state": "fresh" },
+      "srzones": { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command": { "ageMin": 4, "state": "fresh" }
     },
     "GC": {
-      "orb": { "ageMin": 5, "state": "fresh" },
-      "3reads": { "ageMin": 5, "state": "fresh" },
-      "drbias": { "ageMin": 5, "state": "fresh" },
-      "srzones": { "ageMin": 5, "state": "fresh" },
-      "htfzones": { "ageMin": 5, "state": "fresh" },
-      "command": { "ageMin": 5, "state": "fresh" }
+      "orb": { "ageMin": 4, "state": "fresh" },
+      "3reads": { "ageMin": 4, "state": "fresh" },
+      "drbias": { "ageMin": 4, "state": "fresh" },
+      "srzones": { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command": { "ageMin": 4, "state": "fresh" }
     },
     "YM": {
       "orb": { "ageMin": 9, "state": "fresh" },
@@ -54,19 +54,20 @@
       "command": { "ageMin": 9, "state": "fresh" }
     },
     "CL": {
-      "orb": { "ageMin": 9, "state": "frozen" },
-      "3reads": { "ageMin": 9, "state": "fresh" },
-      "drbias": { "ageMin": 9, "state": "fresh" },
-      "srzones": { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command": { "ageMin": 9, "state": "fresh" }
+      "orb": { "ageMin": 4, "state": "frozen" },
+      "3reads": { "ageMin": 4, "state": "fresh" },
+      "drbias": { "ageMin": 4, "state": "fresh" },
+      "srzones": { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command": { "ageMin": 4, "state": "fresh" }
     }
   },
   "issues": [
-    "orb@CL frozen (vah +0.36% vs command, edad 9min)"
+    "orb@CL frozen (vah delta 0.36% vs command, edad 4min)",
+    "journal stale (150h)"
   ],
   "note": {
-    "es": "Domingo (finde, umbrales relajados): builtAt a 5 min (OK), webhook y noticias frescos, las 5 fuentes ind-ingest de cada simbolo frescas, SA al dia (asia-2, sin corrida atrasada). Persiste orb congelado en CL (vah +0.36% vs command) por segunda corrida seguida -- revisar el indicador/export de TradingView de ese simbolo, no es un fallo del Session Analyst; GC ya se normalizo (discrepancia bajo el umbral esta corrida).",
-    "en": "Sunday (weekend, thresholds relaxed): builtAt at 5 min (OK), webhook and news fresh, all 5 ind-ingest sources fresh for every symbol, SA up to date (asia-2, nothing overdue). Frozen orb persists on CL (vah +0.36% vs command) for a second straight run -- worth checking that symbol's TradingView indicator/export, not a Session Analyst failure; GC has normalized (discrepancy back under threshold this run)."
+    "es": "Lunes (dia habil): builtAt a 4 min (OK), webhook a 4 min y noticias a 13 min, ambos frescos; las 5 fuentes ind-ingest de cada simbolo frescas. SA al dia (asia-2 desde las 00:12Z); pre-london (06:25Z) lleva 24 min de retraso, aun bajo el umbral de 45 para marcarla atrasada. Persiste orb congelado en CL (vah ~0.36% vs command) por al menos tercera corrida seguida -- revisar el indicador/export de TradingView de ese simbolo, no es un fallo del Session Analyst. Journal sin actualizar desde 2026-09-08 (~150h), fuera del umbral de 72h en dia habil.",
+    "en": "Monday (weekday): builtAt at 4 min (OK), webhook at 4 min and news at 13 min, both fresh; all 5 ind-ingest sources fresh for every symbol. SA up to date (asia-2 since 00:12Z); pre-london (06:25Z) is 24 min overdue, still under the 45-min threshold to flag it late. Frozen orb persists on CL (vah ~0.36% vs command) for at least a third straight run -- worth checking that symbol's TradingView indicator/export, not a Session Analyst failure. Journal has not updated since 2026-09-08 (~150h), past the 72h weekday threshold."
   }
 }
