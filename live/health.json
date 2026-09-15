@@ -1,55 +1,58 @@
 {
-  "checkedAt": "2026-09-15T00:47:42Z",
+  "checkedAt": "2026-09-15T06:49:47Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-09-15T00:45:12.355Z", "ageMin": 2, "state": "OK" },
-  "webhook": { "lastSeenMin": 2, "state": "ok" },
-  "news": { "ageMin": 2, "count": 23, "state": "ok" },
+  "snapshot": { "builtAt": "2026-09-15T06:45:11.712Z", "ageMin": 5, "state": "OK" },
+  "webhook": { "lastSeenMin": 5, "state": "ok" },
+  "news": { "ageMin": 19, "count": 23, "state": "ok" },
   "sa": { "lastRun": "2026-09-15T00:15:26Z", "runType": "asia-2", "lateBy": null },
   "sources": {
     "NQ": {
-      "orb":      { "ageMin": 2, "state": "fresh" },
-      "3reads":   { "ageMin": 2, "state": "fresh" },
-      "drbias":   { "ageMin": 2, "state": "fresh" },
-      "srzones":  { "ageMin": 2, "state": "fresh" },
-      "htfzones": { "ageMin": 2, "state": "fresh" },
-      "command":  { "ageMin": 2, "state": "fresh" }
+      "orb":      { "ageMin": 10, "state": "fresh" },
+      "3reads":   { "ageMin": 10, "state": "fresh" },
+      "drbias":   { "ageMin": 10, "state": "fresh" },
+      "srzones":  { "ageMin": 10, "state": "fresh" },
+      "htfzones": { "ageMin": 10, "state": "fresh" },
+      "command":  { "ageMin": 10, "state": "fresh" }
     },
     "ES": {
-      "orb":      { "ageMin": 2, "state": "fresh" },
-      "3reads":   { "ageMin": 2, "state": "fresh" },
-      "drbias":   { "ageMin": 2, "state": "fresh" },
-      "srzones":  { "ageMin": 2, "state": "fresh" },
-      "htfzones": { "ageMin": 2, "state": "fresh" },
-      "command":  { "ageMin": 2, "state": "fresh" }
+      "orb":      { "ageMin": 5, "state": "fresh" },
+      "3reads":   { "ageMin": 5, "state": "fresh" },
+      "drbias":   { "ageMin": 5, "state": "fresh" },
+      "srzones":  { "ageMin": 5, "state": "fresh" },
+      "htfzones": { "ageMin": 5, "state": "fresh" },
+      "command":  { "ageMin": 5, "state": "fresh" }
     },
     "GC": {
-      "orb":      { "ageMin": 7, "state": "fresh" },
-      "3reads":   { "ageMin": 7, "state": "fresh" },
-      "drbias":   { "ageMin": 7, "state": "fresh" },
-      "srzones":  { "ageMin": 7, "state": "fresh" },
-      "htfzones": { "ageMin": 7, "state": "fresh" },
-      "command":  { "ageMin": 7, "state": "fresh" }
+      "orb":      { "ageMin": 5, "state": "fresh" },
+      "3reads":   { "ageMin": 5, "state": "fresh" },
+      "drbias":   { "ageMin": 5, "state": "fresh" },
+      "srzones":  { "ageMin": 5, "state": "fresh" },
+      "htfzones": { "ageMin": 5, "state": "fresh" },
+      "command":  { "ageMin": 5, "state": "fresh" }
     },
     "YM": {
-      "orb":      { "ageMin": 7, "state": "fresh" },
-      "3reads":   { "ageMin": 7, "state": "fresh" },
-      "drbias":   { "ageMin": 7, "state": "fresh" },
-      "srzones":  { "ageMin": 7, "state": "fresh" },
-      "htfzones": { "ageMin": 7, "state": "fresh" },
-      "command":  { "ageMin": 7, "state": "fresh" }
+      "orb":      { "ageMin": 5, "state": "frozen" },
+      "3reads":   { "ageMin": 5, "state": "fresh" },
+      "drbias":   { "ageMin": 5, "state": "fresh" },
+      "srzones":  { "ageMin": 5, "state": "fresh" },
+      "htfzones": { "ageMin": 5, "state": "fresh" },
+      "command":  { "ageMin": 5, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 7, "state": "fresh" },
-      "3reads":   { "ageMin": 7, "state": "fresh" },
-      "drbias":   { "ageMin": 7, "state": "fresh" },
-      "srzones":  { "ageMin": 7, "state": "fresh" },
-      "htfzones": { "ageMin": 7, "state": "fresh" },
-      "command":  { "ageMin": 7, "state": "fresh" }
+      "orb":      { "ageMin": 5, "state": "fresh" },
+      "3reads":   { "ageMin": 5, "state": "fresh" },
+      "drbias":   { "ageMin": 5, "state": "fresh" },
+      "srzones":  { "ageMin": 5, "state": "fresh" },
+      "htfzones": { "ageMin": 5, "state": "fresh" },
+      "command":  { "ageMin": 5, "state": "fresh" }
     }
   },
-  "issues": [ "journal stale (168 h)" ],
+  "issues": [
+    "orb@YM frozen (poc Δ0.40% vs command, 5 min)",
+    "journal stale (174 h)"
+  ],
   "note": {
-    "es": "snapshot y las 6 fuentes de los 5 instrumentos llegaron frescas (2-7 min); unico pendiente es el digest de journal, atrasado ~168h.",
-    "en": "snapshot and all 6 sources for the 5 instruments arrived fresh (2-7 min); the only outstanding item is the journal digest, ~168h overdue."
+    "es": "snapshot y fuentes frescas (5-10 min); orb@YM discrepa 0.40% en POC vs command (frozen) y el digest de journal sigue atrasado ~174h.",
+    "en": "snapshot and sources fresh (5-10 min); orb@YM diverges 0.40% on POC vs command (frozen) and the journal digest remains ~174h overdue."
   }
 }
