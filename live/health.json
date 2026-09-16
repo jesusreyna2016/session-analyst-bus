@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-09-16T12:49:07Z",
+  "checkedAt": "2026-09-16T18:49:12Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-09-16T12:45:12.027Z", "ageMin": 4, "state": "OK" },
+  "snapshot": { "builtAt": "2026-09-16T18:45:11.060Z", "ageMin": 4, "state": "OK" },
   "webhook": { "lastSeenMin": 4, "state": "ok" },
   "news": { "ageMin": 4, "count": 24, "state": "ok" },
-  "sa": { "lastRun": "2026-09-16T06:55:56.000Z", "runType": "pre-london", "lateBy": null },
+  "sa": { "lastRun": "2026-09-16T13:26:30.000Z", "runType": "pre-ny", "lateBy": null },
   "sources": {
     "ES": {
       "orb":      { "ageMin": 4, "state": "fresh" },
@@ -20,18 +20,18 @@
       "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
       "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command":  { "ageMin": 1294, "state": "dead" }
+      "command":  { "ageMin": 1654, "state": "dead" }
     },
     "YM": {
       "orb":      { "ageMin": 4, "state": "fresh" },
       "3reads":   { "ageMin": 4, "state": "fresh" },
       "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 1398, "state": "dead" },
+      "htfzones": { "ageMin": 1759, "state": "dead" },
       "command":  { "ageMin": 4, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 4, "state": "fresh" },
+      "orb":      { "ageMin": 4, "state": "frozen" },
       "3reads":   { "ageMin": 4, "state": "fresh" },
       "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
@@ -40,21 +40,22 @@
     },
     "GC": {
       "orb":      { "ageMin": 9, "state": "fresh" },
-      "3reads":   { "ageMin": 9, "state": "fresh" },
-      "drbias":   { "ageMin": 9, "state": "fresh" },
+      "3reads":   { "ageMin": 4, "state": "fresh" },
+      "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command":  { "ageMin": 9, "state": "fresh" }
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command":  { "ageMin": 4, "state": "fresh" }
     }
   },
   "issues": [
-    "command@NQ dead (1294 min)",
-    "htfzones@YM dead (1398 min)",
+    "htfzones@YM dead (1759 min)",
+    "command@NQ dead (1654 min)",
     "orb@NQ frozen (pdh Δ0.35% vs command)",
-    "journal stale (204 h)"
+    "orb@CL frozen (vah Δ0.39% vs command)",
+    "journal stale (210 h)"
   ],
   "note": {
-    "es": "snapshot y webhook frescos (~4 min); command@NQ (~21h34m) y htfzones@YM (~23h18m) siguen sin refrescar desde ayer (probablemente su propio export/indicador, no fallo del Session Analyst); orb@NQ sigue frozen por esa misma desactualizacion (3er check seguido, revisar el indicador/export de TradingView de NQ); el digest de journal sigue atrasado ~204h.",
-    "en": "snapshot and webhook fresh (~4 min); command@NQ (~21h34m) and htfzones@YM (~23h18m) remain unrefreshed since yesterday (likely their own indicator/export, not a Session Analyst failure); orb@NQ still reads frozen from that same staleness (3rd check in a row, worth checking NQ's TradingView indicator/export); the journal digest remains ~204h overdue."
+    "es": "snapshot y webhook frescos (~4 min); command@NQ (~27h34m) y htfzones@YM (~29h19m) siguen sin refrescar desde ayer (probablemente su propio export/indicador, no fallo del Session Analyst) -- ya van varios checks seguidos, revisar el indicador/export de TradingView de NQ y YM; orb@NQ sigue frozen por esa misma desactualizacion y ahora orb@CL tambien entro en frozen (vah/val > 0.3% vs command) en este snapshot; el digest de journal sigue atrasado ~210h. Hoy es dia de Fed (FOMC 13:00/13:30 CT) segun el plan, dato solo informativo de este check mecanico.",
+    "en": "snapshot and webhook fresh (~4 min); command@NQ (~27h34m) and htfzones@YM (~29h19m) remain unrefreshed since yesterday (likely their own indicator/export, not a Session Analyst failure) -- several checks in a row now, worth checking NQ's and YM's TradingView indicator/export; orb@NQ still reads frozen from that same staleness and orb@CL newly entered frozen (vah/val > 0.3% vs command) on this snapshot; the journal digest remains ~210h overdue. Today is Fed day (FOMC 13:00/13:30 CT) per the plan, noted here only as informational context from this mechanical check."
   }
 }
