@@ -1,18 +1,18 @@
 {
-  "checkedAt": "2026-09-16T00:47:43Z",
+  "checkedAt": "2026-09-16T06:47:44Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-09-16T00:45:10.444Z", "ageMin": 3, "state": "OK" },
+  "snapshot": { "builtAt": "2026-09-16T06:45:10.411Z", "ageMin": 3, "state": "OK" },
   "webhook": { "lastSeenMin": 3, "state": "ok" },
-  "news": { "ageMin": 3, "count": 24, "state": "ok" },
-  "sa": { "lastRun": "2026-09-16T00:13:00.000Z", "runType": "asia-2", "lateBy": null },
+  "news": { "ageMin": 33, "count": 24, "state": "ok" },
+  "sa": { "lastRun": "2026-09-16T06:36:00.000Z", "runType": "pre-london", "lateBy": null },
   "sources": {
     "NQ": {
       "orb":      { "ageMin": 3, "state": "frozen" },
-      "3reads":   { "ageMin": 3, "state": "fresh" },
+      "3reads":   { "ageMin": 8, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command":  { "ageMin": 573, "state": "dead" }
+      "htfzones": { "ageMin": 8, "state": "fresh" },
+      "command":  { "ageMin": 933, "state": "dead" }
     },
     "ES": {
       "orb":      { "ageMin": 3, "state": "fresh" },
@@ -23,20 +23,20 @@
       "command":  { "ageMin": 3, "state": "fresh" }
     },
     "GC": {
-      "orb":      { "ageMin": 8, "state": "fresh" },
-      "3reads":   { "ageMin": 8, "state": "fresh" },
-      "drbias":   { "ageMin": 8, "state": "fresh" },
-      "srzones":  { "ageMin": 8, "state": "fresh" },
-      "htfzones": { "ageMin": 8, "state": "fresh" },
-      "command":  { "ageMin": 8, "state": "fresh" }
-    },
-    "YM": {
       "orb":      { "ageMin": 3, "state": "fresh" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 677, "state": "dead" },
+      "htfzones": { "ageMin": 3, "state": "fresh" },
       "command":  { "ageMin": 3, "state": "fresh" }
+    },
+    "YM": {
+      "orb":      { "ageMin": 8, "state": "fresh" },
+      "3reads":   { "ageMin": 8, "state": "fresh" },
+      "drbias":   { "ageMin": 8, "state": "fresh" },
+      "srzones":  { "ageMin": 8, "state": "fresh" },
+      "htfzones": { "ageMin": 1037, "state": "dead" },
+      "command":  { "ageMin": 8, "state": "fresh" }
     },
     "CL": {
       "orb":      { "ageMin": 3, "state": "fresh" },
@@ -48,13 +48,13 @@
     }
   },
   "issues": [
-    "command@NQ dead (573 min)",
-    "htfzones@YM dead (677 min)",
-    "orb@NQ frozen (vah Δ0.52% vs command)",
-    "journal stale (192 h)"
+    "htfzones@YM dead (1037 min)",
+    "command@NQ dead (933 min)",
+    "orb@NQ frozen (vah Δ0.37% vs command)",
+    "journal stale (198 h)"
   ],
   "note": {
-    "es": "snapshot y webhook frescos (~3 min); command@NQ (~9h33m) y htfzones@YM (~11h17m) llevan horas sin refrescar (probablemente su propio export/indicador, no fallo del Session Analyst), orb@NQ marca frozen por esa misma desactualizacion, y el digest de journal sigue atrasado ~192h.",
-    "en": "snapshot and webhook fresh (~3 min); command@NQ (~9h33m) and htfzones@YM (~11h17m) have gone hours without refreshing (likely their own indicator/export, not a Session Analyst failure), orb@NQ reads frozen from that same staleness, and the journal digest remains ~192h overdue."
+    "es": "snapshot y webhook frescos (~3 min); command@NQ (~15h33m) y htfzones@YM (~17h17m) siguen sin refrescar desde ayer (probablemente su propio export/indicador, no fallo del Session Analyst); orb@NQ sigue frozen por esa misma desactualizacion (2do check seguido, revisar el indicador/export de TradingView de NQ); el digest de journal sigue atrasado ~198h.",
+    "en": "snapshot and webhook fresh (~3 min); command@NQ (~15h33m) and htfzones@YM (~17h17m) remain unrefreshed since yesterday (likely their own indicator/export, not a Session Analyst failure); orb@NQ still reads frozen from that same staleness (2nd check in a row, worth checking NQ's TradingView indicator/export); the journal digest remains ~198h overdue."
   }
 }
