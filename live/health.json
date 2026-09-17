@@ -1,19 +1,11 @@
 {
-  "checkedAt": "2026-09-17T06:47:44Z",
+  "checkedAt": "2026-09-17T12:48:18Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-09-17T06:45:09.198Z", "ageMin": 3, "state": "OK" },
+  "snapshot": { "builtAt": "2026-09-17T12:45:09.891Z", "ageMin": 3, "state": "OK" },
   "webhook": { "lastSeenMin": 3, "state": "ok" },
   "news": { "ageMin": 33, "count": 24, "state": "ok" },
-  "sa": { "lastRun": "2026-09-17T06:26:00.000Z", "runType": "pre-london", "lateBy": null },
+  "sa": { "lastRun": "2026-09-17T07:00:00.000Z", "runType": "pre-london", "lateBy": null },
   "sources": {
-    "NQ": {
-      "orb":      { "ageMin": 3, "state": "frozen" },
-      "3reads":   { "ageMin": 8, "state": "fresh" },
-      "drbias":   { "ageMin": 3, "state": "fresh" },
-      "srzones":  { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command":  { "ageMin": 2373, "state": "dead" }
-    },
     "ES": {
       "orb":      { "ageMin": 3, "state": "fresh" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
@@ -22,12 +14,20 @@
       "htfzones": { "ageMin": 3, "state": "fresh" },
       "command":  { "ageMin": 3, "state": "fresh" }
     },
+    "NQ": {
+      "orb":      { "ageMin": 3, "state": "frozen" },
+      "3reads":   { "ageMin": 73, "state": "stale" },
+      "drbias":   { "ageMin": 3, "state": "fresh" },
+      "srzones":  { "ageMin": 3, "state": "fresh" },
+      "htfzones": { "ageMin": 3, "state": "fresh" },
+      "command":  { "ageMin": 2733, "state": "dead" }
+    },
     "GC": {
-      "orb":      { "ageMin": 8, "state": "fresh" },
-      "3reads":   { "ageMin": 8, "state": "fresh" },
-      "drbias":   { "ageMin": 8, "state": "fresh" },
-      "srzones":  { "ageMin": 8, "state": "fresh" },
-      "htfzones": { "ageMin": 8, "state": "fresh" },
+      "orb":      { "ageMin": 3, "state": "fresh" },
+      "3reads":   { "ageMin": 3, "state": "fresh" },
+      "drbias":   { "ageMin": 3, "state": "fresh" },
+      "srzones":  { "ageMin": 3, "state": "fresh" },
+      "htfzones": { "ageMin": 3, "state": "fresh" },
       "command":  { "ageMin": 3, "state": "fresh" }
     },
     "YM": {
@@ -35,7 +35,7 @@
       "3reads":   { "ageMin": 3, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 2477, "state": "dead" },
+      "htfzones": { "ageMin": 2838, "state": "dead" },
       "command":  { "ageMin": 3, "state": "fresh" }
     },
     "CL": {
@@ -48,14 +48,15 @@
     }
   },
   "issues": [
-    "htfzones@YM dead (2477 min)",
-    "command@NQ dead (2373 min)",
-    "orb@NQ frozen (val Δ0.52% vs command)",
-    "orb@CL frozen (val Δ0.47% vs command)",
-    "journal stale (222 h)"
+    "htfzones@YM dead (2838 min)",
+    "command@NQ dead (2733 min)",
+    "orb@CL frozen (val Δ0.52% vs command)",
+    "orb@NQ frozen (vah Δ0.46% vs command)",
+    "3reads@NQ stale (73 min)",
+    "journal stale (228 h)"
   ],
   "note": {
-    "es": "snapshot y webhook frescos (~3 min); command@NQ (~39h33m) sigue sin refrescar y htfzones@YM (~41h17m) tambien sigue muerto -- probablemente su propio export/indicador de TradingView, no fallo del Session Analyst; orb@NQ sigue frozen por esa misma desactualizacion (2do check seguido, val Δ0.52% vs command) y ahora orb@CL tambien entro en frozen (val Δ0.47% vs command) en este snapshot -- orb@GC en cambio salio de frozen; el digest de journal sigue atrasado, ya ~222h.",
-    "en": "snapshot and webhook fresh (~3 min); command@NQ (~39h33m) remains unrefreshed and htfzones@YM (~41h17m) is also still dead -- likely their own TradingView indicator/export, not a Session Analyst failure; orb@NQ still reads frozen from that same staleness (2nd check in a row, val Δ0.52% vs command) and orb@CL newly entered frozen (val Δ0.47% vs command) on this snapshot -- orb@GC, by contrast, cleared frozen; the journal digest remains overdue, now ~222h."
+    "es": "snapshot y webhook frescos (~3 min); command@NQ (~45h33m) y htfzones@YM (~47h18m) siguen muertos -- probablemente su propio export/indicador de TradingView, no fallo del Session Analyst; orb@NQ (vah Δ0.46%) y orb@CL (val Δ0.52%) siguen frozen por 2do check seguido -- revisar ese indicador/export de TradingView en ambos simbolos; ademas 3reads@NQ paso a stale (73 min), nuevo esta corrida; el digest de journal sigue atrasado, ya ~228h.",
+    "en": "snapshot and webhook fresh (~3 min); command@NQ (~45h33m) and htfzones@YM (~47h18m) remain dead -- likely their own TradingView indicator/export, not a Session Analyst failure; orb@NQ (vah Δ0.46%) and orb@CL (val Δ0.52%) are frozen for a 2nd check in a row -- worth checking that TradingView indicator/export on both symbols; also 3reads@NQ newly went stale (73 min) this check; the journal digest remains overdue, now ~228h."
   }
 }
