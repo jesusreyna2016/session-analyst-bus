@@ -1,60 +1,58 @@
 {
-  "checkedAt": "2026-09-18T06:49:31Z",
+  "checkedAt": "2026-09-18T12:48:50Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-09-18T06:45:08.481Z", "ageMin": 4, "state": "OK" },
-  "webhook": { "lastSeenMin": 4, "state": "ok" },
-  "news": { "ageMin": 19, "count": 24, "state": "ok" },
-  "sa": { "lastRun": "2026-09-18T06:45:00.000Z", "runType": "pre-london", "lateBy": null },
+  "snapshot": { "builtAt": "2026-09-18T12:45:09.491Z", "ageMin": 4, "state": "OK" },
+  "webhook":  { "lastSeenMin": 4, "state": "ok" },
+  "news":     { "ageMin": 19, "count": 24, "state": "ok" },
+  "sa":       { "lastRun": "2026-09-18T06:45:00.000Z", "runType": "pre-london", "lateBy": null },
   "sources": {
-    "NQ": {
-      "orb": { "ageMin": 4, "state": "frozen" },
-      "3reads": { "ageMin": 4, "state": "fresh" },
-      "drbias": { "ageMin": 4, "state": "fresh" },
-      "srzones": { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command": { "ageMin": 3814, "state": "dead" }
-    },
     "ES": {
-      "orb": { "ageMin": 4, "state": "fresh" },
-      "3reads": { "ageMin": 944, "state": "dead" },
-      "drbias": { "ageMin": 4, "state": "fresh" },
-      "srzones": { "ageMin": 4, "state": "fresh" },
+      "orb":      { "ageMin": 4, "state": "fresh" },
+      "3reads":   { "ageMin": 4, "state": "fresh" },
+      "drbias":   { "ageMin": 4, "state": "fresh" },
+      "srzones":  { "ageMin": 4, "state": "fresh" },
       "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command": { "ageMin": 4, "state": "fresh" }
+      "command":  { "ageMin": 4, "state": "fresh" }
+    },
+    "NQ": {
+      "orb":      { "ageMin": 9, "state": "fresh" },
+      "3reads":   { "ageMin": 4, "state": "fresh" },
+      "drbias":   { "ageMin": 4, "state": "fresh" },
+      "srzones":  { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command":  { "ageMin": 4, "state": "fresh" }
     },
     "GC": {
-      "orb": { "ageMin": 4, "state": "fresh" },
-      "3reads": { "ageMin": 4, "state": "fresh" },
-      "drbias": { "ageMin": 4, "state": "fresh" },
-      "srzones": { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command": { "ageMin": 4, "state": "fresh" }
+      "orb":      { "ageMin": 9, "state": "frozen" },
+      "3reads":   { "ageMin": 9, "state": "fresh" },
+      "drbias":   { "ageMin": 9, "state": "fresh" },
+      "srzones":  { "ageMin": 9, "state": "fresh" },
+      "htfzones": { "ageMin": 9, "state": "fresh" },
+      "command":  { "ageMin": 9, "state": "fresh" }
     },
     "YM": {
-      "orb": { "ageMin": 4, "state": "fresh" },
-      "3reads": { "ageMin": 4, "state": "fresh" },
-      "drbias": { "ageMin": 4, "state": "fresh" },
-      "srzones": { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command": { "ageMin": 4, "state": "fresh" }
+      "orb":      { "ageMin": 9, "state": "fresh" },
+      "3reads":   { "ageMin": 9, "state": "fresh" },
+      "drbias":   { "ageMin": 9, "state": "fresh" },
+      "srzones":  { "ageMin": 9, "state": "fresh" },
+      "htfzones": { "ageMin": 9, "state": "fresh" },
+      "command":  { "ageMin": 9, "state": "fresh" }
     },
     "CL": {
-      "orb": { "ageMin": 4, "state": "fresh" },
-      "3reads": { "ageMin": 4, "state": "fresh" },
-      "drbias": { "ageMin": 4, "state": "fresh" },
-      "srzones": { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command": { "ageMin": 4, "state": "fresh" }
+      "orb":      { "ageMin": 9, "state": "fresh" },
+      "3reads":   { "ageMin": 9, "state": "fresh" },
+      "drbias":   { "ageMin": 9, "state": "fresh" },
+      "srzones":  { "ageMin": 9, "state": "fresh" },
+      "htfzones": { "ageMin": 9, "state": "fresh" },
+      "command":  { "ageMin": 9, "state": "fresh" }
     }
   },
   "issues": [
-    "command@NQ dead (3814 min)",
-    "3reads@ES dead (944 min)",
-    "orb@NQ frozen (desajuste vs command)",
-    "journal stale (246 h)"
+    "orb@GC frozen (poc discrepa 1.03% vs command, 9 min)",
+    "journal stale (252 h)"
   ],
   "note": {
-    "es": "snapshot y webhook frescos (4 min), pero NQ command sigue muerto 63.6h (arrastra orb a frozen por desajuste de niveles >0.3%) y ES 3reads lleva 15.7h muerto; journal sin tocar hace 246h (~10 dias). Revisar export de TradingView de NQ command.",
-    "en": "snapshot and webhook are fresh (4 min), but NQ command is still dead 63.6h (dragging orb into frozen via a >0.3% level mismatch) and ES 3reads has been dead 15.7h; journal untouched for 246h (~10 days). Check NQ command's TradingView export."
+    "es": "snapshot y fuentes frescas (4-9 min); orb@GC congelado por discrepancia de POC con command (1.03%, no es fallo del Session Analyst, revisar indicador/export TradingView); journal sin actualizar hace 252 h.",
+    "en": "snapshot and sources fresh (4-9 min); orb@GC frozen from a POC discrepancy vs command (1.03%, not a Session Analyst failure, check that symbol's TradingView indicator/export); journal not updated in 252 h."
   }
 }
