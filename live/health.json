@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-09-18T12:48:50Z",
+  "checkedAt": "2026-09-18T18:49:30Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-09-18T12:45:09.491Z", "ageMin": 4, "state": "OK" },
+  "snapshot": { "builtAt": "2026-09-18T18:45:18.655Z", "ageMin": 4, "state": "OK" },
   "webhook":  { "lastSeenMin": 4, "state": "ok" },
-  "news":     { "ageMin": 19, "count": 24, "state": "ok" },
-  "sa":       { "lastRun": "2026-09-18T06:45:00.000Z", "runType": "pre-london", "lateBy": null },
+  "news":     { "ageMin": 4, "count": 24, "state": "ok" },
+  "sa":       { "lastRun": "2026-09-18T13:02:00.000Z", "runType": "pre-ny", "lateBy": null },
   "sources": {
     "ES": {
       "orb":      { "ageMin": 4, "state": "fresh" },
@@ -15,7 +15,7 @@
       "command":  { "ageMin": 4, "state": "fresh" }
     },
     "NQ": {
-      "orb":      { "ageMin": 9, "state": "fresh" },
+      "orb":      { "ageMin": 4, "state": "fresh" },
       "3reads":   { "ageMin": 4, "state": "fresh" },
       "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
@@ -23,36 +23,36 @@
       "command":  { "ageMin": 4, "state": "fresh" }
     },
     "GC": {
-      "orb":      { "ageMin": 9, "state": "frozen" },
-      "3reads":   { "ageMin": 9, "state": "fresh" },
-      "drbias":   { "ageMin": 9, "state": "fresh" },
-      "srzones":  { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command":  { "ageMin": 9, "state": "fresh" }
+      "orb":      { "ageMin": 4, "state": "fresh" },
+      "3reads":   { "ageMin": 4, "state": "fresh" },
+      "drbias":   { "ageMin": 4, "state": "fresh" },
+      "srzones":  { "ageMin": 219, "state": "dead" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command":  { "ageMin": 4, "state": "fresh" }
     },
     "YM": {
-      "orb":      { "ageMin": 9, "state": "fresh" },
-      "3reads":   { "ageMin": 9, "state": "fresh" },
-      "drbias":   { "ageMin": 9, "state": "fresh" },
-      "srzones":  { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command":  { "ageMin": 9, "state": "fresh" }
+      "orb":      { "ageMin": 4, "state": "fresh" },
+      "3reads":   { "ageMin": 4, "state": "fresh" },
+      "drbias":   { "ageMin": 4, "state": "fresh" },
+      "srzones":  { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command":  { "ageMin": 4, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 9, "state": "fresh" },
-      "3reads":   { "ageMin": 9, "state": "fresh" },
-      "drbias":   { "ageMin": 9, "state": "fresh" },
-      "srzones":  { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command":  { "ageMin": 9, "state": "fresh" }
+      "orb":      { "ageMin": 4, "state": "frozen" },
+      "3reads":   { "ageMin": 4, "state": "fresh" },
+      "drbias":   { "ageMin": 4, "state": "fresh" },
+      "srzones":  { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command":  { "ageMin": 4, "state": "fresh" }
     }
   },
   "issues": [
-    "orb@GC frozen (poc discrepa 1.03% vs command, 9 min)",
-    "journal stale (252 h)"
+    "srzones@GC dead (219 min)",
+    "orb@CL frozen (vah discrepa 0.31% vs command, 4 min)"
   ],
   "note": {
-    "es": "snapshot y fuentes frescas (4-9 min); orb@GC congelado por discrepancia de POC con command (1.03%, no es fallo del Session Analyst, revisar indicador/export TradingView); journal sin actualizar hace 252 h.",
-    "en": "snapshot and sources fresh (4-9 min); orb@GC frozen from a POC discrepancy vs command (1.03%, not a Session Analyst failure, check that symbol's TradingView indicator/export); journal not updated in 252 h."
+    "es": "snapshot y fuentes frescas (4 min); srzones@GC lleva 219 min sin actualizar (dead); orb@CL congelado por discrepancia de VAH vs command (0.31%, no es fallo del Session Analyst, revisar indicador/export TradingView de ese simbolo).",
+    "en": "snapshot and sources fresh (4 min); srzones@GC has been dead for 219 min; orb@CL frozen from a VAH discrepancy vs command (0.31%, not a Session Analyst failure, check that symbol's TradingView indicator/export)."
   }
 }
