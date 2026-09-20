@@ -342,15 +342,18 @@ normal con nota "sesión de feriado, poco volumen esperado". Si `live/market.jso
 `builtAt` de hace >6 h en día hábil, dilo y haz el mejor plan posible marcándolo como
 "datos rezagados".
 
-**Vacío estructural viernes→sábado (NO es un fallo):** `reviews/<viernes>.md` (el cierre
-completo del viernes, calificado con NY) nunca existe todavía a las 10:00 CT del sábado.
-Lo escribe la `pre-asia` del **domingo** siguiente, como `<fecha_ayer>` (ver sección 1) —
-no hay corrida de viernes por la noche ni de sábado que pueda adelantarlo. Esto pasa TODAS
-las semanas, es el diseño esperado del ciclo, no una corrida caída ni un fallo de la rutina.
-La meta-revisión (6.1) debe describirlo en tono neutral ("pendiente hasta el domingo",
-igual que en `reviews/2026-09-04.md` y `reviews/2026-09-12-semana.md`) y JAMÁS como "fallo
-de la rutina" o equivalente — esa frase implica una corrida rota cuando en realidad ninguna
-corrida faltó por disparar.
+**Viernes → sábado, causa raíz ya identificada (19-sep):** desde el 19-sep el diseño es que
+`pre-asia` también corre el **viernes** (cierra el día de futuros y abre el ciclo del
+sábado); si falta, `method/watchdog.md` ya lo marca como issue real ("SA pre-asia viernes
+ausente"), no como hueco de mercado. La causa conocida: el trigger externo que dispara estas
+corridas (fuera de este repo, ver nota de scheduler en README/sección 1) todavía no se ha
+extendido para incluir el viernes — sigue disparando domingo-jueves. Hasta que se corrija
+ahí, `reviews/<viernes>.md` seguirá llegando tarde, completado por el `<fecha_ayer>` de la
+`pre-asia` del **domingo** siguiente (sección 1), igual que se ve en `reviews/2026-09-04.md`.
+La meta-revisión (6.1), cuando se tope con `reviews/<viernes>.md` ausente el sábado, debe
+nombrar la causa concreta ("scheduler externo aún no incluye el viernes, ver watchdog") en
+vez de la frase genérica "fallo de la rutina" sin contexto — ya se sabe qué falta y no es
+tarea del propio Session Analyst arreglarlo (no tiene acceso al trigger).
 
 Horario / DST: las rutinas se disparan por cron UTC calzado a CT. Si la hora de la corrida
 (la que trae el prompt como referencia) no cuadra con `RUN_TYPE` (p.ej. `pre-ny` corriendo
@@ -633,11 +636,16 @@ viejo lo que solo refleja mercado cerrado).
    con `n ≥ 12`, sube el listón de GO para ese instrumento/sesión: exige `confluence ≥ 7` **o**
    `winN ≥ 8` a favor (win-rate encogido ≥ 0.55). Dilo en el `reason` ("GO 4/13 histórico aquí
    → pido confluencia 7").
-   **PROPUESTA #3 (pendiente de Jesus, NO aplicar sola):** revisar el listón de GO cuando
-   `missedOps["<SYM>|<sesion>"].rate ≥ 0.30` con `n ≥ 12` y hay A+ táctica limpia a favor.
-   Semana 2026-09-14/18: `verdictScore.go.n=0` en los 5 símbolos mientras missedOps engorda.
-   No aflojar GO contra sesgo, en chop, estirado, ni WATCH. Hasta que Jesus autorice, el listón
-   histórico de arriba sigue igual (sube exigencia si `go.rate` es bajo; no libera GO).
+   **GO liberado por missedOps (autorizado por Jesus 2026-09-20; no bajar el listón de
+   seguridad):** si `scorecard.missedOps["<SYM>|<sesion>"].rate ≥ 0.30` con `n ≥ 12`
+   (WAIT/AVOID que habría pagado ≥1R a menudo) **y** hay zona **A+ táctica** a tiro con sesgo
+   alineado, `rr ≥ 1.5`, sin stretch ≥ 2, sin `frameConflict`, `whipsawRisk < 0.6`, y permiso
+   de sesión OK → el `verdict` **puede ser GO** aunque `verdictScore.go.n` sea bajo o 0. El
+   `reason` lo dice ("missedOps alto aquí → GO con A+ táctica"). Prohibido: usar esto para GO
+   contra el sesgo, en chop, estirado, o con zona WATCH/inalcanzable. Semana 2026-09-14/18 que
+   motivó esto: `verdictScore.go.n=0` en los 5 símbolos mientras missedOps engordaba
+   (GC|londres 33%, ES|ny 44%, CL|ny 33%). Vigilar 3-4 semanas: si esta vía de GO tiene
+   win-rate real ≥ 0.5 con `n ≥ 10`, queda confirmada; si no, revertir a "pendiente".
    `reason` = una línea que diga POR QUÉ y qué fuga evita (ej.: "en no-trade sobre POC, sin borde
    [chop]"; "estirado 2.6x ATR, no perseguir [perseguir]"; "único setup sería largo contra el
    sesgo bajista [contra-sesgo]"; "A+ en VAH: perfil+EMA50+VWAP+sweep PDH+sesión, a favor del corto").
@@ -1218,12 +1226,13 @@ clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
 2. Día CT: `TZ=America/Chicago date +"%A %Y-%m-%d"`. Si NO es sábado, responde
    "no es sábado, weekly no corre" y termina sin escribir nada.
 3. Determina la ventana: el lunes-viernes que acaba de cerrar (viernes = ayer).
-   **`reviews/<viernes>.md` NUNCA existe todavía en este punto** (lo escribe la `pre-asia`
-   del domingo siguiente, sección 1) — no lo busques como señal de corrida caída. Usa
+   **`reviews/<viernes>.md` normalmente NO existe todavía en este punto** (lo completa la
+   `pre-asia` del domingo siguiente, sección 1, mientras el trigger externo no dispare
+   también el viernes — ver nota en sección 1 y `method/watchdog.md`). Usa
    `state.reviews["<viernes>"]` (contexto parcial de Asia+Londres, si ya está) para lo que
-   alcances a decir del viernes, y marca ese día explícitamente como "pendiente hasta el
-   domingo" en el marcador de abajo. Nunca escribas "fallo de la rutina" ni equivalente por
-   este motivo: no hay corrida faltante, es el orden normal del ciclo.
+   alcances a decir del viernes, y marca ese día como "pendiente, scheduler externo aún no
+   incluye el viernes (ver watchdog)" en el marcador de abajo — nombra la causa conocida,
+   no escribas "fallo de la rutina" sin ese contexto.
 4. Lee:
    - `state/sa-state.json` — `scorecard` (predictionScore, execution, emCalibration,
      convictionCalibration, sourceReliability), `models`, `zones`, `narrative`, y las
