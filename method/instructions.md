@@ -342,6 +342,16 @@ normal con nota "sesión de feriado, poco volumen esperado". Si `live/market.jso
 `builtAt` de hace >6 h en día hábil, dilo y haz el mejor plan posible marcándolo como
 "datos rezagados".
 
+**Vacío estructural viernes→sábado (NO es un fallo):** `reviews/<viernes>.md` (el cierre
+completo del viernes, calificado con NY) nunca existe todavía a las 10:00 CT del sábado.
+Lo escribe la `pre-asia` del **domingo** siguiente, como `<fecha_ayer>` (ver sección 1) —
+no hay corrida de viernes por la noche ni de sábado que pueda adelantarlo. Esto pasa TODAS
+las semanas, es el diseño esperado del ciclo, no una corrida caída ni un fallo de la rutina.
+La meta-revisión (6.1) debe describirlo en tono neutral ("pendiente hasta el domingo",
+igual que en `reviews/2026-09-04.md` y `reviews/2026-09-12-semana.md`) y JAMÁS como "fallo
+de la rutina" o equivalente — esa frase implica una corrida rota cuando en realidad ninguna
+corrida faltó por disparar.
+
 Horario / DST: las rutinas se disparan por cron UTC calzado a CT. Si la hora de la corrida
 (la que trae el prompt como referencia) no cuadra con `RUN_TYPE` (p.ej. `pre-ny` corriendo
 a las 06:55 CT en vez de ~07:55), es un cambio de horario de verano sin ajustar: haz la
@@ -1208,6 +1218,12 @@ clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
 2. Día CT: `TZ=America/Chicago date +"%A %Y-%m-%d"`. Si NO es sábado, responde
    "no es sábado, weekly no corre" y termina sin escribir nada.
 3. Determina la ventana: el lunes-viernes que acaba de cerrar (viernes = ayer).
+   **`reviews/<viernes>.md` NUNCA existe todavía en este punto** (lo escribe la `pre-asia`
+   del domingo siguiente, sección 1) — no lo busques como señal de corrida caída. Usa
+   `state.reviews["<viernes>"]` (contexto parcial de Asia+Londres, si ya está) para lo que
+   alcances a decir del viernes, y marca ese día explícitamente como "pendiente hasta el
+   domingo" en el marcador de abajo. Nunca escribas "fallo de la rutina" ni equivalente por
+   este motivo: no hay corrida faltante, es el orden normal del ciclo.
 4. Lee:
    - `state/sa-state.json` — `scorecard` (predictionScore, execution, emCalibration,
      convictionCalibration, sourceReliability), `models`, `zones`, `narrative`, y las
