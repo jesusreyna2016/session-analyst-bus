@@ -446,9 +446,13 @@ viejo lo que solo refleja mercado cerrado).
    entra sea de chop / sin resolución direccional. Sube con: `frameConflict.on` (+0.35),
    ADR realizado hoy < 35 % (+0.2), estructura en balance/rango pegada a POC (+0.2), 1-2
    sesiones previas sin resolver (+0.15 c/u), `command.chop`=1 (+0.15); baja con tendencia
-   clara de 3reads + `command.strength` FUERTE alineado (−0.3). `clamp(0,1)`. Escribe
-   `whipsawRisk: { score: <0-1>, note }`. Es una llamada FALSABLE: la `pre-asia` siguiente la
-   califica (sección 6, `whipsawCal`).
+   clara de 3reads + `command.strength` FUERTE alineado (−0.3). `clamp(0,1)`.
+   **Categoría `extreme_range_unresolved`:** si 1–2 sesiones previas tuvieron rango ≥ 80 % del
+   ADR **y** |cierre−apertura| < 25 % de ese rango (mucho recorrido, poca resolución neta),
+   suma +0.25 y nómbralo en `note` ("rango extremo sin resolución"). No es el chop clásico
+   (rango chico): es el patrón que el binario chop/resuelta fallaba (semana 09-14/18).
+   Escribe `whipsawRisk: { score: <0-1>, note, tag?: "extreme_range_unresolved"|null }`.
+   Es una llamada FALSABLE: la `pre-asia` siguiente la califica (sección 6, `whipsawCal`).
 2. **Contexto**: dónde está el precio en el perfil (vs VAH/POC/VAL, premium/discount,
    golden zone), qué hizo la sesión anterior, y la tesis multi-día vigente de `narrative`.
    **Gap de apertura** (`gap`): mide `command.dayOpen − drbias.pdc` en pts y ticks. Clasifica
@@ -580,9 +584,14 @@ viejo lo que solo refleja mercado cerrado).
    **Estructura del calendario** (`calendarContext`): marca si hoy / esta semana cae en:
    semana de NFP (1er viernes del mes) · día o semana de FOMC · triple witching / OpEx (3er
    viernes de mar/jun/sep/dic) · último día hábil del mes o del trimestre (flujos de
-   rebalanceo). Efecto: FOMC y NFP → trata el día como `newsRisk` ALTA aunque `news.events`
-   venga flojo; OpEx y fin de trimestre → EM +10-15 % y más mechas, fía menos de la dirección
-   intradía. Escribe `calendarContext: { tags: [...], note }` a nivel de plan.
+   rebalanceo). Efecto: FOMC, NFP y **CPI** (y PPI alto si mueve el complejo) → trata el día
+   como `newsRisk` ALTA aunque `news.events` venga flojo; OpEx y fin de trimestre → EM +10-15 %
+   y más mechas, fía menos de la dirección intradía. Escribe `calendarContext: { tags: [...], note }`
+   a nivel de plan.
+   **EM en catalizador mayor calendarizado (regla dura, sección 5):** en día/semana FOMC, NFP o
+   CPI, el +10 % genérico de "noticia alto impacto" **no basta**. Usa el escalón de la sección 5
+   (+20–25 % al presupuesto del día, o el siguiente bucket de calibración) y, en la sesión
+   *posterior* al dato, trata el restante como residual si `atrPctUsed` ya ≥ 85 % / `remPts`≈0.
 9. **Veredicto de un vistazo** (`verdict`): un semáforo por instrumento que PROTEGE la
    disciplina de Jesus. Su edge es CONFLUENCIA a favor del sesgo en un nivel mapeado con
    gatillo (sección 4). Prioridad **AVOID > WAIT > GO** (ante la duda, WAIT):
@@ -614,6 +623,13 @@ viejo lo que solo refleja mercado cerrado).
    con `n ≥ 12`, sube el listón de GO para ese instrumento/sesión: exige `confluence ≥ 7` **o**
    `winN ≥ 8` a favor (win-rate encogido ≥ 0.55). Dilo en el `reason` ("GO 4/13 histórico aquí
    → pido confluencia 7").
+   **GO liberado por missedOps (no bajar el listón de seguridad):** si
+   `scorecard.missedOps["<SYM>|<sesion>"].rate ≥ 0.30` con `n ≥ 12` (WAIT/AVOID que habría
+   pagado ≥1R a menudo) **y** hay zona **A+ táctica** a tiro con sesgo alineado, `rr ≥ 1.5`,
+   sin stretch ≥ 2, sin `frameConflict`, `whipsawRisk < 0.6`, y permiso de sesión OK → el
+   `verdict` **puede ser GO** aunque `verdictScore.go.n` sea bajo o 0. El `reason` lo dice
+   ("missedOps alto aquí → GO con A+ táctica"). Prohibido: usar esto para GO contra el sesgo,
+   en chop, estirado, o con zona WATCH/inalcanzable.
    `reason` = una línea que diga POR QUÉ y qué fuga evita (ej.: "en no-trade sobre POC, sin borde
    [chop]"; "estirado 2.6x ATR, no perseguir [perseguir]"; "único setup sería largo contra el
    sesgo bajista [contra-sesgo]"; "A+ en VAH: perfil+EMA50+VWAP+sweep PDH+sesión, a favor del corto").
@@ -891,8 +907,14 @@ FVG/iFVG de `srzones.fvg` que solapa el rango de la zona. `[]` si no hay ninguno
 
 1. **Presupuesto del día**: mediana de `3reads.raw.atrD`, `drbias.raw.atrD`, `htfzones.raw.adr`, `command.raw.dayATR`.
    Ajustes: −10 % lunes o víspera de feriado; +10 % si hay noticia de alto impacto USD en el
-   día; escala por `drbias.raw.rvol` lejos de 1 (rvol 1.5 → ×1.15, 0.7 → ×0.85, tope ±25 %);
-   si `emRegime`=AGOTADO o `adrPct`>90 el estimado de la sesión pasa a "residual".
+   día **que NO sea** FOMC/NFP/CPI; **+20–25 %** (o el siguiente bucket de `emCalibration`) si
+   `calendarContext` marca FOMC, NFP o CPI ese día — el +10 % solo se quedó corto de forma
+   recurrente (Fed 09-17, NFP 09-04, CPI 09-11); escala por `drbias.raw.rvol` lejos de 1
+   (rvol 1.5 → ×1.15, 0.7 → ×0.85, tope ±25 %); si `emRegime`=AGOTADO o `adrPct`>90 el estimado
+   de la sesión pasa a "residual".
+   **Post-catalizador:** si la sesión anterior al dato (o la del propio dato) ya gastó ≥ 85 %
+   del ADR / `remPts`≈0, la sesión que sigue NO reutiliza el presupuesto "lleno" del día: marca
+   bandera `AGOTADO`/`residual`, baja convicción un escalón y no prometas targets lejanos.
 2. **Reparto por sesión**: priores NQ Asia ~22 %, Londres ~33 %, NY ~45 %. ES, GC e YM igual
    hasta tener % medido en `models.*`. **CL** carga aún más a NY (~20/30/50) y los miércoles
    el grueso del rango llega tras el EIA de las 09:30 CT. Usa el % medido cuando exista.
@@ -972,8 +994,12 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
     pagado); no la re-cuentes aquí.
 - **Whipsaw** (alimenta `whipsawCal`): ¿acertó `whipsawRisk`? Marca la sesión realizada como
   `chop` (rango < 40 % del ADR y |cierre−apertura| < 25 % del rango, o `command` en chop la
-  mayor parte) o `resuelta` (dirección neta clara). `hit` si `whipsawRisk.score ≥ 0.5` y la
-  sesión fue `chop`, o `< 0.5` y fue `resuelta`. Brier `(score − esChop)²`.
+  mayor parte), `extreme_unresolved` (rango ≥ 80 % ADR y |cierre−apertura| < 25 % del rango),
+  o `resuelta` (dirección neta clara). `hit` si `whipsawRisk.score ≥ 0.5` y la sesión fue
+  `chop` **o** `extreme_unresolved`, o `< 0.5` y fue `resuelta`. Si marcaste
+  `tag:"extreme_range_unresolved"` y la sesión salió `extreme_unresolved`, cuenta `hit` aunque
+  el binario viejo la hubiera llamado "resuelta" por el tamaño del rango. Brier
+  `(score − esChopLike)²` con `esChopLike`=1 para chop o extreme_unresolved.
 - **Predicciones**: por cada `predictions` de los planes de ayer → `acierto | parcial | fallo`
   con el VALOR REAL al lado (rango real de la sesión, dirección neta, qué nivel se tocó
   primero, si el escenario se activó). Puntúa acierto=1 · parcial=0.5 · fallo=0. Las que
