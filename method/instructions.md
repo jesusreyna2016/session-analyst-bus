@@ -623,13 +623,11 @@ viejo lo que solo refleja mercado cerrado).
    con `n ≥ 12`, sube el listón de GO para ese instrumento/sesión: exige `confluence ≥ 7` **o**
    `winN ≥ 8` a favor (win-rate encogido ≥ 0.55). Dilo en el `reason` ("GO 4/13 histórico aquí
    → pido confluencia 7").
-   **GO liberado por missedOps (no bajar el listón de seguridad):** si
-   `scorecard.missedOps["<SYM>|<sesion>"].rate ≥ 0.30` con `n ≥ 12` (WAIT/AVOID que habría
-   pagado ≥1R a menudo) **y** hay zona **A+ táctica** a tiro con sesgo alineado, `rr ≥ 1.5`,
-   sin stretch ≥ 2, sin `frameConflict`, `whipsawRisk < 0.6`, y permiso de sesión OK → el
-   `verdict` **puede ser GO** aunque `verdictScore.go.n` sea bajo o 0. El `reason` lo dice
-   ("missedOps alto aquí → GO con A+ táctica"). Prohibido: usar esto para GO contra el sesgo,
-   en chop, estirado, o con zona WATCH/inalcanzable.
+   **PROPUESTA #3 (pendiente de Jesus, NO aplicar sola):** revisar el listón de GO cuando
+   `missedOps["<SYM>|<sesion>"].rate ≥ 0.30` con `n ≥ 12` y hay A+ táctica limpia a favor.
+   Semana 2026-09-14/18: `verdictScore.go.n=0` en los 5 símbolos mientras missedOps engorda.
+   No aflojar GO contra sesgo, en chop, estirado, ni WATCH. Hasta que Jesus autorice, el listón
+   histórico de arriba sigue igual (sube exigencia si `go.rate` es bajo; no libera GO).
    `reason` = una línea que diga POR QUÉ y qué fuga evita (ej.: "en no-trade sobre POC, sin borde
    [chop]"; "estirado 2.6x ATR, no perseguir [perseguir]"; "único setup sería largo contra el
    sesgo bajista [contra-sesgo]"; "A+ en VAH: perfil+EMA50+VWAP+sweep PDH+sesión, a favor del corto").
