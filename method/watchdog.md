@@ -45,11 +45,14 @@ reconstruirse.
   > 180 min día hábil con calendario esperado → `stale`. Sin eventos y día con
   NFP/FOMC/EIA en agenda → `stale` también.
 - **Corrida del Session Analyst atrasada**: si por el reloj ya pasó el cron de
-  una corrida (`pre-asia` 21:05Z dom-jue · `pre-london` 06:25Z lun-vie · `pre-ny`
+  una corrida (`pre-asia` 21:05Z **dom-vie** · `pre-london` 06:25Z lun-vie · `pre-ny`
   12:55Z lun-vie) hace > 45 min y `heartbeat.lastRun` sigue siendo anterior a esa
   hora con otro `runType` → añade `"SA <runtype> atrasada (<n> min)"` a `issues`.
-  (Ojo DST: en noviembre CT pasa a CST, los cron UTC se corren +1 h; da 60 min de
-  gracia en la semana del cambio.)
+  **Importante:** el `pre-asia` del **viernes** (cierra el día de futuros y abre el
+  ciclo Asia del sábado) **debe** correr; si falta, es fallo de scheduler (pasó
+  2026-09-18). Tras 22:00Z del viernes, si no hay heartbeat `pre-asia` con
+  `lastRun` ≥ 20:30Z ese día → issue `"SA pre-asia viernes ausente"` y `warn`.
+  (Ojo DST: en noviembre ET/CT cambian; da 60 min de gracia en la semana del cambio.)
 
 ## Salida · `live/health.json`
 
@@ -91,13 +94,18 @@ JSON válido, sin comentarios. Reescríbelo entero cada corrida:
 
 
 ## Journal digest
-Lee `live/journal.json`. Si `updatedAt` tiene > 72 h en día hábil (lun–vie CT), añade issue
-`"journal stale (<n> h)"` y sube a `warn` si aún no lo está. No inventes entradas de journal.
+Lee `live/journal.json`. Si `updatedAt` tiene > 72 h en día hábil (lun–vie America/New_York),
+añade issue `"journal stale (<n> h)"` y sube a `warn` si aún no lo está. No inventes entradas
+de journal. Si el journal solo cubre 1 día reciente y faltan jornadas hábiles de la semana →
+issue `"journal gaps (solo <fecha>)"` (warn).
 
-## Orb frozen (recordatorio)
+## Orb / fuente frozen o dead (recordatorio)
 `orb` vs `command` con discrepancia > 0.3 % ya marca `frozen`. Si GC/CL (u otro) llevan
 `frozen` ≥ 2 checks seguidos, incluye en `note` que hay que revisar el indicador/export
 TradingView de ese símbolo (no es un fallo del Session Analyst).
+Igual si **cualquier** fuente (`srzones`/`3reads`/…) de un símbolo va `dead` ≥ 2 checks
+hábil seguidos mientras el resto del complejo está fresco o solo "muerto de finde": issue
+`"<fuente>@<SYM> dead streak"` y pide revisión TV (caso visto: `srzones@GC`).
 
 ## STEROIDS · alcance de zona
 El Session Analyst debe aplicar `method/reachability.md` en cada corrida. Si `plans/latest.json` trae `zones[0]` con reach inalcanzable (ratio>0.9) y verdict no es AVOID/WAIT con "sin borde a tiro", marca warn en health (`reach.unactionable=true`).
