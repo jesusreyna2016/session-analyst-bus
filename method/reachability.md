@@ -98,3 +98,8 @@ tesis antes de la siguiente corrida.
 
 ## Cumplimiento
 Si `instructions.md` y este archivo divergen, gana **este archivo** para alcance de zonas.
+
+## Post-catalizador / presupuesto agotado
+Si el día es FOMC/NFP/CPI (ver `instructions.md` §5) o `remPts`≈0 tras un shock, reutiliza
+la sección **Update forzado** arriba: no dejes zonas tácticas de la mañana como operable
+cuando el presupuesto ya se gastó. Preferir WAIT + borde cercano o AVOID.
