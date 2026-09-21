@@ -1,13 +1,13 @@
 {
-  "checkedAt": "2026-09-21T12:48:13Z",
-  "status": "ok",
-  "snapshot": { "builtAt": "2026-09-21T12:45:16.201Z", "ageMin": 3, "state": "OK" },
-  "webhook":  { "lastSeenMin": 3, "state": "ok" },
-  "news":     { "ageMin": 18, "count": 13, "state": "ok" },
-  "sa":       { "lastRun": "2026-09-21T06:34:17Z", "runType": "pre-london", "lateBy": null },
+  "checkedAt": "2026-09-21T18:47:37Z",
+  "status": "warn",
+  "snapshot": { "builtAt": "2026-09-21T18:45:16.405Z", "ageMin": 2, "state": "OK" },
+  "webhook":  { "lastSeenMin": 2, "state": "ok" },
+  "news":     { "ageMin": 2, "count": 13, "state": "ok" },
+  "sa":       { "lastRun": "2026-09-21T12:57:00Z", "runType": "pre-ny", "lateBy": null },
   "sources": {
     "NQ": {
-      "orb":      { "ageMin": 3, "state": "fresh" },
+      "orb":      { "ageMin": 3, "state": "frozen" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
@@ -15,7 +15,7 @@
       "command":  { "ageMin": 3, "state": "fresh" }
     },
     "ES": {
-      "orb":      { "ageMin": 3, "state": "fresh" },
+      "orb":      { "ageMin": 3, "state": "frozen" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
@@ -23,12 +23,12 @@
       "command":  { "ageMin": 3, "state": "fresh" }
     },
     "GC": {
-      "orb":      { "ageMin": 3, "state": "fresh" },
-      "3reads":   { "ageMin": 3, "state": "fresh" },
-      "drbias":   { "ageMin": 3, "state": "fresh" },
-      "srzones":  { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command":  { "ageMin": 3, "state": "fresh" }
+      "orb":      { "ageMin": 2, "state": "fresh" },
+      "3reads":   { "ageMin": 2, "state": "fresh" },
+      "drbias":   { "ageMin": 2, "state": "fresh" },
+      "srzones":  { "ageMin": 2, "state": "fresh" },
+      "htfzones": { "ageMin": 2, "state": "fresh" },
+      "command":  { "ageMin": 2, "state": "fresh" }
     },
     "YM": {
       "orb":      { "ageMin": 3, "state": "fresh" },
@@ -39,17 +39,21 @@
       "command":  { "ageMin": 3, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 3, "state": "fresh" },
+      "orb":      { "ageMin": 3, "state": "frozen" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
       "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command":  { "ageMin": 3, "state": "fresh" }
+      "command":  { "ageMin": 2, "state": "fresh" }
     }
   },
-  "issues": [],
+  "issues": [
+    "orb@NQ frozen (disc 1.02% vah)",
+    "orb@ES frozen (disc 0.69% poc)",
+    "orb@CL frozen (disc 0.65% val)"
+  ],
   "note": {
-    "es": "todo fresco, ~3 min en los 5 simbolos; webhook ok (3 min), news ok (18 min), journal ok (~11.7h), SA pre-london a tiempo (06:34Z) y pre-ny aun no vence (12:55Z); orb vs command alineado en los 5 (max discrepancia 0.21%), sin reach inalcanzable en ningun zones[0] (max ratio 0.19).",
-    "en": "all fresh, ~3 min across all 5 symbols; webhook ok (3 min), news ok (18 min), journal ok (~11.7h), SA pre-london on time (06:34Z) and pre-ny not yet due (12:55Z); orb vs command aligned on all 5 (max discrepancy 0.21%), no unreachable reach on any zones[0] (max ratio 0.19)."
+    "es": "snapshot fresco (2 min) y webhook/news ok, pero orb vs command diverge >0.3% en NQ (1.02%), ES (0.69%) y CL (0.65%) -- primera vez que se ve en este chequeo (no habia discrepancia en el corte anterior de 12:48Z), vigilar si se repite. GC y YM alineados. Journal ok (~17.7h). SA pre-ny a tiempo (12:57Z), pre-asia (21:05Z) aun no vence. Sin reach inalcanzable en zones[0] (CL en WATCH con WAIT explicito por falta de presupuesto, conforme).",
+    "en": "snapshot fresh (2 min) and webhook/news ok, but orb vs command diverges >0.3% on NQ (1.02%), ES (0.69%) and CL (0.65%) -- first time seen on this check (no discrepancy on the prior 12:48Z run), watch if it repeats. GC and YM aligned. Journal ok (~17.7h). SA pre-ny on time (12:57Z), pre-asia (21:05Z) not yet due. No unreachable reach on any zones[0] (CL sits in WATCH with an explicit WAIT for lack of budget, compliant)."
   }
 }
