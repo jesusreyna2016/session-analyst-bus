@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-09-21T00:49:20Z",
-  "status": "warn",
-  "snapshot": { "builtAt": "2026-09-21T00:45:17.687Z", "ageMin": 4, "state": "OK" },
-  "webhook":  { "lastSeenMin": 9, "state": "ok" },
-  "news":     { "ageMin": 34, "count": 13, "state": "ok" },
+  "checkedAt": "2026-09-21T06:49:00Z",
+  "status": "ok",
+  "snapshot": { "builtAt": "2026-09-21T06:45:16.162Z", "ageMin": 4, "state": "OK" },
+  "webhook":  { "lastSeenMin": 4, "state": "ok" },
+  "news":     { "ageMin": 18, "count": 13, "state": "ok" },
   "sa":       { "lastRun": "2026-09-21T00:12:00Z", "runType": "asia-2", "lateBy": null },
   "sources": {
     "NQ": {
@@ -15,9 +15,9 @@
       "command":  { "ageMin": 4, "state": "fresh" }
     },
     "ES": {
-      "orb":      { "ageMin": 9, "state": "fresh" },
+      "orb":      { "ageMin": 4, "state": "fresh" },
       "3reads":   { "ageMin": 4, "state": "fresh" },
-      "drbias":   { "ageMin": 9, "state": "fresh" },
+      "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
       "htfzones": { "ageMin": 4, "state": "fresh" },
       "command":  { "ageMin": 4, "state": "fresh" }
@@ -31,15 +31,15 @@
       "command":  { "ageMin": 4, "state": "fresh" }
     },
     "YM": {
-      "orb":      { "ageMin": 4, "state": "fresh" },
-      "3reads":   { "ageMin": 4, "state": "fresh" },
-      "drbias":   { "ageMin": 4, "state": "fresh" },
-      "srzones":  { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command":  { "ageMin": 4, "state": "fresh" }
+      "orb":      { "ageMin": 9, "state": "fresh" },
+      "3reads":   { "ageMin": 9, "state": "fresh" },
+      "drbias":   { "ageMin": 9, "state": "fresh" },
+      "srzones":  { "ageMin": 9, "state": "fresh" },
+      "htfzones": { "ageMin": 9, "state": "fresh" },
+      "command":  { "ageMin": 9, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 4, "state": "frozen" },
+      "orb":      { "ageMin": 4, "state": "fresh" },
       "3reads":   { "ageMin": 4, "state": "fresh" },
       "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
@@ -47,11 +47,9 @@
       "command":  { "ageMin": 4, "state": "fresh" }
     }
   },
-  "issues": [
-    "orb@CL frozen (vah 97.25 vs command 96.75, +0.51%; val 95.43 vs command 94.52, +0.95%; ambos reciben a la misma hora, 4 min)"
-  ],
+  "issues": [],
   "note": {
-    "es": "Reapertura de Asia en marcha, todo el complejo llego fresco (~4 min desde el ultimo build 00:45:17Z), webhook ok (9 min), news ok (34 min), journal ok (7 min) y sin corridas SA atrasadas (asia-2 corrio a las 00:12Z tras la pre-asia de las 21:20Z). Unico pendiente: orb@CL discrepa de command en vah (+0.51%) y val (+0.95%) pese a llegar los dos casi al mismo segundo, asi que se marca frozen aunque la edad es baja; primera vez que se ve, vale la pena vigilar el indicador/export de TradingView de CL en la proxima corrida. El aviso previo de pre-asia del viernes ausente ya quedo atras (esa ventana cerro hace dias) y no se repite en la corrida de hoy.",
-    "en": "Asia reopen underway, the whole complex arrived fresh (~4 min since the last build at 00:45:17Z), webhook ok (9 min), news ok (34 min), journal ok (7 min), and no SA runs are overdue (asia-2 ran at 00:12Z after the 21:20Z pre-asia). One open item: orb@CL disagrees with command on vah (+0.51%) and val (+0.95%) despite both landing within the same second, so it's marked frozen even though its age is low; first time seeing this, worth watching CL's TradingView indicator/export on the next check. The earlier Friday-pre-asia-missing flag is past its window (closed days ago) and doesn't recur in today's run."
+    "es": "todo fresco, ~4 min (YM ~9 min); webhook ok (4 min), news ok (18 min), journal ok (~6h), sin corridas SA atrasadas; orb@CL vuelve a alinear con command (discrepancia vah 0.29%, bajo el umbral) tras el frozen puntual de la corrida anterior.",
+    "en": "all fresh, ~4 min (YM ~9 min); webhook ok (4 min), news ok (18 min), journal ok (~6h), no SA runs overdue; orb@CL is back in line with command (vah discrepancy 0.29%, under threshold) after the prior run's one-off frozen flag."
   }
 }
