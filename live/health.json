@@ -1,13 +1,21 @@
 {
-  "checkedAt": "2026-09-21T18:47:37Z",
-  "status": "warn",
-  "snapshot": { "builtAt": "2026-09-21T18:45:16.405Z", "ageMin": 2, "state": "OK" },
-  "webhook":  { "lastSeenMin": 2, "state": "ok" },
+  "checkedAt": "2026-09-22T00:47:41Z",
+  "status": "ok",
+  "snapshot": { "builtAt": "2026-09-22T00:45:15.802Z", "ageMin": 2, "state": "OK" },
+  "webhook":  { "lastSeenMin": 3, "state": "ok" },
   "news":     { "ageMin": 2, "count": 13, "state": "ok" },
-  "sa":       { "lastRun": "2026-09-21T12:57:00Z", "runType": "pre-ny", "lateBy": null },
+  "sa":       { "lastRun": "2026-09-22T00:04:36Z", "runType": "asia-2", "lateBy": null },
   "sources": {
+    "GC": {
+      "orb":      { "ageMin": 3, "state": "fresh" },
+      "3reads":   { "ageMin": 3, "state": "fresh" },
+      "drbias":   { "ageMin": 3, "state": "fresh" },
+      "srzones":  { "ageMin": 3, "state": "fresh" },
+      "htfzones": { "ageMin": 3, "state": "fresh" },
+      "command":  { "ageMin": 3, "state": "fresh" }
+    },
     "NQ": {
-      "orb":      { "ageMin": 3, "state": "frozen" },
+      "orb":      { "ageMin": 3, "state": "fresh" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
@@ -15,20 +23,12 @@
       "command":  { "ageMin": 3, "state": "fresh" }
     },
     "ES": {
-      "orb":      { "ageMin": 3, "state": "frozen" },
+      "orb":      { "ageMin": 3, "state": "fresh" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
       "htfzones": { "ageMin": 3, "state": "fresh" },
       "command":  { "ageMin": 3, "state": "fresh" }
-    },
-    "GC": {
-      "orb":      { "ageMin": 2, "state": "fresh" },
-      "3reads":   { "ageMin": 2, "state": "fresh" },
-      "drbias":   { "ageMin": 2, "state": "fresh" },
-      "srzones":  { "ageMin": 2, "state": "fresh" },
-      "htfzones": { "ageMin": 2, "state": "fresh" },
-      "command":  { "ageMin": 2, "state": "fresh" }
     },
     "YM": {
       "orb":      { "ageMin": 3, "state": "fresh" },
@@ -39,21 +39,14 @@
       "command":  { "ageMin": 3, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 3, "state": "frozen" },
-      "3reads":   { "ageMin": 3, "state": "fresh" },
-      "drbias":   { "ageMin": 3, "state": "fresh" },
-      "srzones":  { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command":  { "ageMin": 2, "state": "fresh" }
+      "orb":      { "ageMin": 8, "state": "fresh" },
+      "3reads":   { "ageMin": 8, "state": "fresh" },
+      "drbias":   { "ageMin": 8, "state": "fresh" },
+      "srzones":  { "ageMin": 8, "state": "fresh" },
+      "htfzones": { "ageMin": 8, "state": "fresh" },
+      "command":  { "ageMin": 8, "state": "fresh" }
     }
   },
-  "issues": [
-    "orb@NQ frozen (disc 1.02% vah)",
-    "orb@ES frozen (disc 0.69% poc)",
-    "orb@CL frozen (disc 0.65% val)"
-  ],
-  "note": {
-    "es": "snapshot fresco (2 min) y webhook/news ok, pero orb vs command diverge >0.3% en NQ (1.02%), ES (0.69%) y CL (0.65%) -- primera vez que se ve en este chequeo (no habia discrepancia en el corte anterior de 12:48Z), vigilar si se repite. GC y YM alineados. Journal ok (~17.7h). SA pre-ny a tiempo (12:57Z), pre-asia (21:05Z) aun no vence. Sin reach inalcanzable en zones[0] (CL en WATCH con WAIT explicito por falta de presupuesto, conforme).",
-    "en": "snapshot fresh (2 min) and webhook/news ok, but orb vs command diverges >0.3% on NQ (1.02%), ES (0.69%) and CL (0.65%) -- first time seen on this check (no discrepancy on the prior 12:48Z run), watch if it repeats. GC and YM aligned. Journal ok (~17.7h). SA pre-ny on time (12:57Z), pre-asia (21:05Z) not yet due. No unreachable reach on any zones[0] (CL sits in WATCH with an explicit WAIT for lack of budget, compliant)."
-  }
+  "issues": [],
+  "note": { "es": "todo fresco, 2 min", "en": "all fresh, 2 min" }
 }
