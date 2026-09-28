@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-09-28T00:49:26Z",
+  "checkedAt": "2026-09-28T06:48:29Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-09-28T00:45:15.164Z", "ageMin": 4, "state": "OK" },
-  "webhook": { "lastSeenMin": 4, "state": "ok" },
-  "news": { "ageMin": 4, "count": 20, "state": "ok" },
+  "snapshot": { "builtAt": "2026-09-28T06:45:15.881Z", "ageMin": 3, "state": "OK" },
+  "webhook": { "lastSeenMin": 3, "state": "ok" },
+  "news": { "ageMin": 33, "count": 20, "state": "ok" },
   "sa": { "lastRun": "2026-09-28T00:06:00Z", "runType": "asia-2", "lateBy": null },
   "sources": {
     "NQ": {
@@ -12,47 +12,48 @@
       "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
       "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command":  { "ageMin": 4, "state": "fresh" }
+      "command":  { "ageMin": 3, "state": "fresh" }
     },
     "ES": {
-      "orb":      { "ageMin": 9, "state": "fresh" },
+      "orb":      { "ageMin": 4, "state": "fresh" },
       "3reads":   { "ageMin": 4, "state": "fresh" },
       "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
       "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command":  { "ageMin": 4, "state": "fresh" }
+      "command":  { "ageMin": 3, "state": "fresh" }
     },
     "GC": {
-      "orb":      { "ageMin": 4, "state": "fresh" },
-      "3reads":   { "ageMin": 4, "state": "fresh" },
-      "drbias":   { "ageMin": 4, "state": "fresh" },
-      "srzones":  { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "orb":      { "ageMin": 4, "state": "frozen" },
+      "3reads":   { "ageMin": 3, "state": "fresh" },
+      "drbias":   { "ageMin": 3, "state": "fresh" },
+      "srzones":  { "ageMin": 3, "state": "fresh" },
+      "htfzones": { "ageMin": 3, "state": "fresh" },
       "command":  { "ageMin": 4, "state": "fresh" }
     },
     "YM": {
-      "orb":      { "ageMin": 9, "state": "fresh" },
-      "3reads":   { "ageMin": 9, "state": "fresh" },
-      "drbias":   { "ageMin": 9, "state": "fresh" },
-      "srzones":  { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command":  { "ageMin": 9, "state": "fresh" }
+      "orb":      { "ageMin": 8, "state": "fresh" },
+      "3reads":   { "ageMin": 8, "state": "fresh" },
+      "drbias":   { "ageMin": 8, "state": "fresh" },
+      "srzones":  { "ageMin": 8, "state": "fresh" },
+      "htfzones": { "ageMin": 8, "state": "fresh" },
+      "command":  { "ageMin": 8, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 4, "state": "fresh" },
-      "3reads":   { "ageMin": 4, "state": "fresh" },
-      "drbias":   { "ageMin": 4, "state": "fresh" },
-      "srzones":  { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command":  { "ageMin": 4, "state": "fresh" }
+      "orb":      { "ageMin": 3, "state": "fresh" },
+      "3reads":   { "ageMin": 3, "state": "fresh" },
+      "drbias":   { "ageMin": 3, "state": "fresh" },
+      "srzones":  { "ageMin": 3, "state": "fresh" },
+      "htfzones": { "ageMin": 3, "state": "fresh" },
+      "command":  { "ageMin": 3, "state": "fresh" }
     }
   },
   "issues": [
-    "journal stale (168 h)",
+    "orb@GC frozen (val +0.46% vs command)",
+    "journal stale (174 h)",
     "journal gaps (solo 2026-09-21)"
   ],
   "note": {
-    "es": "Domingo por la tarde CT, Tokio ya abrio: snapshot y las 5 fuentes por simbolo vuelven a estar frescas (~4-9 min), webhook ok, SA corrio pre-asia y asia-2 sin atraso. Unico pendiente real: el journal sigue sin actualizarse hace ~168h con huecos desde 2026-09-21, no relacionado al cierre de finde.",
-    "en": "Sunday evening CT, Tokyo already open: the snapshot and all 5 per-symbol sources are fresh again (~4-9 min), webhook ok, SA ran pre-asia and asia-2 on schedule. Only real pending item: the journal hasn't updated in ~168h with gaps since 2026-09-21, unrelated to the weekend close."
+    "es": "Lunes 01:48 CT, snapshot y las 5 fuentes por simbolo frescas (3-8 min), webhook ok, SA corrio asia-2 y pre-london aun no vence (23 min desde el cron, sin atraso). Unico dato en vivo con problema: orb@GC marca frozen porque su VAL discrepa 0.46% contra command (primer check, aun no es racha) -- revisar el indicador/export de TradingView de GC si persiste. El journal sigue sin actualizarse hace ~174h con huecos desde 2026-09-21, no relacionado al feed.",
+    "en": "Monday 01:48 CT, snapshot and all 5 per-symbol sources are fresh (3-8 min), webhook ok, SA ran asia-2 and pre-london isn't due yet (23 min since its cron, not late). Only live-data problem: orb@GC reads frozen because its VAL diverges 0.46% from command (first check, not yet a streak) -- worth checking GC's TradingView indicator/export if it persists. The journal still hasn't updated in ~174h with gaps since 2026-09-21, unrelated to the feed."
   }
 }
