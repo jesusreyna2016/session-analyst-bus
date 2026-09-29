@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-09-29T00:47:58Z",
-  "status": "ok",
-  "snapshot": { "builtAt": "2026-09-29T00:45:20.421Z", "ageMin": 3, "state": "OK" },
+  "checkedAt": "2026-09-29T06:48:30Z",
+  "status": "warn",
+  "snapshot": { "builtAt": "2026-09-29T06:45:17.978Z", "ageMin": 3, "state": "OK" },
   "webhook": { "lastSeenMin": 3, "state": "ok" },
   "news": { "ageMin": 33, "count": 20, "state": "ok" },
   "sa": { "lastRun": "2026-09-29T00:05:28Z", "runType": "asia-2", "lateBy": null },
@@ -23,7 +23,7 @@
       "command":  { "ageMin": 3, "state": "fresh" }
     },
     "GC": {
-      "orb":      { "ageMin": 3, "state": "fresh" },
+      "orb":      { "ageMin": 3, "state": "frozen" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
@@ -31,15 +31,15 @@
       "command":  { "ageMin": 3, "state": "fresh" }
     },
     "YM": {
-      "orb":      { "ageMin": 3, "state": "fresh" },
-      "3reads":   { "ageMin": 3, "state": "fresh" },
-      "drbias":   { "ageMin": 3, "state": "fresh" },
-      "srzones":  { "ageMin": 3, "state": "fresh" },
-      "htfzones": { "ageMin": 3, "state": "fresh" },
-      "command":  { "ageMin": 3, "state": "fresh" }
+      "orb":      { "ageMin": 8, "state": "fresh" },
+      "3reads":   { "ageMin": 8, "state": "fresh" },
+      "drbias":   { "ageMin": 8, "state": "fresh" },
+      "srzones":  { "ageMin": 8, "state": "fresh" },
+      "htfzones": { "ageMin": 8, "state": "fresh" },
+      "command":  { "ageMin": 8, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 3, "state": "fresh" },
+      "orb":      { "ageMin": 3, "state": "frozen" },
       "3reads":   { "ageMin": 3, "state": "fresh" },
       "drbias":   { "ageMin": 3, "state": "fresh" },
       "srzones":  { "ageMin": 3, "state": "fresh" },
@@ -47,9 +47,12 @@
       "command":  { "ageMin": 3, "state": "fresh" }
     }
   },
-  "issues": [],
+  "issues": [
+    "orb@CL frozen (val 93.31 vs command 93.00, +0.33%)",
+    "orb@GC frozen (vah 4171.84 vs command 4184.60, -0.31%)"
+  ],
   "note": {
-    "es": "Lunes 19:47 CT, todo fresco, 3 min. Snapshot y las 5 fuentes por simbolo OK en los 5 simbolos, sin discrepancia orb/command, webhook ok, SA corrio asia-2 a las 00:05Z sin atraso. Journal actualizado hace ~3.5h, sin huecos. GC ya no muestra el frozen de checks anteriores.",
-    "en": "Monday 19:47 CT, all fresh, 3 min. Snapshot and all 5 per-symbol sources OK across all 5 symbols, no orb/command discrepancy, webhook ok, SA ran asia-2 at 00:05Z on time. Journal updated ~3.5h ago, no gaps. GC no longer shows the frozen state from prior checks."
+    "es": "Martes 01:48 CT, snapshot y fuentes frescas (3-8 min), webhook y noticias ok, SA al dia (asia-2 00:05Z, pre-london aun no vence). orb de CL (val) y GC (vah) discrepan >0.3% frente a command: revisar el indicador/export de TradingView en esos dos simbolos.",
+    "en": "Tuesday 01:48 CT, snapshot and sources fresh (3-8 min), webhook and news ok, SA on schedule (asia-2 00:05Z, pre-london not yet due). CL orb (val) and GC orb (vah) diverge >0.3% vs command: check the TradingView indicator/export for those two symbols."
   }
 }
