@@ -1,11 +1,19 @@
 {
-  "checkedAt": "2026-09-29T12:48:57Z",
-  "status": "ok",
-  "snapshot": { "builtAt": "2026-09-29T12:45:18.215Z", "ageMin": 4, "state": "OK" },
-  "webhook": { "lastSeenMin": 4, "state": "ok" },
-  "news": { "ageMin": 34, "count": 20, "state": "ok" },
-  "sa": { "lastRun": "2026-09-29T06:26:00Z", "runType": "pre-london", "lateBy": null },
+  "checkedAt": "2026-09-29T18:49:08Z",
+  "status": "warn",
+  "snapshot": { "builtAt": "2026-09-29T18:45:16.321Z", "ageMin": 4, "state": "OK" },
+  "webhook":  { "lastSeenMin": 4, "state": "ok" },
+  "news":     { "ageMin": 34, "count": 20, "state": "ok" },
+  "sa":       { "lastRun": "2026-09-29T13:09:24Z", "runType": "pre-ny", "lateBy": null },
   "sources": {
+    "ES": {
+      "orb":      { "ageMin": 4, "state": "fresh" },
+      "3reads":   { "ageMin": 4, "state": "fresh" },
+      "drbias":   { "ageMin": 4, "state": "fresh" },
+      "srzones":  { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command":  { "ageMin": 4, "state": "fresh" }
+    },
     "NQ": {
       "orb":      { "ageMin": 4, "state": "fresh" },
       "3reads":   { "ageMin": 4, "state": "fresh" },
@@ -22,14 +30,6 @@
       "htfzones": { "ageMin": 4, "state": "fresh" },
       "command":  { "ageMin": 4, "state": "fresh" }
     },
-    "ES": {
-      "orb":      { "ageMin": 4, "state": "fresh" },
-      "3reads":   { "ageMin": 4, "state": "fresh" },
-      "drbias":   { "ageMin": 4, "state": "fresh" },
-      "srzones":  { "ageMin": 4, "state": "fresh" },
-      "htfzones": { "ageMin": 4, "state": "fresh" },
-      "command":  { "ageMin": 4, "state": "fresh" }
-    },
     "YM": {
       "orb":      { "ageMin": 4, "state": "fresh" },
       "3reads":   { "ageMin": 4, "state": "fresh" },
@@ -39,7 +39,7 @@
       "command":  { "ageMin": 4, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 4, "state": "fresh" },
+      "orb":      { "ageMin": 4, "state": "frozen" },
       "3reads":   { "ageMin": 4, "state": "fresh" },
       "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
@@ -47,9 +47,6 @@
       "command":  { "ageMin": 4, "state": "fresh" }
     }
   },
-  "issues": [],
-  "note": {
-    "es": "Martes 07:48 CT, snapshot y las seis fuentes de los 5 simbolos frescas (4 min), webhook ok, noticias ok (34 min), SA al dia (pre-london 06:26Z, pre-ny aun no vence). orb de GC y CL ya no discrepa vs command (>0.3% la corrida anterior): se resolvio, sin racha.",
-    "en": "Tuesday 07:48 CT, snapshot and all six sources for the 5 symbols fresh (4 min), webhook ok, news ok (34 min), SA on schedule (pre-london 06:26Z, pre-ny not yet due). GC and CL orb no longer diverge vs command (>0.3% last run): resolved, no streak."
-  }
+  "issues": [ "orb@CL frozen (val vs command Δ0.30%)" ],
+  "note": { "es": "snapshot fresco (4 min) y SA al dia; orb@CL marca frozen por discrepancia leve val vs command (0.30%, primer check, sin racha).", "en": "snapshot fresh (4 min) and SA on schedule; orb@CL flags frozen from a slight val vs command discrepancy (0.30%, first check, no streak yet)." }
 }
