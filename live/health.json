@@ -1,58 +1,57 @@
 {
-  "checkedAt": "2026-10-05T18:49:37Z",
+  "checkedAt": "2026-10-06T00:49:57Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-10-05T18:45:11.680Z", "ageMin": 4, "state": "OK" },
-  "webhook":  { "lastSeenMin": 5, "state": "ok" },
-  "news":     { "ageMin": 19, "count": 14, "state": "ok" },
-  "sa":       { "lastRun": "2026-10-05T13:20:00Z", "runType": "pre-ny", "lateBy": null },
+  "snapshot": { "builtAt": "2026-10-06T00:45:09.813Z", "ageMin": 5, "state": "OK" },
+  "webhook": { "lastSeenMin": 5, "state": "ok" },
+  "news": { "ageMin": 20, "count": 14, "state": "ok" },
+  "sa": { "lastRun": "2026-10-06T00:08:00Z", "runType": "asia-2", "lateBy": null },
   "sources": {
-    "NQ": {
-      "orb":      { "ageMin": 5, "state": "fresh" },
-      "3reads":   { "ageMin": 5, "state": "fresh" },
-      "drbias":   { "ageMin": 5, "state": "fresh" },
-      "srzones":  { "ageMin": 5, "state": "fresh" },
-      "htfzones": { "ageMin": 5, "state": "fresh" },
-      "command":  { "ageMin": 5, "state": "fresh" }
-    },
     "ES": {
-      "orb":      { "ageMin": 5, "state": "fresh" },
-      "3reads":   { "ageMin": 5, "state": "fresh" },
-      "drbias":   { "ageMin": 5, "state": "fresh" },
-      "srzones":  { "ageMin": 5, "state": "fresh" },
+      "orb": { "ageMin": 10, "state": "fresh" },
+      "3reads": { "ageMin": 10, "state": "fresh" },
+      "drbias": { "ageMin": 10, "state": "fresh" },
+      "srzones": { "ageMin": 10, "state": "fresh" },
+      "htfzones": { "ageMin": 10, "state": "fresh" },
+      "command": { "ageMin": 10, "state": "fresh" }
+    },
+    "NQ": {
+      "orb": { "ageMin": 5, "state": "fresh" },
+      "3reads": { "ageMin": 5, "state": "fresh" },
+      "drbias": { "ageMin": 5, "state": "fresh" },
+      "srzones": { "ageMin": 5, "state": "fresh" },
       "htfzones": { "ageMin": 5, "state": "fresh" },
-      "command":  { "ageMin": 5, "state": "fresh" }
+      "command": { "ageMin": 5, "state": "fresh" }
     },
     "GC": {
-      "orb":      { "ageMin": 9, "state": "frozen" },
-      "3reads":   { "ageMin": 9, "state": "fresh" },
-      "drbias":   { "ageMin": 9, "state": "fresh" },
-      "srzones":  { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command":  { "ageMin": 9, "state": "fresh" }
+      "orb": { "ageMin": 5, "state": "fresh" },
+      "3reads": { "ageMin": 5, "state": "fresh" },
+      "drbias": { "ageMin": 4, "state": "fresh" },
+      "srzones": { "ageMin": 5, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command": { "ageMin": 5, "state": "fresh" }
     },
     "YM": {
-      "orb":      { "ageMin": 9, "state": "fresh" },
-      "3reads":   { "ageMin": 9, "state": "fresh" },
-      "drbias":   { "ageMin": 9, "state": "fresh" },
-      "srzones":  { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command":  { "ageMin": 9, "state": "fresh" }
+      "orb": { "ageMin": 10, "state": "fresh" },
+      "3reads": { "ageMin": 10, "state": "fresh" },
+      "drbias": { "ageMin": 10, "state": "fresh" },
+      "srzones": { "ageMin": 10, "state": "fresh" },
+      "htfzones": { "ageMin": 10, "state": "fresh" },
+      "command": { "ageMin": 10, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 5, "state": "frozen" },
-      "3reads":   { "ageMin": 5, "state": "fresh" },
-      "drbias":   { "ageMin": 5, "state": "fresh" },
-      "srzones":  { "ageMin": 5, "state": "fresh" },
+      "orb": { "ageMin": 5, "state": "fresh" },
+      "3reads": { "ageMin": 10, "state": "fresh" },
+      "drbias": { "ageMin": 5, "state": "fresh" },
+      "srzones": { "ageMin": 10, "state": "fresh" },
       "htfzones": { "ageMin": 5, "state": "fresh" },
-      "command":  { "ageMin": 5, "state": "fresh" }
+      "command": { "ageMin": 10, "state": "fresh" }
     }
   },
   "issues": [
-    "orb@CL frozen streak (2 checks seguidos, val disc 0.41% vs command) - revisar indicador/export TradingView de CL",
-    "orb@GC frozen (poc disc 0.46% vs command)"
+    "journal gaps (solo 2026-10-05)"
   ],
   "note": {
-    "es": "Snapshot y feed al dia (4 min, webhook ok 5 min, news fresca 19 min, SA pre-ny a tiempo). orb@CL sigue frozen vs command por segundo chequeo seguido (val +0.41%): revisar el indicador/export de TradingView de CL. orb@GC aparece frozen por primera vez esta corrida (poc +0.46%), vigilar si repite. Buenas noticias: 3reads@ES y el digest de journal, marcados muertos/atrasados en el chequeo anterior, se ven frescos de nuevo.",
-    "en": "Snapshot and feed are current (4 min, webhook ok 5 min, news fresh 19 min, SA pre-ny on time). orb@CL remains frozen vs command for a second check in a row (val +0.41%): review CL's TradingView indicator/export. orb@GC shows frozen for the first time this run (poc +0.46%), watch for a repeat. Good news: 3reads@ES and the journal digest, flagged dead/stale on the previous check, look fresh again."
+    "es": "pipeline de mercado 100% fresco (snapshot 5 min, 5/5 simbolos, webhook ok); el journal digest trae un hueco, solo 2026-10-05 reciente con 3 jornadas habiles sin registrar antes",
+    "en": "market pipeline 100% fresh (5 min snapshot, 5/5 symbols, webhook ok); the journal digest has a gap, only 2026-10-05 recent with 3 business days unlogged before it"
   }
 }
