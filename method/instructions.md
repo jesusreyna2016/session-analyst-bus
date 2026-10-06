@@ -1283,8 +1283,12 @@ clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
    - **Perfil del trader** (`state/trader-profile.json`, solo bloque `observed`): reescríbelo
      con la ventana de la semana: `{ updatedBy:"weekly <sábado>", window, disciplinedPct,
      againstBiasRate, outsideEdgeRate, trend:{es,en}, exitQuality:{partialRate,scratchRate,
-     fullStopRate}|null }`. Actualiza también `updatedAt` del archivo. NO toques ningún otro
-     bloque. Si la ejecución de la semana contradice un `patterns[]` (p. ej. 3 semanas sin
+     fullStopRate}|null }`. Actualiza también `updatedAt` del archivo. Además refresca
+     `exitBaseline` desde `../scalp-cc-bus/exit-baseline.json` (el weekly lo tiene clonado
+     junto al bus; búscalo con `ls ..` si la ruta cambia): copia `bySymbol.NQ` a
+     `exitBaseline.NQ`, pon `asOf` = fecha del archivo y reescribe `readout` {es,en} con los
+     números nuevos (mismo tono, 1-2 frases). Si el archivo no está, deja `exitBaseline` como
+     estaba y dilo. NO toques ningún otro bloque. Si la ejecución de la semana contradice un `patterns[]` (p. ej. 3 semanas sin
      revenge) o sugiere uno nuevo, NO lo edites: déjalo en `## Propuestas de método`.
    - **Qué se repitió**: el patrón o la fuga que volvió a aparecer (ej. "3ª semana seguida
      en que ES Londres deja WAIT que habría pagado ≥1R"; "GC pre-NY sobre-estima el rango
