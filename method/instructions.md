@@ -106,7 +106,8 @@ working dir. Trabajas con archivos, no con HTTP.
 - `method/instructions.md` — este documento, la fuente de verdad.
 - `state/sa-state.json` — tu historial acumulado: `{ instructions, settings, narrative, models:{NQ,ES,GC,YM,CL}, zones, scorecard, reviews:{<fecha>:md}, dayThesis:{<fecha>:md}, plans:{<fecha>-<sesion>:obj}, planLatest }`. `settings` = config de Jesus (p.ej. `dailyLossLimitUsd`); si falta, sigue sin ella. `scorecard` incluye los sub-objetos de calibración (sección 6).
 - `live/market.json` — `{ builtAt, feed, news }`. `feed` = lo de la sección 2 (NQ/ES/GC/YM/CL con orb/3reads/drbias/srzones/htfzones/command). `news` = calendario económico. Netlify lo refresca cada 5 min; si `builtAt` tiene >90 min en día hábil, márcalo "datos rezagados".
-- `live/journal.json` — OPCIONAL (puede faltar). Digest DE-IDENTIFICADO de la EJECUCIÓN real de Jesus, publicado por su journal (sin $/P&L/balance). `{ schema:"journal-digest-1", updatedAt, window:{days}, rollup, byDay:[...] }`. `rollup` = `{ days, disciplinedPct, avgTradesPerDay, gradedTrades, againstBiasRate, outsideEdgeRate, overtradeDays, revengeDays }`. Cada `byDay` = `{ date, trades, disciplined, maxLossStreak, overtrade, revenge, roundTrip, graded, withBias, againstBias, validEdge, outsideEdge }`. Es lo que Jesus HIZO, no lo que tú predijiste. Úsalo en la calificación pre-asia (sección 6) para medir plan-vs-ejecución y afinar los recordatorios anti-fuga del plan.
+- `live/journal.json` — OPCIONAL (puede faltar). Digest DE-IDENTIFICADO de la EJECUCIÓN real de Jesus, publicado por su journal (sin $/P&L/balance). `{ schema:"journal-digest-1", updatedAt, window:{days}, rollup, byDay:[...] }`. `rollup` = `{ days, disciplinedPct, avgTradesPerDay, gradedTrades, againstBiasRate, outsideEdgeRate, overtradeDays, revengeDays }`. Cada `byDay` = `{ date, trades, disciplined, maxLossStreak, overtrade, revenge, roundTrip, graded, withBias, againstBias, validEdge, outsideEdge }`. Es lo que Jesus HIZO, no lo que tú predijiste. Úsalo en la calificación pre-asia (sección 6) para medir plan-vs-ejecución y afinar los recordatorios anti-fuga del plan. Desde 2026-10-05 cada `byDay` puede traer además **calidad de salida**: `positions` (posiciones, fills agrupados), `partials` (escaló y el primer tramo cerró en verde), `scratches` (cerró en ±4 ticks = BE sin cobrar), `fullStops` (pérdida de un solo tramo), `wlPtsRatio` (pts medios ganador / pts medios perdedor, sin $); y el `rollup` trae `positions`, `partialRate`, `scratchRate`, `fullStopRate`. Días viejos los traen en `null`: no los inventes.
+- `state/trader-profile.json` — **OBLIGATORIO leerlo en CADA corrida.** Perfil compartido de Jesus: `core.edge`, `patterns[]` (fugas con id), `exitPlan`, `exitBaseline` (tasas reales de 1R/TP2 del agente Scalp CC), `account` (reglas de la cuenta en evaluación: objetivo, consistencia, `dailyCapForConsistency`) y `dailyRules` (`maxTrades`, `stopAfterLosses`). Es lo que convierte tu plan genérico en un plan PARA ÉL (sección 4.1). Solo la corrida `weekly` puede reescribir su bloque `observed`; `core`, `patterns`, `exitPlan`, `account` y `dailyRules` NO los toques nunca.
 
 **Escribes** (y luego haces `git add -A && git commit && git push`):
 - `plans/latest.json` — el plan de esta corrida (schema sección 7).
@@ -917,6 +918,28 @@ FVG/iFVG de `srzones.fvg` que solapa el rango de la zona. `[]` si no hay ninguno
 - Ordena la lista por `weight` desc y, a igualdad, por cercanía al borde de entrada.
 - Si la zona tiene `fvg` no vacío, `verdict.reason` lo nombra: `"…, FVG 15m 29466-29503 (peso 2)"`.
 
+### 4.1 · Personalización con `state/trader-profile.json` (regla dura, todas las corridas)
+
+El plan no es para "un trader", es para Jesus. Con el perfil:
+
+- **Salidas en cada zona A+/B**: `play.scale` SIEMPRE trae TP1 y TP2 con precio, atados a
+  niveles reales: TP1 = primer nivel a favor o 1R (el que llegue antes), parcial 1/2 o 2/3
+  ahí, y "BE solo DESPUÉS del parcial" (nunca "mueve a BE" antes de cobrar). TP2 = el siguiente
+  nivel, objetivo fijo. Si entre entrada y TP1 hay < 1R de recorrido, la zona no es A+.
+- **Tope por la cuenta**: si `account` existe, `focus.note` del plan del día cierra con una
+  línea tipo "Objetivo del día ≤ $<dailyCapForConsistency> (consistencia <regla>) · máx
+  <maxTrades> trades · <stopAfterLosses> SL → fuera". Nunca propongas "recuperar" ni objetivos
+  que rompan la regla de consistencia.
+- **Patrones**: elige el `patterns[].id` más relevante para HOY (por el journal de ayer o el
+  tipo de día: rango/chop → `overtrade-chop`; tendencia fuerte que se va sin él →
+  `se-me-escapa`; día de rango amplio con objetivos lejanos → `homerun-exit`) y nómbralo en
+  UNA frase en `focus.note`, en su idioma, sin sermón. Rota: no repitas el mismo id 3 corridas
+  seguidas salvo que el journal lo siga mostrando.
+- **Línea base de salidas**: cuando el plan tenga un objetivo lejano (TP2/runner), cita una vez
+  `exitBaseline.readout` resumido (p. ej. "solo ~4.5 % de las entradas llegan a TP2: cobra en
+  TP1"). Si `exitBaseline.asOf` tiene > 30 días, dilo como "dato de <fecha>".
+- Si falta el archivo, sigue sin él y anótalo en `dataHealth` ("sin trader-profile").
+
 ---
 
 ## 5 · Estimado de movimiento de la sesión
@@ -1055,10 +1078,16 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
     día de ayer los tuvo, el `focus.note` del plan de HOY abre recordando el circuit-breaker
     (2 pérdidas → fuera) antes que cualquier setup. Si se repiten ≥3 días de la ventana,
     dilo en `narrative` como patrón, no como incidente aislado.
+  - **Salidas** (si `byDay` de ayer trae `positions`): una línea de autopsia de salidas:
+    "<partials>/<positions> con parcial · <scratches> en BE sin cobrar · <fullStops> SL completos
+    · W/L pts <wlPtsRatio>". Si `scratches + fullStops` > `partials` → es la fuga
+    `homerun-exit` del perfil: nómbrala y compárala con `exitBaseline` ("~31 % de los SL
+    estuvieron +0.5R antes; un parcial en TP1 los cobra"). `wlPtsRatio` < 1 con winrate bajo =
+    corta ganadores o deja correr perdedores; dilo. Sin estos campos: "sin datos de salida".
   - **Comparación con la ventana**: ¿ayer fue mejor o peor que la media rodante de
     `scorecard.execution.ALL` en disciplina y contra-sesgo? Una línea con ▲/▼.
   - Escribe/actualiza `scorecard.execution` (`ALL` + `<SYM>` si el journal separa) =
-    `{days,n,withBias,againstBias,validEdge,outsideEdge,disciplinedPct,note}` con ventana
+    `{days,n,withBias,againstBias,validEdge,outsideEdge,disciplinedPct,partialRate,scratchRate,note}` con ventana
     rodante ~45 días, para que la tendencia module cuán duro insistes en el anti-fuga.
     NUNCA inventes ejecución: si falta `live/journal.json` o un día no está en `byDay`, di
     "sin datos de ejecución" y califica solo la predicción.
@@ -1250,6 +1279,13 @@ clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
    - **Ejecución de la semana** (de `journal.json`): días disciplinados / 5, `againstBiasRate`
      y `outsideEdgeRate` del rollup con ▲/▼, días de `overtrade`/`revenge`, la racha de
      pérdidas peor. Una frase sobre si la disciplina mejora o empeora y qué fuga manda.
+     Si el rollup trae `partialRate`/`scratchRate`, añade la calidad de salida con ▲/▼.
+   - **Perfil del trader** (`state/trader-profile.json`, solo bloque `observed`): reescríbelo
+     con la ventana de la semana: `{ updatedBy:"weekly <sábado>", window, disciplinedPct,
+     againstBiasRate, outsideEdgeRate, trend:{es,en}, exitQuality:{partialRate,scratchRate,
+     fullStopRate}|null }`. Actualiza también `updatedAt` del archivo. NO toques ningún otro
+     bloque. Si la ejecución de la semana contradice un `patterns[]` (p. ej. 3 semanas sin
+     revenge) o sugiere uno nuevo, NO lo edites: déjalo en `## Propuestas de método`.
    - **Qué se repitió**: el patrón o la fuga que volvió a aparecer (ej. "3ª semana seguida
      en que ES Londres deja WAIT que habría pagado ≥1R"; "GC pre-NY sobre-estima el rango
      los martes").
