@@ -22,6 +22,8 @@ con `RUN_TYPE=<el que faltó>`. Mismas reglas, mismos archivos, mismo commit.
      `"catch-up: "` (para que se vea que salió tarde y por qué).
    - `state/sa-state.json` (merge, nunca reemplazo)
    - solo pre-asia: `reviews/<AYER>.md`
+6b. `python3 method/check_plan.py` tiene que dar `OK personalization` antes del commit
+   (campo `personal`, sección 4.1). Si falla, arregla y repite.
 7. Commit con el MISMO mensaje que la rutina original, más el sufijo:
    `git add -A && git commit -m "sa <RUN_TYPE> <HOY> (catch-up)"` y el bucle de push
    habitual (6 intentos, `sleep 5`). Verifica `git log origin/main -1 --oneline`.

@@ -940,6 +940,21 @@ El plan no es para "un trader", es para Jesus. Con el perfil:
   TP1"). Si `exitBaseline.asOf` tiene > 30 días, dilo como "dato de <fecha>".
 - Si falta el archivo, sigue sin él y anótalo en `dataHealth` ("sin trader-profile").
 
+**Campo obligatorio `personal`** (nivel raíz del plan, todas las corridas salvo weekly):
+
+```
+"personal": {
+  "patternId": "<un id de trader-profile.patterns>",
+  "note":    { "es": "<1 frase: el patrón de hoy y qué hacer>", "en": "..." },
+  "capLine": { "es": "Objetivo del día ≤ $<dailyCapForConsistency> (consistencia) · máx <maxTrades> trades · <stopAfterLosses> SL y fuera", "en": "..." }
+}
+```
+
+`focus.note` puede citarlo, pero `personal` es la fuente. **Antes del commit corre
+`python3 method/check_plan.py`**: si falla, arregla lo que diga y vuelve a correrlo hasta
+`OK personalization`. No subas un plan que no pase. (Lo verifica también el método:
+`play.scale` de cada zona GO con 2 precios y "BE" solo DESPUÉS del parcial.)
+
 ---
 
 ## 5 · Estimado de movimiento de la sesión
