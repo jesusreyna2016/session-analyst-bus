@@ -1,10 +1,13 @@
 {
   "schema": "trader-profile-1",
   "note": "Shared profile of the trader, read by every agent (Session Analyst, Scalp CC, Plan Coach, Watchdog). Behavioral and rule data only: no balances, no P&L, no personal life. Humans own `core` and `account`; the weekly run may only rewrite `observed`.",
-  "updatedAt": "2026-10-10T16:00:00Z",
+  "updatedAt": "2026-10-10T21:00:00Z",
   "core": {
-    "instruments": ["NQ", "MNQ"],
-    "mainSession": "Asia (20:00-23:00 CT), NY open secondary",
+    "instruments": [
+      "NDX-USD-PERP (Vest, 50x) = same market as NQ",
+      "ETH-PERP (Vest, 15x)"
+    ],
+    "mainSession": "24/7 perps; holds overnight. NQ levels of the plan apply to NDX",
     "minTimeframe": "5m",
     "tools": "EMA 20/50 + VWAP + volume profile (VAH/POC/VAL) + key levels (PDH/PDL, DO/TDO, PWH/PWL)",
     "edge": {
@@ -14,14 +17,28 @@
   },
   "patterns": [
     {
+      "id": "size-escalation",
+      "since": "2026-10-06",
+      "es": "Tras un ganador grande o por frustración al devolver ganancia abierta, reentra con tamaño récord (notional máximo $41k el 2 oct, $114k el 9 oct). A partir de $80k pierde. Es la fuga principal en Vest.",
+      "en": "After a big winner, or out of frustration at giving back open profit, he re-enters at record size (max notional $41k on Oct 2, $114k on Oct 9). From $80k up he loses. Main leak on Vest."
+    },
+    {
+      "id": "no-stop-averaging",
+      "since": "2026-10-06",
+      "es": "Opera a 50x sin stop en el libro y promedia en contra con añadidos. Hasta ahora salió bien; un solo movimiento fuerte puede llevarse la cuenta.",
+      "en": "Trades 50x with no resting stop and averages against with adds. It has worked so far; one hard move can take the account."
+    },
+    {
       "id": "revenge-after-sl",
       "es": "Tras un SL reentra sin pausa y sube tamaño (revenge-sizing). Regla: pausa obligatoria + escribir el setup tras CUALQUIER salida.",
-      "en": "After a stop he re-enters without a pause and sizes up. Rule: mandatory pause + write the setup after ANY exit."
+      "en": "After a stop he re-enters without a pause and sizes up. Rule: mandatory pause + write the setup after ANY exit.",
+      "scope": "prop-era pattern. On Vest re-entries and flips are net positive: flag it ONLY when the re-entry comes with bigger size."
     },
     {
       "id": "euphoria-after-win",
       "es": "Tras un ganador grande gira de dirección a full size (18 sep: +1494 y luego -275 en 2 min). La pausa aplica también tras ganar.",
-      "en": "After a big winner he flips direction at full size. The pause also applies after a win."
+      "en": "After a big winner he flips direction at full size. The pause also applies after a win.",
+      "scope": "prop-era pattern. On Vest re-entries and flips are net positive: flag it ONLY when the re-entry comes with bigger size."
     },
     {
       "id": "se-me-escapa",
@@ -36,13 +53,14 @@
     },
     {
       "id": "overtrade-chop",
-      "es": "Días de 30-370 trades operando el chop; los días buenos son de pocos trades en nivel (25 sep: 11 trades, 8 con edge).",
-      "en": "30-370 trade days churning the chop; good days are few trades at a level."
+      "es": "En rango estrecho encadena giros y pierde (9 oct: 16 trades en ~90 pts de rango). El giro gana en tendencia, pierde en rango: si el día es de rango, menos tamaño, no menos trades por regla.",
+      "en": "In a tight range he chains flips and loses. Flipping wins in trend, loses in range: on a range day cut size, do not cap trade count by rule."
     },
     {
       "id": "account-chasing",
       "es": "Tras perder cuentas compra otras bajo urgencia para recuperar rápido. Cualquier plan que suene a 'recuperar hoy' es una alerta.",
-      "en": "After losing accounts he rebuys under urgency to recover fast. Any plan that sounds like 'recover today' is a red flag."
+      "en": "After losing accounts he rebuys under urgency to recover fast. Any plan that sounds like 'recover today' is a red flag.",
+      "scope": "dormant: no prop accounts now. Watch for it if he talks about buying evaluations again."
     }
   ],
   "exitPlan": {
@@ -52,31 +70,68 @@
   "exitBaseline": {
     "source": "scalp-cc-bus outcomes, all kinds and TFs",
     "asOf": "2026-10-10",
-    "NQ": { "n": 4699, "hit1R": 0.326, "stoppedOut": 0.465, "slWasGreenHalfRFirst": 0.306, "slWasGreen1RFirst": 0.107, "reachedTP2": 0.043 },
+    "NQ": {
+      "n": 4699,
+      "hit1R": 0.326,
+      "stoppedOut": 0.465,
+      "slWasGreenHalfRFirst": 0.306,
+      "slWasGreen1RFirst": 0.107,
+      "reachedTP2": 0.043
+    },
     "readout": {
       "es": "Solo ~33% de las entradas llega a 1R y apenas ~4.3% llega a TP2: el home run sigue siendo raro. ~31% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta.",
       "en": "Only ~33% of entries reach 1R and barely ~4.3% reach TP2: the home run is still rare. ~31% of stops were +0.5R green first before getting hit: the early partial is still the missing lever."
     }
   },
   "account": {
-    "confirmedAt": "2026-09-27",
-    "firm": "MFF",
-    "plan": "Rapid evaluation",
-    "profitTarget": 1500,
-    "consistencyRule": "best day <= 50% of total profit",
-    "dailyCapForConsistency": 700,
-    "minWinningDaysAfterRedDay": 3,
+    "confirmedAt": "2026-10-10",
+    "firm": "Vest",
+    "plan": "perps, own capital (no prop account left)",
+    "leverage": {
+      "NDX": 50,
+      "ETH": 15
+    },
+    "consistencyRule": null,
+    "profitTarget": null,
+    "sizeCapNotionalUsd": 80000,
+    "evidence": {
+      "asOf": "2026-10-10",
+      "trades": 128,
+      "under80k": {
+        "n": 65,
+        "winPct": 62,
+        "medianHoldMin": 79,
+        "result": "positive"
+      },
+      "at80kOrMore": {
+        "n": 43,
+        "winPct": 35,
+        "medianHoldMin": 36,
+        "result": "negative, also in points"
+      },
+      "mechanicalBrakes": "simulated stop-after-N-losses, 30-120 min pauses and close-after-big-win: ALL reduced the result. Do not recommend them."
+    },
     "note": {
-      "es": "Por la consistencia del 50%, el plan es 3-4 días verdes de ~650-700, nunca 'recuperar en 2 días'. Confirmar con Jesus si cambia de cuenta.",
-      "en": "Because of the 50% consistency rule the plan is 3-4 green days of ~650-700, never 'recover in 2 days'. Confirm with Jesus if the account changes."
+      "es": "Sin regla de consistencia ni objetivo diario. El riesgo real es el tamaño: el notional máximo escala cada día, no hay stop en el libro y promedia en contra. Es su único capital.",
+      "en": "No consistency rule or daily target. The real risk is size: max notional climbs daily, no resting stop, averages against. This is his only capital."
     }
   },
   "dailyRules": {
-    "maxTrades": 3,
-    "stopAfterLosses": 2,
+    "capLine": {
+      "es": "Tamaño ≤ $80k de notional por posición · stop puesto en el libro al entrar · no añadir a una posición perdedora",
+      "en": "Size ≤ $80k notional per position · resting stop in the book at entry · no adding to a losing position"
+    },
+    "capLineMust": [
+      "80k",
+      "stop"
+    ],
     "entryOnlyIf": {
       "es": "Precio en un nivel del plan Y a favor del sesgo Y con gatillo.",
       "en": "Price at a plan level AND with the bias AND on a trigger."
+    },
+    "doNotRecommend": {
+      "es": "Tope de número de trades, pausas obligatorias, 'N pérdidas y fuera' o cerrar sesión tras un ganador: en Vest su estilo de girar la posición (stop-and-reverse) gana y esos frenos le restan.",
+      "en": "Trade-count caps, forced pauses, 'N losses and out' or closing the session after a winner: on Vest his stop-and-reverse style wins and those brakes cost him."
     }
   },
   "observed": {

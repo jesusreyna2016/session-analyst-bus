@@ -107,7 +107,7 @@ working dir. Trabajas con archivos, no con HTTP.
 - `state/sa-state.json` — tu historial acumulado: `{ instructions, settings, narrative, models:{NQ,ES,GC,YM,CL}, zones, scorecard, reviews:{<fecha>:md}, dayThesis:{<fecha>:md}, plans:{<fecha>-<sesion>:obj}, planLatest }`. `settings` = config de Jesus (p.ej. `dailyLossLimitUsd`); si falta, sigue sin ella. `scorecard` incluye los sub-objetos de calibración (sección 6).
 - `live/market.json` — `{ builtAt, feed, news }`. `feed` = lo de la sección 2 (NQ/ES/GC/YM/CL con orb/3reads/drbias/srzones/htfzones/command). `news` = calendario económico. Netlify lo refresca cada 5 min; si `builtAt` tiene >90 min en día hábil, márcalo "datos rezagados".
 - `live/journal.json` — OPCIONAL (puede faltar). Digest DE-IDENTIFICADO de la EJECUCIÓN real de Jesus, publicado por su journal (sin $/P&L/balance). `{ schema:"journal-digest-1", updatedAt, window:{days}, rollup, byDay:[...] }`. `rollup` = `{ days, disciplinedPct, avgTradesPerDay, gradedTrades, againstBiasRate, outsideEdgeRate, overtradeDays, revengeDays }`. Cada `byDay` = `{ date, trades, disciplined, maxLossStreak, overtrade, revenge, roundTrip, graded, withBias, againstBias, validEdge, outsideEdge }`. Es lo que Jesus HIZO, no lo que tú predijiste. Úsalo en la calificación pre-asia (sección 6) para medir plan-vs-ejecución y afinar los recordatorios anti-fuga del plan. Desde 2026-10-05 cada `byDay` puede traer además **calidad de salida**: `positions` (posiciones, fills agrupados), `partials` (escaló y el primer tramo cerró en verde), `scratches` (cerró en ±4 ticks = BE sin cobrar), `fullStops` (pérdida de un solo tramo), `wlPtsRatio` (pts medios ganador / pts medios perdedor, sin $); y el `rollup` trae `positions`, `partialRate`, `scratchRate`, `fullStopRate`. Días viejos los traen en `null`: no los inventes.
-- `state/trader-profile.json` — **OBLIGATORIO leerlo en CADA corrida.** Perfil compartido de Jesus: `core.edge`, `patterns[]` (fugas con id), `exitPlan`, `exitBaseline` (tasas reales de 1R/TP2 del agente Scalp CC), `account` (reglas de la cuenta en evaluación: objetivo, consistencia, `dailyCapForConsistency`) y `dailyRules` (`maxTrades`, `stopAfterLosses`). Es lo que convierte tu plan genérico en un plan PARA ÉL (sección 4.1). Solo la corrida `weekly` puede reescribir su bloque `observed`; `core`, `patterns`, `exitPlan`, `account` y `dailyRules` NO los toques nunca.
+- `state/trader-profile.json` — **OBLIGATORIO leerlo en CADA corrida.** Perfil compartido de Jesus: `core.edge`, `patterns[]` (fugas con id), `exitPlan`, `exitBaseline` (tasas reales de 1R/TP2 del agente Scalp CC), `account` (la cuenta que opera HOY y sus reglas; cambia con el tiempo) y `dailyRules` (`capLine` a copiar tal cual, `capLineMust`, `doNotRecommend`). Es lo que convierte tu plan genérico en un plan PARA ÉL (sección 4.1). Solo la corrida `weekly` puede reescribir su bloque `observed`; `core`, `patterns`, `exitPlan`, `account` y `dailyRules` NO los toques nunca.
 
 **Escribes** (y luego haces `git add -A && git commit && git push`):
 - `plans/latest.json` — el plan de esta corrida (schema sección 7).
@@ -926,10 +926,14 @@ El plan no es para "un trader", es para Jesus. Con el perfil:
   niveles reales: TP1 = primer nivel a favor o 1R (el que llegue antes), parcial 1/2 o 2/3
   ahí, y "BE solo DESPUÉS del parcial" (nunca "mueve a BE" antes de cobrar). TP2 = el siguiente
   nivel, objetivo fijo. Si entre entrada y TP1 hay < 1R de recorrido, la zona no es A+.
-- **Tope por la cuenta**: si `account` existe, `focus.note` del plan del día cierra con una
-  línea tipo "Objetivo del día ≤ $<dailyCapForConsistency> (consistencia <regla>) · máx
-  <maxTrades> trades · <stopAfterLosses> SL → fuera". Nunca propongas "recuperar" ni objetivos
-  que rompan la regla de consistencia.
+- **Regla de la cuenta**: `personal.capLine` = `dailyRules.capLine` del perfil, copiada tal
+  cual (hoy: tamaño máximo de notional + stop en el libro + no añadir a perdedora). La cuenta
+  cambia (prop con consistencia, Vest con capital propio…), así que NUNCA la escribas de
+  memoria ni uses `settings.dailyLossLimitUsd`: lee el perfil. Respeta `dailyRules.doNotRecommend`:
+  si dice que topes de trades, pausas o "N pérdidas y fuera" le restan, no los propongas en
+  `focus.note`, `summary` ni recordatorios, aunque el journal marque `overtrade`/`revenge`.
+  Nunca propongas "recuperar". Si `account.sizeCapNotionalUsd` existe, el sizing del plan
+  (`risk`) se expresa contra ese tope, no contra un límite de pérdida diario.
 - **Patrones**: elige el `patterns[].id` más relevante para HOY (por el journal de ayer o el
   tipo de día: rango/chop → `overtrade-chop`; tendencia fuerte que se va sin él →
   `se-me-escapa`; día de rango amplio con objetivos lejanos → `homerun-exit`) y nómbralo en
@@ -946,7 +950,7 @@ El plan no es para "un trader", es para Jesus. Con el perfil:
 "personal": {
   "patternId": "<un id de trader-profile.patterns>",
   "note":    { "es": "<1 frase: el patrón de hoy y qué hacer>", "en": "..." },
-  "capLine": { "es": "Objetivo del día ≤ $<dailyCapForConsistency> (consistencia) · máx <maxTrades> trades · <stopAfterLosses> SL y fuera", "en": "..." }
+  "capLine": { "es": "<dailyRules.capLine.es del perfil, tal cual>", "en": "<dailyRules.capLine.en>" }
 }
 ```
 

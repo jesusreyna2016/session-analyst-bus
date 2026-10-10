@@ -28,7 +28,6 @@ def main():
         return 0
 
     errs = []
-    acct = prof.get("account") or {}
     rules = prof.get("dailyRules") or {}
     ids = {p.get("id") for p in prof.get("patterns", [])}
 
@@ -44,12 +43,12 @@ def main():
         if not bi_ok(cap):
             errs.append("personal.capLine needs es + en")
         else:
-            es = cap["es"]
-            need = [str(acct.get("dailyCapForConsistency", "")), str(rules.get("maxTrades", "")),
-                    str(rules.get("stopAfterLosses", ""))]
-            for n in need:
-                if n and not re.search(rf"(?<!\d){re.escape(n)}(?!\d)", es):
-                    errs.append(f"personal.capLine.es must contain {n} (cap / maxTrades / stopAfterLosses from the profile)")
+            # the cap line is whatever the profile says today (account rules change):
+            # dailyRules.capLineMust lists the tokens that must survive in it
+            es = cap["es"].lower()
+            for tok in rules.get("capLineMust") or []:
+                if str(tok).lower() not in es:
+                    errs.append(f'personal.capLine.es must contain "{tok}" (copy dailyRules.capLine from the profile)')
 
     # every GO zone: scale with 2 prices, and no BE before the partial
     for sym, ins in (plan.get("instruments") or {}).items():
