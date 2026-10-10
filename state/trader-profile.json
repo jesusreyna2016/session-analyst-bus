@@ -1,7 +1,7 @@
 {
   "schema": "trader-profile-1",
   "note": "Shared profile of the trader, read by every agent (Session Analyst, Scalp CC, Plan Coach, Watchdog). Behavioral and rule data only: no balances, no P&L, no personal life. Humans own `core` and `account`; the weekly run may only rewrite `observed`.",
-  "updatedAt": "2026-10-05T20:00:00Z",
+  "updatedAt": "2026-10-10T16:00:00Z",
   "core": {
     "instruments": ["NQ", "MNQ"],
     "mainSession": "Asia (20:00-23:00 CT), NY open secondary",
@@ -50,12 +50,12 @@
     "en": "1) Write TP1 and TP2 before entry (plan levels). 2) Mandatory partial (1/2 or 2/3) at TP1 = first level or 1R, whichever comes first. 3) NO move to BE before the partial. 4) Runner goes to the next level with a fixed target, not 'wherever it goes'."
   },
   "exitBaseline": {
-    "source": "scalp-cc-bus outcomes, RETEST signals, all TFs",
-    "asOf": "2026-10-05",
-    "NQ": { "n": 4496, "hit1R": 0.34, "stoppedOut": 0.48, "slWasGreenHalfRFirst": 0.31, "slWasGreen1RFirst": 0.11, "reachedTP2": 0.045 },
+    "source": "scalp-cc-bus outcomes, all kinds and TFs",
+    "asOf": "2026-10-10",
+    "NQ": { "n": 4699, "hit1R": 0.326, "stoppedOut": 0.465, "slWasGreenHalfRFirst": 0.306, "slWasGreen1RFirst": 0.107, "reachedTP2": 0.043 },
     "readout": {
-      "es": "Solo ~1 de cada 3 entradas llega a 1R y apenas ~4.5% llega a TP2: el home run casi nunca paga. ~31% de los SL estuvieron +0.5R en verde antes: un parcial temprano convierte esos en ganancia.",
-      "en": "Only ~1 in 3 entries reaches 1R and ~4.5% reach TP2: the home run rarely pays. ~31% of stops were +0.5R green first: an early partial turns those into gains."
+      "es": "Solo ~33% de las entradas llega a 1R y apenas ~4.3% llega a TP2: el home run sigue siendo raro. ~31% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta.",
+      "en": "Only ~33% of entries reach 1R and barely ~4.3% reach TP2: the home run is still rare. ~31% of stops were +0.5R green first before getting hit: the early partial is still the missing lever."
     }
   },
   "account": {
@@ -80,14 +80,14 @@
     }
   },
   "observed": {
-    "updatedBy": "manual seed 2026-10-05 (weekly run rewrites this block)",
-    "window": "2026-09-18..2026-10-05",
+    "updatedBy": "weekly 2026-10-10",
+    "window": "2026-10-05..2026-10-09 (solo lunes con dato real; live/journal.json sin refrescar martes-viernes)",
     "disciplinedPct": 17,
     "againstBiasRate": 0.33,
     "outsideEdgeRate": 0.52,
     "trend": {
-      "es": "Bajó mucho el volumen de trades (de 80-370/día a 2-28). Persisten revenge y contra-sesgo. 5 oct: 2 trades, sin revenge, pero ambos contra sesgo y fuera de nivel.",
-      "en": "Trade count dropped a lot (80-370/day down to 2-28). Revenge and counter-bias persist. Oct 5: 2 trades, no revenge, but both counter-bias and off-level."
+      "es": "Segunda semana con el journal prácticamente congelado: solo el lunes 10-05 tiene ejecución real (2 trades, 100% contra-sesgo, 100% fuera de zona, sin revenge). Martes a viernes quedaron sin dato. El rollup de 18 días no se mueve (disciplinado 17%, contra-sesgo 33%, fuera de zona 52%) porque no entró ejecución nueva: la fuga dominante sigue siendo operar fuera de nivel, pero no hay muestra para decir si mejora o empeora esta semana.",
+      "en": "Second week with the journal essentially frozen: only Monday 10-05 has real execution (2 trades, 100% against-bias, 100% outside zone, no revenge). Tuesday through Friday had no data. The 18-day rollup didn't move (disciplined 17%, against-bias 33%, outside-edge 52%) because no new execution came in: the dominant leak is still off-level trading, but there's no sample to say if it's improving or worsening this week."
     },
     "exitQuality": null
   }
