@@ -975,7 +975,7 @@ El plan no es para "un trader", es para Jesus. Con el perfil:
 3. **Rango restante del día** = presupuesto − recorrido (`rangeToday`/`rangeNow`/`command.raw.dayRangePts`; contrasta con `command.raw.remPts` y `atrPctUsed`).
 4. **Salida por instrumento**:
    - **Corrección de calibración**: mira `scorecard.emCalibration["<SYM>|<sesion>"]`:
-     - `n ≥ 10` → multiplica base/baja/alta por su `mult` (0.7–1.4) y anótalo (`expectedMove.mult`).
+     - `n ≥ 10` → multiplica base/baja/alta por su `mult` (0.7–1.8) y anótalo (`expectedMove.mult`).
      - `5 ≤ n < 10` **y** `biasTk` con el mismo signo en toda la ventana (error consistente, no
        ruido) → corrección **provisional a media fuerza**: `mult_prov = 1 + 0.5·(mult − 1)`,
        recortado a 0.8–1.25; anótalo como `expectedMove.mult` + `" (provisional, n=X)"`.
@@ -1224,8 +1224,16 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
 - **`emCalibration`**: `{ "<SYM>|<sesion>": { n, meanErrTk, biasTk, mult, biasTkSign } }`.
   `biasTk` = media con signo de (realizado − predicho_base) en ticks; `biasTkSign` = `"+"`,
   `"-"` o `"mixto"` según si todas las muestras de la ventana comparten signo. Con `n ≥ 5`:
-  `mult = clamp(media_realizado / media_predicho_base, 0.7, 1.4)` (con `5 ≤ n < 10` la 5.4 solo
+  `mult = clamp(media_realizado / media_predicho_base, 0.7, 1.8)` (con `5 ≤ n < 10` la 5.4 solo
   aplica media fuerza y solo si `biasTkSign` ≠ `"mixto"`). → lo aplica la sección 5.4.
+  `media_predicho_base` es SIEMPRE la base ANTES de aplicar `mult` (reparto × presupuesto),
+  nunca la ya corregida, o el ajuste se persigue a sí mismo. Guarda además `multRaw` (el
+  cociente sin recortar) y `errPctAtr` = `meanErrTk` / ATR diario del símbolo en ticks × 100.
+  El tope era 1.4 hasta 2026-10-10: con NQ|asia, NQ|ny, ES|asia y ES|ny pegados a 1.4 el EM
+  salía corto de forma sistemática y no podía corregir más. Si una celda queda pegada a 1.8,
+  el problema ya no es de calibración sino del reparto por sesión (5.2): proponlo en el weekly.
+  **Comparar símbolos SIEMPRE por `errPctAtr`, nunca por ticks** (NQ mueve ~6× los ticks de ES;
+  460 tk en NQ y 73 tk en ES son el mismo ~24 % del rango diario).
 - **`convictionCalibration`**: `{ "<SYM>": { alta:{n,hits,rate}, media:{…}, baja:{…} } }` sobre
   acierto de sesgo. Si con `n ≥ 15` el `rate` de "alta" no supera al de "media" por ≥ 10 pts →
   anótalo en `models` y la sección 3.1 sube el listón de "alta" a 4 fuentes.
@@ -1305,6 +1313,8 @@ clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
      números nuevos (mismo tono, 1-2 frases). Si el archivo no está, deja `exitBaseline` como
      estaba y dilo. NO toques ningún otro bloque. Si la ejecución de la semana contradice un `patterns[]` (p. ej. 3 semanas sin
      revenge) o sugiere uno nuevo, NO lo edites: déjalo en `## Propuestas de método`.
+   - Al comparar la calibración de rango entre instrumentos usa `errPctAtr` (error como %
+     del ATR diario), nunca `emErrorTicks` en bruto: los ticks no son comparables entre símbolos.
    - **Qué se repitió**: el patrón o la fuga que volvió a aparecer (ej. "3ª semana seguida
      en que ES Londres deja WAIT que habría pagado ≥1R"; "GC pre-NY sobre-estima el rango
      los martes").
