@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-10-11T22:48:38Z",
+  "checkedAt": "2026-10-12T01:48:40Z",
   "status": "ok",
-  "snapshot": { "builtAt": "2026-10-11T22:45:12.170Z", "ageMin": 3, "state": "OK" },
-  "webhook": { "lastSeenMin": 4, "state": "ok" },
-  "news": { "ageMin": 3, "count": 18, "state": "ok" },
+  "snapshot": { "builtAt": "2026-10-12T01:45:11.920Z", "ageMin": 3, "state": "OK" },
+  "webhook": { "lastSeenMin": 3, "state": "ok" },
+  "news": { "ageMin": 33, "count": 18, "state": "ok" },
   "sa": { "lastRun": "2026-10-11T21:06:00Z", "runType": "pre-asia", "lateBy": null },
   "sources": {
     "NQ": {
@@ -15,20 +15,20 @@
       "command":  { "ageMin": 4, "state": "fresh" }
     },
     "ES": {
-      "orb":      { "ageMin": 9, "state": "fresh" },
-      "3reads":   { "ageMin": 9, "state": "fresh" },
-      "drbias":   { "ageMin": 9, "state": "fresh" },
-      "srzones":  { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command":  { "ageMin": 9, "state": "fresh" }
-    },
-    "GC": {
       "orb":      { "ageMin": 4, "state": "fresh" },
       "3reads":   { "ageMin": 4, "state": "fresh" },
       "drbias":   { "ageMin": 4, "state": "fresh" },
       "srzones":  { "ageMin": 4, "state": "fresh" },
       "htfzones": { "ageMin": 4, "state": "fresh" },
       "command":  { "ageMin": 4, "state": "fresh" }
+    },
+    "GC": {
+      "orb":      { "ageMin": 9, "state": "fresh" },
+      "3reads":   { "ageMin": 4, "state": "fresh" },
+      "drbias":   { "ageMin": 9, "state": "fresh" },
+      "srzones":  { "ageMin": 9, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command":  { "ageMin": 9, "state": "fresh" }
     },
     "YM": {
       "orb":      { "ageMin": 9, "state": "fresh" },
@@ -39,17 +39,17 @@
       "command":  { "ageMin": 9, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 9, "state": "fresh" },
-      "3reads":   { "ageMin": 9, "state": "fresh" },
-      "drbias":   { "ageMin": 9, "state": "fresh" },
-      "srzones":  { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command":  { "ageMin": 9, "state": "fresh" }
+      "orb":      { "ageMin": 4, "state": "fresh" },
+      "3reads":   { "ageMin": 4, "state": "fresh" },
+      "drbias":   { "ageMin": 4, "state": "fresh" },
+      "srzones":  { "ageMin": 4, "state": "fresh" },
+      "htfzones": { "ageMin": 4, "state": "fresh" },
+      "command":  { "ageMin": 4, "state": "fresh" }
     }
   },
   "issues": [],
   "note": {
-    "es": "mercado reabrio y el snapshot se recupero del corte del cron Netlify visto en los checks anteriores (builtAt a 3 min, las 5 franjas de ind-ingest y el orb a 4-9 min, webhook a 4 min); la pre-asia del domingo salio a tiempo (commit 21:38:46Z, heartbeat ok:true); el journal tambien se puso al dia (updatedAt hace 5.6h, cubre 10-02 a 10-11 sin huecos, ya no son los 140h/huecos de hace unas horas); zonas tacticas del plan latest todas con reach ratio <=1.03 y verdict WAIT con razon explicita de falta de gatillo, nada inalcanzable sin WAIT; todo fresco, 3 min",
-    "en": "market reopened and the snapshot recovered from the Netlify cron outage seen in earlier checks (builtAt at 3 min, all 5 ind-ingest feeds and orb at 4-9 min, webhook at 4 min); Sunday's pre-asia ran on time (commit 21:38:46Z, heartbeat ok:true); the journal also caught up (updatedAt 5.6h ago, covers 10-02 through 10-11 with no gaps, no longer the 140h/gaps seen a few hours ago); the latest plan's tactical zones are all reach ratio <=1.03 with an explicit WAIT verdict citing no trigger, nothing unreachable without a WAIT; all fresh, 3 min"
+    "es": "finde (domingo CT, mercado recien reabierto el domingo 17:00 CT): snapshot a 3 min, las 5 franjas de ind-ingest y orb entre 4-9 min, webhook a 3 min, todo fresco; pre-asia del domingo salio a tiempo (commit 21:06Z, heartbeat ok:true), este watchdog (franja 01:30) no vigila ninguna corrida; journal al dia (updatedAt hace 8.6h, cubre 10-02 a 10-11 sin huecos); PDH/PDL de orb identicos a los de command en los 5 simbolos, nada frozen; zona ES (ratio reach 1.03, borde-limite) tiene verdict WAIT explicito esperando el pullback 7826-7844, no cuenta como inalcanzable; manana lunes es feriado (Columbus Day, volumen bajo) y CPI cae el miercoles, fuera de alcance; todo fresco, 3 min",
+    "en": "weekend (Sunday CT, market just reopened Sunday 17:00 CT): snapshot at 3 min, all 5 ind-ingest feeds and orb between 4-9 min, webhook at 3 min, all fresh; Sunday's pre-asia ran on time (commit 21:06Z, heartbeat ok:true), this watchdog (01:30 slot) watches no run; journal up to date (updatedAt 8.6h ago, covers 10-02 through 10-11 with no gaps); orb PDH/PDL match command's exactly across all 5 symbols, nothing frozen; ES's zone (reach ratio 1.03, borderline) carries an explicit WAIT verdict waiting for the 7826-7844 pullback, doesn't count as unreachable; tomorrow Monday is a bank holiday (Columbus Day, low volume) and CPI lands Wednesday, outside scope; all fresh, 3 min"
   }
 }
