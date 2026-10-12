@@ -1,49 +1,74 @@
 {
- "date": "2026-10-12",
- "session": "ny",
- "runType": "pre-ny",
- "generatedAt": "2026-10-12T07:57:30-05:00",
+ "date": "2026-10-13",
+ "session": "asia",
+ "runType": "pre-asia",
+ "generatedAt": "2026-10-12T16:30:00-05:00",
  "schema": "sa-plan-2",
  "cleanest": "GC",
+ "focus": {
+  "sym": "GC",
+  "verdict": "GO",
+  "window": "19:00-23:00 CT",
+  "setup": {
+   "es": "A+8 cluster POC/EMA20/EMA50 + FVG 15m 4197.50-4200.80, CORTO a favor, precio ya en el borde",
+   "en": "A+8 POC/EMA20/EMA50 cluster + 15m FVG 4197.50-4200.80, SHORT with bias, price already at the edge"
+  },
+  "trigger": {
+   "es": "rechazo con cierre 5m de vuelta bajo 4197.50 tras tocar el FVG 15m, sin cierre sostenido sobre 4200.80+3tk (4201.40)",
+   "en": "rejection with a 5m close back below 4197.50 after tagging the 15m FVG, without a sustained close above 4200.80+3tk (4201.40)"
+  },
+  "invalid": {
+   "es": "cierre 5m sostenido sobre 4201.40",
+   "en": "5m close sustained above 4201.40"
+  },
+  "note": {
+   "es": "Marcos diario y semanal recien realineados a la baja, permiso de sesion activo -- pero el escenario A de GC solo acierta 29% en 20d, cobra el parcial en TP1 4178.1 antes de pensar en el runner, y no añadas si el precio va en contra.",
+   "en": "Daily and weekly frames just realigned to the downside, active session permission -- but GC's scenario A only hits 29% over 20d, bank the partial at TP1 4178.1 before thinking about the runner, and don't add if price goes against you."
+  }
+ },
  "alarm": {
-  "es": "GC: el escenario A sigue acertando solo 29% en 20 dias (n=55) y la prediccion de rango de GC tambien esta bajo el 40% (29%, n=34) -- no ancles el plan de GC solo en A. Hoy ademas GC extendio el giro bajista: nuevo minimo del dia 4178.1, bajo el nivel de ayer, con los dos marcos (diario y de sesion) ya alineados a la baja.",
-  "en": "GC: scenario A still hits only 29% over 20 days (n=55), and GC's range prediction is also under 40% (29%, n=34) -- don't anchor the plan on A alone. Today GC also extended the bearish turn: a new day low at 4178.1, below yesterday's level, with both the daily and session frames now aligned to the downside."
+  "es": "GC: el escenario A sigue acertando solo 29% en 20 dias (n=55) y la prediccion de rango tambien esta bajo el 40% (29%, n=34) -- no ancles el plan de GC solo en A. Hoy ademas sus marcos diario y semanal realinearon a la baja por primera vez tras 4+ sesiones de holdout, en medio de un intento fallido de confirmar el giro alcista (toco 4242.3 sin cierre sobre 4233.7).",
+  "en": "GC: scenario A still hits only 29% over 20 days (n=55), and the range prediction is also under 40% (29%, n=34) -- don't anchor the GC plan on A alone. Today its daily and weekly frames also realigned to the downside for the first time after a 4+ session holdout, in the middle of a failed attempt to confirm the bullish turn (tagged 4242.3 without closing above 4233.7)."
  },
  "dataHealth": {
   "snapshot": "OK",
-  "builtAtAgeMin": 12,
+  "builtAtAgeMin": 15,
   "stale": [],
-  "missing": [],
+  "missing": [
+   "orb@NQ",
+   "orb@ES",
+   "orb@GC",
+   "orb@YM",
+   "orb@CL"
+  ],
   "notes": {
-   "es": "Las 6 fuentes de los 5 instrumentos llegan frescas (~12 min); Londres ya cerro su tramo principal y el feed refleja el movimiento violento de la sesion.",
-   "en": "All 6 sources for the 5 instruments arrive fresh (~12 min); London's main stretch is done and the feed reflects the session's violent move."
+   "es": "Las 5 fuentes vivas (las lecturas de tendencia y el sesgo fusionado) llegan frescas (~15 min) para los 5 instrumentos justo tras el cierre de 16:00 CT. Una de las fuentes de fondo no trajo dato esta corrida en ningun simbolo (campo nulo en el feed) -- se sustituyen el sesgo semanal y de sesion y la zona de no-trade por las lecturas de tendencia diaria/semanal, el control de 1h/4h y el cluster POC/EMA/VWAP del sesgo fusionado, sin inventar esos datos.",
+   "en": "The 5 live sources (the trend reads and the fused bias) arrive fresh (~15 min) for all 5 instruments right after the 16:00 CT close. One of the background-frame sources returned no data this run for any symbol (null field in the feed) -- the weekly and session bias and the no-trade zone are substituted with the daily/weekly trend reads, the 1h/4h control reads and the fused bias's POC/EMA/VWAP cluster, without inventing that data."
   }
  },
  "calendarContext": {
   "tags": [
-   "feriado-lunes",
    "semana-CPI"
   ],
   "note": {
-   "es": "Lunes feriado (Columbus Day), volumen mas bajo de lo normal. CPI el miercoles 14-oct (12:30 UTC) sigue fuera de la ventana de NY de hoy, pero es el catalizador de la semana.",
-   "en": "Monday holiday (Columbus Day), lower than normal volume. CPI on Wednesday Oct 14 (12:30 UTC) is still outside today's NY window, but it's this week's catalyst."
+   "es": "CPI (core y headline) el miercoles 07:30 CT, PPI/Retail Sales/Philly Fed/Claims el jueves 07:30 CT -- ningun dato de alto impacto USD cae en la sesion de Asia ni en la apertura de Londres de hoy. API semanal de crudo mañana (martes) ~15:30 CT, EIA el jueves.",
+   "en": "CPI (core and headline) Wednesday 07:30 CT, PPI/Retail Sales/Philly Fed/Claims Thursday 07:30 CT -- no high-impact USD data falls in today's Asia session or London's open. Weekly crude API tomorrow (Tuesday) ~15:30 CT, EIA on Thursday."
   }
  },
  "newsRisk": {
   "level": "NINGUNA",
-  "session": "ny",
+  "session": "asia",
   "events": [],
   "note": {
-   "es": "Sin eventos de calendario en la sesion de NY de hoy; el proximo dato relevante es el CPI del miercoles, fuera de esta ventana. El EIA de crudo quedo confirmado para el jueves.",
-   "en": "No calendar events in today's NY session; the next relevant print is Wednesday's CPI, outside this window. The crude EIA print is confirmed for Thursday."
+   "es": "Sin eventos de alto o medio impacto USD en la ventana de Asia. El proximo catalizador real es CPI el miercoles.",
+   "en": "No high or medium impact USD events in the Asia window. The next real catalyst is CPI on Wednesday."
   }
  },
- "reviewYesterday": null,
  "personal": {
-  "patternId": "se-me-escapa",
+  "patternId": "homerun-exit",
   "note": {
-   "es": "CL ya extendio muy lejos de nivel (9A de estiramiento segun el sesgo fusionado) y GC/NQ siguen estirados tras el quiebre: si sientes que 'se te escapa', es señal de esperar el siguiente nivel, no de perseguir la vela que ya paso.",
-   "en": "CL already extended way past any level (9A stretch per the fused bias) and GC/NQ are still stretched after the break: if it feels like 'it's getting away from you', that's the cue to wait for the next level, not to chase the candle that already happened."
+   "es": "Los ultimos 3 dias con dato real (10-10 a 10-12) trajeron 0 parciales cobrados en 24 posiciones -- entra bien, no cobra nada en el camino, el pullback lo saca en stop. Si entras hoy en cualquier zona: cobra el parcial en TP1 ANTES de pensar en el runner.",
+   "en": "The last 3 days with real data (10-10 to 10-12) brought 0 partials banked across 24 positions -- good entries, nothing banked along the way, the pullback takes him out at stop. If you enter anything today: bank the partial at TP1 BEFORE thinking about the runner."
   },
   "capLine": {
    "es": "Tamaño ≤ $80k de notional por posición · stop puesto en el libro al entrar · no añadir a una posición perdedora",
@@ -57,20 +82,20 @@
    "conviction": "media",
    "prevDay": {
     "type": {
-     "es": "balance con triple ida y vuelta, sin romper ningun extremo",
-     "en": "balance with a triple round-trip, no extreme broken"
+     "es": "tendencia bajista cerrando en el extremo",
+     "en": "downtrend closing at the extreme"
     },
     "closedAt": {
-     "es": "en el cluster VAH/POC/VWAP, tercio medio del rango",
-     "en": "inside the VAH/POC/VWAP cluster, mid-third of the range"
+     "es": "en el 9% inferior de su rango, el cierre mas bajista de la serie",
+     "en": "in the bottom 9% of its range, the most bearish close of the series"
     },
     "prior": {
-     "es": "NEUTRAL, pesando ligeramente hacia continuacion del round-trip",
-     "en": "NEUTRAL, leaning slightly toward another round-trip"
+     "es": "CONTINUACION corto",
+     "en": "short CONTINUATION"
     },
     "note": {
-     "es": "el viernes toco cerca de VAL y remonto a 24pts de invalidar el corto sin lograrlo; cerro sin resolver de cara al domingo",
-     "en": "Friday poked near VAL and rallied to within 24pts of invalidating the short without doing it; closed unresolved heading into Sunday"
+     "es": "salvo reversal confirmado en la apertura de Asia",
+     "en": "unless a confirmed reversal at the Asia open"
     }
    },
    "gap": {
@@ -78,320 +103,265 @@
     "ticks": 89,
     "filled": true,
     "size": {
-     "es": "normal (pequeno)",
-     "en": "normal (small)"
+     "es": "grande",
+     "en": "large"
     },
     "note": {
-     "es": "El gap de apertura (22.25pts sobre el cierre del viernes) quedo cerrado del todo durante el quiebre de Londres: el minimo de hoy (31017.25) paso muy por debajo del cierre del viernes (31123.25).",
-     "en": "The opening gap (22.25pts above Friday's close) got fully closed during London's break: today's low (31017.25) traded well below Friday's close (31123.25)."
+     "es": "el gap de apertura de hoy (31145.50 vs cierre previo 31123.25) ya se llenó por completo durante el día; no queda como imán para la reapertura",
+     "en": "today's opening gap (31145.50 vs prior close 31123.25) was fully filled during the day; it does not remain a magnet for the reopen"
     }
    },
-   "weekendGap": null,
    "smt": {
-    "state": "ninguna",
+    "state": "alcista",
     "note": {
-     "es": "NQ, ES e YM hicieron minimo de ciclo nuevo juntos durante Londres (sin divergencia): los tres barrieron el minimo de Asia y el swing previo a la vez -- confirma el movimiento, no lo contradice.",
-     "en": "NQ, ES and YM made a new cycle low together during London (no divergence): all three swept Asia's low and the prior swing at the same time -- it confirms the move, it doesn't contradict it."
+     "es": "NQ hizo minimo nuevo de ciclo (30844.25) el mismo dia que YM hizo maximo nuevo (52182): cuidado con cortos nuevos sin confirmacion, favorece una reversion al alza si el complejo converge",
+     "en": "NQ made a new cycle low (30844.25) the same day YM made a new high (52182): be careful with fresh shorts without confirmation, favors an upside reversion if the complex converges"
     }
    },
    "frameConflict": {
-    "on": false,
+    "on": true,
     "note": {
-     "es": "El conflicto se RESOLVIO hoy hacia el bajista: Londres rompio el minimo de Asia (31124.50) sin reclamo (touchlog ONL 5 toques, 0 reclamos) hasta 31017.25, justo en el piso de la zona de descuento, con estructura BOS confirmada y 1h/4h ahora alineados bajistas. La tension con el score HTF (+3/+3) sigue viva pero solo como contra-caso, igual que en GC ayer.",
-     "en": "The conflict RESOLVED today to the bearish side: London broke Asia's low (31124.50) with no reclaim (touchlog: ONL 5 touches, 0 reclaims) down to 31017.25, right at the floor of the discount zone, with a confirmed BOS and 1h/4h now aligned bearish. The tension with the HTF score (+3/+3) is still alive but only as a counter-case, same as GC yesterday."
+     "es": "diario/semanal (el sesgo diario/semanal +3/+3) siguen alcistas sin realinear mientras la estructura de sesion (1h/4h) y el precio real estan tan bajistas como nunca; 4+ sesiones de holdout",
+     "en": "daily/weekly (el sesgo diario/semanal +3/+3) remain bullish without realigning while session structure (1h/4h) and real price are as bearish as ever; a 4+ session holdout"
     }
    },
    "whipsawRisk": {
-    "score": 0.35,
+    "score": 0.5,
     "note": {
-     "es": "El conflicto de marcos se resolvio y el dia ya tiene una resolucion neta (BOS confirmado, nuevo minimo sin reclamo); el riesgo que queda es el rebote tecnico ya en marcha (31017.25 a 31057.75), no un dia sin direccion.",
-     "en": "The frame conflict resolved and the day already has a net resolution (confirmed BOS, new low with no reclaim); the remaining risk is the technical bounce already under way (31017.25 to 31057.75), not a directionless day."
+     "es": "conflicto de marcos sigue abierto, pero el cierre de hoy fue limpio y direccional (no chop) -- riesgo medio, no alto",
+     "en": "frame conflict is still open, but today's close was clean and directional (not chop) -- medium, not high, risk"
     }
    },
    "thesisAlign": {
     "state": "ALIGN",
-    "daysHeld": 2,
+    "daysHeld": 3,
     "note": {
-     "es": "La tesis bajista se reafirma de la forma mas contundente de la serie: tras el 3er near-miss de ayer (0.75pts de invalidar), hoy el precio se alejo 232pts de 31290 rompiendo el minimo de Asia sin reclamo.",
-     "en": "The bearish thesis reasserts itself the strongest way yet in the series: after yesterday's 3rd near-miss (0.75pts from invalidating), today price moved 232pts away from 31290, breaking Asia's low with no reclaim."
+     "es": "el dia reforzo la tesis bajista con el cierre mas extremo de la serie, a solo 94pts de la confirmacion dura 30792",
+     "en": "today reinforced the bearish thesis with the series' most extreme close, only 94pts from the hard confirmation at 30792"
     }
    },
    "counterCase": {
-    "es": "alcista pese al corto: el score HTF diario/semanal sigue en +3/+3 sin invalidarse tecnicamente, y 31290 (la invalidacion) nunca se toco hoy -- technically sigue viva. Lo mantengo y degrado aun menos que antes: el precio se alejo de la invalidacion en vez de acercarse (0.75pts ayer vs 232pts hoy), y el quiebre de hoy fue estructural (BOS dn) con el 1h/4h de orb ya alineados bajistas por primera vez en la serie.",
-    "en": "bullish despite the short: the HTF daily/weekly score is still +3/+3, technically unbroken, and 31290 (the invalidation) was never tagged today -- it's technically still alive. I keep it and downgrade it even less than before: price moved AWAY from invalidation instead of toward it (0.75pts yesterday vs 232pts today), and today's break was structural (BOS dn) with orb's 1h/4h finally aligned bearish for the first time in the series."
+    "es": "alcista pese al corto: el sesgo diario y semanal de fondo sigue en +3/+3 sin realinear, y el SMT de hoy (NQ nuevo minimo, YM nuevo maximo) favorece una reversion al alza si el complejo converge hacia YM en vez de al reves; lo mantengo pero degrado un escalon la conviccion -- si Asia reclama el cluster VWAP/EMA200 30988-30994 con cierre sostenido, GIRA.",
+    "en": "bullish despite the short: the background daily/weekly bias is still +3/+3 without realigning, and today's SMT (NQ new low, YM new high) favors an upside reversion if the complex converges toward YM instead of the other way around; I keep it but downgrade conviction one notch -- if Asia reclaims the VWAP/EMA200 cluster 30988-30994 with a sustained close, it FLIPS."
    },
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "Conflicto de marcos resuelto y BOS confirmado, pero no hay A+ a tiro: el mejor nivel (FVG 1h/15m 31108.50-31155.25, con el day open 31145.50 dentro) solo puntua confluencia 4 (B) -- se perdio el nivel de perfil al recortar por el no-trade. El sesgo fusionado marca 5.2A de estiramiento pero la otra lectura esta casi plana (-0.24A, mismo patron discrepante de NQ/GC/ES/YM ya medido) asi que no es AVOID por perseguir; simplemente no hay edge limpio todavia, esperar la reaccion real en el borde.",
-     "en": "Frame conflict resolved and BOS confirmed, but there's no A+ within reach: the best level (1h/15m FVG 31108.50-31155.25, with the 31145.50 day open inside it) only scores confluence 4 (B) -- it lost the profile-level credit after trimming for the no-trade zone. Command flags 5.2A of stretch but the other stretch reading is near flat (-0.24A, the same discrepant pattern already measured across NQ/GC/ES/YM) so this isn't an AVOID-for-chasing call; there's just no clean edge yet, wait for the real reaction at the edge."
+     "es": "conflicto de marcos abierto bloquea el GO; la unica zona a tiro (POC/EMA20/EMA50 30879-30891, confluencia 5) es B, no A+ -- perdio el credito de nivel de perfil tras recortar el cluster, y el sesgo fusionado hoy esta NEUTRAL/DEBIL, sin permiso de sesion. Hay un FVG alcista 15m 30876.00-30881.75 pegado justo debajo del cluster: soporte blando, vigila que no sostenga el precio antes de buscar la ruptura.",
+     "en": "open frame conflict blocks GO; the only level within reach (POC/EMA20/EMA50 30879-30891, confluence 5) is B, not A+ -- it lost profile-level credit after trimming the cluster, and today the fused bias is NEUTRAL/WEAK, with no session permission. There's a bullish 15m FVG at 30876.00-30881.75 right under the cluster: soft support, watch that it doesn't hold price up before the breakdown."
     }
    },
    "context": {
-    "es": "Londres hizo lo que el plan de madrugada temia en el escenario B pero al reves de lo esperado: en vez de romper 31290 al alza, rompio con fuerza real el minimo de Asia (31124.50) sin reclamo hasta 31017.25 -- justo en el piso de la zona de descuento (31017.25-31106.00) -- antes de rebotar a 31057.75. el sesgo fusionado se enfrio a NEUTRAL/DEBIL (lectura discordante: 5.2A de estiramiento por un lado, casi plano por el otro). Estructura bajista confirmada (BOS dn), 1h/4h ya bajistas alineados.",
-    "en": "London did what the overnight plan feared in scenario B, just backwards from what was expected: instead of breaking 31290 to the upside, it broke Asia's low (31124.50) hard with no reclaim down to 31017.25 -- right at the floor of the discount zone (31017.25-31106.00) -- before bouncing to 31057.75. The fused bias cooled to NEUTRAL/WEAK (a discordant read: 5.2A of stretch on one side, near flat on the other). Bearish structure confirmed (BOS dn), orb's 1h/4h now aligned bearish."
+    "es": "Precio cierra pegado al cluster POC/EMA20/EMA50 (30879-30891), zona de equilibrio tras el dia mas bajista de la serie. El sesgo diario/semanal de fondo sigue alcista (+3/+3) sin realinear -- usamos las lecturas de tendencia en lugar de la fuente de fondo (ausente esta corrida) para el sesgo de fondo y de sesion. La zona de no-trade equivalente (aproximada a partir de los niveles de descuento/medio/premium del sesgo fusionado) es 30895-30985. Sin llamada de alta conviccion hoy en NQ -- el conflicto de marcos abierto deja todas las probabilidades cerca de 0.5-0.6.",
+    "en": "Price closes glued to the POC/EMA20/EMA50 cluster (30879-30891), an equilibrium zone after the series' most bearish day. The background daily/weekly bias is still bullish (+3/+3) without realigning -- using the trend reads instead of the background-frame source (absent this run) for the background and session bias. The equivalent no-trade zone (approximated from the fused bias's discount/mid/premium levels) is 30895-30985. No high-conviction call today for NQ -- the open frame conflict keeps every probability near 0.5-0.6."
    },
    "scenarioA": {
     "text": {
-     "es": "NY rebota al cluster FVG 1h/15m 31108.50-31155.25 (con el day open 31145.50 dentro) y lo rechaza, continuando hacia el minimo de hoy y el PDL",
-     "en": "NY bounces into the 1h/15m FVG cluster 31108.50-31155.25 (with the 31145.50 day open inside it) and rejects it, continuing toward today's low and the PDL"
+     "es": "Asia rechaza el cluster POC/EMA20/EMA50 30879-30891 y rompe VAL/PDL/swing low 30844.25 directo, sin pullback, extendiendo hacia la extension fresca 30832 y la confirmacion dura 30792",
+     "en": "Asia rejects the POC/EMA20/EMA50 cluster 30879-30891 and breaks VAL/PDL/swing low 30844.25 directly, with no pullback, extending toward the fresh 30832 extension and the hard 30792 confirmation"
     },
     "trigger": {
-     "es": "rechazo con cierre 5m de vuelta bajo 31108.50 tras tocar el cluster, sin cierre sostenido sobre 31156 (techo del FVG 1h +3tk)",
-     "en": "rejection with a 5m close back below 31108.50 after tagging the cluster, without a sustained close above 31156 (1h FVG high +3tk)"
+     "es": "cierre 5m de vuelta bajo 30879 tras cualquier mecha hacia el cluster, con ruptura de 30844.25",
+     "en": "5m close back below 30879 after any wick into the cluster, with a break of 30844.25"
     },
-    "target": 31017.25,
-    "target2": 30953,
+    "target": 30832,
+    "target2": 30792,
     "entryZone": [
-     31091.75,
-     31129.52
+     30879,
+     30891
     ]
    },
    "scenarioB": {
     "text": {
-     "es": "el rebote no se detiene: cierre 5m sostenido sobre 31156 revive el intento alcista hacia el cluster POC/TDO 31224-31234 y 31290",
-     "en": "the bounce doesn't stop: a 5m close sustained above 31156 revives the bullish attempt toward the POC/TDO cluster 31224-31234 and 31290"
+     "es": "el rebote no se detiene: cierre 5m sostenido sobre 30905 (EMA50+colchon) revive el intento alcista hacia el cluster VWAP/EMA200 30988-30994",
+     "en": "the bounce doesn't stop: a 5m close sustained above 30905 (EMA50+cushion) revives the bullish attempt toward the VWAP/EMA200 cluster 30988-30994"
     },
     "trigger": {
-     "es": "cierre 5m sostenido sobre 31156",
-     "en": "5m close sustained above 31156"
+     "es": "cierre 5m sostenido sobre 30905",
+     "en": "5m close sustained above 30905"
     },
     "zone": [
-     31156,
-     31234
+     30905,
+     30994
     ]
    },
    "invalidation": {
     "text": {
-     "es": "cierre 5m sostenido sobre 31290 revive el alcista (el nivel nunca se toco hoy); cierre 5m sostenido bajo 30792 confirma del todo el bajista",
-     "en": "5m close sustained above 31290 revives the bullish case (the level was never tagged today); 5m close sustained below 30792 fully confirms the bearish one"
+     "es": "cierre 5m sostenido sobre 31290 revive el alcista; cierre 5m sostenido bajo 30792 confirma del todo el bajista (el nivel mas cerca que ha estado nunca, 94pts)",
+     "en": "5m close sustained above 31290 revives the bullish case; 5m close sustained below 30792 fully confirms the bearish one (the closest it has ever been, 94pts)"
     },
-    "level": 31290
+    "level": 30792
    },
    "predictions": [
     {
      "id": "NQ-1",
      "kind": "range",
-     "resolveAt": "cierre NY (~15:00 CT)",
+     "resolveAt": "cierre Asia ~01:00 CT",
      "prob": null,
      "text": {
-      "es": "rango de NY entre 109 y 235 pts (medido desde el open de la sesion)",
-      "en": "NY range between 109 and 235 pts (measured from the session open)"
+      "es": "rango de Asia entre 91 y 196 pts",
+      "en": "Asia range between 91 and 196 pts"
      }
     },
     {
      "id": "NQ-2",
      "kind": "level_first",
-     "resolveAt": "cierre NY",
-     "prob": 0.66,
+     "resolveAt": "cierre Asia",
+     "prob": 0.62,
      "text": {
-      "es": "toca antes el minimo de hoy 31017.25 (reach corto) que un cierre sostenido sobre 31156",
-      "en": "tags today's 31017.25 low (short reach) before a sustained close above 31156"
+      "es": "toca antes la ruptura de VAL/PDL 30844.25 que un cierre sostenido sobre 30905",
+      "en": "tags the VAL/PDL 30844.25 break before a sustained close above 30905"
      }
     },
     {
      "id": "NQ-3",
-     "kind": "scenario",
-     "resolveAt": "cierre NY",
+     "kind": "conditional",
+     "resolveAt": "cierre Asia",
      "prob": 0.58,
      "text": {
-      "es": "se activa el escenario A (rechazo del rebote en 31108.50-31155.25) antes que el B (revive sobre 31156)",
-      "en": "scenario A (rebound rejection at 31108.50-31155.25) activates before scenario B (revives above 31156)"
+      "es": "si Asia rompe 30844.25, el dia cierra probando la confirmacion 30792 de frente",
+      "en": "if Asia breaks 30844.25, the day closes testing the 30792 confirmation head-on"
      }
     },
     {
      "id": "NQ-4",
-     "kind": "conditional",
-     "resolveAt": "cierre NY",
-     "prob": 0.6,
+     "kind": "level_first",
+     "resolveAt": "cierre Asia",
+     "prob": 0.55,
      "text": {
-      "es": "si NY rechaza el cluster 31108.50-31155.25, el dia cierra bajo 31017.25",
-      "en": "if NY rejects the 31108.50-31155.25 cluster, the day closes below 31017.25"
+      "es": "toca antes 30832 (extension fresca) que el cluster VWAP/EMA200 30988-30994",
+      "en": "tags 30832 (fresh extension) before the VWAP/EMA200 cluster 30988-30994"
      }
     }
    ],
    "zones": [
     {
      "range": [
-      31091.75,
-      31129.52
+      30879,
+      30891
      ],
      "dir": "SHORT",
-     "type": "retest_break",
-     "confluence": 4,
+     "type": "pullback_cont",
+     "confluence": 5,
+     "distPts": 0,
+     "distTicks": 0,
+     "winRate": 0.6,
+     "winSource": "leaf",
+     "winN": 11,
+     "n": 11,
      "role": "tactical",
      "reach": {
-      "distPts": 34.0,
-      "budgetPts": 182.5,
-      "ratio": 0.186,
+      "distPts": 0,
+      "budgetPts": 140,
+      "ratio": 0.0,
       "class": "TACTICAL"
      },
-     "distPts": 34.0,
-     "distTicks": 136,
-     "winRate": 0.5615,
-     "winSource": "symType",
-     "winN": 9.0,
-     "n": 1,
-     "fvg": [
-      {
-       "tf": "1h",
-       "dir": "bear",
-       "range": [
-        31116.0,
-        31155.25
-       ],
-       "weight": 2,
-       "role": {
-        "es": "gatillo + invalidacion",
-        "en": "trigger + invalidation"
-       }
-      },
-      {
-       "tf": "15m",
-       "dir": "bear",
-       "range": [
-        31108.5,
-        31138.75
-       ],
-       "weight": 1,
-       "role": {
-        "es": "confluencia",
-        "en": "confluence"
-       }
-      }
-     ],
+     "fvg": [],
      "risk": {
-      "stopPts": 26.5,
-      "stopTk": 106,
-      "stopUsd": 530,
-      "tgtPts": 112.27,
-      "tgtTk": 449,
-      "tgtUsd": 2245,
-      "rr": 4.2,
+      "stopPts": 20,
+      "stopTk": 80,
+      "stopUsd": 400,
+      "tgtPts": 93,
+      "tgtTk": 372,
+      "tgtUsd": 1860,
+      "rr": 4.7,
       "flag": "OK",
-      "maxContracts": null
+      "maxContracts": 0
      },
      "play": {
-      "window": "08:30-11:30 CT",
+      "window": "19:00-23:00 CT",
       "trigger": {
-       "es": "si sube al cluster FVG 1h/15m 31108.50-31155.25 (day open 31145.50 dentro) sin cierre 5m sostenido encima, tras el quiebre confirmado de hoy bajo el minimo de Asia -- esperar el rechazo, no vender el primer toque",
-       "en": "if it rallies into the 1h/15m FVG cluster 31108.50-31155.25 (day open 31145.50 inside it) without a sustained 5m close above it, after today's confirmed break under Asia's low -- wait for the rejection, don't sell the first tag"
+       "es": "rechazo con cierre 5m desde el cluster POC/EMA20/EMA50 30879-30891, confirmando con ruptura de VAL/PDL/swing low 30844.25",
+       "en": "rejection with a 5m close from the POC/EMA20/EMA50 cluster 30879-30891, confirming with a break of VAL/PDL/swing low 30844.25"
       },
       "structStop": {
-       "es": "sobre 31156 (techo del FVG 1h bajista +3tk)",
-       "en": "above 31156 (1h bear FVG high +3tk)"
+       "es": "sobre EMA50 30891 + colchon, ~30905",
+       "en": "above EMA50 30891 + cushion, ~30905"
       },
       "scale": {
-       "es": "1/2 en 31017.25 (TP1, minimo del dia) y mueve a BE; resto a 30953 (TP2, PDL)",
-       "en": "1/2 at 31017.25 (TP1, today's low) and move to BE; rest to 30953 (TP2, PDL)"
+       "es": "1/2 en VAL/PDL 30844.25 (TP1) y mueve a BE SOLO despues del parcial; resto a la confirmacion 30792 (TP2)",
+       "en": "1/2 at VAL/PDL 30844.25 (TP1) and move to BE ONLY after the partial; rest to the 30792 confirmation (TP2)"
       },
       "ifWrong": {
-       "es": "rapido: cierre 5m sobre 31156 -> fuera, revisa el sesgo; lento: solo mecha sin cierre -> aguanta el corto",
-       "en": "fast: 5m close above 31156 -> out, review bias; slow: wick only without a close -> the short holds"
+       "es": "rapido: cierre 5m sostenido sobre 30905 -> fuera; lento: solo mechas sin cierre -> aguanta hasta 30920",
+       "en": "fast: 5m close sustained above 30905 -> out; slow: wicks only, no close -> hold to 30920"
       }
      }
     }
    ],
    "noTradeZone": [
-    31129.52,
-    31156.0
+    30895,
+    30985
    ],
    "expectedMove": {
-    "low": 167,
-    "base": 258,
-    "high": 361,
-    "lowTk": 668,
-    "baseTk": 1032,
-    "highTk": 1444,
-    "dayBudget": 409,
-    "dayUsed": 272,
-    "dayUsedPct": 67,
-    "dayRemaining": 137,
-    "flag": "EN CURSO",
+    "low": 91,
+    "base": 140,
+    "high": 196,
+    "lowTk": 364,
+    "baseTk": 560,
+    "highTk": 784,
+    "dayBudget": 454,
+    "dayUsed": 0,
+    "dayUsedPct": 0,
+    "dayRemaining": 454,
+    "flag": "EXPANSION",
     "mult": 1.4,
     "underCal": null
    },
    "keyLevels": [
     {
      "name": {
-      "es": "EMA5/EMA20",
-      "en": "EMA5/EMA20"
+      "es": "POC",
+      "en": "POC"
      },
-     "price": 31059.43,
-     "distPts": 1.68,
-     "distTicks": 7
+     "price": 30879.0,
+     "distPts": 7.0,
+     "distTicks": 28
     },
     {
      "name": {
-      "es": "swing low intradia",
-      "en": "intraday swing low"
+      "es": "EMA20",
+      "en": "EMA20"
      },
-     "price": 31030.0,
-     "distPts": 27.75,
-     "distTicks": 111
-    },
-    {
-     "name": {
-      "es": "minimo del dia (ONL)",
-      "en": "day low (ONL)"
-     },
-     "price": 31017.25,
-     "distPts": 40.5,
-     "distTicks": 162
+     "price": 30881.5,
+     "distPts": 4.5,
+     "distTicks": 18
     },
     {
      "name": {
       "es": "EMA50",
       "en": "EMA50"
      },
-     "price": 31082.46,
-     "distPts": 24.71,
-     "distTicks": 99
+     "price": 30891.25,
+     "distPts": 5.25,
+     "distTicks": 21
     },
     {
      "name": {
-      "es": "day open (DO)",
-      "en": "day open (DO)"
+      "es": "VAL / PDL / swing low",
+      "en": "VAL / PDL / swing low"
      },
-     "price": 31145.5,
-     "distPts": 87.75,
-     "distTicks": 351
+     "price": 30844.25,
+     "distPts": 41.75,
+     "distTicks": 167
     },
     {
      "name": {
-      "es": "POC",
-      "en": "POC"
+      "es": "IBL (Initial Balance de hoy)",
+      "en": "IBL (today's Initial Balance)"
      },
-     "price": 31224.0,
-     "distPts": 166.25,
-     "distTicks": 665
+     "price": 30857.25,
+     "distPts": 28.75,
+     "distTicks": 115
     },
     {
      "name": {
-      "es": "invalidacion de la tesis corta",
-      "en": "short thesis invalidation"
+      "es": "VWAP",
+      "en": "VWAP"
      },
-     "price": 31290.0,
-     "distPts": 232.25,
-     "distTicks": 929
-    },
-    {
-     "name": {
-      "es": "PDL",
-      "en": "PDL"
-     },
-     "price": 30953.0,
-     "distPts": 104.75,
-     "distTicks": 419
-    },
-    {
-     "name": {
-      "es": "confirmacion bajista (PWL)",
-      "en": "bearish confirmation (PWL)"
-     },
-     "price": 30792.0,
-     "distPts": 265.75,
-     "distTicks": 1063
+     "price": 30988.25,
+     "distPts": 102.25,
+     "distTicks": 409
     }
    ],
    "news": []
@@ -402,20 +372,20 @@
    "conviction": "media",
    "prevDay": {
     "type": {
-     "es": "ruptura confirmada, cerrando en el extremo alto",
-     "en": "confirmed breakout, closing at the high extreme"
+     "es": "reversion desde el maximo del dia",
+     "en": "reversal from the day's high"
     },
     "closedAt": {
-     "es": "en el 90% del rango, dia-alto a 5.5pts",
-     "en": "at the 90% of the range, 5.5pts off the day-high"
+     "es": "tercio bajo de su rango (27%), bajo el pivote 7862 que definio el giro",
+     "en": "lower third of its range (27%), below the 7862 pivot that defined the turn"
     },
     "prior": {
-     "es": "CONTINUACION largo",
-     "en": "long CONTINUATION"
+     "es": "REVERSAL a respetar: 7887.00 como techo mientras aguante",
+     "en": "REVERSAL to respect: 7887.00 as a ceiling while it holds"
     },
     "note": {
-     "es": "el viernes rompio la invalidacion de fondo 7862 con cierre sostenido en 7865.00; los 6 marcos quedaron alineados LARGO por primera vez en el ciclo",
-     "en": "Friday broke the 7862 base-case invalidation with a sustained close at 7865.00; all 6 frames lined up LONG for the first time in the cycle"
+     "es": "sesgo hacia el lado contrario (corto) mientras 7887 aguante como techo",
+     "en": "bias toward the opposite side (short) while 7887 holds as a ceiling"
     }
    },
    "gap": {
@@ -423,298 +393,265 @@
     "ticks": 28,
     "filled": true,
     "size": {
-     "es": "normal (pequeno)",
-     "en": "normal (small)"
+     "es": "grande",
+     "en": "large"
     },
     "note": {
-     "es": "el gap de fin de semana (proxy NQ/YM) apuntaba a abrir ~42pts mas bajo, dentro del cluster fragil; la apertura real quedo apenas 7pts sobre el cierre del viernes y el minimo del dia (7861.25) paso por debajo del cierre, cerrando el hueco del todo sin necesidad de tocar el cluster fragil",
-     "en": "the weekend gap (NQ/YM proxy) pointed to opening ~42pts lower, inside the fragile cluster; the real open landed just 7pts above Friday's close and the day's low (7861.25) traded below the close, fully filling the gap without ever needing to tag the fragile cluster"
+     "es": "el gap de apertura de hoy (7873.00 vs cierre previo 7866.00) ya se llenó por completo; no queda como iman",
+     "en": "today's opening gap (7873.00 vs prior close 7866.00) was fully filled; it does not remain a magnet"
     }
    },
-   "weekendGap": null,
    "smt": {
-    "state": "ninguna",
+    "state": "alcista",
     "note": {
-     "es": "ES hizo minimo de ciclo nuevo junto con NQ/YM durante Londres (7857.75, bajo el swing 7860.00); sin divergencia -- confirma el barrido, no lo contradice",
-     "en": "ES made a new cycle low together with NQ/YM during London (7857.75, below the 7860.00 swing); no divergence -- it confirms the sweep, it doesn't contradict it"
+     "es": "ES hizo minimo nuevo de ciclo (7846.25) el mismo dia que YM hizo maximo nuevo: cuidado con cortos nuevos sin confirmacion",
+     "en": "ES made a new cycle low (7846.25) the same day YM made a new high: be careful with fresh shorts without confirmation"
     }
    },
    "frameConflict": {
     "on": true,
     "note": {
-     "es": "Conflicto nuevo hoy: el marco de fondo (diario/semanal +3/+3, 6 marcos alineados largo ayer) contra una sesion que broke con BOS bajista (ctrl1h/4h -1) y mecho 4.25pts bajo la invalidacion 7862 (minimo 7857.75) antes de reclamar. Es el ejemplo de libro del metodo: diario alcista confirmado vs 1h bajista confirmado en la misma sesion.",
-     "en": "A fresh conflict today: the base frame (daily/weekly +3/+3, 6 frames aligned long yesterday) against a session that broke with a bearish BOS (ctrl1h/4h -1) and wicked 4.25pts below the 7862 invalidation (low 7857.75) before reclaiming. It's the textbook case from the method: confirmed daily bullish vs confirmed 1h bearish in the same session."
+     "es": "diario/semanal (+3/+3) siguen largos mientras la estructura de sesion 1h/4h y el cierre de hoy (bajo el pivote 7862) son bajistas -- primera vez que ES enfrenta este conflicto",
+     "en": "daily/weekly (+3/+3) remain long while 1h/4h session structure and today's close (below the 7862 pivot) are bearish -- the first time ES faces this conflict"
     }
    },
    "whipsawRisk": {
-    "score": 0.5,
+    "score": 0.35,
     "note": {
-     "es": "round-trip real: de 7878.75 a un nuevo minimo de ciclo 7857.75 (bajo la invalidacion) y reclamo parcial a 7863.5 -- sesion con resolucion neta a favor del reclamo, pero el susto fue real",
-     "en": "a real round-trip: from 7878.75 to a new cycle low at 7857.75 (below invalidation) and a partial reclaim to 7863.5 -- the session nets out in favor of the reclaim, but the scare was real"
+     "es": "conflicto de marcos sin chop fuerte -- riesgo medio",
+     "en": "frame conflict without strong chop -- medium risk"
     }
    },
    "thesisAlign": {
     "state": "EVOLVING",
     "daysHeld": 1,
     "note": {
-     "es": "La tesis sigue en pie (no hubo cierre sostenido bajo 7862, solo mecha con reclamo segun touchlog PDH 7:13:1) pero el supuesto de '6 marcos alineados sin pullback' cambio: Londres SI volvio a tocar la zona critica, con una mecha que paso por debajo de la invalidacion antes de reclamar.",
-     "en": "the thesis still stands (no sustained close below 7862, just a wick with a reclaim per the PDH touchlog 7:13:1) but the 'all 6 frames aligned with no pullback' assumption changed: London DID come back to tag the critical zone, with a wick that traded below invalidation before reclaiming."
+     "es": "el giro alcista confirmado ayer se puso a prueba y perdio terreno real; no invalido (7820.50 nunca se tocó) pero revive la duda",
+     "en": "yesterday's confirmed bullish turn was tested and lost real ground; it didn't invalidate (7820.50 was never touched) but doubt is reviving"
     }
    },
    "counterCase": {
-    "es": "bajista: la mecha de hoy paso 4.25pts bajo la propia invalidacion 7862 (minimo 7857.75), justo lo que R-ES-mecha-invalidacion-misma-sesion identifica como el patron de mayor riesgo para LA SIGUIENTE sesion (4/4 medido) -- si NY rompe 7862 con cierre sostenido esta vez, la tesis larga muere. Lo mantengo pero degrado un escalon (conviccion de alta a media): el reclamo fue real (precio volvio a 7863.5, sobre la invalidacion) pero el patron historico pide tratar la ruptura real como el riesgo dominante de hoy, no un escenario B de pie de pagina.",
-    "en": "bearish: today's wick traded 4.25pts below the 7862 invalidation itself (low 7857.75), exactly what R-ES-mecha-invalidacion-misma-sesion flags as the highest-risk pattern for the NEXT session (4/4 measured) -- if NY breaks 7862 with a sustained close this time, the long thesis dies. I keep it but downgrade one notch (conviction from high to medium): the reclaim was real (price is back at 7863.5, above invalidation) but the historical pattern says treat a real break as today's dominant risk, not a footnote scenario B."
+    "es": "bajista pese al largo de fondo: el cierre de hoy quedo bajo el pivote 7862 que definia el giro, y la fragilidad repetida del cluster POC/VWAP/EMA20/50 (4-5 veces ya) sugiere que el reclamo del 09-oct pudo ser una trampa de 1 dia; lo mantengo pero degrado un escalon -- si Asia pierde 7846.25/VAL, GIRA hacia corto con objetivo 7820.50.",
+    "en": "bearish despite the underlying long: today's close landed below the 7862 pivot that defined the turn, and the cluster's repeated fragility (POC/VWAP/EMA20/50, 4-5 times already) suggests the Oct-09 reclaim could have been a 1-day trap; I keep it but downgrade one notch -- if Asia loses 7846.25/VAL, it FLIPS short targeting 7820.50."
    },
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "Conflicto de marcos abierto (diario +3/+3 vs 1h BOS bajista confirmado) bloquea el GO; la mecha a 7857.75 (bajo la invalidacion 7862) con reclamo parcial a 7863.5 es la reversion que activaria la excepcion de marco, pero el precio aun no llega al cluster de confirmacion (1.5pts) y el sesgo fusionado sigue sin dar permiso de sesion. Zona A+7 EMA20/EMA50/VAL/PDH 7865-7869.70 lista para operar en cuanto confirme el reclamo con cierre, no antes.",
-     "en": "Open frame conflict (daily +3/+3 vs a confirmed bearish 1h BOS) blocks GO; the wick to 7857.75 (below the 7862 invalidation) with a partial reclaim to 7863.5 is the reversal that would trigger the frame exception, but price hasn't reached the confirmation cluster yet (1.5pts away) and el sesgo fusionado aun no da permiso de sesion. The A+7 EMA20/EMA50/VAL/PDH zone 7865-7869.70 is ready to trade as soon as the reclaim confirms with a close, not before."
+     "es": "sesgo de sesion NEUTRAL (conflicto de marcos sin resolver) bloquea el GO; la unica zona a tiro (POC/EMA20/EMA50/VWAP 7854.50-7860.25, confluencia 4) es B, esperando confirmacion de cualquier lado antes de actuar.",
+     "en": "NEUTRAL session bias (unresolved frame conflict) blocks GO; the only level in reach (POC/EMA20/EMA50/VWAP cluster 7854.50-7860.25, confluence 4) is B, waiting for confirmation either way before acting."
     }
    },
    "context": {
-    "es": "Londres no sostuvo el A+9 de ayer (FVG 4h 7870.50-7880.50): broke con BOS bajista, mecho hasta 7857.75 -- bajo la invalidacion 7862 -- y reclamo a 7863.5 (touchlog PDH 7 toques, reclamo 1). el sesgo fusionado se enfrio a NEUTRAL/DEBIL, 3.73A de estiramiento por un lado pero solo -0.14A por el otro (mismo patron discordante ya medido en GC/NQ/YM). ONH 7887 sigue sin romperse (11 toques, sin reclamo mas alla).",
-    "en": "London didn't hold yesterday's A+9 (4h FVG 7870.50-7880.50): it broke with a bearish BOS, wicked down to 7857.75 -- below the 7862 invalidation -- and reclaimed to 7863.5 (touchlog: PDH 7 touches, 1 reclaim). The fused bias cooled to NEUTRAL/WEAK, 3.73A of stretch on one side but only -0.14A on the other (the same discordant pattern already measured on GC/NQ/YM). ONH 7887 still hasn't broken (11 touches, no reclaim beyond)."
+    "es": "Precio cierra pegado al cluster POC/EMA20/EMA50/VWAP (7854-7860.25), equilibrio total tras un dia de reversion desde el maximo. Se usan las lecturas de tendencia en vez de la fuente de fondo (ausente) para el marco de fondo. Zona de no-trade aproximada (a partir de los niveles de descuento/medio/premium del sesgo fusionado): 7830.50-7857.25. Sin llamada de alta conviccion hoy en ES -- equilibrio total y conflicto de marcos dejan todo cerca de 0.5.",
+    "en": "Price closes glued to the POC/EMA20/EMA50/VWAP cluster (7854-7860.25), total equilibrium after a reversal-from-high day. Using the trend reads instead of the background-frame source (absent) for the background frame. Equivalent no-trade (approximated from the fused bias's discount/mid/premium levels): 7861-7866. No high-conviction call today for ES -- total equilibrium and the frame conflict keep everything near 0.5."
    },
    "scenarioA": {
     "text": {
-     "es": "NY confirma el reclamo: sostiene el cluster EMA20/EMA50/VAL/PDH 7865-7869.70 y retoma el camino hacia el maximo del dia y mas alla",
-     "en": "NY confirms the reclaim: holds the EMA20/EMA50/VAL/PDH cluster 7865-7869.70 and resumes the path toward the day's high and beyond"
+     "es": "Asia reclama 7862 con cierre sostenido desde el cluster 7854.50-7860.25, revalidando el giro alcista hacia el maximo de hoy 7887 y mas alla",
+     "en": "Asia reclaims 7862 with a sustained close from the 7854.50-7860.25 cluster, revalidating the bullish turn toward today's high 7887 and beyond"
     },
     "trigger": {
-     "es": "cierre 5m que sostiene sobre 7865 tras la mecha de Londres, o reclaim directo de 7869.70",
-     "en": "5m close holding above 7865 after London's wick, or a direct reclaim of 7869.70"
+     "es": "cierre 5m sostenido sobre 7862 tras tocar el cluster",
+     "en": "5m close sustained above 7862 after tagging the cluster"
     },
-    "target": 7887,
-    "target2": 7899.75,
+    "target": 7867.75,
+    "target2": 7887,
     "entryZone": [
-     7865,
-     7869.7
+     7854.5,
+     7860.25
     ]
    },
    "scenarioB": {
     "text": {
-     "es": "la mecha de hoy se repite con fuerza: cierre 5m sostenido bajo 7861.25 confirma la ruptura real de la invalidacion",
-     "en": "today's wick repeats with force: a 5m close sustained below 7861.25 confirms a real break of invalidation"
+     "es": "el cluster no sostiene: cierre 5m bajo 7846.25 (VAL/PDL de hoy) confirma la ruptura real hacia 7833/7819.50, cerca de la invalidacion dura 7820.50",
+     "en": "the cluster doesn't hold: a 5m close below 7846.25 (today's VAL/PDL) confirms a real break toward 7833/7819.50, near the hard 7820.50 invalidation"
     },
     "trigger": {
-     "es": "cierre 5m sostenido bajo 7861.25",
-     "en": "5m close sustained below 7861.25"
+     "es": "cierre 5m bajo 7846.25",
+     "en": "5m close below 7846.25"
     },
     "zone": [
-     7817,
-     7857.75
+     7819.5,
+     7846.25
     ]
    },
    "invalidation": {
     "text": {
-     "es": "cierre 5m sostenido bajo 7861.25 (invalidacion 7862 -3tk) confirma la ruptura, patron de mayor riesgo segun R-ES-mecha-invalidacion-misma-sesion; sobre 7899.75 confirma la extension alcista",
-     "en": "5m close sustained below 7861.25 (7862 invalidation -3tk) confirms the break, the highest-risk pattern per R-ES-mecha-invalidacion-misma-sesion; above 7899.75 confirms the bullish extension"
+     "es": "cierre 5m sostenido bajo 7820.50 invalida del todo el giro alcista; cierre 5m sostenido sobre 7887 lo revalida con fuerza",
+     "en": "5m close sustained below 7820.50 fully invalidates the bullish turn; 5m close sustained above 7887 revalidates it with force"
     },
-    "level": 7862
+    "level": 7820.5
    },
    "predictions": [
     {
      "id": "ES-1",
      "kind": "range",
-     "resolveAt": "cierre NY (~15:00 CT)",
+     "resolveAt": "cierre Asia ~01:00 CT",
      "prob": null,
      "text": {
-      "es": "rango de NY entre 28 y 60 pts",
-      "en": "NY range between 28 and 60 pts"
+      "es": "rango de Asia entre 15 y 32 pts",
+      "en": "Asia range between 15 and 32 pts"
      }
     },
     {
      "id": "ES-2",
-     "kind": "direction",
-     "resolveAt": "cierre NY",
-     "prob": 0.62,
+     "kind": "level_first",
+     "resolveAt": "cierre Asia",
+     "prob": 0.55,
      "text": {
-      "es": "direccion neta de NY LARGO (cierre > apertura), confirmando el reclamo",
-      "en": "net NY direction LONG (close > open), confirming the reclaim"
+      "es": "toca antes la ruptura de 7846.25 (VAL) que un cierre sostenido sobre 7862",
+      "en": "tags the 7846.25 (VAL) break before a sustained close above 7862"
      }
     },
     {
      "id": "ES-3",
-     "kind": "level_first",
-     "resolveAt": "cierre NY",
-     "prob": 0.67,
+     "kind": "conditional",
+     "resolveAt": "cierre Asia",
+     "prob": 0.55,
      "text": {
-      "es": "toca antes 7887 (maximo del dia) que un cierre sostenido bajo 7861.25",
-      "en": "tags 7887 (day high) before a sustained close below 7861.25"
+      "es": "si Asia pierde 7846.25, el dia cierra probando 7820.50 de frente",
+      "en": "if Asia loses 7846.25, the day closes testing 7820.50 head-on"
      }
     },
     {
      "id": "ES-4",
-     "kind": "conditional",
-     "resolveAt": "cierre NY",
-     "prob": 0.58,
+     "kind": "level_first",
+     "resolveAt": "cierre Asia",
+     "prob": 0.52,
      "text": {
-      "es": "si NY sostiene 7869.70, el dia cierra sobre 7887 de frente",
-      "en": "if NY holds 7869.70, the day closes testing 7887 head-on"
+      "es": "toca antes el reclamo de 7862 que la ruptura de 7846.25",
+      "en": "tags the 7862 reclaim before the 7846.25 break"
      }
     }
    ],
    "zones": [
     {
      "range": [
-      7865,
-      7869.7
+      7854.5,
+      7860.25
      ],
      "dir": "LONG",
-     "type": "liq_reclaim",
-     "confluence": 7,
+     "type": "pullback_cont",
+     "confluence": 4,
+     "distPts": 0,
+     "distTicks": 0,
+     "winRate": 0.5556,
+     "winSource": "symType",
+     "winN": 14,
+     "n": 2,
      "role": "tactical",
      "reach": {
-      "distPts": 1.5,
-      "budgetPts": 46.0,
-      "ratio": 0.033,
+      "distPts": 0,
+      "budgetPts": 23,
+      "ratio": 0.0,
       "class": "TACTICAL"
      },
-     "distPts": 1.5,
-     "distTicks": 6,
-     "winRate": 0.488,
-     "winSource": "type",
-     "winN": 11.0,
-     "n": 2,
-     "fvg": [
-      {
-       "tf": "15m",
-       "dir": "bear",
-       "range": [
-        7868.25,
-        7870.25
-       ],
-       "weight": 1,
-       "role": {
-        "es": "confluencia",
-        "en": "confluence"
-       }
-      }
-     ],
+     "fvg": [],
      "risk": {
-      "stopPts": 3.75,
-      "stopTk": 15,
-      "stopUsd": 187.5,
-      "tgtPts": 22.0,
-      "tgtTk": 88,
-      "tgtUsd": 1100,
-      "rr": 5.9,
+      "stopPts": 14,
+      "stopTk": 56,
+      "stopUsd": 700,
+      "tgtPts": 30,
+      "tgtTk": 120,
+      "tgtUsd": 1500,
+      "rr": 2.1,
       "flag": "OK",
-      "maxContracts": null
+      "maxContracts": 0
      },
      "play": {
-      "window": "08:30-11:30 CT",
+      "window": "19:00-23:00 CT",
       "trigger": {
-       "es": "reclaim con cierre 5m que sostiene sobre el cluster EMA20/EMA50/VAL/PDH 7865-7869.70 (ya tageado con mecha hasta 7857.75, bajo la invalidacion 7862, y reclamado segun touchlog) -- confirma la barrida, no compres la mecha sin el cierre",
-       "en": "reclaim with a 5m close holding above the EMA20/EMA50/VAL/PDH cluster 7865-7869.70 (already tagged with a wick down to 7857.75, below the 7862 invalidation, and reclaimed per the touchlog) -- confirms the sweep, don't buy the wick without the close"
+       "es": "reclamo con cierre 5m sostenido sobre 7862 (el pivote que definio el giro), o rebote claro del cluster 7854.50-7860.25",
+       "en": "a reclaim with a 5m close sustained above 7862 (the pivot that defined the turn), or a clear bounce off the 7854.50-7860.25 cluster"
       },
       "structStop": {
-       "es": "bajo 7861.25 (invalidacion 7862 -3tk de colchon)",
-       "en": "below 7861.25 (7862 invalidation -3tk cushion)"
+       "es": "bajo VAL/PDL 7846.25 + colchon, ~7843",
+       "en": "below VAL/PDL 7846.25 + cushion, ~7843"
       },
       "scale": {
-       "es": "1/2 en 7887 (TP1, maximo del dia) y mueve a BE; resto a 7899.75 (TP2, 1a extension)",
-       "en": "1/2 at 7887 (TP1, day high) and move to BE; rest to 7899.75 (TP2, 1st extension)"
+       "es": "1/2 en VAH 7867.75 (TP1) y mueve a BE SOLO despues del parcial; resto al maximo de hoy 7887 (TP2)",
+       "en": "1/2 at VAH 7867.75 (TP1) and move to BE ONLY after the partial; rest to today's high 7887 (TP2)"
       },
       "ifWrong": {
-       "es": "rapido: cierre 5m sostenido bajo 7861.25 -> fuera, revisa el sesgo (la tesis larga se rompe de verdad); lento: solo mecha sin cierre -> aguanta",
-       "en": "fast: 5m close sustained below 7861.25 -> out, review bias (the long thesis genuinely breaks); slow: wick only without a close -> hold"
+       "es": "rapido: cierre 5m bajo 7846.25 -> fuera, confirma el otro lado; lento: solo mechas sin cierre -> aguanta hasta 7840",
+       "en": "fast: 5m close below 7846.25 -> out, confirms the other side; slow: wicks only, no close -> hold to 7840"
       }
      }
     }
    ],
    "noTradeZone": [
-    7869.76,
-    7876.36
+    7861,
+    7866
    ],
    "expectedMove": {
-    "low": 28,
-    "base": 43,
-    "high": 60,
-    "lowTk": 112,
-    "baseTk": 172,
-    "highTk": 240,
-    "dayBudget": 68,
-    "dayUsed": 29.25,
-    "dayUsedPct": 43,
-    "dayRemaining": 38,
-    "flag": "EN CURSO",
+    "low": 15,
+    "base": 23,
+    "high": 32,
+    "lowTk": 60,
+    "baseTk": 92,
+    "highTk": 128,
+    "dayBudget": 74,
+    "dayUsed": 0,
+    "dayUsedPct": 0,
+    "dayRemaining": 74,
+    "flag": "EXPANSION",
     "mult": 1.4,
     "underCal": null
    },
    "keyLevels": [
     {
      "name": {
-      "es": "EMA20",
-      "en": "EMA20"
-     },
-     "price": 7865.0,
-     "distPts": 1.5,
-     "distTicks": 6
-    },
-    {
-     "name": {
-      "es": "VAL",
-      "en": "VAL"
-     },
-     "price": 7867.76,
-     "distPts": 4.26,
-     "distTicks": 17
-    },
-    {
-     "name": {
-      "es": "invalidacion (nivel critico)",
-      "en": "invalidation (critical level)"
-     },
-     "price": 7862.0,
-     "distPts": 1.5,
-     "distTicks": 6
-    },
-    {
-     "name": {
       "es": "EMA50",
       "en": "EMA50"
      },
-     "price": 7867.75,
-     "distPts": 4.25,
-     "distTicks": 17
+     "price": 7854.5,
+     "distPts": 2.75,
+     "distTicks": 11
     },
     {
      "name": {
-      "es": "PDH (soporte)",
-      "en": "PDH (support)"
+      "es": "POC",
+      "en": "POC"
      },
-     "price": 7870.5,
-     "distPts": 7.0,
-     "distTicks": 28
+     "price": 7854.25,
+     "distPts": 3.0,
+     "distTicks": 12
     },
     {
      "name": {
-      "es": "minimo de Londres",
-      "en": "London low"
+      "es": "EMA20",
+      "en": "EMA20"
      },
-     "price": 7857.75,
-     "distPts": 5.75,
-     "distTicks": 23
+     "price": 7855.0,
+     "distPts": 2.25,
+     "distTicks": 9
     },
     {
      "name": {
-      "es": "ONH (maximo del dia)",
-      "en": "ONH (day high)"
+      "es": "VWAP",
+      "en": "VWAP"
+     },
+     "price": 7860.25,
+     "distPts": 3.0,
+     "distTicks": 12
+    },
+    {
+     "name": {
+      "es": "VAL / PDL",
+      "en": "VAL / PDL"
+     },
+     "price": 7846.25,
+     "distPts": 11.0,
+     "distTicks": 44
+    },
+    {
+     "name": {
+      "es": "PDH",
+      "en": "PDH"
      },
      "price": 7887.0,
-     "distPts": 23.5,
-     "distTicks": 94
-    },
-    {
-     "name": {
-      "es": "extension 1",
-      "en": "extension 1"
-     },
-     "price": 7899.75,
-     "distPts": 36.25,
-     "distTicks": 145
+     "distPts": 29.75,
+     "distTicks": 119
     }
    ],
    "news": []
@@ -725,20 +662,20 @@
    "conviction": "media",
    "prevDay": {
     "type": {
-     "es": "giro alcista dia 1, toco el nivel de confirmacion exacto sin cierre sostenido",
-     "en": "day-1 bullish turn, tagged the exact confirmation level without a sustained close"
+     "es": "reversion desde el maximo del dia, con los marcos realineando a la baja",
+     "en": "reversal from the day's high, with frames realigning to the downside"
     },
     "closedAt": {
-     "es": "en el 82% del rango, 14pts bajo la confirmacion 4233.7",
-     "en": "at 82% of the range, 14pts below the 4233.7 confirmation"
+     "es": "tercio bajo de su rango (26%)",
+     "en": "lower third of its range (26%)"
     },
     "prior": {
-     "es": "CONTINUACION largo, con reserva",
-     "en": "long CONTINUATION, with reservations"
+     "es": "CONTINUACION corto",
+     "en": "short CONTINUATION"
     },
     "note": {
-     "es": "rompio el rango de 3 sesiones y toco 4233.7 (el maximo del dia) pero asento en 4219.6 sin el cierre sostenido que pide la propia narrativa",
-     "en": "broke the 3-session range and tagged 4233.7 (the day's high) but settled at 4219.6 without the sustained close the thesis itself calls for"
+     "es": "el intento de confirmar el giro alcista (toco 4242.3, sobre 4233.7) fallo sin cierre sostenido, y los marcos diario/semanal realinearon bajistas por primera vez",
+     "en": "the attempt to confirm the bullish turn (tagged 4242.3, above 4233.7) failed without a sustained close, and the daily/weekly frames realigned bearish for the first time"
     }
    },
    "gap": {
@@ -746,160 +683,159 @@
     "ticks": 5,
     "filled": true,
     "size": {
-     "es": "sin gap",
-     "en": "no gap"
+     "es": "normal",
+     "en": "normal"
     },
     "note": {
-     "es": "gap casi nulo (0.5pts) frente a los ~17pts que el gap de fin de semana anticipaba; irrelevante frente a lo que paso despues en la sesion",
-     "en": "near-zero gap (0.5pts) versus the ~17pts the weekend gap anticipated; irrelevant next to what happened later in the session"
+     "es": "gap de apertura minimo (4220.8 vs 4220.3), ya llenado, sin relevancia como iman",
+     "en": "minimal opening gap (4220.8 vs 4220.3), already filled, not relevant as a magnet"
     }
    },
-   "weekendGap": null,
    "smt": {
     "state": "ninguna",
     "note": {
-     "es": "no aplica (GC no participa en SMT)",
-     "en": "not applicable (GC doesn't take part in SMT)"
+     "es": "GC no participa del SMT de indices",
+     "en": "GC doesn't participate in the index SMT"
     }
    },
    "frameConflict": {
     "on": false,
     "note": {
-     "es": "El conflicto se resolvio del todo hacia el bajista: las lecturas HTF ahora traen el sesgo diario -3 y el semanal -1 alineados (antes mixto), la estructura propia confirma un CHoCH+ dn y 1h/4h 'Bajista alineado'. Londres hizo nuevo minimo del dia (4178.1, bajo los 4209.8 de la manana) sin reclamar ONL (touchlog 10 toques, 0 reclamos).",
-     "en": "The conflict resolved fully to the bearish side: the HTF reads now show the daily bias -3 and weekly bias -1 aligned (previously mixed), the structure read confirms a CHoCH+ dn and 1h/4h 'bearish aligned'. London made a new day low (4178.1, below the morning's 4209.8) with no ONL reclaim (touchlog: 10 touches, 0 reclaims)."
+     "es": "diario y semanal (el sesgo diario/semanal -3/-1) realinearon bajistas hoy, junto con la sesion (1h/4h) y el sesgo fusionado (el sesgo fusionado buscando corto) -- sin conflicto por primera vez en varias sesiones",
+     "en": "daily and weekly (el sesgo diario/semanal -3/-1) realigned bearish today, together with the session (1h/4h) and the fused bias (el sesgo fusionado buscando corto) -- no conflict for the first time in several sessions"
     }
    },
    "whipsawRisk": {
     "score": 0.3,
     "note": {
-     "es": "el conflicto se resolvio y el dia tiene resolucion neta bajista confirmada (CHoCH+ dn, marcos alineados); el estiramiento de la sintesis (5.48A) es la lectura usual discordante, la otra lectura esta casi plana (-0.25A)",
-     "en": "the conflict resolved and the day has a confirmed net bearish resolution (CHoCH+ dn, aligned frames); the fused bias's stretch (5.48A) is the usual discordant read, the other stretch reading is near flat (-0.25A)"
+     "es": "marcos recien alineados reduce el riesgo de chop, pero el historico de escenario A de GC (29% en 20d) sigue pesando como riesgo de reversion",
+     "en": "newly aligned frames reduce chop risk, but GC's scenario A track record (29% over 20d) still weighs as a reversal risk"
     }
    },
    "thesisAlign": {
-    "state": "CONFLICT",
+    "state": "EVOLVING",
     "daysHeld": 1,
     "note": {
-     "es": "La tesis semanal alcista sigue sin romperse del todo (4166.8 aun a 11.3pts) pero recibio su prueba mas dura: hoy toco otra vez SOBRE la confirmacion (4242.3) y revirtio aun mas lejos que ayer (4178.1 vs 4209.8), con los dos marcos tecnicos ahora alineados en contra por primera vez.",
-     "en": "the weekly bullish thesis still hasn't fully broken (4166.8 is still 11.3pts away) but it just took its hardest test yet: today it tagged above confirmation again (4242.3) and reversed even further than yesterday (4178.1 vs 4209.8), with both technical frames now aligned against it for the first time."
+     "es": "la tesis alcista confirmada el 09-oct fallo su prueba y el sesgo de hoy (SHORT) va contra ella, pero aun no hay cierre bajo 4166.8 que la rompa del todo",
+     "en": "the bullish thesis confirmed on Oct-09 failed its test and today's bias (SHORT) runs against it, but there's still no close below 4166.8 to fully break it"
     }
    },
    "counterCase": {
-    "es": "alcista: 4166.8 (la invalidacion final de la tesis semanal) no se ha tocado, VIX sigue bajo y no hay dato de tipos/dolar que justifique el giro. Lo mantengo pero degrado aun mas: hoy los dos marcos tecnicos (antes mixtos) quedaron alineados bajistas por primera vez, y el precio hizo un minimo nuevo mas bajo que el de ayer -- la tesis alcista semanal es cada vez mas un 'todavia no se rompio' que un 'sigue viva'.",
-    "en": "bullish: 4166.8 (the weekly thesis's final invalidation) hasn't been tagged, VIX is still low, and there's no rates/dollar data to justify the turn. I keep it but downgrade it further: today both technical frames (previously mixed) ended up aligned bearish for the first time, and price made a new low lower than yesterday's -- the weekly bullish thesis is increasingly a 'hasn't broken yet' rather than a 'still alive'."
+    "es": "alcista pese al corto: el giro confirmado el 09-oct aun no se invalido con cierre bajo 4166.8, y el escenario A de GC solo acierta 29% en 20d -- el rebote hacia el cluster puede sostener en vez de rechazar; lo mantengo pero degrado un escalon, exijo confirmacion de cierre antes de operar el corto.",
+    "en": "bullish despite the short: the turn confirmed on Oct-09 hasn't invalidated with a close below 4166.8, and GC's scenario A only hits 29% over 20d -- the bounce into the cluster could hold instead of reject; I keep it but downgrade one notch, requiring close confirmation before trading the short."
    },
    "verdict": {
     "signal": "GO",
     "reason": {
-     "es": "Confluencia 8 en el cluster VAL/EMA20/EMA50/FVG 15m 4189.80-4200.80 (perfil+EMA20+EMA50+FVG+sesion y sesgo fusionado alineados CORTO+MTF+prior alcista roto+contexto NY), precio ya en el borde (1.3pts), el sesgo fusionado dispara LISTO CORTO hace 0 velas con permiso de sesion activo, sin conflicto de marcos (ya resuelto bajista), R:R 6.0 OK. Nota: este tipo de retest solo paga 44.9% en NY (winN 68, pondera a la baja pero no mata la señal dado el resto de confluencia).",
-     "en": "Confluence 8 at the VAL/EMA20/EMA50/15m FVG cluster 4189.80-4200.80 (profile+EMA20+EMA50+FVG+session and the fused bias aligned SHORT+MTF+broken bullish prior+NY context), price is already at the edge (1.3pts), the fused bias just fired LISTO SHORT 0 bars ago with active session permission, no frame conflict (already resolved bearish), R:R 6.0 OK. Note: this retest type only pays 44.9% in NY (winN 68, weighs it down a notch but doesn't kill the signal given everything else lining up)."
+     "es": "confluencia 8 en el cluster POC/EMA20/EMA50 + FVG 15m 4197.50-4200.80 (perfil+EMA20+EMA50+FVG+sesion y el sesgo fusionado alineados a corto+MTF ya realineado+prior de continuacion), precio ya en el borde, el sesgo fusionado dispara listo para corto con permiso de sesion activo, sin conflicto de marcos, R:R 2.6 OK. Nota: el escenario A de GC solo paga 29% en 20d -- cobra el parcial en TP1 4178.1 y no te cases con el runner.",
+     "en": "confluence 8 at the POC/EMA20/EMA50 + 15m FVG cluster 4197.50-4200.80 (profile+EMA20+EMA50+FVG+session and the fused bias aligned short+MTF already realigned+continuation prior), price already at the edge, the fused bias fires ready-to-short with active session permission, no frame conflict, R:R 2.6 OK. Note: GC's scenario A only pays 29% over 20d -- bank the partial at TP1 4178.1 and don't marry the runner."
     }
    },
    "context": {
-    "es": "Londres repitio el patron pero peor: toco 4242.3 (sobre la confirmacion 4233.7) y esta vez revirtio aun mas abajo, nuevo minimo del dia 4178.1 -- bajo los 4209.8 de la manana -- antes de asentar en 4188.5, justo en el cluster VAL/EMA20. el sesgo fusionado paso a BUSCANDO CORTO con sesgo -10/10 (maximo negativo) y permiso activo, señal LISTO SHORT disparada hace 0 velas. las lecturas HTF ya alinean el sesgo diario y semanal bajistas (antes mixto). GC scenario A sigue 29% en 20d y su prediccion de rango 29% (n=34) -- no ancles nada solo en el patron de rebote-y-falla.",
-    "en": "London repeated the pattern but worse: it tagged 4242.3 (above the 4233.7 confirmation) and this time reversed even lower, a new day low at 4178.1 -- below the morning's 4209.8 -- before settling at 4188.5, right at the VAL/EMA20 cluster. The fused bias flipped to LOOKING SHORT with a -10/10 bias score (max negative) and active permission, a LISTO SHORT signal fired 0 bars ago. the HTF reads now align the daily and weekly bias bearish (previously mixed). GC's scenario A is still 29% over 20d and its range prediction is 29% (n=34) -- don't anchor anything on the bounce-and-fail pattern alone."
+    "es": "Precio cierra pegado al cluster POC/EMA20/EMA50 (4192.6-4197.5), con un FVG 15m bajista justo encima (4197.5-4200.8) que calca casi exacto el Initial Balance de ayer. Zona de no-trade aproximada (a partir de los niveles de descuento/medio/premium del sesgo fusionado): 4175.5-4194.9.",
+    "en": "Price closes glued to the POC/EMA20/EMA50 cluster (4192.6-4197.5), with a bearish 15m FVG right above it (4197.5-4200.8) that almost exactly tracks yesterday's Initial Balance. Equivalent no-trade (approximated from the fused bias's discount/mid/premium levels): 4184-4192."
    },
    "scenarioA": {
     "text": {
-     "es": "NY rebota al cluster VAL/EMA20/EMA50 4189.80-4200.80 y lo rechaza, continuando la caida de hoy hacia el minimo y el techo del rango de 3 sesiones",
-     "en": "NY bounces into the VAL/EMA20/EMA50 cluster 4189.80-4200.80 and rejects it, continuing today's decline toward the low and the 3-session range top"
+     "es": "Asia rebota al cluster POC/EMA20/EMA50 4192.6-4197.5 (con el FVG 15m 4197.5-4200.8 encima) y lo rechaza, continuando la caida hacia PDL 4178.1 y la vieja invalidacion 4166.8",
+     "en": "Asia bounces into the POC/EMA20/EMA50 cluster 4192.6-4197.5 (with the 15m FVG 4197.5-4200.8 above it) and rejects it, continuing the decline toward PDL 4178.1 and the old 4166.8 invalidation"
     },
     "trigger": {
-     "es": "rechazo con cierre 5m de vuelta bajo 4197.90 tras tocar el cluster, sin cierre sostenido sobre 4201.10 (techo del FVG 15m +3tk)",
-     "en": "rejection with a 5m close back below 4197.90 after tagging the cluster, without a sustained close above 4201.10 (15m FVG high +3tk)"
+     "es": "rechazo con cierre 5m de vuelta bajo 4197.50 tras tocar el FVG, sin cierre sostenido sobre 4200.80+3tk",
+     "en": "rejection with a 5m close back below 4197.50 after tagging the FVG, without a sustained close above 4200.80+3tk"
     },
     "target": 4178.1,
     "target2": 4166.8,
     "entryZone": [
-     4189.8,
-     4200.8
+     4192.6,
+     4197.5
     ]
    },
    "scenarioB": {
     "text": {
-     "es": "el rebote no se detiene: cierre 5m sostenido sobre 4201.10 revive el intento alcista hacia 4225.4 y la confirmacion 4233.7",
-     "en": "the bounce doesn't stop: a 5m close sustained above 4201.10 revives the bullish attempt toward 4225.4 and the 4233.7 confirmation"
+     "es": "el rebote no se detiene: cierre 5m sostenido sobre 4201.40 revive el intento alcista hacia 4225.4 y la confirmacion 4233.7",
+     "en": "the bounce doesn't stop: a 5m close sustained above 4201.40 revives the bullish attempt toward 4225.4 and the 4233.7 confirmation"
     },
     "trigger": {
-     "es": "cierre 5m sostenido sobre 4201.10",
-     "en": "5m close sustained above 4201.10"
+     "es": "cierre 5m sostenido sobre 4201.40",
+     "en": "5m close sustained above 4201.40"
     },
     "zone": [
-     4201.1,
+     4201.4,
      4225.4
     ]
    },
    "invalidation": {
     "text": {
-     "es": "cierre 5m sostenido sobre 4233.7 con sosten (no mecha) invalida el corto del dia y por fin confirmaria el alcista; cierre sostenido bajo 4166.8 confirma del todo el giro bajista",
-     "en": "5m close sustained above 4233.7 that holds (not just a wick) invalidates today's short and would finally confirm the bullish case; a sustained close below 4166.8 fully confirms the bearish turn"
+     "es": "cierre 5m sostenido sobre 4233.7 con sosten (no mecha) invalida el corto; cierre 5m sostenido bajo 4166.8 confirma del todo el giro bajista (nunca mas cerca que ayer, 11.3pts)",
+     "en": "a 5m close sustained above 4233.7 that holds (not a wick) invalidates the short; a 5m close sustained below 4166.8 fully confirms the bearish turn (never closer than yesterday, 11.3pts)"
     },
-    "level": 4233.7
+    "level": 4166.8
    },
    "predictions": [
     {
      "id": "GC-1",
      "kind": "direction",
-     "resolveAt": "cierre NY (~15:00 CT)",
-     "prob": 0.66,
+     "resolveAt": "cierre Asia ~01:00 CT",
+     "prob": 0.68,
      "text": {
-      "es": "direccion neta de NY CORTO (cierre < apertura), confirmando los marcos ya alineados",
-      "en": "net NY direction SHORT (close < open), confirming the now-aligned frames"
+      "es": "direccion neta de Asia CORTO (cierre < apertura), confirmando los marcos ya realineados",
+      "en": "net Asia direction SHORT (close < open), confirming the now-realigned frames"
      }
     },
     {
      "id": "GC-2",
      "kind": "level_first",
-     "resolveAt": "cierre NY",
+     "resolveAt": "cierre Asia",
      "prob": 0.58,
      "text": {
-      "es": "toca antes el cluster 4189.80-4200.80 (rebote) que un cierre sostenido sobre 4225.4",
-      "en": "tags the 4189.80-4200.80 cluster (bounce) before a sustained close above 4225.4"
+      "es": "toca antes PDL 4178.1 que un cierre sostenido sobre 4225.4",
+      "en": "tags PDL 4178.1 before a sustained close above 4225.4"
      }
     },
     {
      "id": "GC-3",
      "kind": "scenario",
-     "resolveAt": "cierre NY",
-     "prob": 0.55,
+     "resolveAt": "cierre Asia",
+     "prob": 0.52,
      "text": {
-      "es": "se activa el escenario A (rechazo del rebote) antes que el B (revive el alcista) -- conviccion limitada, scenario A de GC solo acierta 29% en 20d",
-      "en": "scenario A (bounce rejection) activates before scenario B (bullish case revives) -- limited conviction, GC's scenario A only hits 29% over 20d"
+      "es": "se activa el escenario A (rechazo del rebote) antes que el B -- conviccion limitada, el escenario A de GC solo acierta 29% en 20d",
+      "en": "scenario A (bounce rejection) activates before scenario B -- limited conviction, GC's scenario A only hits 29% over 20d"
      }
     },
     {
      "id": "GC-4",
      "kind": "conditional",
-     "resolveAt": "cierre NY",
-     "prob": 0.56,
+     "resolveAt": "cierre Asia",
+     "prob": 0.55,
      "text": {
-      "es": "si NY rechaza 4189.80-4200.80, el dia cierra bajo 4178.1",
-      "en": "if NY rejects 4189.80-4200.80, the day closes below 4178.1"
+      "es": "si Asia rechaza el cluster 4192.6-4197.5, el dia cierra probando 4166.8 de frente",
+      "en": "if Asia rejects the 4192.6-4197.5 cluster, the day closes testing 4166.8 head-on"
      }
     }
    ],
    "zones": [
     {
      "range": [
-      4189.8,
-      4200.8
+      4192.6,
+      4197.5
      ],
      "dir": "SHORT",
      "type": "retest_break",
      "confluence": 8,
+     "distPts": 0,
+     "distTicks": 0,
+     "winRate": 0.4387,
+     "winSource": "symType",
+     "winN": 11.5,
+     "n": 3,
      "role": "tactical",
      "reach": {
-      "distPts": 1.3,
-      "budgetPts": 24.1,
-      "ratio": 0.054,
+      "distPts": 0,
+      "budgetPts": 27,
+      "ratio": 0.0,
       "class": "TACTICAL"
      },
-     "distPts": 1.3,
-     "distTicks": 13,
-     "winRate": 0.4486,
-     "winSource": "type",
-     "winN": 68.0,
-     "n": 2,
      "fvg": [
       {
        "tf": "15m",
@@ -910,69 +846,78 @@
        ],
        "weight": 1,
        "role": {
-        "es": "gatillo + confluencia",
-        "en": "trigger + confluence"
+        "es": "gatillo",
+        "en": "trigger"
        }
       }
      ],
      "risk": {
-      "stopPts": 3.3,
-      "stopTk": 33,
-      "stopUsd": 330,
-      "tgtPts": 19.9,
-      "tgtTk": 199,
-      "tgtUsd": 1990,
-      "rr": 6.0,
+      "stopPts": 6.4,
+      "stopTk": 64,
+      "stopUsd": 640,
+      "tgtPts": 16.9,
+      "tgtTk": 169,
+      "tgtUsd": 1690,
+      "rr": 2.6,
       "flag": "OK",
-      "maxContracts": null
+      "maxContracts": 0
      },
      "play": {
-      "window": "08:30-11:30 CT",
+      "window": "19:00-23:00 CT",
       "trigger": {
-       "es": "si rebota al cluster VAL/EMA20/EMA50 4189.80-4200.80, con el FVG 15m bajista 4197.50-4200.80 como techo, sin cierre 5m sostenido encima -- el sesgo fusionado disparo LISTO CORTO hace 0 velas con permiso activo, pero esperar el rechazo confirmado tras el giro violento de hoy, no vender el primer toque",
-       "en": "if it bounces into the VAL/EMA20/EMA50 cluster 4189.80-4200.80, with the 15m bear FVG 4197.50-4200.80 as the ceiling, without a sustained 5m close above it -- the fused bias fired LISTO SHORT 0 bars ago with active permission, but wait for the confirmed rejection after today's violent turn, don't sell the first tag"
+       "es": "rechazo con cierre 5m de vuelta bajo 4197.50 tras tocar el FVG 15m 4197.50-4200.80, sin cierre sostenido sobre 4200.80+3tk (4201.40)",
+       "en": "rejection with a 5m close back below 4197.50 after tagging the 15m FVG 4197.50-4200.80, without a sustained close above 4200.80+3tk (4201.40)"
       },
       "structStop": {
-       "es": "sobre 4201.10 (techo del FVG 15m bajista +3tk)",
-       "en": "above 4201.10 (15m bear FVG high +3tk)"
+       "es": "sobre el FVG +3tk, ~4201.40",
+       "en": "above the FVG +3tk, ~4201.40"
       },
       "scale": {
-       "es": "1/2 en 4178.1 (TP1, minimo del dia) y mueve a BE; resto a 4166.8 (TP2, techo del rango de 3 sesiones)",
-       "en": "1/2 at 4178.1 (TP1, today's low) and move to BE; rest to 4166.8 (TP2, 3-session range top)"
+       "es": "1/2 en PDL 4178.1 (TP1) y mueve a BE SOLO despues del parcial; resto a la vieja invalidacion 4166.8 (TP2)",
+       "en": "1/2 at PDL 4178.1 (TP1) and move to BE ONLY after the partial; rest to the old 4166.8 invalidation (TP2)"
       },
       "ifWrong": {
-       "es": "rapido: cierre 5m sobre 4201.10 -> fuera, revisa el sesgo; lento: solo mecha sin cierre -> aguanta el corto (marcos ya alineados bajistas)",
-       "en": "fast: 5m close above 4201.10 -> out, review bias; slow: wick only without a close -> the short holds (frames already aligned bearish)"
+       "es": "rapido: cierre 5m sobre 4201.40 -> fuera; lento: solo mechas sin cierre -> aguanta a 4204",
+       "en": "fast: 5m close above 4201.40 -> out; slow: wicks only, no close -> hold to 4204"
       }
      }
     }
    ],
    "noTradeZone": [
-    4200.8,
-    4209.29
+    4184,
+    4192
    ],
    "expectedMove": {
-    "low": 22,
-    "base": 33,
-    "high": 47,
-    "lowTk": 216,
-    "baseTk": 333,
-    "highTk": 466,
-    "dayBudget": 79,
-    "dayUsed": 64.2,
-    "dayUsedPct": 81,
-    "dayRemaining": 15,
-    "flag": "EN CURSO",
-    "mult": 0.93,
+    "low": 18,
+    "base": 27,
+    "high": 38,
+    "lowTk": 180,
+    "baseTk": 270,
+    "highTk": 380,
+    "dayBudget": 87,
+    "dayUsed": 0,
+    "dayUsedPct": 0,
+    "dayRemaining": 87,
+    "flag": "EXPANSION",
+    "mult": 1.4,
     "underCal": null
    },
    "keyLevels": [
     {
      "name": {
-      "es": "VAL",
-      "en": "VAL"
+      "es": "EMA50",
+      "en": "EMA50"
      },
-     "price": 4189.8,
+     "price": 4192.6,
+     "distPts": 2.3,
+     "distTicks": 23
+    },
+    {
+     "name": {
+      "es": "POC",
+      "en": "POC"
+     },
+     "price": 4193.6,
      "distPts": 1.3,
      "distTicks": 13
     },
@@ -981,172 +926,153 @@
       "es": "EMA20",
       "en": "EMA20"
      },
-     "price": 4191.8,
-     "distPts": 3.3,
-     "distTicks": 33
+     "price": 4193.5,
+     "distPts": 1.4,
+     "distTicks": 14
     },
     {
      "name": {
-      "es": "EMA50",
-      "en": "EMA50"
-     },
-     "price": 4196.9,
-     "distPts": 8.4,
-     "distTicks": 84
-    },
-    {
-     "name": {
-      "es": "minimo del dia",
-      "en": "day low"
+      "es": "PDL",
+      "en": "PDL"
      },
      "price": 4178.1,
-     "distPts": 10.4,
-     "distTicks": 104
+     "distPts": 16.8,
+     "distTicks": 168
     },
     {
      "name": {
-      "es": "POC",
-      "en": "POC"
+      "es": "VAL",
+      "en": "VAL"
      },
-     "price": 4209.2,
-     "distPts": 20.7,
-     "distTicks": 207
+     "price": 4182.0,
+     "distPts": 12.9,
+     "distTicks": 129
     },
     {
      "name": {
-      "es": "techo del rango de 3 sesiones (invalidacion semanal)",
-      "en": "3-session range top (weekly invalidation)"
+      "es": "vieja invalidacion / objetivo",
+      "en": "old invalidation / target"
      },
      "price": 4166.8,
-     "distPts": 21.7,
-     "distTicks": 217
-    },
-    {
-     "name": {
-      "es": "confirmacion (PDH/PWH)",
-      "en": "confirmation (PDH/PWH)"
-     },
-     "price": 4233.7,
-     "distPts": 45.2,
-     "distTicks": 452
+     "distPts": 28.1,
+     "distTicks": 281
     }
    ],
    "news": []
   },
   "YM": {
    "biasDay": "LONG",
-   "biasSession": "NEUTRAL",
+   "biasSession": "LONG",
    "conviction": "media",
    "prevDay": {
     "type": {
-     "es": "ruptura confirmada con el mayor margen medido, cerrando en el extremo alto",
-     "en": "confirmed breakout with the widest margin measured, closing at the high extreme"
+     "es": "tendencia alcista cerrando en el extremo",
+     "en": "uptrend closing at the extreme"
     },
     "closedAt": {
-     "es": "en el 88% del rango",
-     "en": "at 88% of the range"
+     "es": "20% superior de su rango, nuevo maximo de ciclo",
+     "en": "top 20% of its range, a new cycle high"
     },
     "prior": {
      "es": "CONTINUACION largo",
      "en": "long CONTINUATION"
     },
     "note": {
-     "es": "rompio la invalidacion de fondo 51744 con fuerza real, extendiendo a 52032 -- el reinicio bajista de 2 dias quedo invalidado sin ambiguedad",
-     "en": "broke the 51744 base-case invalidation with real force, extending to 52032 -- the 2-day bearish restart was invalidated unambiguously"
+     "es": "salvo que la divergencia SMT con NQ/ES se resuelva en contra en la reapertura",
+     "en": "unless the SMT divergence with NQ/ES resolves against it on the reopen"
     }
    },
    "gap": {
-    "pts": -4,
+    "pts": -4.0,
     "ticks": -4,
     "filled": true,
     "size": {
-     "es": "sin gap",
-     "en": "no gap"
+     "es": "grande",
+     "en": "large"
     },
     "note": {
-     "es": "gap casi nulo (-4pts) frente a los ~267pts que el gap de fin de semana anticipaba; la apertura real no retrocedio casi nada",
-     "en": "near-zero gap (-4pts) versus the ~267pts the weekend gap anticipated; the real open barely pulled back at all"
+     "es": "gap de apertura minimo a la baja (51972 vs 51976), ya llenado con margen amplio -- sin relevancia",
+     "en": "minimal downside opening gap (51972 vs 51976), filled with ample room -- not relevant"
     }
    },
-   "weekendGap": null,
    "smt": {
-    "state": "ninguna",
+    "state": "bajista",
     "note": {
-     "es": "YM hizo minimo de ciclo nuevo junto con NQ/ES durante Londres (51913, bajo el swing 51936); sin divergencia",
-     "en": "YM made a new cycle low together with NQ/ES during London (51913, below the 51936 swing); no divergence"
+     "es": "YM hizo maximo nuevo de ciclo (52182) el mismo dia que NQ y ES hicieron MINIMOS nuevos -- la divergencia mas marcada de la serie; cuidado con largos nuevos sin confirmacion del complejo, favorece una reversion a la baja si NQ/ES arrastran",
+     "en": "YM made a new cycle high (52182) the same day NQ and ES made new LOWS -- the series' sharpest divergence; be careful with fresh longs without confirmation from the complex, favors a downside reversion if NQ/ES drag it down"
     }
    },
    "frameConflict": {
-    "on": true,
+    "on": false,
     "note": {
-     "es": "Sigue el mismo arrastre (R-YM-arrastre-sin-confirmar): el sesgo diario propio de YM sigue en -3 pese a que ayer rompio la confirmacion de 2a pierna con 99pts de margen. Hoy ademas el soporte 52032-52084 que sostenia la continuacion FALLO: Londres lo perforo de lleno hasta 51913 antes de rebotar a 51973, bajo el soporte.",
-     "en": "Same lagging pattern as before (R-YM-arrastre-sin-confirmar): YM's own daily bias is still at -3 even though yesterday it cleared the 2nd-leg confirmation by 99pts. Today the 52032-52084 support that was carrying the continuation also FAILED: London broke clean through it down to 51913 before bouncing to 51973, below the support."
+     "es": "el marco diario propio de YM (en -1) sigue rezagado sin confirmar, pero no es un conflicto fuerte (es leve, y el semanal, el combinado de 1h/4h, la sesion y el sesgo fusionado todos largos)",
+     "en": "YM's own daily frame (at -1) remains lagging without confirming, but it's not a strong conflict (it's mild, and the weekly, the combined 1h/4h, the session and the fused bias are all long)"
     }
    },
    "whipsawRisk": {
-    "score": 0.5,
+    "score": 0.25,
     "note": {
-     "es": "round-trip real: de 52131 (maximo) a 51913 (minimo, bajo el soporte que debia sostener) y de vuelta a 51973 -- el propio marco diario de YM aun sin confirmar mas la lectura dudosa del dia",
-     "en": "a real round-trip: from 52131 (high) to 51913 (low, below the support that was supposed to hold) and back to 51973 -- YM's own daily frame still unconfirmed adds to the day's doubtful read"
+     "es": "resolucion limpia y alcista hoy, sin chop -- riesgo bajo, aunque la divergencia SMT es un factor de reversion a vigilar",
+     "en": "a clean, bullish resolution today, no chop -- low risk, though the SMT divergence is a reversion factor to watch"
     }
    },
    "thesisAlign": {
-    "state": "EVOLVING",
-    "daysHeld": 1,
+    "state": "ALIGN",
+    "daysHeld": 2,
     "note": {
-     "es": "La tesis de ruptura sigue viva (la invalidacion final 51744 esta a 229pts, lejos) pero un supuesto cambio de verdad: el soporte 52032-52084 que la sostenia como continuacion limpia FALLO hoy, perforado hasta 51913 antes de reclamar parcialmente a 51973.",
-     "en": "the breakout thesis is still alive (the final 51744 invalidation is 229pts away, far off) but one assumption genuinely changed: the 52032-52084 support that was carrying it as a clean continuation FAILED today, pierced down to 51913 before partially reclaiming to 51973."
+     "es": "el dia confirmo el giro alcista con el mayor margen de la serie reciente, cerrando en el 20% superior",
+     "en": "today confirmed the bullish turn with the series' biggest margin yet, closing in the top 20%"
     }
    },
    "counterCase": {
-    "es": "bajista: el soporte 52032-52084 (viejo PDH) fallo hoy con un perforacion real hasta 51913, y el propio marco diario de YM (-3) sigue sin confirmar nada -- si el retroceso se acelera bajo 51929 sin reclamar, la tesis de 1 dia muere como en los 2 casos previos. Lo mantengo pero degrado: a diferencia de ayer, hoy el nivel que se suponia debia sostener NO sostuvo, aunque el precio ya muestra un intento de reclamo (CHoCH alcista marcado en el feed) justo en el cluster DO/VAL/EMA200.",
-    "en": "bearish: the 52032-52084 support (old PDH) failed today with a real breakdown to 51913, and YM's own daily frame (-3) still hasn't confirmed anything -- if the pullback accelerates below 51929 without reclaiming, the 1-day thesis dies like the 2 prior cases. I keep it but downgrade: unlike yesterday, today the level that was supposed to hold did NOT hold, though price already shows a reclaim attempt (a bullish CHoCH flagged in the feed) right at the DO/VAL/EMA200 cluster."
+    "es": "bajista pese al largo: la divergencia SMT (YM arriba, NQ/ES abajo) es la mas marcada medida -- si el complejo arrastra a YM a la baja en vez de YM desacoplar, el largo nuevo se queda atrapado; lo mantengo pero degrado un escalon la conviccion y vigilo la apertura de Asia para la primera señal de convergencia.",
+    "en": "bearish despite the long: the SMT divergence (YM up, NQ/ES down) is the sharpest measured -- if the complex drags YM down instead of YM decoupling, a fresh long gets trapped; I keep it but downgrade conviction one notch and watch Asia's open for the first sign of convergence."
    },
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "Conflicto de marcos sigue vivo (sesgo diario propio de YM aun en -3 sin confirmar) y bloquea el GO aunque el cluster DO/VAL/EMA200 51972-51994 puntue A+6 con un CHoCH alcista marcado justo ahi -- no es la excepcion de ruptura de marco (la invalidacion final esta a 229pts, lejos de este nivel). el sesgo fusionado sigue NEUTRAL/DEBIL sin permiso de sesion activo: falta la confirmacion antes de actuar.",
-     "en": "Frame conflict is still alive (YM's own daily bias is still at -3, unconfirmed) and blocks GO even though the DO/VAL/EMA200 cluster 51972-51994 scores A+6 with a bullish CHoCH flagged right there -- this isn't the frame-break exception (the final invalidation is 229pts away, far from this level). The fused bias stays NEUTRAL/WEAK with no active session permission: the confirmation is still missing before acting."
+     "es": "confluencia 7 en el cluster POC/EMA20/EMA50 52100-52111 con FVG 15m de soporte -- casi A+, pero la divergencia SMT (la mas marcada de la serie, YM arriba/NQ-ES abajo el mismo dia) y el marco diario propio aun sin confirmar piden esperar la reaccion real en el borde antes de llamarlo GO limpio.",
+     "en": "confluence 7 at the POC/EMA20/EMA50 cluster 52100-52111 with a supporting 15m FVG -- nearly A+, but the SMT divergence (the series' sharpest, YM up/NQ-ES down the same day) and the still-unconfirmed own daily frame call for waiting on the real reaction at the edge before calling it a clean GO."
     }
    },
    "context": {
-    "es": "Londres hizo mas de lo que el plan de madrugada temia en el escenario B: el soporte 52032-52084 (viejo PDH) que debia sostener la continuacion fallo del todo, perforado hasta 51913 -- bajo la zona de no-trade y el propio FVG 4h -- antes de rebotar a 51973, justo en el cluster DO/VAL/EMA200 con un CHoCH alcista marcado en el feed. El sesgo fusionado sigue enfriado NEUTRAL/DEBIL, 1.93A de estiramiento por un lado pero -0.10A por el otro (mismo patron discordante). Sin permiso de sesion activo todavia.",
-    "en": "London did more than the overnight plan feared in scenario B: the 52032-52084 support (old PDH) that was supposed to carry the continuation failed completely, pierced down to 51913 -- below the no-trade zone and the 4h FVG itself -- before bouncing to 51973, right at the DO/VAL/EMA200 cluster with a bullish CHoCH flagged in the feed. The fused bias stays cooled off NEUTRAL/WEAK, 1.93A of stretch on one side but -0.10A on the other (same discordant pattern). No active session permission yet."
+    "es": "Precio cierra cerca de su maximo (52127), con el cluster POC/EMA20/EMA50 52100-52111 justo debajo como el pullback natural. Zona de no-trade aproximada (a partir de los niveles de descuento/medio/premium del sesgo fusionado): 51614-52107 (ancho, refleja la tendencia).  Sin llamada de alta conviccion en la direccion neta de Asia (la divergencia SMT con NQ/ES pesa); la convexion si es alta en que el cluster 52100-52111 es el nivel a vigilar.",
+    "en": "Price closes near its high (52127), with the POC/EMA20/EMA50 cluster 52100-52111 right below it as the natural pullback. Equivalent no-trade (approximated from the fused bias's discount/mid/premium levels): 52000-52099 (wide, reflects the trend). No high-conviction call on Asia's net direction (the SMT divergence with NQ/ES weighs on it); the real-money call here is that the 52100-52111 cluster is the level to watch, not the direction label."
    },
    "scenarioA": {
     "text": {
-     "es": "NY confirma el reclamo: sostiene el cluster DO/VAL/EMA200 51972-51994 y retoma el camino hacia el soporte roto 52032-52084 y el POC",
-     "en": "NY confirms the reclaim: holds the DO/VAL/EMA200 cluster 51972-51994 and resumes the path toward the broken 52032-52084 support and the POC"
+     "es": "Asia hace un pullback superficial al cluster POC/EMA20/EMA50 52100-52111 (con el FVG 15m 52096-52108 de soporte) y continua hacia nuevos maximos sobre 52182",
+     "en": "Asia pulls back shallowly into the POC/EMA20/EMA50 cluster 52100-52111 (with the 15m FVG 52096-52108 as support) and continues toward new highs above 52182"
     },
     "trigger": {
-     "es": "cierre 5m que sostiene sobre 51972 tras el CHoCH alcista, o reclaim directo de 51994",
-     "en": "5m close holding above 51972 after the bullish CHoCH, or a direct reclaim of 51994"
+     "es": "reclamo con cierre 5m sostenido sobre 52107 (EMA20) tras tocar el cluster",
+     "en": "a reclaim with a 5m close sustained above 52107 (EMA20) after tagging the cluster"
     },
-    "target": 52056,
-    "target2": 52111,
+    "target": 52139,
+    "target2": 52182,
     "entryZone": [
-     51972,
-     51994
+     52100,
+     52111
     ]
    },
    "scenarioB": {
     "text": {
-     "es": "el retroceso se acelera, pierde 51929 y revive la duda bajista hacia la vieja invalidacion 51744",
-     "en": "the pullback accelerates, loses 51929 and revives the bearish doubt toward the old 51744 invalidation"
+     "es": "la divergencia SMT se resuelve en contra: cierre 5m bajo 52093 (bajo el FVG) abre el camino hacia el soporte roto 51972-51994 y revive la duda del marco diario propio",
+     "en": "the SMT divergence resolves against it: a 5m close below 52093 (below the FVG) opens the path toward the broken 51972-51994 support and revives the doubt in YM's own daily frame"
     },
     "trigger": {
-     "es": "cierre 5m sostenido bajo 51929",
-     "en": "5m close sustained below 51929"
+     "es": "cierre 5m bajo 52093",
+     "en": "5m close below 52093"
     },
     "zone": [
-     51744,
-     51929
+     51972,
+     52093
     ]
    },
    "invalidation": {
     "text": {
-     "es": "cierre 15m sostenido bajo 51744 revive la tesis bajista (R-YM-tesis-de-un-dia); sobre 52131 confirma otra extension",
-     "en": "15m close sustained below 51744 revives the bearish thesis (R-YM-tesis-de-un-dia); above 52131 confirms another extension"
+     "es": "cierre 15m sostenido bajo 51744 revive la tesis bajista vieja; cierre 5m sostenido sobre 52182 confirma otra extension",
+     "en": "a 15m close sustained below 51744 revives the old bearish thesis; a 5m close sustained above 52182 confirms another extension"
     },
     "level": 51744
    },
@@ -1154,182 +1080,187 @@
     {
      "id": "YM-1",
      "kind": "direction",
-     "resolveAt": "cierre NY (~15:00 CT)",
-     "prob": null,
-     "indeciso": true,
+     "resolveAt": "cierre Asia ~01:00 CT",
+     "prob": 0.58,
      "text": {
-      "es": "direccion neta INDECISA: conflicto de marcos abierto y el soporte que sostenia la continuacion fallo hoy, sin permiso de sesion activo todavia",
-      "en": "net direction INDECISIVE: open frame conflict and the support carrying the continuation failed today, with no active session permission yet"
+      "es": "direccion neta de Asia LARGO (cierre > apertura), pese al riesgo de la divergencia SMT",
+      "en": "net Asia direction LONG (close > open), despite the SMT divergence risk"
      }
     },
     {
      "id": "YM-2",
      "kind": "level_first",
-     "resolveAt": "cierre NY",
-     "prob": 0.6,
+     "resolveAt": "cierre Asia",
+     "prob": 0.55,
      "text": {
-      "es": "toca antes 52056 (POC) que un cierre sostenido bajo 51929",
-      "en": "tags 52056 (POC) before a sustained close below 51929"
+      "es": "toca antes el reclamo del cluster 52100-52111 que un cierre sostenido bajo 52093",
+      "en": "tags the 52100-52111 cluster reclaim before a sustained close below 52093"
      }
     },
     {
      "id": "YM-3",
-     "kind": "scenario",
-     "resolveAt": "cierre NY",
-     "prob": 0.68,
+     "kind": "conditional",
+     "resolveAt": "cierre Asia",
+     "prob": 0.55,
      "text": {
-      "es": "se activa el escenario A (reclamo del cluster DO/VAL/EMA200) antes que el B (pierde 51929)",
-      "en": "scenario A (DO/VAL/EMA200 cluster reclaim) activates before scenario B (loses 51929)"
+      "es": "si Asia sostiene 52107, el dia cierra probando 52182 de frente",
+      "en": "if Asia holds 52107, the day closes testing 52182 head-on"
      }
     },
     {
      "id": "YM-4",
-     "kind": "conditional",
-     "resolveAt": "cierre NY",
-     "prob": 0.58,
+     "kind": "direction",
+     "resolveAt": "cierre Asia",
+     "prob": null,
+     "indeciso": true,
      "text": {
-      "es": "si NY sostiene 51972, el dia cierra probando 52056 de frente",
-      "en": "if NY holds 51972, the day closes testing 52056 head-on"
+      "es": "direccion neta INDECISA si el complejo (NQ/ES) arrastra a YM en las primeras horas de Asia -- la divergencia SMT de hoy es la mas marcada de la serie",
+      "en": "net direction INDECISIVE if the complex (NQ/ES) drags YM in Asia's first hours -- today's SMT divergence is the series' sharpest"
      }
     }
    ],
    "zones": [
     {
      "range": [
-      51972,
-      51994
+      52100,
+      52111
      ],
      "dir": "LONG",
-     "type": "bounce_val",
-     "confluence": 6,
+     "type": "pullback_cont",
+     "confluence": 7,
+     "distPts": 0,
+     "distTicks": 0,
+     "winRate": 0.6667,
+     "winSource": "symType",
+     "winN": 23,
+     "n": 7,
      "role": "tactical",
      "reach": {
-      "distPts": 0.0,
-      "budgetPts": 308.0,
+      "distPts": 0,
+      "budgetPts": 171,
       "ratio": 0.0,
       "class": "TACTICAL"
      },
-     "distPts": 0.0,
-     "distTicks": 0,
-     "winRate": 0.68,
-     "winSource": "type",
-     "winN": 0,
-     "n": 0,
-     "fvg": [],
+     "fvg": [
+      {
+       "tf": "15m",
+       "dir": "bull",
+       "range": [
+        52096,
+        52108
+       ],
+       "weight": 1,
+       "role": {
+        "es": "gatillo + confluencia",
+        "en": "trigger + confluence"
+       }
+      }
+     ],
      "risk": {
-      "stopPts": 43,
-      "stopTk": 43,
-      "stopUsd": 215,
-      "tgtPts": 84,
-      "tgtTk": 84,
-      "tgtUsd": 420,
-      "rr": 1.95,
-      "flag": "AJUSTADO",
-      "maxContracts": null
+      "stopPts": 12,
+      "stopTk": 12,
+      "stopUsd": 60,
+      "tgtPts": 77,
+      "tgtTk": 77,
+      "tgtUsd": 385,
+      "rr": 6.4,
+      "flag": "OK",
+      "maxContracts": 5
      },
      "play": {
-      "window": "08:30-11:30 CT",
+      "window": "19:00-23:00 CT",
       "trigger": {
-       "es": "reclaim con cierre 5m que sostiene sobre el cluster DO/VAL/EMA200 51972-51994 tras el CHoCH alcista marcado en el feed (precio ya perforo el soporte 52032-52084 y rebota) -- esperar la confirmacion y el permiso de sesion, no comprar el primer toque sin cierre",
-       "en": "reclaim with a 5m close holding above the DO/VAL/EMA200 cluster 51972-51994 after the bullish CHoCH flagged in the feed (price already pierced the 52032-52084 support and is bouncing) -- wait for confirmation and session permission, don't buy the first tag without a close"
+       "es": "reclamo con cierre 5m sostenido sobre 52107 (EMA20) tras tocar el cluster 52100-52111, con el FVG 15m 52096-52108 de soporte",
+       "en": "a reclaim with a 5m close sustained above 52107 (EMA20) after tagging the 52100-52111 cluster, with the 15m FVG 52096-52108 as support"
       },
       "structStop": {
-       "es": "bajo 51929 (zona de liquidez bajo el swing 51936, +colchon)",
-       "en": "below 51929 (liquidity pocket below the 51936 swing, +cushion)"
+       "es": "bajo el FVG -3tk, ~52093",
+       "en": "below the FVG -3tk, ~52093"
       },
       "scale": {
-       "es": "1/2 en 52056 (TP1, POC) y mueve a BE; resto a 52111 (TP2, 1a extension)",
-       "en": "1/2 at 52056 (TP1, POC) and move to BE; rest to 52111 (TP2, 1st extension)"
+       "es": "1/2 en VAH 52139 (TP1) y mueve a BE SOLO despues del parcial; resto al maximo de ayer 52182 (TP2)",
+       "en": "1/2 at VAH 52139 (TP1) and move to BE ONLY after the partial; rest to yesterday's high 52182 (TP2)"
       },
       "ifWrong": {
-       "es": "rapido: cierre 5m bajo 51929 -> fuera, revisa el sesgo (el marco diario propio seguiria sin confirmar); lento: solo mecha sin cierre -> aguanta, vigilar el permiso de sesion",
-       "en": "fast: 5m close below 51929 -> out, review bias (YM's own daily frame would still be unconfirmed); slow: wick only without a close -> hold, watch for session permission"
+       "es": "rapido: cierre 5m bajo 52093 -> fuera; lento: solo mechas sin cierre -> aguanta a 52080",
+       "en": "fast: 5m close below 52093 -> out; slow: wicks only, no close -> hold to 52080"
       }
      }
     }
    ],
    "noTradeZone": [
-    51994,
-    52043.7
+    52000,
+    52099
    ],
    "expectedMove": {
-    "low": 190,
-    "base": 293,
-    "high": 410,
-    "lowTk": 190,
-    "baseTk": 293,
-    "highTk": 410,
-    "dayBudget": 526,
-    "dayUsed": 218,
-    "dayUsedPct": 41,
-    "dayRemaining": 308,
-    "flag": "EXPANSIÓN",
-    "mult": 1.2373,
+    "low": 111,
+    "base": 171,
+    "high": 240,
+    "lowTk": 111,
+    "baseTk": 171,
+    "highTk": 240,
+    "dayBudget": 582,
+    "dayUsed": 0,
+    "dayUsedPct": 0,
+    "dayRemaining": 582,
+    "flag": "EXPANSION",
+    "mult": 1.3371,
     "underCal": null
    },
    "keyLevels": [
     {
      "name": {
-      "es": "VAL/day open (DO)",
-      "en": "VAL/day open (DO)"
+      "es": "EMA50",
+      "en": "EMA50"
      },
-     "price": 51972.0,
-     "distPts": 1.0,
-     "distTicks": 1
-    },
-    {
-     "name": {
-      "es": "EMA200",
-      "en": "EMA200"
-     },
-     "price": 51977.0,
-     "distPts": 4.0,
-     "distTicks": 4
-    },
-    {
-     "name": {
-      "es": "minimo de Londres",
-      "en": "London low"
-     },
-     "price": 51913.0,
-     "distPts": 60.0,
-     "distTicks": 60
+     "price": 52100,
+     "distPts": 27,
+     "distTicks": 27
     },
     {
      "name": {
       "es": "EMA20",
       "en": "EMA20"
      },
-     "price": 51989.0,
-     "distPts": 16.0,
-     "distTicks": 16
-    },
-    {
-     "name": {
-      "es": "FVG 4h / soporte roto (viejo PDH)",
-      "en": "4h FVG / broken support (old PDH)"
-     },
-     "price": 52032.0,
-     "distPts": 59.0,
-     "distTicks": 59
+     "price": 52107,
+     "distPts": 20,
+     "distTicks": 20
     },
     {
      "name": {
       "es": "POC",
       "en": "POC"
      },
-     "price": 52056.0,
-     "distPts": 83.0,
-     "distTicks": 83
+     "price": 52111,
+     "distPts": 16,
+     "distTicks": 16
     },
     {
      "name": {
-      "es": "vieja invalidacion / soporte",
-      "en": "old invalidation / support"
+      "es": "VAH",
+      "en": "VAH"
      },
-     "price": 51744.0,
-     "distPts": 229.0,
-     "distTicks": 229
+     "price": 52139,
+     "distPts": 12,
+     "distTicks": 12
+    },
+    {
+     "name": {
+      "es": "maximo de ayer",
+      "en": "yesterday's high"
+     },
+     "price": 52182,
+     "distPts": 55,
+     "distTicks": 55
+    },
+    {
+     "name": {
+      "es": "VAL",
+      "en": "VAL"
+     },
+     "price": 51972,
+     "distPts": 155,
+     "distTicks": 155
     }
    ],
    "news": []
@@ -1340,20 +1271,20 @@
    "conviction": "media",
    "prevDay": {
     "type": {
-     "es": "4a sesion de tendencia confirmada, con un round-trip propio dentro del dia",
-     "en": "4th confirmed trend session, with its own intraday round-trip"
+     "es": "tendencia alcista con un barrido violento de ambos extremos al inicio, cerrando cerca del extremo alto",
+     "en": "uptrend with a violent sweep of both extremes early, closing near the top extreme"
     },
     "closedAt": {
-     "es": "en el 72% del rango",
-     "en": "at 72% of the range"
+     "es": "76% de su rango, nuevo maximo de ciclo",
+     "en": "76% of its range, a new cycle high"
     },
     "prior": {
      "es": "CONTINUACION largo",
      "en": "long CONTINUATION"
     },
     "note": {
-     "es": "Asia revirtio de 91.41 a 90.19 antes de que Londres/NY reclamaran sin pausa hasta 92.17, a 0.4pts de la VAH 92.57",
-     "en": "Asia reversed from 91.41 to 90.19 before London/NY reclaimed without pause up to 92.17, 0.4pts off the 92.57 VAH"
+     "es": "sin catalizador de calendario hasta el EIA del jueves",
+     "en": "no calendar catalyst until Thursday's EIA"
     }
    },
    "gap": {
@@ -1361,93 +1292,92 @@
     "ticks": 17,
     "filled": true,
     "size": {
-     "es": "sin gap",
-     "en": "no gap"
+     "es": "grande",
+     "en": "large"
     },
     "note": {
-     "es": "gap minimo (0.17pts), el mas chico del dia; irrelevante frente al round-trip que vino despues",
-     "en": "minimal gap (0.17pts), the smallest of the day; irrelevant next to the round-trip that followed"
+     "es": "gap de apertura minimo (91.83 vs 91.66), ya llenado y muy superado -- sin relevancia",
+     "en": "minimal opening gap (91.83 vs 91.66), already filled and far exceeded -- not relevant"
     }
    },
-   "weekendGap": null,
    "smt": {
     "state": "ninguna",
     "note": {
-     "es": "no aplica (CL no participa en SMT)",
-     "en": "not applicable (CL doesn't take part in SMT)"
+     "es": "CL no participa del SMT de indices",
+     "en": "CL doesn't participate in the index SMT"
     }
    },
    "frameConflict": {
     "on": false,
     "note": {
-     "es": "orb, los marcos de 1h/4h y el marco superior siguen alineados largo; hoy ademas la estructura confirmo BOS up con fuerza real, sin conflicto",
-     "en": "orb, the 1h/4h frames and the higher frame remain aligned long; today structure also confirmed a BOS up with real force, no conflict"
+     "es": "la lectura de estructura de muy corto plazo marca bajista (pullback tecnico tras la extension) pero el sesgo diario, semanal y el combinado de 1h/4h (+3/+3/+3), junto con el control de 1h/4h y la tendencia de sesion, siguen solidamente alcistas -- no es conflicto real, es ruido de TF bajo",
+     "en": "the very-short-term structure read flags bearish (a technical pullback after the extension) but the daily, weekly and combined 1h/4h bias (+3/+3/+3), together with the 1h/4h control reads and session trend, remain solidly bullish -- not a real conflict, just low-TF noise"
     }
    },
    "whipsawRisk": {
-    "score": 0.25,
+    "score": 0.35,
     "note": {
-     "es": "el doble barrido de la manana (92.62 arriba, 89.61 abajo) quedo resuelto con una extension direccional clara y fuerte (BOS up a 93.88): dia con resolucion neta, no de chop",
-     "en": "this morning's double sweep (92.62 above, 89.61 below) resolved with a clear, strong directional extension (BOS up to 93.88): a net-resolution day, not a chop day"
+     "es": "dia ya 115% del ATR gastado, sin catalizador propio hasta el jueves -- riesgo de reversal del modelo R-CL-reversal-completo-sin-catalizador sigue activo aunque debilitado (2a vez que no se cumple)",
+     "en": "day already spent 115% of its ATR, with no catalyst of its own until Thursday -- the R-CL-reversal-completo-sin-catalizador reversal risk is still active though weakened (2nd time it hasn't materialized)"
     }
    },
    "thesisAlign": {
     "state": "ALIGN",
-    "daysHeld": 4,
+    "daysHeld": 5,
     "note": {
-     "es": "La tesis se confirma de la forma mas contundente de la serie: el toque 14+ en la VAH congestionada por fin se rompio, con BOS up real y extension a 93.88 -- 1.31pts sobre el objetivo semanal 92.57 que llevaba semanas sin ceder.",
-     "en": "the thesis confirms itself in the strongest way yet in the series: touch #14+ at the congested VAH finally broke, with a real BOS up and an extension to 93.88 -- 1.31pts above the 92.57 weekly objective that had held for weeks."
+     "es": "el dia confirmo la 5a sesion de giro alcista, rompiendo por fin la VAH congestionada que lo contuvo toda la semana pasada",
+     "en": "today confirmed the bullish turn's 5th session, finally breaking the congested VAH that had contained it all last week"
     }
    },
    "counterCase": {
-    "es": "bajista: la ruptura de hoy NO tiene catalizador de calendario (el EIA es el jueves, no hoy) -- el modelo R-CL-reversal-completo-sin-catalizador (1/1) advierte que un reinicio sin catalizador puede revertirse del todo en la misma sesion, no solo mechearse, y el dia ya gasto 104% de su ATR (AGOTADO). Lo mantengo pero degrado la urgencia de entrar: el sesgo semanal esta mas confirmado que nunca, pero el momento para sumarse (sin catalizador y sin presupuesto) es el peor de la serie.",
-    "en": "bearish: today's breakout has NO calendar catalyst (the EIA print is Thursday, not today) -- the R-CL-reversal-completo-sin-catalizador model (1/1) warns that an uncatalyzed reinit can fully reverse within the same session, not just wick through. The day has also already spent 104% of its ATR (exhausted). I keep the thesis but downgrade the urgency to enter: the weekly bias is more confirmed than ever, but the moment to add (no catalyst, no budget left) is the worst in the series."
+    "es": "bajista pese al largo: el dia ya gasto 115% del ATR sin catalizador propio hasta el jueves, y el modelo de reversal-sin-catalizador sigue activo (aunque 2a vez sin cumplirse); si Asia pierde 93.00 con cierre, GIRA hacia una correccion de gestion. Por ahora lo mantengo pero degrado: sin presupuesto fresco, sin perseguir.",
+    "en": "bearish despite the long: the day already spent 115% of its ATR with no catalyst of its own until Thursday, and the no-catalyst-reversal model is still active (though it hasn't hit twice now); if Asia loses 93.00 with a close, it FLIPS into a management pullback. For now I keep it but downgrade: no fresh budget, don't chase."
    },
    "verdict": {
-    "signal": "AVOID",
+    "signal": "WAIT",
     "reason": {
-     "es": "Dia ya 104%+ del ATR gastado (una lectura marca 'AGOTADO - gestiona', otra confirma el regimen agotado, saldo de ATR negativo) y la ruptura de hoy no tiene catalizador de calendario en curso (EIA es el jueves) -- el modelo R-CL-reversal-completo-sin-catalizador advierte reversal completo sin aviso en sesiones asi. la sintesis marca 9.3A de estiramiento (lectura discordante de siempre, la otra lectura solo 0.49A) pero el presupuesto gastado es un hecho independiente, no un artefacto: no perseguir la extension, protege de la fuga de perseguir.",
-     "en": "The day already spent 104%+ of its ATR (one read flags 'exhausted - manage', another confirms the exhausted regime, negative ATR balance) and today's breakout has no calendar catalyst running (EIA is Thursday) -- the R-CL-reversal-completo-sin-catalizador model warns a full reversal can hit without warning in sessions like this. The fused bias flags 9.3A of stretch (the usual discordant read, the other reading only 0.49A) but the spent budget is an independent fact, not an artifact: don't chase the extension, this protects against the chasing leak."
+     "es": "dia ya 115% del ATR gastado entrando a Asia, sin catalizador propio (EIA es el jueves, la API semanal cae mañana martes ~15:30 CT, fuera de esta sesion) -- el presupuesto residual es minimo (EM base ~1.16pts) y la unica zona a tiro (EMA20 93.19-93.33, confluencia 3) no llega a B solido. Esperar a que aparezca un pullback real o se renueve el presupuesto.",
+     "en": "the day already spent 115% of its ATR coming into Asia, with no catalyst of its own (EIA is Thursday, the weekly API falls tomorrow Tuesday ~15:30 CT, outside this session) -- residual budget is minimal (EM base ~1.16pts) and the only level in reach (EMA20 93.19-93.33, confluence 3) doesn't reach a solid B. Wait for a real pullback or for the budget to refresh."
     }
    },
    "context": {
-    "es": "Londres confirmo lo que el plan de madrugada dejaba en duda: el toque 14+ en la VAH congestionada por fin rompio con BOS up real, extendiendo a 93.88 -- 1.31pts sobre el objetivo semanal 92.57 -- antes de asentar en 93.73. el sesgo fusionado sigue BUSCANDO LARGO fuerte (sesgo +10/10) pero sin permiso (lejos de nivel) y el dia ya gasto 104% de su ATR tipico. Sin catalizador de calendario hoy (EIA es el jueves 11:00 CT) -- el modelo de reversal-sin-catalizador pide tratar la ruptura como fragil toda la sesion de NY.",
-    "en": "London confirmed what the overnight plan left in doubt: touch #14+ at the congested VAH finally broke with a real BOS up, extending to 93.88 -- 1.31pts above the 92.57 weekly objective -- before settling at 93.73. The fused bias keeps LOOKING LONG strong (bias +10/10) but with no permission (far from level) and the day already spent 104% of its typical ATR. No calendar catalyst today (EIA is Thursday at 11:00 CT) -- the no-catalyst-reversal model says to treat the breakout as fragile through all of NY."
+    "es": "Precio cierra pegado al EMA20 (93.33), con POC 93.67 y VWAP 92.75 algo mas lejos. Dia ya muy extendido (115% ATR), sin edge fresco para Asia. Zona de no-trade aproximada (a partir de los niveles de descuento/medio/premium del sesgo fusionado): 90.55-91.63 (lejos del precio actual, poco util). Sin llamada de alta conviccion hoy en CL -- dia ya extendido sin catalizador propio deja todo cerca de 0.55.",
+    "en": "Price closes glued to the EMA20 (93.33), with POC 93.67 and VWAP 92.75 somewhat farther. The day is already very extended (115% ATR), with no fresh edge for Asia. Equivalent no-trade (approximated from the fused bias's discount/mid/premium levels): 93.34-93.60 (far from current price, not very useful). No high-conviction call today for CL -- a day already extended with no catalyst of its own keeps everything near 0.55."
    },
    "scenarioA": {
     "text": {
-     "es": "NY sostiene la extension: pullback superficial al EMA20 93.19 y continua hacia nuevos maximos, aunque sin presupuesto fresco el recorrido es limitado",
-     "en": "NY holds the extension: a shallow pullback to the EMA20 93.19 and it continues toward new highs, though with no fresh budget the room to run is limited"
+     "es": "Asia sostiene un pullback superficial al EMA20 93.19-93.33 y sigue probando el maximo de ayer 94.36, aunque sin presupuesto fresco el recorrido es limitado",
+     "en": "Asia holds a shallow pullback at the EMA20 93.19-93.33 and keeps testing yesterday's high 94.36, though with no fresh budget the room to run is limited"
     },
     "trigger": {
      "es": "cierre 5m que sostiene sobre 93.19 tras cualquier mecha mas baja",
-     "en": "5m close holding above 93.19 after any lower wick"
+     "en": "a 5m close holding above 93.19 after any lower wick"
     },
-    "target": 93.88,
-    "target2": 94.5,
+    "target": 93.67,
+    "target2": 94.36,
     "entryZone": [
-     93.0,
-     93.19
+     93.19,
+     93.33
     ]
    },
    "scenarioB": {
     "text": {
-     "es": "reversal completo sin aviso (patron R-CL-reversal-completo-sin-catalizador): pierde 92.62 (viejo objetivo semanal) y revisita la VAH congestionada desde arriba",
-     "en": "a full reversal with no warning (R-CL-reversal-completo-sin-catalizador pattern): loses 92.62 (old weekly objective) and revisits the congested VAH from above"
+     "es": "la correccion de gestion se profundiza: cierre 5m bajo 93.00 abre el camino hacia la vieja VAH (ahora soporte) 92.57-93.20",
+     "en": "the management pullback deepens: a 5m close below 93.00 opens the path toward the old VAH (now support) 92.57-93.20"
     },
     "trigger": {
-     "es": "cierre 5m sostenido bajo 92.62",
-     "en": "5m close sustained below 92.62"
+     "es": "cierre 5m bajo 93.00",
+     "en": "5m close below 93.00"
     },
     "zone": [
-     90.97,
-     92.62
+     92.57,
+     93.0
     ]
    },
    "invalidation": {
     "text": {
-     "es": "cierre 5m sostenido bajo 92.17 (viejo PDH, ahora soporte) revive el riesgo de reversal completo sin catalizador; cierre 15m sostenido sobre 93.88 confirma otra extension",
-     "en": "5m close sustained below 92.17 (old PDH, now support) revives the no-catalyst full-reversal risk; a 15m close sustained above 93.88 confirms another extension"
+     "es": "cierre 5m sostenido bajo 92.17 (viejo PDH, ahora soporte) revive el riesgo de reversal sin catalizador; cierre 15m sostenido sobre 94.36 confirma otra extension",
+     "en": "a 5m close sustained below 92.17 (old PDH, now support) revives the no-catalyst reversal risk; a 15m close sustained above 94.36 confirms another extension"
     },
     "level": 92.17
    },
@@ -1455,116 +1385,106 @@
     {
      "id": "CL-1",
      "kind": "direction",
-     "resolveAt": "cierre NY (~15:00 CT)",
+     "resolveAt": "cierre Asia ~01:00 CT",
      "prob": 0.55,
      "text": {
-      "es": "direccion neta de NY LARGO, pero sin convencer (dia ya 104% de su ATR, sin catalizador)",
-      "en": "net NY direction LONG, but unconvincingly (day already 104% of its ATR, no catalyst)"
+      "es": "direccion neta de Asia LARGO, pero sin convencer (dia ya 115% de su ATR, sin catalizador)",
+      "en": "net Asia direction LONG, but unconvincingly (day already 115% of its ATR, no catalyst)"
      }
     },
     {
      "id": "CL-2",
      "kind": "level_first",
-     "resolveAt": "cierre NY",
-     "prob": 0.65,
+     "resolveAt": "cierre Asia",
+     "prob": 0.58,
      "text": {
-      "es": "toca 92.62 (viejo objetivo semanal, ahora soporte) de vuelta antes de un nuevo maximo sostenido sobre 94.00",
-      "en": "tags 92.62 (old weekly objective, now support) on a pullback before a sustained new high above 94.00"
+      "es": "toca antes 93.00 (pullback) de vuelta que un nuevo maximo sostenido sobre 94.36",
+      "en": "tags 93.00 (pullback) on a dip before a sustained new high above 94.36"
      }
     },
     {
      "id": "CL-3",
-     "kind": "scenario",
-     "resolveAt": "cierre NY",
-     "prob": 0.42,
-     "text": {
-      "es": "se activa el escenario B (reversal completo sin catalizador) en vez del A (continuacion con pullback superficial)",
-      "en": "scenario B (full no-catalyst reversal) activates instead of A (continuation with a shallow pullback)"
-     }
-    },
-    {
-     "id": "CL-4",
      "kind": "conditional",
-     "resolveAt": "cierre NY",
+     "resolveAt": "cierre Asia",
      "prob": 0.55,
      "text": {
-      "es": "si NY pierde 92.62, el dia cierra revisitando la VAH congestionada 90.97-91.73",
-      "en": "if NY loses 92.62, the day closes revisiting the congested VAH 90.97-91.73"
+      "es": "si Asia pierde 93.00, el dia cierra revisitando la vieja VAH 92.57-93.20",
+      "en": "if Asia loses 93.00, the day closes revisiting the old VAH 92.57-93.20"
      }
     }
    ],
    "zones": [
     {
      "range": [
-      93.0,
-      93.19
+      93.19,
+      93.33
      ],
      "dir": "LONG",
      "type": "pullback_cont",
-     "confluence": 6,
+     "confluence": 3,
+     "distPts": 0,
+     "distTicks": 0,
+     "winRate": 0.5455,
+     "winSource": "symType",
+     "winN": 18,
+     "n": 7,
      "role": "watch",
      "reach": {
-      "distPts": 0.0,
-      "budgetPts": 0.0,
+      "distPts": 0,
+      "budgetPts": 1.16,
       "ratio": 0.0,
       "class": "WATCH"
      },
-     "distPts": 0.54,
-     "distTicks": 54,
-     "winRate": 0.6667,
-     "winSource": "leaf",
-     "winN": 8.0,
-     "n": 8,
      "fvg": [],
      "risk": {
-      "stopPts": 0.29,
-      "stopTk": 29,
-      "stopUsd": 290,
-      "tgtPts": 0.26,
-      "tgtTk": 26,
-      "tgtUsd": 260,
-      "rr": 0.9,
-      "flag": "FLOJO",
-      "maxContracts": null
+      "stopPts": 0.26,
+      "stopTk": 26,
+      "stopUsd": 260,
+      "tgtPts": 1.1,
+      "tgtTk": 110,
+      "tgtUsd": 1100,
+      "rr": 4.2,
+      "flag": "OK",
+      "maxContracts": 1
      },
      "play": {
-      "window": "08:30-11:30 CT",
+      "window": "19:00-23:00 CT",
       "trigger": {
-       "es": "sin borde a tiro con presupuesto real: dia ya 104% de su ATR, sin catalizador de calendario en curso -- solo vigilar un pullback superficial al EMA20 93.19 como referencia de continuacion minima, o la perdida de 92.62 como aviso de reversal completo; no es un plan operable hoy",
-       "en": "no edge within real reach: day already 104% of its ATR, no calendar catalyst running -- just watch a shallow pullback to the EMA20 93.19 as a minimal-continuation reference, or a loss of 92.62 as the full-reversal warning; this is not an operable plan today"
+       "es": "reclamo con cierre 5m sobre 93.19 (EMA20) tras cualquier mecha mas baja -- solo referencia, sin presupuesto fresco hasta el EIA del jueves",
+       "en": "a reclaim with a 5m close above 93.19 (EMA20) after any lower wick -- reference only, no fresh budget until Thursday's EIA"
       },
       "structStop": {
-       "es": "bajo 92.90 (cushion bajo el EMA20)",
-       "en": "below 92.90 (cushion under the EMA20)"
+       "es": "bajo 93.00 + colchon",
+       "en": "below 93.00 + cushion"
       },
       "scale": {
-       "es": "sin parcial operable hoy (R:R 0.9, FLOJO); si se confirma continuacion manana con presupuesto fresco, TP1 93.88 y TP2 94.50",
-       "en": "no operable partial today (R:R 0.9, FLOJO); if continuation confirms tomorrow with fresh budget, TP1 93.88 and TP2 94.50"
+       "es": "1/2 en POC 93.67 (TP1) y mueve a BE SOLO despues del parcial; resto al maximo de ayer 94.36 (TP2)",
+       "en": "1/2 at POC 93.67 (TP1) and move to BE ONLY after the partial; rest to yesterday's high 94.36 (TP2)"
       },
       "ifWrong": {
-       "es": "rapido: cierre 5m bajo 92.62 -> revisa el sesgo (riesgo de reversal completo); lento: solo mecha -> sin accion, dia sin presupuesto",
-       "en": "fast: 5m close below 92.62 -> review bias (full-reversal risk); slow: wick only -> no action, day out of budget"
+       "es": "rapido: cierre 5m bajo 93.00 -> fuera; lento: solo mechas sin cierre -> aguanta a 92.90",
+       "en": "fast: 5m close below 93.00 -> out; slow: wicks only, no close -> hold to 92.90"
       }
      }
     }
    ],
    "noTradeZone": [
-    92.93,
-    93.0
+    93.34,
+    93.6
    ],
    "expectedMove": {
-    "low": 0.05,
-    "base": 0.1,
-    "high": 0.2,
-    "lowTk": 5,
-    "baseTk": 10,
-    "highTk": 20,
-    "dayBudget": 3.71,
-    "dayUsed": 4.27,
-    "dayUsedPct": 115,
-    "dayRemaining": 0,
-    "flag": "AGOTADO",
-    "mult": 1.2929,
+    "low": 0.75,
+    "base": 1.16,
+    "high": 1.62,
+    "lowTk": 75,
+    "baseTk": 116,
+    "highTk": 162,
+    "dayBudget": 4.14,
+    "dayUsed": 0,
+    "dayUsedPct": 0,
+    "dayRemaining": 4.14,
+    "flag": "EXPANSION",
+    "mult": 1.4,
     "underCal": null
    },
    "keyLevels": [
@@ -1573,214 +1493,121 @@
       "es": "EMA20",
       "en": "EMA20"
      },
-     "price": 93.19,
-     "distPts": 0.54,
-     "distTicks": 54
-    },
-    {
-     "name": {
-      "es": "maximo del dia",
-      "en": "day high"
-     },
-     "price": 93.88,
-     "distPts": 0.15,
-     "distTicks": 15
-    },
-    {
-     "name": {
-      "es": "objetivo semanal (ahora soporte)",
-      "en": "weekly objective (now support)"
-     },
-     "price": 92.62,
-     "distPts": 1.11,
-     "distTicks": 111
-    },
-    {
-     "name": {
-      "es": "PDH (soporte)",
-      "en": "PDH (support)"
-     },
-     "price": 92.17,
-     "distPts": 1.56,
-     "distTicks": 156
+     "price": 93.33,
+     "distPts": 0.11,
+     "distTicks": 11
     },
     {
      "name": {
       "es": "POC",
       "en": "POC"
      },
-     "price": 92.59,
+     "price": 93.67,
+     "distPts": 0.45,
+     "distTicks": 45
+    },
+    {
+     "name": {
+      "es": "maximo de ayer",
+      "en": "yesterday's high"
+     },
+     "price": 94.36,
      "distPts": 1.14,
      "distTicks": 114
     },
     {
      "name": {
-      "es": "VAH congestionada",
-      "en": "congested VAH"
+      "es": "VWAP",
+      "en": "VWAP"
      },
-     "price": 91.73,
-     "distPts": 2.0,
-     "distTicks": 200
+     "price": 92.75,
+     "distPts": 0.47,
+     "distTicks": 47
     },
     {
      "name": {
-      "es": "minimo de hoy",
-      "en": "today's low"
+      "es": "vieja VAH (soporte)",
+      "en": "old VAH (support)"
+     },
+     "price": 92.57,
+     "distPts": 0.65,
+     "distTicks": 65
+    },
+    {
+     "name": {
+      "es": "minimo de ayer",
+      "en": "yesterday's low"
      },
      "price": 89.61,
-     "distPts": 4.12,
-     "distTicks": 412
+     "distPts": 3.61,
+     "distTicks": 361
     }
    ],
-   "news": [
-    {
-     "title": "Crude Oil Inventories (EIA)",
-     "ct": "jueves 11:00",
-     "handsOff": [
-      "10:45",
-      "11:20"
-     ]
-    }
-   ]
+   "news": []
   }
  },
- "focus": {
-  "sym": "GC",
-  "verdict": "GO",
-  "window": "08:30-11:30 CT",
-  "setup": {
-   "es": "A+8 cluster VAL/EMA20/EMA50/FVG 15m 4189.80-4200.80, CORTO a favor, precio ya en el borde (1.3pts)",
-   "en": "A+8 VAL/EMA20/EMA50/15m FVG cluster 4189.80-4200.80, SHORT with bias, price already at the edge (1.3pts)"
+ "dayThesis": {
+  "NQ": {
+   "es": "Bajista, dia 3 confirmado con el cierre mas extremo de la serie (9% inferior del rango), a 94pts de la confirmacion dura 30792. Conflicto de marcos sigue abierto (diario/semanal alcista vs sesion bajista) -- sin GO limpio hasta que se resuelva.",
+   "en": "Bearish, day 3 confirmed with the series' most extreme close (bottom 9% of the range), 94pts from the hard 30792 confirmation. Frame conflict remains open (bullish daily/weekly vs bearish session) -- no clean GO until it resolves."
   },
-  "trigger": {
-   "es": "rechazo con cierre 5m de vuelta bajo 4197.90 tras tocar el cluster, sin cierre sostenido sobre 4201.10 (techo del FVG 15m +3tk)",
-   "en": "rejection with a 5m close back below 4197.90 after tagging the cluster, without a sustained close above 4201.10 (15m FVG high +3tk)"
+  "ES": {
+   "es": "Alcista de fondo pero evolucionando con duda revivida: cerro bajo el pivote 7862 que definia el giro tras una reversion desde el maximo. Equilibrio total al abrir Asia, esperar confirmacion antes de actuar.",
+   "en": "Bullish underneath but evolving with revived doubt: closed below the 7862 pivot that defined the turn after a reversal from the high. Total equilibrium at Asia's open, wait for confirmation before acting."
   },
-  "invalid": {
-   "es": "cierre 5m sostenido sobre 4201.10",
-   "en": "5m close sustained above 4201.10"
+  "GC": {
+   "es": "Giro hacia bajista: marcos diario/semanal realinearon a la baja por primera vez tras un intento fallido de confirmar el giro alcista. A+8 lista en el cluster POC/EMA20/EMA50, pero el escenario A de GC solo acierta 29% en 20d.",
+   "en": "Turning bearish: daily/weekly frames realigned to the downside for the first time after a failed attempt to confirm the bullish turn. A+8 ready at the POC/EMA20/EMA50 cluster, but GC's scenario A only hits 29% over 20d."
   },
-  "note": {
-   "es": "Conflicto de marcos resuelto hoy, permiso de sesion activo y señal recien disparada -- pero scenario A de GC solo acierta 29% en 20d, asi que el plan B (revive el alcista) pesa lo mismo: cobra el parcial en TP1 4178.1 antes de pensar en el runner.",
-   "en": "Frame conflict resolved today, active session permission and a signal that just fired -- but GC's scenario A only hits 29% over 20d, so scenario B (bullish case revives) carries equal weight: bank the partial at TP1 4178.1 before thinking about the runner."
+  "YM": {
+   "es": "Alcista confirmado con autoridad, nuevo maximo de ciclo. Unico freno: la divergencia SMT mas marcada de la serie frente a NQ/ES (que hicieron minimos el mismo dia) -- vigilar si el complejo arrastra a YM a la baja.",
+   "en": "Bullish confirmed with authority, a new cycle high. Only brake: the series' sharpest SMT divergence against NQ/ES (which made lows the same day) -- watch whether the complex drags YM down."
+  },
+  "CL": {
+   "es": "Alcista confirmado, dia 5, por fin rompio la VAH congestionada. Dia ya muy extendido (115% ATR) sin catalizador hasta el EIA del jueves -- sin presupuesto fresco para Asia, tratar con menos conviccion.",
+   "en": "Bullish confirmed, day 5, finally broke the congested VAH. The day is already very extended (115% ATR) with no catalyst until Thursday's EIA -- no fresh budget for Asia, trade with less conviction."
   }
  },
  "summary": {
   "es": [
-   "!! GC: escenario A sigue en 29% en 20d (n=55) y su prediccion de rango tambien <40% (29%, n=34); hoy ademas extendio el giro bajista a un nuevo minimo 4178.1.",
-   "Londres cerro violento: NQ, GC e YM rompieron sus niveles clave a la baja (sin catalizador de noticias); ES mecho la invalidacion y reclamo; CL rompio con fuerza al alza muy lejos de nivel.",
-   "NQ: WAIT, BOS bajista confirmado y conflicto de marcos resuelto, pero el mejor nivel solo da confluencia 4 (B); esperar la reaccion real en 31108.50-31155.25.",
-   "ES: WAIT, conflicto de marcos nuevo hoy (6 marcos largos vs BOS 1h bajista); mecho 7862 y reclamo parcial, pero falta confirmar con cierre -- A+7 listo en 7865-7869.70.",
-   "GC: GO, los dos marcos ya alineados bajistas, señal LISTO SHORT recien disparada con permiso activo; A+8 en 4189.80-4200.80, mas limpio del dia.",
-   "YM: WAIT, el soporte 52032-52084 fallo y cayo a 51913; A+6 en el reclamo 51972-51994 pero el marco diario propio de YM sigue sin confirmar, sin permiso aun.",
-   "CL: AVOID, rompio con fuerza a 93.88 (BOS up, sobre el objetivo semanal) pero el dia ya gasto 104% del ATR y no hay catalizador de calendario hoy -- no perseguir la extension.",
-   "mas limpio: GC.",
-   "Sizing: cuenta Vest, tope $80k notional por posicion; no uses limites de perdida diaria de futuros aqui."
+   "!! GC: escenario A solo 29% en 20d y prediccion de rango tambien <40% -- no ancles el plan solo en A. Hoy ademas sus marcos diario/semanal realinearon a la baja por primera vez tras un intento fallido de confirmar el giro alcista (toco 4242.3 sin cierre sobre 4233.7).",
+   "NQ: corto dia 3, cierre mas extremo de la serie (9% del rango), conflicto de marcos abierto -- WAIT, zona B en el cluster POC/EMA20/EMA50.",
+   "ES: equilibrio total tras reversion desde el maximo, cerro bajo el pivote 7862 -- WAIT, esperar confirmacion de cualquier lado.",
+   "GC: A+8 lista en el cluster POC/EMA20/EMA50 + FVG 15m, marcos recien alineados a la baja -- GO con cautela, cobra el parcial en TP1.",
+   "YM: largo confirmado con autoridad, nuevo maximo de ciclo, pero la divergencia SMT con NQ/ES es la mas marcada de la serie -- WAIT, casi A+ (confluencia 7).",
+   "CL: largo confirmado dia 5, rompio la VAH congestionada, pero dia ya 115% del ATR sin catalizador hasta el jueves -- WAIT, sin presupuesto fresco.",
+   "mas limpio: GC",
+   "Ejecucion real (journal, 3 dias con dato tras 3 dias congelado): 0 parciales en 24 posiciones, racha de perdidas de 7 el 10-12 -- si entras hoy, cobra el parcial en TP1 antes del runner.",
+   "Limite de la cuenta real de Jesus (Vest, NDX-PERP): tamaño <= $80k de notional por posicion, stop en el libro al entrar, no promediar en contra.",
+   "una de las fuentes de fondo no trajo dato esta corrida en ningun simbolo -- se sustituyo por las lecturas de tendencia y el sesgo fusionado para marcos y zona de no-trade; dilo si algo no calza."
   ],
   "en": [
-   "!! GC: scenario A is still 29% over 20d (n=55) and its range prediction is also <40% (29%, n=34); today it also extended the bearish turn to a new 4178.1 low.",
-   "London closed out violent: NQ, GC and YM broke their key levels to the downside (no news catalyst); ES wicked the invalidation and reclaimed; CL broke hard to the upside, way past any level.",
-   "NQ: WAIT, bearish BOS confirmed and frame conflict resolved, but the best level only scores confluence 4 (B); wait for the real reaction at 31108.50-31155.25.",
-   "ES: WAIT, a fresh frame conflict today (6 long frames vs a bearish 1h BOS); wicked 7862 with a partial reclaim, but still needs a close to confirm -- A+7 ready at 7865-7869.70.",
-   "GC: GO, both frames now aligned bearish, a LISTO SHORT signal just fired with active permission; A+8 at 4189.80-4200.80, today's cleanest.",
-   "YM: WAIT, the 52032-52084 support failed and fell to 51913; A+6 at the 51972-51994 reclaim but YM's own daily frame still hasn't confirmed, no permission yet.",
-   "CL: AVOID, broke hard to 93.88 (BOS up, above the weekly objective) but the day already spent 104% of its ATR and there's no calendar catalyst today -- don't chase the extension.",
-   "cleanest: GC.",
-   "Sizing: Vest account, $80k notional cap per position; don't use futures daily loss limits here."
+   "!! GC: scenario A only 29% over 20d and the range prediction is also <40% -- don't anchor the plan on A alone. Today its daily/weekly frames also realigned to the downside for the first time after a failed attempt to confirm the bullish turn (tagged 4242.3 without closing above 4233.7).",
+   "NQ: short day 3, the series' most extreme close (bottom 9% of range), open frame conflict -- WAIT, a B zone at the POC/EMA20/EMA50 cluster.",
+   "ES: total equilibrium after a reversal from the high, closed below the 7862 pivot -- WAIT, wait for confirmation either way.",
+   "GC: A+8 ready at the POC/EMA20/EMA50 + 15m FVG cluster, frames just aligned to the downside -- GO with caution, bank the partial at TP1.",
+   "YM: long confirmed with authority, a new cycle high, but the SMT divergence against NQ/ES is the series' sharpest -- WAIT, nearly A+ (confluence 7).",
+   "CL: long confirmed day 5, broke the congested VAH, but the day is already 115% of its ATR with no catalyst until Thursday -- WAIT, no fresh budget.",
+   "cleanest: GC",
+   "Real execution (journal, 3 days with data after 3 frozen days): 0 partials across 24 positions, a 7-loss streak on 10-12 -- if you enter today, bank the partial at TP1 before the runner.",
+   "Jesus's real account limit (Vest, NDX-PERP): size <= $80k notional per position, resting stop at entry, no averaging against a loser.",
+   "one of the background-frame sources returned no data this run for any symbol -- substituted with the trend reads and the fused bias for frames and no-trade zone; flag it if something doesn't line up."
   ]
  },
  "alertLevels": [
   {
    "sym": "GC",
-   "price": 4200.8,
+   "price": 4194.9,
    "band": [
-    4189.8,
-    4200.8
+    4192.6,
+    4197.5
    ],
    "dir": "SHORT",
    "kind": "zoneA",
    "verdict": "GO",
    "label": {
-    "es": "A+8 VAL/EMA20/EMA50/FVG - corto a favor",
-    "en": "A+8 VAL/EMA20/EMA50/FVG - short with bias"
-   }
-  },
-  {
-   "sym": "ES",
-   "price": 7869.7,
-   "band": [
-    7865,
-    7869.7
-   ],
-   "dir": "LONG",
-   "kind": "zoneA",
-   "verdict": "WAIT",
-   "label": {
-    "es": "A+7 reclamo EMA20/EMA50/VAL/PDH - largo a favor, falta confirmar",
-    "en": "A+7 EMA20/EMA50/VAL/PDH reclaim - long with bias, needs confirmation"
-   }
-  },
-  {
-   "sym": "YM",
-   "price": 51994,
-   "band": [
-    51972,
-    51994
-   ],
-   "dir": "LONG",
-   "kind": "zoneA",
-   "verdict": "WAIT",
-   "label": {
-    "es": "A+6 reclamo DO/VAL/EMA200 - largo a favor, sin permiso aun",
-    "en": "A+6 DO/VAL/EMA200 reclaim - long with bias, no permission yet"
-   }
-  },
-  {
-   "sym": "NQ",
-   "price": 31129.52,
-   "band": [
-    31091.75,
-    31129.52
-   ],
-   "dir": "SHORT",
-   "kind": "zoneA",
-   "verdict": "WAIT",
-   "label": {
-    "es": "B4 FVG 1h/15m - corto a favor, sin confluencia A+",
-    "en": "B4 1h/15m FVG - short with bias, no A+ confluence"
-   }
-  },
-  {
-   "sym": "NQ",
-   "price": 31290,
-   "band": null,
-   "dir": null,
-   "kind": "invalidation",
-   "label": {
-    "es": "invalida el corto del dia (nunca tocado hoy)",
-    "en": "invalidates the day's short (never tagged today)"
-   }
-  },
-  {
-   "sym": "NQ",
-   "price": 30792,
-   "band": null,
-   "dir": null,
-   "kind": "invalidation",
-   "label": {
-    "es": "confirma el bajista",
-    "en": "confirms the bearish case"
-   }
-  },
-  {
-   "sym": "ES",
-   "price": 7862,
-   "band": null,
-   "dir": null,
-   "kind": "invalidation",
-   "label": {
-    "es": "nivel critico ya mechado hoy; cierre sostenido debajo rompe la tesis larga",
-    "en": "critical level already wicked today; a sustained close below breaks the long thesis"
+    "es": "A+8 cluster POC/EMA20/EMA50 + FVG · corto a favor",
+    "en": "A+8 POC/EMA20/EMA50 + FVG cluster · short with bias"
    }
   },
   {
@@ -1801,19 +1628,78 @@
    "dir": null,
    "kind": "invalidation",
    "label": {
-    "es": "confirmaria el alcista si sostiene (fallo 2 veces ya)",
-    "en": "would confirm the bullish case if it holds (already failed twice)"
+    "es": "invalida el corto, revive el alcista",
+    "en": "invalidates the short, revives the bullish case"
    }
   },
   {
    "sym": "YM",
-   "price": 51744,
+   "price": 52127.0,
+   "band": [
+    52100,
+    52111
+   ],
+   "dir": "LONG",
+   "kind": "zoneA",
+   "verdict": "WAIT",
+   "label": {
+    "es": "A+7 cluster POC/EMA20/EMA50 + FVG · largo a favor, esperando confirmacion",
+    "en": "A+7 POC/EMA20/EMA50 + FVG cluster · long with bias, waiting for confirmation"
+   }
+  },
+  {
+   "sym": "YM",
+   "price": 51744.0,
    "band": null,
    "dir": null,
    "kind": "invalidation",
    "label": {
-    "es": "revive la tesis bajista (R-YM-tesis-de-un-dia)",
-    "en": "revives the bearish thesis (R-YM-tesis-de-un-dia)"
+    "es": "revive la tesis bajista vieja",
+    "en": "revives the old bearish thesis"
+   }
+  },
+  {
+   "sym": "NQ",
+   "price": 30792.0,
+   "band": null,
+   "dir": null,
+   "kind": "invalidation",
+   "label": {
+    "es": "confirma del todo el bajista",
+    "en": "fully confirms the bearish case"
+   }
+  },
+  {
+   "sym": "NQ",
+   "price": 31290.0,
+   "band": null,
+   "dir": null,
+   "kind": "invalidation",
+   "label": {
+    "es": "revive el alcista",
+    "en": "revives the bullish case"
+   }
+  },
+  {
+   "sym": "ES",
+   "price": 7820.5,
+   "band": null,
+   "dir": null,
+   "kind": "invalidation",
+   "label": {
+    "es": "invalida del todo el giro alcista",
+    "en": "fully invalidates the bullish turn"
+   }
+  },
+  {
+   "sym": "ES",
+   "price": 7887.0,
+   "band": null,
+   "dir": null,
+   "kind": "invalidation",
+   "label": {
+    "es": "revalida con fuerza el giro alcista",
+    "en": "strongly revalidates the bullish turn"
    }
   },
   {
@@ -1823,42 +1709,10 @@
    "dir": null,
    "kind": "invalidation",
    "label": {
-    "es": "revive el riesgo de reversal completo sin catalizador",
-    "en": "revives the no-catalyst full-reversal risk"
-   }
-  },
-  {
-   "sym": "CL",
-   "price": 93.88,
-   "band": null,
-   "dir": null,
-   "kind": "invalidation",
-   "label": {
-    "es": "confirma otra extension si sostiene",
-    "en": "confirms another extension if it holds"
+    "es": "revive el riesgo de reversal sin catalizador",
+    "en": "revives the no-catalyst reversal risk"
    }
   }
  ],
- "dayThesis": {
-  "NQ": {
-   "es": "Dia 2 de la tesis bajista, hoy con la reafirmacion mas fuerte de la serie: Londres rompio el minimo de Asia (31124.50) sin reclamo hasta 31017.25 -- justo en el piso de la zona de descuento -- con BOS confirmado, antes de rebotar a 31057.75. Update NY 07:55: el conflicto de marcos se resolvio bajista (1h/4h de orb ya alineados); vigilar el cluster FVG 1h/15m 31108.50-31155.25 (B4, no A+) para un rechazo que confirme continuacion, o 31156 para revivir el intento alcista. 31290 nunca se toco hoy.",
-   "en": "Day 2 of the bearish thesis, today with the strongest reassertion yet in the series: London broke Asia's low (31124.50) with no reclaim down to 31017.25 -- right at the floor of the discount zone -- with a confirmed BOS, before bouncing to 31057.75. NY update 07:55: the frame conflict resolved bearish (orb's 1h/4h now aligned); watch the 1h/15m FVG cluster 31108.50-31155.25 (B4, not A+) for a rejection confirming continuation, or 31156 to revive the bullish attempt. 31290 was never tagged today."
-  },
-  "ES": {
-   "es": "Dia 1 de un giro alcista que hoy recibio su primera prueba real: Londres broke con BOS bajista y mecho 4.25pts bajo la invalidacion 7862 (minimo 7857.75) antes de reclamar parcialmente a 7863.5. Update NY 07:55: conflicto de marcos nuevo (diario +3/+3 vs 1h bajista); el sesgo fusionado aun sin permiso -- A+7 listo en 7865-7869.70, WAIT hasta que el reclamo confirme con cierre. R-ES-mecha-invalidacion-misma-sesion marca la siguiente sesion como la de mayor riesgo de ruptura real: 7862 es la alarma del dia.",
-   "en": "Day 1 of a bullish turn that just got its first real test today: London broke with a bearish BOS and wicked 4.25pts below the 7862 invalidation (low 7857.75) before partially reclaiming to 7863.5. NY update 07:55: a fresh frame conflict today (daily +3/+3 vs a bearish 1h); the fused bias still shows no permission -- A+7 ready at 7865-7869.70, WAIT until the reclaim confirms with a close. R-ES-mecha-invalidacion-misma-sesion flags the next session as the highest real-break risk: 7862 is today's alarm level."
-  },
-  "GC": {
-   "es": "Dia 1 de un giro alcista que hoy perdio la carrera del todo: Londres toco otra vez sobre la confirmacion (4242.3) y revirtio mas lejos que ayer, nuevo minimo 4178.1, con los dos marcos tecnicos ya alineados bajistas por primera vez. Update NY 07:55: zona A+8 VAL/EMA20/EMA50/FVG 4189.80-4200.80, precio ya en el borde, señal LISTO SHORT con permiso activo -- mas limpio del dia. La invalidacion final de la tesis semanal (4166.8) sigue a 11.3pts.",
-   "en": "Day 1 of a bullish turn that just lost the race entirely today: London tagged above confirmation again (4242.3) and reversed even further than yesterday, a new 4178.1 low, with both technical frames now aligned bearish for the first time. NY update 07:55: A+8 zone at VAL/EMA20/EMA50/FVG 4189.80-4200.80, price already at the edge, a LISTO SHORT signal with active permission -- today's cleanest. The weekly thesis's final invalidation (4166.8) is still 11.3pts away."
-  },
-  "YM": {
-   "es": "Dia 1 de la ruptura mas limpia del complejo, hoy puesta a prueba de verdad: Londres perforo el soporte 52032-52084 que debia sostener la continuacion, cayendo a 51913 antes de rebotar a 51973. Update NY 07:55: cluster DO/VAL/EMA200 51972-51994 puntua A+6 con un CHoCH alcista marcado, pero el propio marco diario de YM (R-YM-arrastre-sin-confirmar) sigue sin confirmar y bloquea el GO; falta permiso de sesion.",
-   "en": "Day 1 of the complex's cleanest breakout, today genuinely tested: London pierced the 52032-52084 support that was supposed to carry the continuation, falling to 51913 before bouncing to 51973. NY update 07:55: the DO/VAL/EMA200 cluster 51972-51994 scores A+6 with a bullish CHoCH flagged, but YM's own daily frame (R-YM-arrastre-sin-confirmar) still hasn't confirmed and blocks GO; session permission is still missing."
-  },
-  "CL": {
-   "es": "Dia 5 de un giro alcista que hoy por fin rompio del todo: el toque 14+ en la VAH congestionada cedio con BOS up real, extension a 93.88 -- sobre el objetivo semanal 92.57 -- antes de asentar en 93.73. Update NY 07:55: sin catalizador de calendario hoy (EIA es el jueves) y dia ya 104% de su ATR -- R-CL-reversal-completo-sin-catalizador pide tratar el reinicio como fragil toda la sesion. AVOID, no perseguir; vigilar 92.17 como aviso de reversal completo.",
-   "en": "Day 5 of a bullish turn that finally broke all the way through today: touch #14+ at the congested VAH gave way with a real BOS up, extending to 93.88 -- above the 92.57 weekly objective -- before settling at 93.73. NY update 07:55: no calendar catalyst today (EIA is Thursday) and the day is already 104% of its ATR -- R-CL-reversal-completo-sin-catalizador says to treat the reinit as fragile through the whole session. AVOID, don't chase; watch 92.17 as the full-reversal warning."
-  }
- }
+ "reviewYesterday": "2026-10-12"
 }
