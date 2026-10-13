@@ -1,26 +1,26 @@
 {
-  "checkedAt": "2026-10-12T22:47:17Z",
+  "checkedAt": "2026-10-13T01:47:23Z",
   "status": "ok",
-  "snapshot": { "builtAt": "2026-10-12T22:45:12.769Z", "ageMin": 2, "state": "OK" },
-  "webhook": { "lastSeenMin": 7, "state": "ok" },
-  "news": { "ageMin": 2, "count": 18, "state": "ok" },
+  "snapshot": { "builtAt": "2026-10-13T01:45:12.401Z", "ageMin": 2, "state": "OK" },
+  "webhook": { "lastSeenMin": 2, "state": "ok" },
+  "news": { "ageMin": 17, "count": 18, "state": "ok" },
   "sa": { "lastRun": "2026-10-12T21:48:15Z", "runType": "pre-asia", "lateBy": 43 },
   "sources": {
     "NQ": {
-      "orb":      { "ageMin": 7, "state": "fresh" },
-      "3reads":   { "ageMin": 7, "state": "fresh" },
-      "drbias":   { "ageMin": 7, "state": "fresh" },
-      "srzones":  { "ageMin": 7, "state": "fresh" },
-      "htfzones": { "ageMin": 7, "state": "fresh" },
-      "command":  { "ageMin": 7, "state": "fresh" }
+      "orb":      { "ageMin": 2, "state": "fresh" },
+      "3reads":   { "ageMin": 2, "state": "fresh" },
+      "drbias":   { "ageMin": 2, "state": "fresh" },
+      "srzones":  { "ageMin": 2, "state": "fresh" },
+      "htfzones": { "ageMin": 2, "state": "fresh" },
+      "command":  { "ageMin": 2, "state": "fresh" }
     },
     "ES": {
-      "orb":      { "ageMin": 7, "state": "fresh" },
-      "3reads":   { "ageMin": 7, "state": "fresh" },
-      "drbias":   { "ageMin": 7, "state": "fresh" },
-      "srzones":  { "ageMin": 7, "state": "fresh" },
-      "htfzones": { "ageMin": 7, "state": "fresh" },
-      "command":  { "ageMin": 7, "state": "fresh" }
+      "orb":      { "ageMin": 2, "state": "fresh" },
+      "3reads":   { "ageMin": 2, "state": "fresh" },
+      "drbias":   { "ageMin": 2, "state": "fresh" },
+      "srzones":  { "ageMin": 2, "state": "fresh" },
+      "htfzones": { "ageMin": 2, "state": "fresh" },
+      "command":  { "ageMin": 2, "state": "fresh" }
     },
     "GC": {
       "orb":      { "ageMin": 7, "state": "fresh" },
@@ -39,17 +39,17 @@
       "command":  { "ageMin": 7, "state": "fresh" }
     },
     "CL": {
-      "orb":      { "ageMin": 7, "state": "fresh" },
-      "3reads":   { "ageMin": 7, "state": "fresh" },
+      "orb":      { "ageMin": 2, "state": "fresh" },
+      "3reads":   { "ageMin": 2, "state": "fresh" },
       "drbias":   { "ageMin": 7, "state": "fresh" },
-      "srzones":  { "ageMin": 7, "state": "fresh" },
-      "htfzones": { "ageMin": 7, "state": "fresh" },
-      "command":  { "ageMin": 7, "state": "fresh" }
+      "srzones":  { "ageMin": 2, "state": "fresh" },
+      "htfzones": { "ageMin": 2, "state": "fresh" },
+      "command":  { "ageMin": 2, "state": "fresh" }
     }
   },
   "issues": [],
   "note": {
-    "es": "dia habil (lunes, feriado Columbus Day de volumen bajo): snapshot a 2 min, las 6 fuentes de ind-ingest/orb frescas a 7 min en los 5 simbolos, webhook a 7 min, news a 2 min con 18 eventos, todo fresco; pre-asia de hoy salio a tiempo (commit sa pre-asia 21:48:54Z, heartbeat lastRun 21:48:15Z ok:true, ~43 min tras el cron 21:05), este watchdog (franja 22:30) no necesito catch-up; journal al dia (updatedAt hace ~2 h, cubre hasta 10-12 sin huecos); PDH/PDL de orb identicos a los de command en los 5 simbolos, nada frozen ni dead; zonas[0] de los 5 instrumentos con ratio de alcance 0.0, ninguna inalcanzable (GC en GO por A+8 aunque el escenario A solo acierta 29% en 20d, resto WAIT por conflicto de marco o presupuesto ATR); CPI cae el miercoles 14-oct, fuera de ventana de hoy; todo fresco, 2 min",
-    "en": "weekday (Monday, Columbus Day bank holiday with lower volume): snapshot at 2 min, all 6 ind-ingest/orb feeds fresh at 7 min across all 5 symbols, webhook at 7 min, news at 2 min with 18 events, all fresh; today's pre-asia ran on time (commit sa pre-asia 21:48:54Z, heartbeat lastRun 21:48:15Z ok:true, ~43 min after the 21:05 cron), this watchdog (22:30 slot) needed no catch-up; journal up to date (updatedAt ~2h ago, covers through 10-12 with no gaps); orb PDH/PDL match command's exactly across all 5 symbols, nothing frozen or dead; all 5 instruments' zones[0] reach ratio is 0.0, none unreachable (GC is at GO on A+8 even though scenario A only hits 29% over 20d, the rest are WAIT on frame conflict or a spent ATR budget); CPI lands Wednesday Oct 14, outside today's window; all fresh, 2 min"
+    "es": "dia habil (lunes noche CT, feriado Columbus Day de volumen bajo): snapshot a 2 min, las 6 fuentes de ind-ingest/orb frescas entre 2-7 min en los 5 simbolos, webhook a 2 min, news a 17 min con 18 eventos, todo fresco; franja 01:30 no vigila ninguna corrida del Session Analyst (asia-2 desactivada), sin catch-up; pre-asia de ayer sigue como ultima corrida (heartbeat lastRun 21:48:15Z ok:true, ~43 min tras el cron 21:05), sin cambios desde el watchdog anterior; journal al dia (updatedAt hace ~5 h, cubre hasta 2026-10-12 sin huecos); PDH/PDL de orb identicos a los de command en los 5 simbolos, nada frozen ni dead; zonas[0] de los 5 instrumentos con ratio de alcance 0.0, ninguna inalcanzable; todo fresco, 2 min",
+    "en": "weekday (Monday night CT, Columbus Day bank holiday with lower volume): snapshot at 2 min, all 6 ind-ingest/orb feeds fresh between 2-7 min across all 5 symbols, webhook at 2 min, news at 17 min with 18 events, all fresh; the 01:30 slot watches no Session Analyst run (asia-2 disabled), no catch-up needed; yesterday's pre-asia remains the last run (heartbeat lastRun 21:48:15Z ok:true, ~43 min after the 21:05 cron), unchanged since the previous watchdog; journal up to date (updatedAt ~5h ago, covers through 2026-10-12 with no gaps); orb PDH/PDL match command's exactly across all 5 symbols, nothing frozen or dead; all 5 instruments' zones[0] reach ratio is 0.0, none unreachable; all fresh, 2 min"
   }
 }
