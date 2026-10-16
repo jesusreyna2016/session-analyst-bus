@@ -927,8 +927,8 @@ El plan no es para "un trader", es para Jesus. Con el perfil:
   ahí, y "BE solo DESPUÉS del parcial" (nunca "mueve a BE" antes de cobrar). TP2 = el siguiente
   nivel, objetivo fijo. Si entre entrada y TP1 hay < 1R de recorrido, la zona no es A+.
 - **Regla de la cuenta**: `personal.capLine` = `dailyRules.capLine` del perfil, copiada tal
-  cual (hoy: tamaño máximo de notional + stop en el libro + no añadir a perdedora). La cuenta
-  cambia (prop con consistencia, Vest con capital propio…), así que NUNCA la escribas de
+  cual (hoy: stop en el libro + tamaño por riesgo + no añadir a perdedora). El perfil no
+  guarda broker, firma ni cuenta: no los nombres en el plan. NUNCA la escribas de
   memoria ni uses `settings.dailyLossLimitUsd`: lee el perfil. Respeta `dailyRules.doNotRecommend`:
   si dice que topes de trades, pausas o "N pérdidas y fuera" le restan, no los propongas en
   `focus.note`, `summary` ni recordatorios, aunque el journal marque `overtrade`/`revenge`.
