@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-10-15T22:47:22Z",
+  "checkedAt": "2026-10-16T01:47:21Z",
   "status": "ok",
-  "snapshot": { "builtAt": "2026-10-15T22:45:17.486Z", "ageMin": 2, "state": "OK" },
+  "snapshot": { "builtAt": "2026-10-16T01:45:16.819Z", "ageMin": 2, "state": "OK" },
   "webhook":  { "lastSeenMin": 2, "state": "ok" },
-  "news":     { "ageMin": 17, "count": 18, "state": "ok" },
+  "news":     { "ageMin": 2, "count": 18, "state": "ok" },
   "sa":       { "lastRun": "2026-10-15T21:12:00Z", "runType": "pre-asia", "lateBy": 7 },
   "sources": {
     "NQ": {
@@ -23,14 +23,6 @@
       "command":  { "ageMin": 2, "state": "fresh" }
     },
     "GC": {
-      "orb":      { "ageMin": 2, "state": "fresh" },
-      "3reads":   { "ageMin": 2, "state": "fresh" },
-      "drbias":   { "ageMin": 2, "state": "fresh" },
-      "srzones":  { "ageMin": 2, "state": "fresh" },
-      "htfzones": { "ageMin": 2, "state": "fresh" },
-      "command":  { "ageMin": 2, "state": "fresh" }
-    },
-    "YM": {
       "orb":      { "ageMin": 7, "state": "fresh" },
       "3reads":   { "ageMin": 7, "state": "fresh" },
       "drbias":   { "ageMin": 7, "state": "fresh" },
@@ -38,18 +30,26 @@
       "htfzones": { "ageMin": 7, "state": "fresh" },
       "command":  { "ageMin": 7, "state": "fresh" }
     },
+    "YM": {
+      "orb":      { "ageMin": 2, "state": "fresh" },
+      "3reads":   { "ageMin": 7, "state": "fresh" },
+      "drbias":   { "ageMin": 7, "state": "fresh" },
+      "srzones":  { "ageMin": 2, "state": "fresh" },
+      "htfzones": { "ageMin": 2, "state": "fresh" },
+      "command":  { "ageMin": 7, "state": "fresh" }
+    },
     "CL": {
       "orb":      { "ageMin": 2, "state": "fresh" },
       "3reads":   { "ageMin": 2, "state": "fresh" },
       "drbias":   { "ageMin": 2, "state": "fresh" },
       "srzones":  { "ageMin": 2, "state": "fresh" },
-      "htfzones": { "ageMin": 2, "state": "fresh" },
+      "htfzones": { "ageMin": 7, "state": "fresh" },
       "command":  { "ageMin": 2, "state": "fresh" }
     }
   },
   "issues": [],
   "note": {
-    "es": "franja 22:30 (pre-asia): SA pre-asia salio a las 21:12 (7 min tarde del cron 21:05, commit 'sa pre-asia 2026-10-16' a las 21:49), sin catch-up necesario. Snapshot a 2 min, las 6 fuentes de ind-ingest/orb frescas en los 5 simbolos (YM a 7 min, resto a 2 min), webhook a 2 min, news a 17 min con 18 eventos. PDH/PDL de orb identicos a los de command en los 5 simbolos, nada frozen ni dead, sin rachas vs el watchdog anterior (14:49, todo fresh). Zonas tacticas de plans/latest.json con ratio de alcance maximo 0.74 (CL zona watch STRETCHED), ninguna inalcanzable (>0.9). Journal actualizado hace ~3 h, cubre hasta hoy sin huecos. Todo fresco, 2 min",
-    "en": "22:30 slot (pre-asia): SA pre-asia ran at 21:12 (7 min late vs the 21:05 cron, commit 'sa pre-asia 2026-10-16' at 21:49), no catch-up needed. Snapshot at 2 min, all 6 ind-ingest/orb feeds fresh across all 5 symbols (YM at 7 min, the rest at 2 min), webhook at 2 min, news at 17 min with 18 events. orb PDH/PDL match command's exactly across all 5 symbols, nothing frozen or dead, no streaks vs the previous watchdog (14:49, all fresh). Tactical zones in plans/latest.json have a max reach ratio of 0.74 (CL watch zone, STRETCHED), none unreachable (>0.9). Journal updated ~3 h ago, covers through today with no gaps. All fresh, 2 min"
+    "es": "franja 01:30: no vigila corrida SA (asia-2 desactivada), solo salud. Snapshot a 2 min, las 6 fuentes de ind-ingest/orb frescas en los 5 simbolos (YM/CL con htfzones o 3reads/drbias/command a 7 min, resto a 2 min), webhook a 2 min, news a 2 min con 18 eventos. PDH/PDL de orb identicos a los de command en los 5 simbolos (nada frozen), sin dead ni missing, sin rachas vs el watchdog anterior (22:47, todo fresh). Zonas tacticas de plans/latest.json con ratio de alcance maximo 0.74 (CL zona 2), ninguna inalcanzable (>0.9). Journal actualizado hace ~6 h, cubre hasta hoy sin huecos. Ultima corrida SA: pre-asia a las 21:12 (7 min tarde), sin novedad. Todo fresco, 2 min",
+    "en": "01:30 slot: watches no SA run (asia-2 deactivated), health only. Snapshot at 2 min, all 6 ind-ingest/orb feeds fresh across all 5 symbols (YM/CL have htfzones or 3reads/drbias/command at 7 min, the rest at 2 min), webhook at 2 min, news at 2 min with 18 events. orb PDH/PDL match command's exactly across all 5 symbols (nothing frozen), no dead or missing, no streaks vs the previous watchdog (22:47, all fresh). Tactical zones in plans/latest.json have a max reach ratio of 0.74 (CL zone 2), none unreachable (>0.9). Journal updated ~6 h ago, covers through today with no gaps. Last SA run: pre-asia at 21:12 (7 min late), nothing new. All fresh, 2 min"
   }
 }
