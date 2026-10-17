@@ -1,7 +1,7 @@
 {
   "schema": "trader-profile-1",
   "note": "Shared profile of the trader, read by every agent (Session Analyst, Scalp CC, Plan Coach, Watchdog). Behavioral and rule data only: no balances, no P&L, no personal life, and no broker, firm or account details. Humans own `core`; the weekly run may only rewrite `observed`.",
-  "updatedAt": "2026-10-16T02:10:00Z",
+  "updatedAt": "2026-10-17T15:16:47Z",
   "core": {
     "instruments": [
       "NQ / NDX (Nasdaq 100)",
@@ -66,18 +66,18 @@
   },
   "exitBaseline": {
     "source": "scalp-cc-bus outcomes, all kinds and TFs",
-    "asOf": "2026-10-10",
+    "asOf": "2026-10-17",
     "NQ": {
-      "n": 4699,
-      "hit1R": 0.326,
-      "stoppedOut": 0.465,
-      "slWasGreenHalfRFirst": 0.306,
-      "slWasGreen1RFirst": 0.107,
+      "n": 5960,
+      "hit1R": 0.33,
+      "stoppedOut": 0.472,
+      "slWasGreenHalfRFirst": 0.323,
+      "slWasGreen1RFirst": 0.12,
       "reachedTP2": 0.043
     },
     "readout": {
-      "es": "Solo ~33% de las entradas llega a 1R y apenas ~4.3% llega a TP2: el home run sigue siendo raro. ~31% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta.",
-      "en": "Only ~33% of entries reach 1R and barely ~4.3% reach TP2: the home run is still rare. ~31% of stops were +0.5R green first before getting hit: the early partial is still the missing lever."
+      "es": "Solo ~33% de las entradas llega a 1R y apenas ~4.3% llega a TP2: el home run sigue siendo raro. ~32% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta.",
+      "en": "Only ~33% of entries reach 1R and barely ~4.3% reach TP2: the home run is still rare. ~32% of stops were +0.5R green first before getting hit: the early partial is still the missing lever."
     }
   },
   "dailyRules": {
@@ -94,15 +94,15 @@
     }
   },
   "observed": {
-    "updatedBy": "weekly 2026-10-10",
-    "window": "2026-10-05..2026-10-09 (solo lunes con dato real; live/journal.json sin refrescar martes-viernes)",
-    "disciplinedPct": 17,
+    "updatedBy": "weekly 2026-10-17",
+    "window": "2026-10-12..2026-10-16 (5 dias, primera cobertura completa de la semana en journal.json en varias semanas)",
+    "disciplinedPct": 15,
     "againstBiasRate": 0.33,
     "outsideEdgeRate": 0.52,
     "trend": {
-      "es": "Segunda semana con el journal prácticamente congelado: solo el lunes 10-05 tiene ejecución real (2 trades, 100% contra-sesgo, 100% fuera de zona, sin revenge). Martes a viernes quedaron sin dato. El rollup de 18 días no se mueve (disciplinado 17%, contra-sesgo 33%, fuera de zona 52%) porque no entró ejecución nueva: la fuga dominante sigue siendo operar fuera de nivel, pero no hay muestra para decir si mejora o empeora esta semana.",
-      "en": "Second week with the journal essentially frozen: only Monday 10-05 has real execution (2 trades, 100% against-bias, 100% outside zone, no revenge). Tuesday through Friday had no data. The 18-day rollup didn't move (disciplined 17%, against-bias 33%, outside-edge 52%) because no new execution came in: the dominant leak is still off-level trading, but there's no sample to say if it's improving or worsening this week."
+      "es": "Primera semana en varias con los 5 días cubiertos por el journal. Solo 1/5 días disciplinado (miércoles 10-14, día del CPI, el más limpio de la semana); el rollup rodante de 33 días se mantiene plano (disciplinado 15%, contra-sesgo 33%, fuera de zona 52%) porque la muestra graded de la semana es mínima (2 trades, jueves 10-15, 100% contra-sesgo). El jueves 10-15 fue el peor día de disciplina reciente: overtrade+revenge+roundTrip juntos y racha de 8 pérdidas, coincidiendo con el día más violento del mes en precio hasta ese momento. Calidad de salida con muestra completa (44 posiciones): 0 parciales (5ª+ semana seguida), fuga homerun-exit sin alivio.",
+      "en": "First week in a while with all 5 days covered by the journal. Only 1/5 days disciplined (Wednesday 10-14, CPI day, the cleanest of the week); the 33-day rolling rollup stays flat (disciplined 15%, against-bias 33%, outside-edge 52%) because the week's graded sample is minimal (2 trades, Thursday 10-15, 100% against-bias). Thursday 10-15 was the worst recent discipline day: overtrade+revenge+roundTrip together plus an 8-loss streak, coinciding with the most violent price day of the month up to that point. Exit quality has a full sample (44 positions): 0 partials (5th+ week in a row), the homerun-exit leak unrelieved."
     },
-    "exitQuality": null
+    "exitQuality": { "partialRate": 0.02, "scratchRate": 0.04, "fullStopRate": 0.49 }
   }
 }

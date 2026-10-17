@@ -1,164 +1,162 @@
-# Meta-revisión semanal · 2026-10-05 a 2026-10-09
+# Meta-revisión semanal · 2026-10-12 a 2026-10-16
 
-Ventana: lunes 10-05 a viernes 10-09, los 5 días con cierre completo calificado
-(`reviews/2026-10-05.md` a `2026-10-09.md`) — primera semana en varias en que el viernes
-llegó con cierre pleno (NY incluido) en vez de parcial: el trigger externo sí disparó la
-`pre-asia` del viernes esta vez. Semana sin FOMC/NFP propio (el NFP fue el viernes anterior,
-09-10-03); la primera mitad fue digestión de ese dato.
+Ventana: lunes 10-12 a viernes 10-16, los 5 días con cierre completo calificado
+(`reviews/2026-10-12.md` a `2026-10-16.md`) — primera semana en varias en que el viernes
+llegó con cierre pleno sin retraso del scheduler. Semana con 2 catalizadores grandes: el CPI
+del miércoles 10-14 (el día más violento del mes en el momento, 183-199% ATR en índices) y el
+viernes de OpEx mensual 10-16 (lo superó: 200% ATR en NQ, el rango más extendido de toda la
+serie).
 
 ## Marcador de la semana por instrumento
 
-(cifras = `scorecard` rodante, corte confirmado hasta el viernes 10-09; ▲/▼ contra
-`reviews/2026-10-03-semana.md`. `predictionScore` es el blend ponderado por `n` de los kinds
-range+direction+level_first+scenario, mismo método que las semanas anteriores.)
+(cifras = `scorecard` rodante, corte hasta el viernes 10-16; ▲/▼ contra
+`reviews/2026-10-10-semana.md`.)
 
-- **NQ**: sesgo 48% (n=47) ▲ vs 45% · escenario A 30% (n=56) ▼ vs 32% (sigue bajo el piso de
-  30%, candidato débil) · predictionScore ~49.6% (n=270) ▲ vs ~49% · `emErrorTicks` 459.7tk
-  (n=48) mejora algo vs 475.6tk pero sigue siendo, por lejos, el peor calibrado del complejo
-  (6× el error de ES). Semana completa: tendencia alcista de 5 sesiones por fin ROTA de verdad
-  el miércoles (nuevo mínimo de ciclo 30792) tras 5 mechas que habían revertido en su propia
-  sesión; el reinicio bajista sobrevivió su prueba más fina (Londres del jueves, a 24pts de
-  invalidar) y cierra la semana en conflicto abierto entre el precio (técnicamente bajista,
-  día 2) y `command` fusionado (FUERTE +10 LONG, 2.35 ATR estirado).
-- **ES**: sesgo 57% (n=43) ▲ vs 49% (el mayor salto del grupo) · escenario A 38% (n=56) ▲ vs
-  32% · predictionScore ~53.2% (n=293) ▲ vs ~53% · `emErrorTicks` 73.3tk (n=47), el mejor
-  calibrado del complejo, mejora vs 77.5tk. Round-trip de tesis completo DENTRO de la semana:
-  entró en su 4ª sesión alcista, la rompió de verdad el miércoles (cierre bajo 7847.50-7858.00),
-  y el viernes esa misma tesis bajista se rompió también (cierre sostenido sobre 7862) — sale
-  la semana con los 6 marcos (orb/1h/4h/diario/semanal/command) alineados LONG por primera vez
-  en el ciclo.
-- **GC**: sesgo 52% (n=42) ▲ vs 50% · escenario A 29% (n=55) plano vs 29% (sigue bajo el piso
-  de 30%, candidato débil) · predictionScore ~49.6% (n=271) ▲ vs ~48% · `emErrorTicks` 272.1tk
-  (n=47), 2º peor del complejo, empeora levemente vs 267.6tk. Entró en balance/chop (5ª sesión
-  sin resolver); rompió al alza el martes con un blow-off que no sostuvo (devolvió casi todo),
-  retesteó 3 sesiones sin seguimiento neto, y el viernes confirmó de verdad la ruptura alcista
-  (tocó su propio objetivo de confirmación 4233.7) aunque sin cierre sostenido sobre él — el
-  único marco que no realinea es el diario/semanal de zonas superiores.
-- **YM**: sesgo 63% (n=35) ▲ vs 62% · escenario A 40% (n=52) ▼ vs 42% · predictionScore
-  ~55.1% (n=245) ▲ vs ~54%, el mejor del grupo · `emErrorTicks` 153.7tk (n=43) mejora vs
-  163.4tk. El régimen más violento del complejo otra vez: rompió su invalidación bajista con
-  cierre sostenido el martes (a diferencia de GC, SÍ sostuvo), intentó resurgir el reinicio
-  bajista miércoles-jueves con mínimos nuevos, y el viernes rompió la invalidación de ESE
-  reinicio con el mayor margen medido en el instrumento (cierre 51966, 88% del rango) —
-  confirma `H-2026-10-08-ym-extreme-reversal-no-invalida` (2/2).
-- **CL**: sesgo 59% (n=44) ▲ vs 58% · escenario A 42% (n=52) ▲ vs 41% · predictionScore
-  ~48.2% (n=253) ▲ vs ~48% · `emErrorTicks` 103.3tk (n=43) mejora vs 107.4tk. Entró en
-  reinicio bajista (7ª bisagra de la serie); revirtió del todo sin catalizador el martes
-  (command +10 FUERTE, cierre 97% del rango) y confirmó con fuerza creciente el resto de la
-  semana (4 marcos alineados alcistas por primera vez) — sale con la tendencia más limpia y
-  sostenida del complejo; único riesgo pendiente: la VAH congestionada (13+ toques) sin
-  materializarse aún.
-- **Global**: predictionScore ponderado ~51.2% (n=1332) ▲ vs ~50.5% (n=1136) — recupera la
-  caída de la semana pasada, y sube en los 5 instrumentos a la vez. **EM en banda**: sin
-  tracker agregado explícito por sesión-semana; el patrón narrado fue mixto — lunes (NFP+1)
-  con sobre-corrección fuerte a la baja en Londres (4 de 5 símbolos muy por debajo de banda),
-  miércoles-jueves con roturas que excedieron la banda por arriba en varias sesiones (NQ, ES,
-  YM), consistente con `emErrorTicks` alto en NQ/GC y la mejora en ES/YM/CL.
+- **NQ**: sesgo 52% (n=53) ▲ vs 48% · escenario A 30% (n=57) plano (sigue bajo el piso de
+  30%, candidato débil) · predictionScore ~49.3% (n=308) ▼ leve vs ~49.6% · `emErrorTicks`
+  sigue congelado en 459.7tk (n=48), sin un dato nuevo desde antes del 10-06 (3ª semana
+  seguida) — sigue siendo, con mucha diferencia, el peor calibrado del complejo. Semana de
+  extremos: el conflicto de marcos más largo del bus se resolvió del todo a la baja — CPI el
+  martes (183% ATR), reclamo violento el miércoles que llegó a EVOLUCIONAR sin romper la tesis,
+  y el viernes de OpEx confirmó bajista con el rango más extendido medido (200% ATR, nuevo
+  mínimo de ciclo 29268.75). Cierra CONFIRMADA bajista día 7.
+- **ES**: sesgo 54% (n=47) ▼ vs 57% · escenario A 38% (n=56) plano, sin dato nuevo esta semana
+  · predictionScore ~52.4% (n=336) ▼ leve vs ~53.2% · `emErrorTicks` congelado en 73.3tk
+  (n=47), igual sin dato nuevo (sigue el mejor calibrado). La tesis alcista de varias sesiones
+  se ROMPIÓ del todo el martes con el CPI (cierre 55pts bajo su invalidación) y confirmó
+  bajista el viernes con nuevo mínimo de ciclo 7676.00, el 7º fallo del mismo cluster premium.
+- **GC**: sesgo 51% (n=48) ▼ leve vs 52% · escenario A 30% (n=56) ▲ leve vs 29% (sigue
+  candidato débil) · predictionScore ~51.4% (n=310) ▲ vs ~49.6% · `emErrorTicks` congelado en
+  272.1tk (n=47), 2º peor del complejo, sin dato nuevo. La semana más indecisa del bus: los 5
+  marcos alinearon bajistas por primera vez el martes, el realineamiento no sostuvo ni 1
+  sesión (nueva hipótesis `H-2026-10-15-gc-realineamiento-no-sostiene`), y cierra el viernes en
+  chop confirmado sin que el marco de fondo se mueva.
+- **YM**: sesgo 63% (n=39) plano · escenario A 42% (n=53) ▲ leve vs 40% · predictionScore
+  ~56.6% (n=282) ▲ vs ~55.1%, el mejor del grupo · `emErrorTicks` congelado en 153.7tk (n=43),
+  sin dato nuevo. El régimen más violento del complejo otra vez: repitió 2 veces el patrón de
+  barrer un nivel de decisión y reclamarlo sin cerrar sostenido debajo (refuerza
+  `H-2026-10-13-ym-giveback-sin-invalidar`), y el viernes de OpEx hizo el round-trip más grande
+  medido en el instrumento (758pts, 129% del ATR) sin resolución neta clara al cierre.
+- **CL**: sesgo 58% (n=48) ▼ leve vs 59% · escenario A 42% (n=53) plano · predictionScore
+  ~50.5% (n=292) ▲ vs ~48.2% · `emErrorTicks` congelado en 103.3tk (n=43), sin dato nuevo (el
+  mejor calibrado del complejo aun así). El instrumento más limpio de la semana: extendió la
+  racha alcista a 9 sesiones sin una sola fisura real, y el único riesgo pendiente (la VAH
+  congestionada) se resolvió por fin jueves-viernes con máximos de ciclo sucesivos
+  (96.06 → 99.34).
+- **Global**: predictionScore ponderado ~52.0% (n=1528) ▲ vs ~51.2% (n=1332) — mejora por 2ª
+  semana consecutiva, sostenida casi solo por GC/YM/CL (NQ/ES retroceden levemente). **EM en
+  banda**: sin tracker agregado explícito; en los hechos fue la peor semana de la serie en este
+  punto — CPI (martes-miércoles) y OpEx (viernes) rompieron la banda alta en los 3 índices casi
+  todos los días (NQ 200% ATR, ES 177-199%, YM 129-130%); solo GC y CL se mantuvieron dentro de
+  rango razonable la mayor parte de la semana.
 
 ## Ejecución de la semana
 
-Brecha de dato real, igual que la semana pasada: `live/journal.json` sigue con `updatedAt`
-2026-10-05T18:47:56Z y su `byDay` NO tiene ninguna fecha después del 2026-10-05 — **solo el
-lunes de esta semana tiene ejecución real**; martes a viernes (4 de 5 días) quedaron sin poder
-calificar plan vs ejecución.
-- **Lunes 10-05**: 2 trades, 2 calificados, 0 a favor/2 contra-sesgo (100% contra-sesgo),
-  0/2 dentro de zona (100% fuera de zona mapeada), sin disciplina, sin overtrade/revenge/
-  roundTrip marcados — muestra mínima (2 trades) pero en el peor escenario posible: el día
-  resolvió con fuerza a favor del sesgo (NQ/ES subieron fuerte) y ambos trades fueron en
-  contra y fuera de nivel.
-- Rollup acumulado (18 días, sin refresco desde el 10-05): `disciplinedPct` 17% (▼ vs 18%
-  la semana pasada, por el día 10-05 sin disciplina), contra-sesgo 33% (plano), fuera de
-  zona 52% (plano). No hay `partialRate`/`scratchRate` en el rollup (calidad de salida
-  sigue sin dato).
-- No se puede decir si la disciplina mejora o empeora esta semana: la única muestra real
-  (2 trades) repite la fuga dominante del rollup completo (operar fuera de zona y contra el
-  sesgo), pero es demasiado chica para patrón nuevo. La fuga que manda, con el dato que hay
-  acumulado, sigue siendo la misma de siempre: fuera de zona mapeada (52% del rollup).
+Primera semana en varias con los 5 días cubiertos por `live/journal.json` (antes había huecos
+de 3-4 días seguidos). Solo 1/5 días disciplinados (miércoles 10-14, día del CPI, el más limpio
+en disciplina de la semana) — ▲ vs la semana pasada (0 de 1 día con dato). El rollup rodante (33
+días) queda plano: disciplinado 15%, contra-sesgo 33%, fuera de zona 52% — la muestra `graded`
+de la semana es mínima (2 trades, el jueves 10-15, 100% contra-sesgo) y no alcanza para decir si
+la fuga de nivel/sesgo mejora o empeora esta semana en particular.
+
+La calidad de salida sí tiene muestra completa: 44 posiciones en la semana, **0 parciales**
+(0%, 5ª+ semana seguida sin cobrar un solo parcial), 1 scratch (2%), 29 stops completos (66%, ▲
+peor que el 49% rodante) — la fuga `homerun-exit` sigue dominando sin alivio.
+El jueves 10-15 fue además el peor día de disciplina de la ventana reciente: 37 trades con
+overtrade+revenge+roundTrip juntos (los 3 flags a la vez, solo visto antes el 2026-09-01) y
+racha de 8 pérdidas seguidas — justo el día más violento del mes en precio hasta ese momento, la
+peor combinación posible. El viernes de OpEx (10-16) repitió los 3 flags de churn pero con
+wlPtsRatio favorable (5.48) — mezcla rara de indisciplina con buen ratio cuando gana.
 
 ## Qué se repitió
 
-El patrón de "mecha perfora la invalidación y revierte en su propia sesión, pero la ruptura
-real llega una sesión después" (propuesto hace 2 semanas) se confirmó de nuevo en NQ — 5/5
-mechas revertidas antes de que el miércoles la ruptura sostuviera de verdad, exactamente como
-el método ya predecía. Y la visibilidad de la ejecución real sigue sin resolverse: 2 semanas
-seguidas con `live/journal.json` prácticamente congelado (4-5 de 5 días sin dato cada semana).
+Dos patrones de **tracking**, no de mercado: (1) `emErrorTicks`/`emCalibration` lleva 3 semanas
+sin un solo dato nuevo en los 5 símbolos (misma `n` exacta que hace 2 semanas) mientras
+`biasHitPct`/`scenarioAHitPct`/`zoneHitPct` sí se "retomaron" el 10-15 con 3 sesiones nuevas —
+el sub-objeto de error de rango se quedó atrás específicamente. (2) `scorecard.execution.ALL`
+tampoco incrementó con 10-11, 10-13, 10-15 ni 10-16 (se quedó en `days:14`, última entrada
+10-14) aunque esos días ya tienen datos en `live/journal.json` y los propios
+`reviews/<fecha>.md` ya los citan en prosa (10-13: "4 trades, 0 graded"; 10-15: "37 trades,
+racha de 8 pérdidas") — el tracker del scorecard se desincronizó de lo que el propio review ya
+tenía disponible. En mercado: la divergencia SMT entre YM y NQ/ES volvió a aparecer sin
+resolverse (anotada el viernes como observación nueva para vigilar en los 3 instrumentos).
 
 ## Cambios de la semana
 
 ### Cambios aplicados
 
-- **Retira `overrides.predictionSkip["ES|direction"]`.** Evidencia: cruzó sobre el umbral de
-  0.40 por primera vez la semana pasada (40.6%, n=32) y se mantuvo sobre él esta semana
-  (42.4%, n=33) — 2 semanas consecutivas fuera de la condición que lo mantenía aplicado
-  (`rate < 0.40`, n≥15 para `direction`). Campo: `state.overrides.predictionSkip`
-  (sección 3 de `method/instructions.md`, peso de predicciones obligatorias).
-  - Antes: `ES|direction` excluida de predicción obligatoria desde 2026-09-12.
-  - Después: `ES|direction` vuelve a exigirse como predicción obligatoria normal.
-- `zonePriors` y `convictionBar4`: sin cambios. Ningún arquetipo de zona tuvo una
-  recalculación confiable con `winN≥30` disponible esta corrida (el `state.zones` vigente no
-  reproduce el pooled histórico usado en los overrides ya aplicados — no se fuerza un ajuste
-  sin esa base). Ningún símbolo tiene `n≥20` en el bucket "alta" de `convictionCalibration`
-  (máximo YM n=5).
+Ninguno esta semana — ninguna condición de la clase segura cruzó su umbral con la confirmación
+de 2 semanas que exige el método:
+- `predictionSkip`: 2 overrides vigentes entran en **vigilancia** por primera vez (no se
+  retiran todavía, falta la 2ª semana de confirmación): `CL|range` subió a exactamente 0.40
+  (n=30, justo el borde del umbral que lo mantenía aplicado) y `YM|range` subió a 0.4184
+  (n=49), ambos por primera vez desde que se aplicaron. Si cualquiera se repite sobre 0.40 la
+  próxima semana, se retira. El resto (`NQ|direction` 0.3788 n=33, `NQ|scenario` 0.3922 n=51,
+  `GC|range` 0.2917 n=36) sigue firmemente bajo el umbral, sin cambio.
+- `zonePriors`: los 3 arquetipos con override vigente (`bounce_val` 0.68, `golden_zone` 0.32,
+  `retest_break` 0.45) recalculan dentro de ±0.08 de su valor actual con los datos de esta
+  semana — ninguno diverge >0.10, sin cambio. `sweep_onl` (winN≈166, winRate agregado leaf
+  ≈0.39 vs prior de reversión 0.55) se acerca al umbral de divergencia, pero igual que la
+  semana del 10-10, `state.zones` no permite reconstruir el agregado sin el encogimiento ya
+  aplicado — no se fuerza el ajuste sin esa base (ver propuesta 3 abajo).
+- `convictionBar4`: ningún símbolo llega a `n≥20` en el bucket "alta" (máximo NQ n=7) — sin
+  cambio.
 
 ### Propuestas de método
 
-1. **NQ sigue siendo, con mucha diferencia, el peor calibrado de rango del complejo.**
-   `emErrorTicks` NQ 459.7tk (n=48) es ~1.7× el de GC (272.1tk, 2º peor) y ~6.3× el de ES
-   (73.3tk, el mejor) — 2ª semana seguida con el mismo patrón (475.6tk la semana pasada).
-   Propuesta: un piso de `mult` específico para NQ en `emCalibration` más alto que el genérico,
-   en vez de converger al mismo mult que los demás símbolos. Campo: `method/instructions.md`
-   sección 5.4 / `state.scorecard.emCalibration`.
-2. **`H-2026-10-08-ym-extreme-reversal-no-invalida` candidata a regla formal.** Confirmada 2/2
-   (100%, n=2, todavía muestra corta): un rebote extremo que se ACERCA a la invalidación sin
-   tocarla anticipó la ruptura real 1 sesión después, tanto en YM (08→09 oct) como ya se había
-   visto antes. Propuesta: subir a regla provisional en `models.YM` una vez llegue a n≥3 (no
-   aplicar todavía, falta una ocurrencia más). Campo: `state/sa-state.json` → `models.YM`.
-3. **CL necesita colchón de MAE más ancho en zonas `retest_break` tras ruptura confirmada.**
-   2 ocurrencias esta semana (el GO de Asia del viernes 10-09 falló por una reversión
-   intra-zona de 91.41→90.19 antes de que el nivel sostuviera; el round-trip del martes tuvo
-   el mismo mecanismo) donde la zona tenía confluencia real y la dirección terminó acertando,
-   pero el GO falló por el ruido dentro de la propia zona, no por mal nivel. Campo:
-   `method/instructions.md` sección 4 (`risk`/MAE) para el arquetipo `retest_break` en CL.
+1. **`emErrorTicks`/`emCalibration` lleva 3 semanas sin un dato nuevo** en los 5 símbolos
+   (misma `n`/`avgTk` exactos en `reviews/2026-10-03-semana.md`, `2026-10-10-semana.md` y esta
+   corrida) mientras el resto del scorecard de mercado sí se actualiza. Propuesta: que cada
+   `pre-asia` confirme explícitamente en su nota de cierre si incrementó `emErrorTicks` ese día
+   (como ya hace con `zones`/`predictionScore`), para que un hueco de 2+ semanas sea visible de
+   inmediato. Campo: `method/instructions.md` sección 6 (checklist de cierre) /
+   `state.scorecard.emErrorTicks`.
+2. **`scorecard.execution.ALL` se desincronizó de `live/journal.json`**: se quedó en
+   `days:14` (última entrada 10-14) pese a que 10-11, 10-13, 10-15 y 10-16 ya tienen datos en
+   `live/journal.json` y los propios reviews de esos días ya los citan. Propuesta: que la
+   `pre-asia` incremente `scorecard.execution.ALL` con CADA día nuevo de `byDay` disponible, no
+   solo cuando coincide con el día que califica, para que el rollup del scorecard no quede
+   atrás del propio journal. Campo: `method/instructions.md` sección 6 /
+   `state.scorecard.execution`.
+3. **`sweep_onl` como candidato a override de `zonePriors`**: winN≈166 con winRate agregado
+   leaf ≈0.39 vs el prior de reversión 0.55 (divergencia ≈0.16, sobre el umbral de 0.10), pero
+   el cálculo necesita el agregado sin encoger para ser confiable (mismo bloqueo de la semana
+   pasada). Propuesta: que `pre-asia` guarde, junto al `winRate` ya encogido de cada zona hoja,
+   el conteo crudo pre-shrinkage (`rawHits`/`rawN`) para que el weekly pueda recalcular el
+   agregado real del arquetipo sin este bloqueo recurrente. Campo: `method/instructions.md`
+   sección 4 (pooling) / `state.zones[].winRate`.
 
 ## Lección de la semana
 
-El complejo de índices se dividió de verdad por primera vez en semanas (ES e YM rompieron sus
-tesis bajistas con cierre sostenido el mismo día, NQ sobrevivió por el margen más fino medido),
-y la mayor causa de fallo no fue sesgo mal leído sino movimiento mal calibrado: el mercado dio
-menos pullbacks estructurados y más rupturas directas de lo que el `expectedMove` esperaba,
-sobre todo en NQ y GC.
+La semana con más violencia de precio del mes (CPI el martes, OpEx el viernes, 4 de 5
+instrumentos rompiendo bandas de EM por mucho) coincidió con la peor racha de disciplina medida
+en semanas (10-15: overtrade+revenge+roundTrip juntos + 8 pérdidas seguidas) — el patrón ya
+visto el 2026-09-01 de que "volatilidad extrema + fuga de disciplina" se refuerzan mutuamente se
+repitió en el punto más caro de la ventana reciente, y sigue sin un solo parcial cobrado en 44
+posiciones.
 
 ## Régimen: cómo entró y cómo sale cada instrumento
 
-- **NQ**: entró en tendencia alcista de 5 sesiones (extendiendo tras el NFP de la semana
-  anterior). La rompió de verdad el miércoles 10-08 (nuevo mínimo de ciclo 30792, cierre
-  sostenido bajo la invalidación 31143) tras 5 mechas previas que habían revertido en la propia
-  sesión. El reinicio bajista sobrevivió su prueba más fina el jueves (Londres a solo 24pts de
-  invalidar otra vez) y sale la semana en conflicto abierto: precio técnicamente bajista día 2,
-  pero `command` fusionado cerró FUERTE +10 LONG y 2.35 ATR estirado — la lectura más tensa del
-  complejo de cara a la reapertura del domingo.
-- **ES**: entró en su 4ª sesión de continuación alcista (ALIGN con fuerza). Rompió esa tesis de
-  verdad el miércoles (cierre sostenido bajo 7847.50-7858.00) tras 2 sesiones de fragilidad
-  repetida en el mismo clúster que ya avisaban del riesgo. El reinicio bajista resultante duró
-  solo 2 sesiones: el viernes 10-09 rompió también su invalidación de fondo (7862) con cierre
-  sostenido en 7865 — sale la semana con los 6 marcos alineados LONG por primera vez en el
-  ciclo, el round-trip de tesis más completo del grupo dentro de una sola semana.
-- **GC**: entró en balance/chop, 5ª sesión sin resolver el conflicto diario/semanal vs sesión.
-  Rompió al alza el martes con un blow-off que no sostuvo (devolvió casi todo el camino —
-  "ruptura, no sana"), pasó 3 sesiones retesteando sin seguimiento neto, y el viernes confirmó
-  de verdad la ruptura alcista (tocó 4233.7, su propio objetivo de confirmación) sin cierre
-  sostenido sobre él. Sale la semana EVOLUCIONANDO a tesis alcista confirmada con reserva — el
-  único holdout real es el marco diario/semanal de zonas superiores, que todavía no realinea.
-- **YM**: entró en reinicio bajista de 3 sesiones, sobreviviendo por márgenes cada vez más
-  finos. Rompió su invalidación plena (51744) con cierre sostenido el martes — a diferencia de
-  GC, SÍ sostuvo esa ruptura. El reinicio bajista intentó resurgir miércoles-jueves con mínimos
-  nuevos sin volver a tocar 51744, hasta que el viernes rompió también la invalidación de ESE
-  reinicio con el mayor margen medido en el instrumento (máximo 52032, cierre 51966, 88% del
-  rango). Sale la semana en tesis alcista día 1 confirmada con fuerza, 2ª semana seguida con el
-  régimen más violento del complejo.
-- **CL**: entró en reinicio bajista, la 7ª bisagra de la misma serie sin resolver limpio.
-  Revirtió del todo sin catalizador de calendario el martes (IB roto al alza, `command` +10
-  FUERTE, cierre al 97% del rango) y confirmó con fuerza creciente el resto de la semana — 4
-  marcos alineados alcistas por primera vez en toda la serie, trendOK=1 sostenido. Sale la
-  semana con la tendencia más limpia y sostenida del complejo; el único riesgo pendiente es la
-  VAH congestionada (13+ toques), que sigue sin materializarse.
+- **NQ**: entró con el conflicto de marcos más largo de la serie, precio técnicamente bajista
+  pero `command` fusionado fuerte en largo. El CPI del martes lo rompió con autoridad (183%
+  ATR), el miércoles dio el reclamo más violento medido (120% ATR, estructura 1h/4h giró
+  alcista) sin romper la tesis, y el viernes de OpEx la resolvió del todo a la baja con el rango
+  más extendido de toda la serie (200% ATR, nuevo mínimo de ciclo 29268.75). Sale CONFIRMADA
+  bajista día 7, con la divergencia SMT de YM como única duda abierta.
+- **ES**: entró en continuación alcista de varias sesiones. El CPI del martes la rompió con
+  autoridad (cierre 55pts bajo invalidación); miércoles-jueves quedó sin resolución neta clara,
+  y el viernes (7º intento del mismo cluster premium) confirmó bajista con nuevo mínimo de
+  ciclo 7676.00. Sale con tesis bajista día 1-2, la más reciente en romperse del complejo.
+- **GC**: entró con sus marcos recién alineados bajistas tras 2 semanas de holdout. El martes
+  confirmó con autoridad (los 5 marcos alineados por 1ª vez), pero el realineamiento no sostuvo
+  ni 1 sesión (reclamo real el miércoles, nueva hipótesis registrada). Cierra la semana en chop
+  confirmado, sin que el marco de fondo vuelva a moverse — el instrumento más indeciso del
+  complejo.
+- **YM**: entró en reinicio bajista ya puesto a prueba varias veces. El CPI lo resolvió bajista
+  el martes, pero repitió 2 veces el patrón de barrer un nivel de decisión sin cerrar sostenido
+  debajo, y cierra el viernes de OpEx con el round-trip más grande medido (758pts) sin
+  resolución neta clara — el régimen más volátil y menos resuelto del complejo.
+- **CL**: entró en racha alcista de 7 sesiones con la VAH congestionada como único riesgo
+  pendiente. La resolvió jueves-viernes con máximos de ciclo sucesivos (96.06 → 99.34) sin una
+  sola fisura real en 9 sesiones — sale como, con diferencia, el instrumento más limpio y menos
+  dependiente de catalizador de calendario del complejo.
