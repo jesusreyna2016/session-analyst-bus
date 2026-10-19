@@ -163,7 +163,11 @@ de sesión ni toca `plans/`. Solo lee los planes + `reviews/` diarios + `state` 
    `plans/digest.txt` (sección 7).
 5. Aplica el merge sobre `state/sa-state.json` y escríbelo (sección 7). En `pre-asia`
    escribe también `reviews/<fecha>.md`. Actualiza los sub-objetos de calibración del
-   `scorecard` (sección 6) solo en `pre-asia`. La meta-revisión semanal ya NO va aquí:
+   `scorecard` (sección 6) solo en `pre-asia`, y en `pre-asia` corre después
+   `python3 method/update_scorecard.py <fecha_ayer>`: reconstruye `scorecard.execution.ALL`
+   desde el journal, deriva `emErrorTicks` y falla si `emCalibration` no recibió la muestra de
+   `<fecha_ayer>`. Si falla, arregla lo que diga y vuelve a correrlo; no subas con FAIL.
+   La meta-revisión semanal ya NO va aquí:
    la hace la rutina `weekly` del sábado (sección 6.1).
 5b. Escribe `live/heartbeat.json` = `{ lastRun: <ISO UTC>, runType: <RUN_TYPE>, ok: <true
    salvo que el plan vaya con asterisco>, note: "<1 frase>" }`.
@@ -1105,9 +1109,11 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
     corta ganadores o deja correr perdedores; dilo. Sin estos campos: "sin datos de salida".
   - **Comparación con la ventana**: ¿ayer fue mejor o peor que la media rodante de
     `scorecard.execution.ALL` en disciplina y contra-sesgo? Una línea con ▲/▼.
-  - Escribe/actualiza `scorecard.execution` (`ALL` + `<SYM>` si el journal separa) =
-    `{days,n,withBias,againstBias,validEdge,outsideEdge,disciplinedPct,partialRate,scratchRate,note}` con ventana
-    rodante ~45 días, para que la tendencia module cuán duro insistes en el anti-fuga.
+  - `scorecard.execution.ALL` NO se escribe a mano: lo reconstruye desde cero
+    `python3 method/update_scorecard.py <fecha_ayer>` (paso 5 del flujo) con TODOS los días de
+    `byDay` en una ventana de 45 días, también los que no calificaste (fines de semana, días sin
+    plan). A mano se quedó congelado en `days:14` una semana entera. Léelo DESPUÉS de correr
+    el script para la comparación ▲/▼ y para modular cuán duro insistes en el anti-fuga.
     NUNCA inventes ejecución: si falta `live/journal.json` o un día no está en `byDay`, di
     "sin datos de ejecución" y califica solo la predicción.
 - `zones`: el objeto `zones` COMPLETO actualizado. Por cada zona calificada, en su clave
@@ -1225,7 +1231,14 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   review, por instrumento/sesión, +1 `calls` a cada una de las 6 fuentes y +1 `hits` si su
   dirección/bias coincidió con la dirección NETA realizada de esa sesión. `rate = hits/max(1,
   calls)`, `n = calls`. → lo aplica la sección 3.1 (fuente floja = medio peso).
-- **`emCalibration`**: `{ "<SYM>|<sesion>": { n, meanErrTk, biasTk, mult, biasTkSign } }`.
+- **`emCalibration`**: `{ "<SYM>|<sesion>": { n, meanErrTk, biasTk, mult, biasTkSign }, "_lastDate": "<fecha_ayer>" }`.
+  **Cada `pre-asia` suma la muestra del día calificado** a cada celda `<SYM>|<sesion>` que tenga
+  EM predicho (base, antes de `mult`) y realizado en tu tabla del review: +1 `n`, recalcula
+  `meanErrTk`, `biasTk`, `mult`, `errPctAtr`, y escribe `_lastDate = <fecha_ayer>`. Si de verdad
+  no hay dato (feed caído, día sin plan), escribe en `reviews/<fecha_ayer>.md` la línea
+  `sin muestra EM: <motivo>`. Saltarse esto dejó el EM 3 semanas sin una sola muestra nueva
+  aunque los reviews sí traían la tabla predicho vs realizado. `scorecard.emErrorTicks` ya no se
+  toca a mano: el script lo deriva de `emCalibration`.
   `biasTk` = media con signo de (realizado − predicho_base) en ticks; `biasTkSign` = `"+"`,
   `"-"` o `"mixto"` según si todas las muestras de la ventana comparten signo. Con `n ≥ 5`:
   `mult = clamp(media_realizado / media_predicho_base, 0.7, 1.8)` (con `5 ≤ n < 10` la 5.4 solo

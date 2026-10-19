@@ -2690,29 +2690,29 @@
   },
   "emErrorTicks": {
    "NQ": {
-    "n": 48,
-    "avgTk": 459.7,
-    "window": "rodante, dias del tracker hasta 2026-10-06 (ver reviews/2026-10-06.md)"
+    "n": 61,
+    "avgTk": 418.1,
+    "window": "derived from emCalibration (all sessions, n-weighted), as of 2026-10-18"
    },
    "ES": {
-    "n": 47,
-    "avgTk": 73.3,
-    "window": "rodante, dias del tracker hasta 2026-10-06 (ver reviews/2026-10-06.md)"
+    "n": 60,
+    "avgTk": 62.3,
+    "window": "derived from emCalibration (all sessions, n-weighted), as of 2026-10-18"
    },
    "GC": {
-    "n": 47,
-    "avgTk": 272.1,
-    "window": "rodante, dias del tracker hasta 2026-10-06 (ver reviews/2026-10-06.md)"
+    "n": 59,
+    "avgTk": 237.6,
+    "window": "derived from emCalibration (all sessions, n-weighted), as of 2026-10-18"
    },
    "YM": {
-    "n": 43,
-    "avgTk": 153.7,
-    "window": "rodante, dias del tracker hasta 2026-10-06 (ver reviews/2026-10-06.md)"
+    "n": 53,
+    "avgTk": 134.8,
+    "window": "derived from emCalibration (all sessions, n-weighted), as of 2026-10-18"
    },
    "CL": {
-    "n": 43,
-    "avgTk": 103.3,
-    "window": "rodante, dias del tracker hasta 2026-10-06 (ver reviews/2026-10-06.md)"
+    "n": 53,
+    "avgTk": 96.6,
+    "window": "derived from emCalibration (all sessions, n-weighted), as of 2026-10-18"
    }
   },
   "zoneHitPct": {
@@ -3625,14 +3625,24 @@
   },
   "execution": {
    "ALL": {
-    "days": 14,
-    "n": 294,
-    "withBias": 62,
-    "againstBias": 79,
-    "validEdge": 112,
-    "outsideEdge": 84,
-    "disciplinedPct": 0,
-    "note": "journal.json no separa por instrumento, se agrega a nivel de cuenta. 2026-08-31: 29 trades, 25 graded, 10 withBias/15 againstBias, 6 validEdge/19 outsideEdge, disciplined=false. 2026-09-01: 102 trades, 75 graded, 35 withBias/40 againstBias, 66 validEdge/9 outsideEdge, disciplined=false, overtrade=true, revenge=true, roundTrip=true. Mejora fuerte en outsideEdge (76%->12%) pero againstBias sigue mayoritario ambos dias y el 09-01 tuvo el patron de churn mas fuerte registrado (overtrade+revenge+roundTrip juntos en 102 trades). 2026-09-03: 3 trades, 1 graded, 1 withBias/0 againstBias, 1 validEdge/0 outsideEdge, disciplined=false (sin overtrade/revenge/roundTrip marcados, muestra de 1 solo trade gradado -- no repite el patron de churn del 09-01). 2026-09-04: 30 trades (dia de NFP, el mas activo de la ventana), 17 graded, 3 withBias/0 againstBias, 11 validEdge/6 outsideEdge, disciplined=false, overtrade=true, revenge=true, maxLossStreak=4 (el peor medido hasta ahora), roundTrip=false. Mejor registro de against-bias de la ventana (0%) pero peor racha de perdidas seguidas -- la fuga se movio de direccion equivocada a volumen/gestion de racha. 2026-09-07: 8 trades, 5 graded, 1 withBias/1 againstBias, 3 validEdge/2 outsideEdge, disciplined=false, overtrade=true (dia de reapertura/Asia, mediocre pero no un desastre). 2026-09-08: 19 trades (dia mas volatil de la semana, 3 tesis casi invalidan a la vez), solo 7 graded, 3 withBias/4 againstBias (opero mas en contra del sesgo que a favor), 3 validEdge/4 outsideEdge, disciplined=false, overtrade=true, revenge=true, maxLossStreak=5 (el peor medido hasta ahora, supera el 4 del 09-04) -- confirma que los dias de reversion violenta en varios instrumentos a la vez son el terreno mas facil para el churn y el revenge-sizing. 2026-09-17: SIN DATOS DE EJECUCION -- live/journal.json sigue con updatedAt 2026-09-08 y su ventana byDay solo cubre 09-07 y 09-08, asi que el dia de ayer no se pudo calificar contra la ejecucion real. La ventana rodante queda intacta en 6 dias. 2026-09-18: 16 trades, 16 graded, 0 withBias/1 againstBias, 9 validEdge/7 outsideEdge (44% fuera de zona, peor que la media rodante 30.8%), disciplined=false, overtrade=true, sin revenge/roundTrip, maxLossStreak=2. Plan del dia dejo casi todo en WAIT/AVOID (unico GO fue GC) y aun asi el 44% de los trades quedo fuera de zona mapeada. 2026-09-21: 14 trades, 5 graded, 0 withBias/0 againstBias, 1 validEdge/4 outsideEdge, disciplined=false, overtrade=true, revenge=false, roundTrip=true, maxLossStreak=10 (el peor medido hasta ahora, supera el 5 del 09-08) -- dia casi entero en WAIT en los 5 instrumentos y aun asi 14 trades con 80% fuera de zona mapeada (4 de 5 graded); sin trades a favor ni en contra de sesgo (bias no marcado en los graded), el problema no fue direccion sino churn puro en un dia sin setup. 2026-09-25: SIN DATOS DE EJECUCION -- live/journal.json sigue con updatedAt 2026-09-21 y su byDay no incluye el viernes 25-sep (ultimo dia cubierto: 2026-09-21). No se pudo calificar el plan vs la ejecucion real de ese dia; la ventana rodante de dias con dato queda intacta. 2026-09-28: 28 trades, 24 graded, 4 withBias/4 againstBias (50% contra-sesgo, dia con conflicto de marcos genuino en 4 de 5 instrumentos), 2 validEdge/22 outsideEdge (91.7% fuera de zona, el peor registro medido del bus), disciplined=false, overtrade=true, revenge=true, maxLossStreak=3, sin roundTrip -- dia de churn bajo presion en una sesion que el plan dejo casi entera en WAIT por conflicto de marcos y riesgo de latigazo. 2026-09-29: 19 trades, 19 graded, 5 withBias/12 againstBias (71% contra-sesgo, el peor registro de la ventana), 10 validEdge/9 outsideEdge (47% fuera de zona), disciplined=false, overtrade=true, revenge=true, roundTrip=true, maxLossStreak=5 -- dia de shock no calendarizado con sesgo de sesion claro en varios instrumentos y aun asi la mayoria de los trades fue en la direccion opuesta; el patron de churn completo (overtrade+revenge+roundTrip juntos) solo se habia visto antes el 09-01. 2026-10-01: SIN DATOS DE EJECUCION -- live/journal.json sigue con updatedAt 2026-09-29T20:23Z y su byDay termina en 2026-09-29; el dia 2026-10-01 (y el 09-30) no se pudo calificar contra la ejecucion real. Ventana rodante intacta en 10 dias. 2026-09-30 a 2026-10-04: SIN DATOS DE EJECUCION (live/journal.json no tiene esas fechas en byDay). 2026-10-05: 2 trades, 2 graded, 0 withBias/2 againstBias (100% contra-sesgo), 0 validEdge/2 outsideEdge (100% fuera de zona), disciplined=false, sin overtrade/revenge/roundTrip -- muestra muy chica (2 trades) pero ambos en contra del sesgo claro del dia (LONG en NQ/ES) y fuera de zona mapeada; dia que ademas resolvio a favor del sesgo (NQ/ES subieron fuerte), el peor escenario posible para operar en contra. 2026-10-10: 2 trades, disciplined=false, roundTrip=true, maxLossStreak=1, sin graded de sesgo/zona (campo 'graded'=0, el journal no etiqueto bias/edge estos 3 dias). Salidas: 0 parciales de 2 posiciones, 1 stop completo, wlPtsRatio 1.15. 2026-10-11 (domingo): 8 trades, disciplined=false, overtrade=true, maxLossStreak=3, sin roundTrip. Salidas: 0 parciales de 8 posiciones, 6 stops completos (75%), wlPtsRatio 6.17 (cuando gana, gana mucho mas de lo que pierde, pero gana poco). 2026-10-12: 14 trades, disciplined=false, overtrade=true, roundTrip=true, maxLossStreak=7 -- la peor racha de perdidas seguidas medida en toda la ventana (supera el 5 del 09-08 y el 10 del 09-21 referido a trades totales, aqui es racha de PERDIDAS puras). Salidas: 0 parciales de 14 posiciones, 10 stops completos (71%), wlPtsRatio 1.69. El journal, congelado desde el 10-05, volvio a traer datos: 3 dias seguidos sin UN SOLO parcial cobrado (24 posiciones, 0 parciales) -- la fuga homerun-exit domina sin alivio; sin desglose de sesgo/zona disponible estos 3 dias (graded=0), no se puede medir contra-sesgo ni fuera-de-zona. 2026-10-14: 5 trades, disciplined=true, sin overtrade/revenge/roundTrip, maxLossStreak=1 -- dia limpio en disciplina, pero graded=0 (sin trades calificados con sesgo/edge ese dia, no suma a against-bias/outside-edge). Salidas: 5 posiciones, 0 parciales, 0 scratches, 1 SL completo, W/L pts ratio 0.92 (mejora fuerte vs 0.62 del 10-13, sigue sin el parcial temprano)."
+    "days": 25,
+    "n": 612,
+    "graded": 205,
+    "withBias": 31,
+    "againstBias": 45,
+    "validEdge": 84,
+    "outsideEdge": 120,
+    "disciplinedPct": 8,
+    "positions": 301,
+    "partialRate": 0.017,
+    "scratchRate": 0.03,
+    "fullStopRate": 0.532,
+    "overtradeDays": 20,
+    "revengeDays": 9,
+    "roundTripDays": 9,
+    "firstDate": "2026-09-04",
+    "lastDate": "2026-10-18",
+    "note": "Rebuilt by method/update_scorecard.py from live/journal.json byDay (45-day window). Account-level, the journal does not split by instrument."
    }
   },
   "verdictScore": {
