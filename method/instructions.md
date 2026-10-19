@@ -584,7 +584,15 @@ viejo lo que solo refleja mercado cerrado).
 8. **Noticias** (de `news.events`; `ts` es epoch ms → conviértelo a CT). Por cada evento de
    alto impacto (o medio USD) que caiga en la sesión o en los ~45 min previos: título, hora CT
    y ventana de **manos fuera** (alto = −15 / +10 min · medio USD = −5 / +5). Clasifica el
-   **riesgo de noticias de la sesión** (`newsRisk`):
+   **riesgo de noticias de la sesión** (`newsRisk`).
+   **El país sale SOLO del campo `currency`** (regla dura): `USD` = EEUU; cualquier otro
+   (`CAD`, `GBP`, `EUR`, `NZD`, `JPY`, `AUD`, `CHF`, `CNY`) es de ese país y se nombra así
+   ("CPI de Canadá (CAD)", "Canada CPI (CAD)"). Nunca escribas "de EEUU"/"US" sin `currency`
+   = `USD`. Un dato de alto impacto que NO es USD no sube el `newsRisk` de los índices ni de CL
+   por encima de `MEDIA`, ni activa el ajuste FOMC/NFP/CPI del EM (sección 5). El 2026-10-19
+   el CPI de Canadá (CAD, 07:30 CT) se leyó como CPI de EEUU en pre-ny y subió el riesgo a
+   ALTA sin motivo.
+   Clasificación:
    - `NINGUNA` · `MEDIA` (1 medio USD, o 1 alto a >45 min del arranque de la sesión) ·
      `ALTA` (alto impacto USD dentro de la sesión o en sus primeros 30 min).
    Efectos con `MEDIA`/`ALTA`:
