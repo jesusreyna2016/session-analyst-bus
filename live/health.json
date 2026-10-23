@@ -1,17 +1,17 @@
 {
-  "checkedAt": "2026-10-22T22:39:02Z",
+  "checkedAt": "2026-10-23T01:39:09Z",
   "status": "down",
   "snapshot": {
-    "builtAt": "2026-10-22T22:30:25.603Z",
+    "builtAt": "2026-10-23T01:30:23.947Z",
     "ageMin": 9,
     "state": "OK"
   },
   "webhook": {
-    "lastSeenMin": 9,
+    "lastSeenMin": 14,
     "state": "ok"
   },
   "news": {
-    "ageMin": 24,
+    "ageMin": 9,
     "count": 13,
     "state": "ok"
   },
@@ -22,59 +22,59 @@
   },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 574, "state": "dead" },
-      "3reads": { "ageMin": 14, "state": "fresh" },
+      "orb": { "ageMin": 754, "state": "dead" },
+      "3reads": { "ageMin": 9, "state": "fresh" },
       "drbias": { "ageMin": 9, "state": "fresh" },
       "srzones": { "ageMin": 9, "state": "fresh" },
       "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command": { "ageMin": 569, "state": "dead" }
+      "command": { "ageMin": 749, "state": "dead" }
     },
     "ES": {
-      "orb": { "ageMin": 579, "state": "dead" },
+      "orb": { "ageMin": 759, "state": "dead" },
       "3reads": { "ageMin": 9, "state": "fresh" },
       "drbias": { "ageMin": 9, "state": "fresh" },
       "srzones": { "ageMin": 9, "state": "fresh" },
       "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command": { "ageMin": 579, "state": "dead" }
+      "command": { "ageMin": 759, "state": "dead" }
     },
     "GC": {
-      "orb": { "ageMin": 574, "state": "dead" },
+      "orb": { "ageMin": 754, "state": "dead" },
       "3reads": { "ageMin": 9, "state": "fresh" },
       "drbias": { "ageMin": 9, "state": "fresh" },
       "srzones": { "ageMin": 9, "state": "fresh" },
       "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command": { "ageMin": 574, "state": "dead" }
+      "command": { "ageMin": 754, "state": "dead" }
     },
     "YM": {
-      "orb": { "ageMin": 9, "state": "fresh" },
-      "3reads": { "ageMin": 9, "state": "fresh" },
-      "drbias": { "ageMin": 9, "state": "fresh" },
-      "srzones": { "ageMin": 9, "state": "fresh" },
-      "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command": { "ageMin": 569, "state": "dead" }
+      "orb": { "ageMin": 14, "state": "fresh" },
+      "3reads": { "ageMin": 14, "state": "fresh" },
+      "drbias": { "ageMin": 14, "state": "fresh" },
+      "srzones": { "ageMin": 14, "state": "fresh" },
+      "htfzones": { "ageMin": 14, "state": "fresh" },
+      "command": { "ageMin": 749, "state": "dead" }
     },
     "CL": {
-      "orb": { "ageMin": 574, "state": "dead" },
+      "orb": { "ageMin": 754, "state": "dead" },
       "3reads": { "ageMin": 9, "state": "fresh" },
       "drbias": { "ageMin": 9, "state": "fresh" },
       "srzones": { "ageMin": 9, "state": "fresh" },
       "htfzones": { "ageMin": 9, "state": "fresh" },
-      "command": { "ageMin": 579, "state": "dead" }
+      "command": { "ageMin": 759, "state": "dead" }
     }
   },
   "issues": [
-    "command@ES dead (579 min) · racha 2 checks",
-    "orb@ES dead (579 min) · racha 2 checks",
-    "command@CL dead (579 min) · racha 2 checks",
-    "orb@GC dead (574 min) · racha 2 checks",
-    "orb@NQ dead (574 min) · racha 2 checks",
-    "command@GC dead (574 min) · racha 2 checks",
-    "orb@CL dead (574 min) · racha 2 checks",
-    "command@NQ dead (569 min) · racha 2 checks",
-    "command@YM dead (569 min) · racha 2 checks"
+    "command@ES dead (759 min) · racha 3 checks",
+    "orb@ES dead (759 min) · racha 3 checks",
+    "command@CL dead (759 min) · racha 3 checks",
+    "orb@GC dead (754 min) · racha 3 checks",
+    "orb@NQ dead (754 min) · racha 3 checks",
+    "command@GC dead (754 min) · racha 3 checks",
+    "orb@CL dead (754 min) · racha 3 checks",
+    "command@NQ dead (749 min) · racha 3 checks",
+    "command@YM dead (749 min) · racha 3 checks"
   ],
   "note": {
-    "es": "Franja 22:30 UTC (jueves 17:39 CT): vigila pre-asia. Commit \"sa pre-asia 2026-10-23\" encontrado a las 21:39Z (heartbeat lastRun 21:18:40Z, ok:false por los mismos datos caidos), dentro de la ventana de 3h, sin catch-up. Snapshot a 9 min, feed ind-ingest fresco en los 5 simbolos (9-14 min). La caida de command (los 5 simbolos) y orb (ES/NQ/GC/CL) detectada en el check de 14:30Z SIGUE igual ahora, ~9.5h despues (569-579 min): es la 2a corrida habil consecutiva con la misma caida, asi que sube a racha. orb de YM sigue fresco (9 min) y por eso el webhook lee 'ok' aunque command este muerto en todo el complejo. PDH/PDL de orb vs command.raw coinciden en ES/NQ/GC/CL (nada frozen, pura edad); en YM difieren porque command quedo con los niveles del dia anterior mientras orb ya rodo de dia, consistente con que command sigue parado ahi tambien. News fresco (24 min, 13 eventos). STEROIDS limpio (maximo reach ratio 0.52 en NQ). Journal actualizado hace ~37h, sin huecos de la semana. Recomendacion: revisar/reiniciar las alertas de TradingView de command (los 5 simbolos) y de orb (ES/NQ/GC/CL); no es fallo del Session Analyst.",
-    "en": "22:30 UTC slot (Thursday 17:39 CT): watches pre-asia. Commit \"sa pre-asia 2026-10-23\" found at 21:39Z (heartbeat lastRun 21:18:40Z, ok:false for the same stale data), inside the 3h window, no catch-up needed. Snapshot at 9 min, ind-ingest feed fresh across all 5 symbols (9-14 min). The command outage (all 5 symbols) and orb outage (ES/NQ/GC/CL) first caught at the 14:30Z check is STILL the same now, ~9.5h later (569-579 min): this is the 2nd consecutive weekday check with the same outage, so it's now a streak. YM's orb is still fresh (9 min), which is why the webhook check reads 'ok' even though command is dead across the whole complex. orb vs command.raw PDH/PDL match on ES/NQ/GC/CL (nothing frozen, pure age); they differ on YM because command is still holding yesterday's levels while orb already rolled to the new day, consistent with command still being stuck there too. News is fresh (24 min, 13 events). STEROIDS clean (max reach ratio 0.52 on NQ). Journal updated ~37h ago, no gaps this week. Recommendation: check/restart the TradingView alerts for command (all 5 symbols) and orb (ES/NQ/GC/CL); this is not a Session Analyst failure."
+    "es": "Franja 01:30 UTC (jueves 19:39 CT): no vigila ninguna corrida (asia-2 desactivada), solo salud. Snapshot a 9 min, feed ind-ingest fresco en los 5 simbolos (9-14 min), news fresco (9 min, 13 eventos). La caida de command (los 5 simbolos) y orb (ES/NQ/GC/CL) detectada en el check de 14:30Z y confirmada de nuevo a las 22:30Z SIGUE igual ahora, ~12.5h despues (749-759 min): 3er check habil consecutivo con la misma caida, sube a racha 3. orb de YM sigue fresco (14 min) y por eso el webhook lee 'ok'. PDH/PDL de orb vs command.raw coinciden en ES/NQ/GC/CL (nada frozen, pura edad, ambos parados juntos en el mismo snapshot viejo de ~13:00-13:10Z de ayer); en YM difieren porque command sigue con los niveles del dia anterior mientras orb ya roto, consistente con que command es el unico realmente caido. Journal actualizado hace 40h, sin huecos. STEROIDS limpio (reach ratios 0.3-0.52, nada inalcanzable). No hubo corrida del Session Analyst que tocara en esta franja, asi que no aplica catch-up. Recomendacion: revisar/reiniciar las alertas de TradingView de command (los 5 simbolos) y de orb (ES/NQ/GC/CL); no es fallo del Session Analyst.",
+    "en": "01:30 UTC slot (Thursday 19:39 CT): watches no run this slot (asia-2 disabled), health only. Snapshot at 9 min, ind-ingest feed fresh across all 5 symbols (9-14 min), news fresh (9 min, 13 events). The command outage (all 5 symbols) and orb outage (ES/NQ/GC/CL) first caught at the 14:30Z check and re-confirmed at 22:30Z is STILL the same now, ~12.5h later (749-759 min): 3rd consecutive weekday check with the same outage, now a streak of 3. YM's orb is still fresh (14 min), which is why the webhook check reads 'ok'. orb vs command.raw PDH/PDL match on ES/NQ/GC/CL (nothing frozen, pure age, both stuck together on the same ~yesterday 13:00-13:10Z snapshot); they differ on YM because command still holds yesterday's levels while orb already rolled, consistent with command being the only source truly down. Journal updated 40h ago, no gaps. STEROIDS clean (reach ratios 0.3-0.52, nothing unreachable). No Session Analyst run was due this slot, so no catch-up applies. Recommendation: check/restart the TradingView alerts for command (all 5 symbols) and orb (ES/NQ/GC/CL); this is not a Session Analyst failure."
   }
 }
