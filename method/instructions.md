@@ -165,8 +165,10 @@ de sesión ni toca `plans/`. Solo lee los planes + `reviews/` diarios + `state` 
    escribe también `reviews/<fecha>.md`. Actualiza los sub-objetos de calibración del
    `scorecard` (sección 6) solo en `pre-asia`, y en `pre-asia` corre después
    `python3 method/update_scorecard.py <fecha_ayer>`: reconstruye `scorecard.execution.ALL`
-   desde el journal, deriva `emErrorTicks` y falla si `emCalibration` no recibió la muestra de
-   `<fecha_ayer>`. Si falla, arregla lo que diga y vuelve a correrlo; no subas con FAIL.
+   desde el journal, deriva `emErrorTicks`, reconstruye `biasHitPct`/`scenarioAHitPct`/
+   `scenarioABHitPct`/`zoneHitPct` desde `hitLog`, y falla si `emCalibration` no recibió la
+   muestra de `<fecha_ayer>` o si falta `hitLog["<fecha_ayer>"]`. Si falla, arregla lo que diga
+   y vuelve a correrlo; no subas con FAIL.
    La meta-revisión semanal ya NO va aquí:
    la hace la rutina `weekly` del sábado (sección 6.1).
 5b. Escribe `live/heartbeat.json` = `{ lastRun: <ISO UTC>, runType: <RUN_TYPE>, ok: <true
@@ -396,8 +398,18 @@ viejo lo que solo refleja mercado cerrado).
   (trae los mismos): si discrepan > 0.3 % está congelado → usa `command` para niveles y anótalo en
   `dataHealth.notes`.
 - Si una fuente **falta** para un símbolo → `dataHealth.missing`, no inventes sus zonas.
-- **Regla dura**: si `command` (síntesis) o ≥ 3 fuentes crudas de un instrumento están viejas/muertas,
-  su `conviction` no pasa de "baja" y su `verdict.signal` NO puede ser "GO".
+- **Regla dura**: si ≥ 3 fuentes crudas de un instrumento están viejas/muertas, su `conviction` no
+  pasa de "baja" y su `verdict.signal` NO puede ser "GO".
+- **Solo `command` caído** (viejo/muerto) con ≥ 4 de las 5 fuentes crudas (orb, 3reads, drbias,
+  srzones, htfzones) frescas y de acuerdo en la dirección: GO permitido, pero con tope de
+  `conviction` "media", solo sobre una zona A+ (confluencia ≥ 6) y cumpliendo TODO lo demás de
+  la 3.9 (sin `frameConflict.on`, sin noticia/shock, sin `whipsawRisk` ≥ 0.5). Marca
+  `verdict.basis = "raw"` y dilo en `verdict.reason` ("motor fusionado caído, GO por consenso
+  crudo"). Si no llega a 4 fuentes frescas alineadas, se queda la regla de arriba (máx "baja",
+  sin GO). Origen: el apagón de `command` del 2026-10-23 forzó WAIT en todo y dejó varias A+
+  de GC/CL que pagaron ≥ 1R (`missedOps`). Medición: cada GO con `basis:"raw"` se califica
+  también en `verdictScore["<SYM>|raw"]`; si con `n ≥ 8` su `go.rate < 0.45`, el weekly
+  lo propone para revertir.
 
 - **orb** (backbone): `biasDir`, `weeklyDir`, `dayType`, `price`, `levels` (vah/poc/val/vwap/pdh/pdl/dayOpen/orH/orL/pwh/pwl/tdo/ema5/ema15/ema50), `noTradeZone`, `signal`, `struct`, `regime`, `vol`, `htf1`, `htf2`, `rs`, `inNtz`.
 - **3reads.raw**: `context` (LONG/SHORT/UNCLEAR), `ctrl1h`/`ctrl4h`, `trendOK`, `inDiscount`, `chop`, `chopIdx`, `atrD`, `atrDtk`, `rangeToday`, `rangeTodayTk`, `emUsedPct`, `emRemain`, `emRemainTk`, `emRegime` (EXPANSIÓN/AVANZADO/AGOTADO), `vix`, `vixRank`, `vixState`, `ema20tk`/`ema50tk`/`ema200tk`/`vwaptk` (+ slopes), `emaBias`, `smtBull`/`smtBear`, `csdUp`, `exU`/`exD` (4 extensiones del rango previo c/u), `exTouchU`/`exTouchD`, `pdh/pdl/pwh/pwl/do/vah/poc/val/swHi/swLo`.
@@ -1259,6 +1271,20 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   el problema ya no es de calibración sino del reparto por sesión (5.2): proponlo en el weekly.
   **Comparar símbolos SIEMPRE por `errPctAtr`, nunca por ticks** (NQ mueve ~6× los ticks de ES;
   460 tk en NQ y 73 tk en ES son el mismo ~24 % del rango diario).
+- **`hitLog`** (fuente de `biasHitPct`, `scenarioAHitPct`, `scenarioABHitPct`, `zoneHitPct`):
+  `{ "<fecha_ayer>": { "<SYM>": { "bias":[hits,n], "scenA":[hits,n], "scenAB":[hits,n], "zone":[hits,n] } } }`.
+  **Cada `pre-asia` escribe la entrada del día calificado** con lo mismo que ya pones en el
+  review, sumando las 3 sesiones del instrumento: `bias` = sesiones con sesgo acertado (parcial
+  0.5) / sesiones calificadas; `scenA` = sesiones donde se activó A / sesiones con plan; `scenAB`
+  = A o B activado (B vale 0.75) / sesiones con plan; `zone` = zonas que reaccionaron como se
+  esperaba / zonas propuestas que llegaron o debían llegar. Omite la clave que no aplique.
+  Los 4 contadores **ya no se tocan a mano**: el script los reconstruye (baseline congelado de
+  `hitBaseline` + `hitLog` mientras el log tenga < 20 días; luego solo el log, 60 días). Se
+  llevaban a mano desde la prosa del review y se congelaron dos veces (9 días en octubre y la
+  semana 10-19..10-23 entera). Si de verdad no hay calificación, escribe en
+  `reviews/<fecha_ayer>.md` la línea `sin calificacion de aciertos: <motivo>`.
+  **Una sola vez** (la 1ª `pre-asia` tras 2026-10-25): rellena también `hitLog` de 2026-10-19,
+  10-20, 10-21, 10-22 y 10-23 leyendo `reviews/<esa fecha>.md`, para recuperar la semana perdida.
 - **`convictionCalibration`**: `{ "<SYM>": { alta:{n,hits,rate}, media:{…}, baja:{…} } }` sobre
   acierto de sesgo. Si con `n ≥ 15` el `rate` de "alta" no supera al de "media" por ≥ 10 pts →
   anótalo en `models` y la sección 3.1 sube el listón de "alta" a 4 fuentes.

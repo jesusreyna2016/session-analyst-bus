@@ -11,6 +11,11 @@ Usage: python3 method/update_scorecard.py <fecha_ayer>        (pre-asia, after t
    symbol), so the two can never disagree again.
 3. Check: emCalibration._lastDate must be <fecha_ayer>, or reviews/<fecha_ayer>.md must say
    "sin muestra EM" with the reason. Both were silently skipped for weeks.
+4. biasHitPct / scenarioAHitPct / scenarioABHitPct / zoneHitPct are rebuilt from
+   scorecard.hitLog (one structured entry per graded day) on top of scorecard.hitBaseline (the
+   hand-kept totals as of 2026-10-16). They were hand-merged from review prose and froze twice
+   (9 days in October, then a full week). Check: hitLog["<fecha_ayer>"] must exist, or
+   reviews/<fecha_ayer>.md must say "sin calificacion de aciertos" with the reason.
 """
 import datetime as dt
 import io
@@ -19,6 +24,9 @@ import sys
 
 STATE = "state/sa-state.json"
 WINDOW_DAYS = 45
+HIT_KEYS = {"biasHitPct": "bias", "scenarioAHitPct": "scenA", "scenarioABHitPct": "scenAB", "zoneHitPct": "zone"}
+HIT_WINDOW = 60      # days of hitLog kept and summed
+HIT_LOG_ONLY = 20    # once the log has this many graded days, the hand-kept baseline is dropped
 
 
 def load(p):
@@ -63,6 +71,34 @@ def em_error_ticks(cal, end):
     return out
 
 
+def hit_counters(sc, end):
+    """Rebuild the four hit counters from hitLog (+ baseline while the log is short). Prunes the log."""
+    log = sc.setdefault("hitLog", {})
+    start = (dt.date.fromisoformat(end) - dt.timedelta(days=HIT_WINDOW - 1)).isoformat()
+    for d in [d for d in log if d < start]:
+        del log[d]
+    days = sorted(d for d in log if d <= end)
+    base = sc.get("hitBaseline") or {}
+    use_base = len(days) < HIT_LOG_ONLY and base
+    for counter, k in HIT_KEYS.items():
+        tot = {}
+        if use_base:
+            for sym, c in (base.get(counter) or {}).items():
+                tot[sym] = [float(c.get("hits") or 0), int(c.get("n") or 0)]
+        for d in days:
+            for sym, g in log[d].items():
+                if not isinstance(g, dict) or not g.get(k):
+                    continue
+                h, n = g[k]
+                t = tot.setdefault(sym, [0.0, 0])
+                t[0] += float(h)
+                t[1] += int(n)
+        win = ("baseline %s + hitLog %d days to %s" % (base.get("asOf"), len(days), end)) if use_base \
+            else "hitLog %d graded days to %s" % (len(days), end)
+        sc[counter] = {sym: {"n": n, "hits": round(h, 2), "pct": round(100 * h / n) if n else None, "window": win}
+                       for sym, (h, n) in sorted(tot.items())}
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
@@ -94,6 +130,16 @@ def main():
             rv = ""
         if "sin muestra em" not in rv:
             errs.append('emCalibration._lastDate=%s, expected %s: add the EM samples of %s to emCalibration (section "Calibracion") and set _lastDate, or write "sin muestra EM: <motivo>" in reviews/%s.md' % (cal.get("_lastDate"), end, end, end))
+
+    if not check_only:
+        hit_counters(sc, end)
+    if end not in (sc.get("hitLog") or {}):
+        try:
+            rv = io.open("reviews/%s.md" % end, encoding="utf-8").read().lower()
+        except FileNotFoundError:
+            rv = ""
+        if "sin calificacion de aciertos" not in rv and "sin calificación de aciertos" not in rv:
+            errs.append('scorecard.hitLog["%s"] missing: add the day\'s bias/scenario/zone grades per symbol (section "Calibracion", hitLog), or write "sin calificacion de aciertos: <motivo>" in reviews/%s.md' % (end, end))
 
     if not check_only:
         io.open(STATE, "w", encoding="utf-8", newline="\n").write(json.dumps(state, ensure_ascii=False, indent=1))
