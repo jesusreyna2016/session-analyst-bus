@@ -14,7 +14,7 @@ donde rehace una corrida del Session Analyst que no salió.
 
 Solo el checkout del repo bus. Sin red a tradedadlog.com. Lee:
 
-- `live/market.json` — `{ builtAt, feed.symbols.<SYM>.{orb,3reads,drbias,srzones,htfzones,command}, news }`.
+- `live/market.json` — `{ builtAt, feed.symbols.<SYM>.{orb,3reads,drbias,srzones,htfzones,command,regime,trendcl}, news }`.
   Lo escribe Netlify cada ~5 min; es el espejo de todo lo que recibe la web.
 - `live/heartbeat.json` — `{ lastRun, runType, ok, note }`. Última corrida del Session Analyst.
 - `state/sa-state.json` — solo para leer `scorecard`/nada crítico; NO lo reescribas.
@@ -35,6 +35,14 @@ reconstruirse.
 - **Fuentes `ind-ingest`** por símbolo (`3reads`, `drbias`, `srzones`, `htfzones`,
   `command`): `ageMin = now − receivedAt`.
   - < 25 → `fresh` · 25–90 → `stale` · > 90 → `dead` · sin campo → `missing`.
+- **Fuentes auxiliares** (desde 2026-10-26, mandan heartbeat más espaciado, otros cortes):
+  - `regime` (Market Regime 5m, heartbeat cada 30 min, los 5 símbolos): < 45 → `fresh` ·
+    45–120 → `stale` · > 120 → `dead` · sin campo → `missing`.
+  - `trendcl` (Trend Checklist, heartbeat cada hora en punto): < 75 → `fresh` · 75–150 →
+    `stale` · > 150 → `dead`. Solo está configurado en **NQ**: en los demás símbolos, si
+    falta, ponlo `missing` SIN issue (no es una caída). Si un día aparece en otro símbolo,
+    desde ahí cuenta igual que en NQ.
+  - Ambas pueden llevar a `warn` (issue `"regime@CL dead (130 min)"`), **nunca** a `down`.
 - **`orb`** (backbone, de `cc-ingest`): `session-feed` le copia `updatedAt` a
   `receivedAt`, así que aplica el mismo corte de edad. **`frozen`** solo si el ORB está
   realmente parado: `orb.date` es anterior al día de `command` (no rodó de día), o
@@ -74,7 +82,9 @@ JSON válido, sin comentarios. Reescríbelo entero cada corrida:
       "drbias":   { "...": "..." },
       "srzones":  { "...": "..." },
       "htfzones": { "...": "..." },
-      "command":  { "...": "..." }
+      "command":  { "...": "..." },
+      "regime":   { "...": "..." },
+      "trendcl":  { "...": "..." }
     }
     // ... NQ ES GC YM CL
   },

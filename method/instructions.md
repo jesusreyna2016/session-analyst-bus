@@ -371,7 +371,10 @@ corrida igual, marca en el `summary` "cron descalzado por DST, ajustar" y sigue.
 
 ## 2 · Campos del feed por fuente
 
-`live/market.json` → `.feed` = `{ symbols: { NQ: { orb, "3reads", drbias, srzones, htfzones, command }, ES:…, GC:…, YM:…, CL:… }, generatedAt }`.
+`live/market.json` → `.feed` = `{ symbols: { NQ: { orb, "3reads", drbias, srzones, htfzones, command, regime, trendcl }, ES:…, GC:…, YM:…, CL:… }, generatedAt }`.
+`regime` y `trendcl` son **fuentes auxiliares** (desde 2026-10-26): NO cuentan para el mínimo de
+3 fuentes, ni para la regla dura de fuentes viejas, ni para el GO por consenso crudo. Si faltan
+o están viejas, se ignoran y se anota en `dataHealth.notes`; el plan sigue igual que antes.
 YM (mini-Dow, índice, correlaciona con NQ/ES) y CL (WTI, materia prima, ritmo propio: el
 gran evento es el inventario EIA los miércoles ~09:30 CT, más OPEP y geopolítica que el
 feed de noticias NO trae) pueden faltar si sus alertas aún no dispararon: si un símbolo no
@@ -428,6 +431,38 @@ viejo lo que solo refleja mercado cerrado).
       de ONH/ONL en `touchlog` están inflados (el nivel se mueve con el precio) con
       `maxWickTicks` ~0 por definición → usa solo su `nToques` como pista blanda, no como corte.
   Si `command` está pero contradice a 3+ fuentes crudas, gana el consenso crudo y anótalo.
+- **regime.raw** (Market Regime, 5m, los 5 símbolos; heartbeat cada 30 min + cada evento →
+  fresca < 45 min, vieja 45–120, muerta > 120): `regime` (CHOP / BULL / BEAR / NEUTRAL),
+  `chg` (1 = cambió de régimen en esa vela), `event` (BREAKOUT_UP / BREAKOUT_DN / FAKE /
+  RETEST / DAY_CUT, pueden venir combinados con `+`), `grade` (A/B, solo en breakout),
+  `score`/`need` (puntos de tendencia vs los necesarios), `exp` (1 = rango expandiéndose),
+  `sess`, `close`, `top`/`bot` (bordes de la caja de chop, solo con CHOP).
+  **Cómo se usa**: (a) `regime` = CHOP suma al `whipsawRisk` igual que `command.chop` (+0.15,
+  NO acumules los dos: si ambos marcan chop, suma una sola vez); BULL/BEAR opuesto al sesgo
+  de sesión se nombra en `frameConflict.note` como pista, sin activarlo por sí solo. (b) Con
+  CHOP, `top`/`bot` son bordes de rango mapeados: cuentan como pivote (+1) para zonas
+  `fade_*`/`ib_fade` en ese borde. (c) `event` BREAKOUT grado A en la dirección de una zona de
+  continuación (`retest_break`, `pullback_cont`) suma +1; un `FAKE` reciente (≤ 2 h) suma +1 a
+  la zona de reversión del lado barrido. Máx +1 de regime por zona.
+- **trendcl.raw** (Trend Checklist, por ahora solo NQ; heartbeat cada hora en punto →
+  fresca < 75 min, vieja 75–150, muerta > 150): `v` = veredicto CONFIRMADO con velas cerradas
+  (1 solo largos · −1 solo cortos · 0 sin dirección), `vl` = veredicto en vivo (puede
+  revertir, NO lo uses para reglas), `d`/`h4`/`h1` (alineación por TF, 1/−1/0), `flip` (EMA 20
+  1H, el nivel de giro), `edge` (EMA 50 1H, el borde de stop), `sh`/`sl` (swing alto/bajo 1H),
+  `eq`, `zone` (toque de nivel A FAVOR del veredicto en esa vela), `ag` (toque EN CONTRA),
+  `next` (próximo nivel a favor), `flips` (cambios de veredicto hoy; ≥ 3 = día de rango),
+  `px`, `ev` (`hb` heartbeat · `verdict` cambio de veredicto).
+  **Base medida** (prueba del propio indicador, 5m ~77 días y 15m ~227 días): los toques de
+  nivel A FAVOR del veredicto ganaron 59% / 56%, EN CONTRA 52% (moneda al aire), sin veredicto
+  57% / 55%. El valor NO es predecir la dirección de la hora; es **evitar zonas en contra**.
+  **Cómo se usa** (solo si `trendcl` está fresca y `v` ≠ 0): una zona cuya `dir` va CONTRA `v`
+  resta −1 de confluencia, no puede ser A+ (tope B) y no puede ser base de GO; dilo en
+  `verdict.reason` ("va contra el Trend Checklist"). Una zona A FAVOR suma +1. Con `v` = 0 o
+  `flips` ≥ 3, no suma ni resta (es día sin dirección, niveles en ambos sentidos). `flip` y
+  `edge` se pueden citar como invalidación del escenario cuando coinciden con ella. Marca cada
+  zona del instrumento con `tcl: "favor" | "contra" | null` (null = sin dato o `v` = 0).
+  **Medición**: el `weekly` compara el hit-rate de las zonas `tcl:"contra"` vs `"favor"`; si
+  con `n ≥ 20` por grupo la diferencia es < 3 pp, propone quitar la regla.
 
 ---
 
@@ -475,7 +510,8 @@ viejo lo que solo refleja mercado cerrado).
    **Riesgo de whipsaw** (`whipsawRisk`, por instrumento): estimación 0-1 de que la sesión que
    entra sea de chop / sin resolución direccional. Sube con: `frameConflict.on` (+0.35),
    ADR realizado hoy < 35 % (+0.2), estructura en balance/rango pegada a POC (+0.2), 1-2
-   sesiones previas sin resolver (+0.15 c/u), `command.chop`=1 (+0.15); baja con tendencia
+   sesiones previas sin resolver (+0.15 c/u), `command.chop`=1 o `regime.regime`=CHOP (+0.15,
+   una sola vez); baja con tendencia
    clara de 3reads + `command.strength` FUERTE alineado (−0.3). `clamp(0,1)`.
    **Categoría `extreme_range_unresolved`:** si 1–2 sesiones previas tuvieron rango ≥ 80 % del
    ADR **y** |cierre−apertura| < 25 % de ese rango (mucho recorrido, poca resolución neta),
@@ -793,6 +829,10 @@ VWAP, PD Mid, **ONH/ONL** (rango overnight), **IBH/IBL** (Initial Balance del RT
 - −2 si cae en no-trade / tierra de nadie (entre niveles, sin NADA de lo de arriba)
 - −2 si va contra el sesgo de mayor peso sin ser borde de reversión claro (sweep + rechazo)
 - −1 si el precio ya está muy estirado hacia esa zona (`command.stretchAtr` ≥ 2)
+- ±1 **Trend Checklist** (`trendcl.v`, sección 2): +1 a favor, −1 en contra (y en contra =
+  tope B, nunca GO)
+- +1 **Market Regime** (`regime`, sección 2): borde de caja de chop, breakout A o fake
+  reciente a favor de la zona (máx +1)
 
 De los tres factores nuevos (SMT + prior día anterior + borde de gap) cuenta **máx +2 en total**
 para no inflar la clasificación.
@@ -1463,6 +1503,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
       "zones": [
         { "range": [29655, 29660], "dir": "SHORT", "type": "fade_vah", "confluence": 6,
           "distPts": 12.5, "distTicks": 50, "winRate": 0.66, "winSource": "leaf", "winN": 10, "n": 9,
+          "tcl": "favor",
           "fvg": [ { "tf": "1h", "dir": "bear", "range": [29655, 29668], "weight": 2,
                      "role": { "es": "gatillo + invalidación", "en": "trigger + invalidation" } } ],
           "risk": { "stopPts": 14, "stopTk": 56, "stopUsd": 280, "tgtPts": 205, "tgtTk": 820,
