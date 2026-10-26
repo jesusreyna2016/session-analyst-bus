@@ -460,7 +460,9 @@ viejo lo que solo refleja mercado cerrado).
   `verdict.reason` ("va contra el Trend Checklist"). Una zona A FAVOR suma +1. Con `v` = 0 o
   `flips` ≥ 3, no suma ni resta (es día sin dirección, niveles en ambos sentidos). `flip` y
   `edge` se pueden citar como invalidación del escenario cuando coinciden con ella. Marca cada
-  zona del instrumento con `tcl: "favor" | "contra" | null` (null = sin dato o `v` = 0).
+  zona con `tcl: "favor" | "contra" | null` (null = sin dato o `v` = 0). El campo va **SIEMPRE**,
+  en todas las zonas de los 5 instrumentos, también cuando vale null: si falta, el weekly no puede
+  medir la regla (la pre-ny del 2026-10-26 lo omitió en todas).
   **Medición**: el `weekly` compara el hit-rate de las zonas `tcl:"contra"` vs `"favor"`; si
   con `n ≥ 20` por grupo la diferencia es < 3 pp, propone quitar la regla.
 
