@@ -88,6 +88,7 @@ JSON válido, sin comentarios. Reescríbelo entero cada corrida:
     }
     // ... NQ ES GC YM CL
   },
+  "scalp": { "ingestMin": <int|null>, "snapshotMin": <int|null>, "state": "ok|atascado|silencioso|missing" },
   "issues": [ "3reads@GC dead (142 min)", "webhook silencioso (68 min)" ],
   "note": { "es": "<1 frase>", "en": "<1 sentence>" }
 }
@@ -117,6 +118,22 @@ TradingView de ese símbolo (no es un fallo del Session Analyst).
 Igual si **cualquier** fuente (`srzones`/`3reads`/…) de un símbolo va `dead` ≥ 2 checks
 hábil seguidos mientras el resto del complejo está fresco o solo "muerto de finde": issue
 `"<fuente>@<SYM> dead streak"` y pide revisión TV (caso visto: `srzones@GC`).
+
+## Scalp CC · tubería al bus `scalp-cc-bus` (desde 2026-10-28)
+`live/market.json` → `.feed.scalp` = `{ lastIngestAt, lastSnapshotAt }`: último webhook de
+Scalp CC recibido por Netlify y última copia exitosa de esos eventos al repo `scalp-cc-bus`
+(cron cada 30 min). Edades en minutos contra `now`; escribe el bloque `scalp` de la salida.
+Las alertas de cripto disparan 24/7, así que esto aplica también en finde.
+- `missing` — `.feed.scalp` no existe o los dos campos son null: issue `"scalp feed missing"`, `warn`.
+- `atascado` — `snapshotMin > 90` y `ingestMin < snapshotMin`: llegan señales pero no se
+  copian al bus (caso real 26–28 oct: la función pasaba de 30 s y nadie se enteró en 2 días).
+  Issue `"scalp bus atascado (<n> min)"`, `status` = `down`, y notificación al celular:
+  `"Scalp CC no copia al bus hace <n> h, revisar scalp-bus-snapshot en Netlify"`.
+- `silencioso` — `ingestMin > 360`: ninguna alerta de Scalp CC llega hace 6 h (con cripto
+  24/7 eso no pasa si las alertas viven). Issue `"scalp alertas silenciosas (<n> h)"`, `warn`;
+  si ya estaba `silencioso` en el health anterior, notifica: `"Scalp CC sin alertas hace <n> h,
+  revisa sus alertas en TradingView"`.
+- `ok` — lo demás.
 
 ## STEROIDS · alcance de zona
 El Session Analyst debe aplicar `method/reachability.md` en cada corrida. Si `plans/latest.json` trae `zones[0]` con reach inalcanzable (ratio>0.9) y verdict no es AVOID/WAIT con "sin borde a tiro", marca warn en health (`reach.unactionable=true`).
@@ -156,6 +173,7 @@ Manda **una sola** notificación por corrida, y SOLO si pasa algo de esto (si no
 - `status` = `down`.
 - Hiciste un catch-up (salga bien o mal): `"SA <runtype> no salió, la rehice (<n> min tarde)"`
   o `"SA <runtype> falló y el catch-up también: <causa corta>"`.
+- `scalp.state` = `atascado`, o `silencioso` dos checks seguidos (ver sección Scalp CC).
 - Una fuente lleva `dead`/`frozen` ≥ 2 checks hábiles seguidos (compáralo con el
   `live/health.json` anterior, que lees ANTES de reescribirlo): `"<fuente>@<SYM> lleva <n> h
   caída, reinicia su alerta en TradingView"`.
