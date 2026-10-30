@@ -1,7 +1,11 @@
 # Session Analyst · método cripto de fin de semana (`RUN_TYPE=crypto-weekend`)
 
-Desde 2026-10-26. Corrida aparte del método de futuros: ETH y BTC (perpetuos), solo sábado y
-domingo, cuando los futuros CME están cerrados y Jesus opera sobre todo ETH. NO toca nada de
+Desde 2026-10-26. Corrida aparte del método de futuros: ETH y BTC (perpetuos), desde el **viernes 16:00 CT
+(cierre de futuros CME) hasta el domingo 17:00 CT (reapertura)**, cuando Jesus opera sobre todo ETH
+(ampliado el 2026-10-30: antes empezaba el sábado y dejaba sin plan la noche del viernes).
+Turnos (cron en hora de Chicago): vie 16:15 y 19:15 · sáb 08:15, 16:15 y 19:15 · dom 08:15 y
+16:15. La de las 19:15 cae justo después de que abre la vela diaria de cripto (00:00 UTC):
+usa los niveles del día nuevo (PDH/PDL y perfil del día anterior recién cerrados). NO toca nada de
 las corridas de futuros: no escribe `plans/latest.json`, `plans/digest.txt`,
 `live/heartbeat.json` ni `state/sa-state.json`.
 
@@ -176,10 +180,10 @@ precio está lejos; **AVOID** si está en tierra de nadie o en chop sin borde a 
 ## 6 · Salidas
 
 1. `plans/crypto-latest.json` y copia `plans/crypto/<fecha>-<slot>.json`
-   (`<fecha>` = día CT `YYYY-MM-DD`, `<slot>` = `am` si la hora CT < 12, si no `pm`):
+   (`<fecha>` = día CT `YYYY-MM-DD`, `<slot>` = `am` si la hora CT < 12, `pm` si 12:00-17:59, `eve` si ≥ 18:00):
 ```
 { "schema": "crypto-plan-1", "runType": "crypto-weekend", "builtAt": "<ISO>",
-  "date": "<fecha>", "slot": "am|pm", "validUntil": "<ISO, la próxima corrida o +12 h>",
+  "date": "<fecha>", "slot": "am|pm|eve", "validUntil": "<ISO, la próxima corrida o +12 h>",
   "dataHealth": { "snapshotAgeMin": n, "stale": [], "missing": [], "notes": [] },
   "summary": { "es": "...", "en": "..." },
   "focus": { "sym": "ETHUSDT", "setup": { "es": "...", "en": "..." } },
