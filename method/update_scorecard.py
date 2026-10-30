@@ -27,6 +27,9 @@ Usage: python3 method/update_scorecard.py <fecha_ayer>        (pre-asia, after t
    "sin calificacion automatica" with the reason.
 7. scorecard.execution.planFit = method/plan_vs_exec.py over live/journal.json fills: each real
    position vs the plan live at that minute (in-plan / off-zone / against / no-plan).
+8. scorecard.zoneEdge = every graded futures zone in grades/*.json up to <fecha_ayer> pooled by
+   family x vs24h, type x vs24h and family x session: n (worked + failed), wins, winRate,
+   avgR. Rule 8e reads it to keep or retire the zone hierarchy it set on 2026-10-30.
 """
 import datetime as dt
 import io
@@ -204,6 +207,31 @@ def context_score(sc, end):
     sc["strengths"] = sorted(strong, key=lambda r: -r["pct"])
 
 
+def zone_edge(sc, end):
+    acc = {}
+    for f in sorted(os.listdir("grades")) if os.path.isdir("grades") else []:
+        if not f.endswith(".json") or f[:10] > end:
+            continue
+        try:
+            g = load(os.path.join("grades", f))
+        except ValueError:
+            continue
+        for run in g.get("runs") or []:
+            for inst in (run.get("instruments") or {}).values():
+                for z in inst.get("zones") or []:
+                    if z.get("outcome") not in ("worked", "failed") or z.get("r") is None:
+                        continue
+                    v = z.get("vs24h") or "n/a"
+                    for key in ("%s|%s" % (z.get("family"), v), "%s|%s" % (z.get("type"), v),
+                                "%s|%s" % (z.get("family"), run.get("session"))):
+                        t = acc.setdefault(key, [0, 0, 0.0])
+                        t[0] += 1
+                        t[1] += z["outcome"] == "worked"
+                        t[2] += z["r"]
+    sc["zoneEdge"] = {"_note": "Graded zones pooled by family|vs24h, type|vs24h, family|session (method/update_scorecard.py). as of %s" % end,
+                      **{k: {"n": n, "wins": w, "winRate": round(w / n, 3), "avgR": round(r / n, 2)} for k, (n, w, r) in sorted(acc.items())}}
+
+
 def apply_auto_grades(sc, end):
     """Real-bar grades win over hand grades for the metrics a script can decide."""
     try:
@@ -267,6 +295,7 @@ def main():
         apply_auto_grades(sc, end)
         hit_counters(sc, end)
         context_score(sc, end)
+        zone_edge(sc, end)
     if not auto:
         try:
             rv = io.open("reviews/%s.md" % end, encoding="utf-8").read().lower()

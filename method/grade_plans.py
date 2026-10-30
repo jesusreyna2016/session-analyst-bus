@@ -23,6 +23,10 @@ starting at the plan's generatedAt, never before):
          the window; miss = touched, target not reached; untriggered = never touched (not
          counted). Without entryZone: hit = target reached in the window.
   em     expectedMove low/high vs the session's real range (high - low) from generatedAt.
+  Each graded zone also carries family (reversion | continuation | sweep | other), vs24h
+  (with | against | flat: zone direction vs the net move of the 24 h before the window, rule
+  8e) and r (worked = target/stop distance, failed = -1). update_scorecard.py pools these
+  into scorecard.zoneEdge.
 """
 import datetime as dt
 import io
@@ -34,6 +38,31 @@ from zoneinfo import ZoneInfo
 CT = ZoneInfo("America/Chicago")
 FUT = ("NQ", "ES", "GC", "YM", "CL")
 RUNS = (("pre-asia", "asia"), ("pre-london", "london"), ("pre-ny", "ny"))
+FAMILY = {t: "reversion" for t in ("fade_vah", "fade_val", "poc_reversion", "bounce_val", "bounce_vah", "ib_fade", "golden_zone")}
+FAMILY.update({t: "continuation" for t in ("pullback_cont", "retest_break", "poc_breakout", "ib_break", "asia_range_break")})
+
+
+def family(t):
+    t = t or ""
+    return FAMILY.get(t) or ("sweep" if t.startswith("sweep_") or t == "liq_reclaim" else "other")
+
+
+def dir24h(sym, t0):
+    """Net direction of the 24 h before t0: LONG | SHORT | FLAT (|move| < 0.10 %), None without bars."""
+    prev = bars_for(sym, t0 - 24 * 3600, t0)
+    if len(prev) < 24:
+        return None
+    pct = (prev[-1][4] - prev[0][1]) / prev[0][1]
+    return "FLAT" if abs(pct) < 0.001 else "LONG" if pct > 0 else "SHORT"
+
+
+def tag_zone(res, d24):
+    res["family"] = family(res.get("type"))
+    res["vs24h"] = None if d24 is None else "flat" if d24 == "FLAT" else "with" if res["dir"] == d24 else "against"
+    if res.get("outcome") in ("worked", "failed") and res.get("stop") is not None:
+        risk = abs(res["entry"] - res["stop"])
+        res["r"] = round(abs(res["target"] - res["entry"]) / risk, 2) if res["outcome"] == "worked" and risk else -1.0
+    return res
 
 
 def load(p):
@@ -217,11 +246,13 @@ def grade_futures(fecha):
             if not bars:
                 out["instruments"][sym] = {"error": "no bars"}
                 continue
+            d24 = dir24h(sym, g0)
             out["instruments"][sym] = {
                 "bars": len(bars),
+                "dir24h": d24,
                 "bias": grade_bias(inst.get("biasSession"), bars),
                 "scenA": grade_scen(inst.get("scenarioA"), bars),
-                "zones": [x for x in (grade_zone(z, bars) for z in inst.get("zones") or []) if x],
+                "zones": [tag_zone(x, d24) for x in (grade_zone(z, bars) for z in inst.get("zones") or []) if x],
                 "em": grade_em(inst.get("expectedMove"), bars),
             }
         runs.append(out)
@@ -247,10 +278,12 @@ def grade_crypto(fecha):
             if not bars:
                 out["instruments"][sym] = {"error": "no bars"}
                 continue
+            d24 = dir24h(sym, g0)
             out["instruments"][sym] = {
                 "bars": len(bars),
+                "dir24h": d24,
                 "bias": grade_bias(inst.get("biasSession"), bars),
-                "zones": [x for x in (grade_zone(z, bars, crypto=True) for z in inst.get("zones") or []) if x],
+                "zones": [tag_zone(x, d24) for x in (grade_zone(z, bars, crypto=True) for z in inst.get("zones") or []) if x],
             }
         runs.append(out)
     return {"date": fecha, "kind": "crypto", "gradedAt": dt.datetime.now(dt.timezone.utc).isoformat(),

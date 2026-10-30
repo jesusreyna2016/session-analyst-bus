@@ -480,8 +480,9 @@ viejo lo que solo refleja mercado cerrado).
 
 1. **Sesgo**: día (orb.weeklyDir + htfzones.biasD/biasW) y sesión (orb.biasDir +
    3reads.context + drbias.bias). Cruza con `command.raw.dir`/`verdict`/`strength` (voz
-   fusionada de mayor peso). Di si están **alineados o en conflicto** y con qué
-   convicción (alta si 3+ fuentes coinciden). Menciona VIX/vixRank y régimen.
+   fusionada de mayor peso). Di si están **alineados o en conflicto** (solo como lectura:
+   la dirección de las fuentes no decide sesgo ni convicción, regla 8e). Menciona VIX/vixRank
+   y régimen.
    **Peso de fuentes**: si `scorecard.sourceReliability` marca una fuente como floja para este
    instrumento/sesión (`n ≥ 10` y `rate < 0.45`), pésala a la MITAD en el sesgo y dilo
    ("command 4/12 en GC pre-NY → medio peso"). Si `convictionCalibration` de este símbolo dice
@@ -791,6 +792,56 @@ viejo lo que solo refleja mercado cerrado).
      zona A+ con confluencia de un nivel mapeado. Sin las tres, "media" como máximo. En el
      weekly, revisa qué tienen en común los días de convicción "baja" que acertaron: es
      probable que estés marcando "baja" justo cuando el mercado está limpio.
+8e. **Jerarquía medida del 30 oct (regla dura, MANDA sobre cualquier regla de este archivo que
+   la contradiga).** Backtest con velas reales, 31 ago a 30 oct, estable en las dos mitades:
+   (i) la dirección de las fuentes al abrir la sesión NO predice la sesión (orb 46 %, 3reads
+   47 %, drbias 48 %, htfzones 47 %, command 46 %, regime 44 %; consenso de las 6 = 44.5 %,
+   n=490); (ii) **Asia va en contra de las 24 h previas el 59 % de las veces** (n=221; Londres y
+   NY 48-53 %, sin señal); (iii) zonas de reversión EN CONTRA de las 24 h = +0.84R (n=22),
+   las mismas A FAVOR de las 24 h = −0.41R (n=36); continuación a favor de las 24 h = −0.31R
+   (n=116, lo peor); convicción "media" = −0.32R (n=136).
+   - **Paso obligatorio**: corre `python3 method/move24h.py` al armar el plan y guarda el
+     resultado por instrumento en `instruments.<SYM>.move24h` = `{dir, pct}`. Cada zona lleva
+     `vs24h`: `"against"` (su `dir` es contraria a `move24h.dir`), `"with"` o `"flat"`
+     (`move24h.dir` FLAT). Sin barras suficientes: `move24h` = null, dilo en `dataHealth.notes`
+     y trata todas las zonas como `"flat"`.
+   - **Las fuentes valen por sus NIVELES, no por su dirección.** `orb.biasDir`,
+     `3reads.context`, `drbias.bias`, `htfzones.biasHTF`, `command.dir` y `regime` se reportan
+     en `context` como lectura, pero **no suman confluencia por dirección, no suben la
+     convicción y no son condición de GO**. El "+2 a favor del sesgo de sesión Y de command"
+     de la sección 4 queda sustituido por el +2/−2 de 24 h de abajo. "Fuentes coincidentes",
+     "consenso crudo" y `sourceReliability` ya no deciden la convicción. Las reglas de salud
+     de datos (fuentes viejas/muertas → sin GO) siguen igual: sin niveles frescos no hay plan.
+   - **Sesgo de sesión**: en **Asia**, `biasSession` por defecto = contrario a `move24h.dir`
+     (fade del día). Solo se queda a favor de las 24 h si hay un cierre de 1 h fuera del
+     rango del día previo en esa dirección o un titular/shock que lo empuje, y el `context`
+     lo dice. Con `move24h` FLAT, `biasSession` NEUTRAL. En **Londres y NY** no hay sesgo
+     medido: `biasSession` sale de la estructura (VWAP, day open, rango de Asia, IB) y lleva
+     convicción "baja" salvo la combinación de abajo.
+   - **Zonas** (sección 4, encima del score):
+     · **A+ del método** = reversión (`fade_vah` `fade_val` `poc_reversion` `bounce_val`
+       `bounce_vah` `ib_fade` `golden_zone`) con `vs24h` = `"against"`. Suma **+2** de
+       confluencia. Es la única familia que puede ser base de GO por sí sola.
+     · Reversión con `vs24h` `"with"` o `"flat"`: tope **B**.
+     · Continuación (`pullback_cont` `retest_break` `poc_breakout` `ib_break`
+       `asia_range_break`): tope **B** siempre, nunca GO. Con `vs24h` = `"with"` resta **−2**
+       (es la combinación que más pierde). `retest_break` en contra de las 24 h es la
+       excepción a vigilar (+0.39R, n=12): B, se mide.
+     · Sweeps (`sweep_*`, `liq_reclaim`): tope B hasta que `scorecard.zoneEdge` muestre
+       `avgR > 0` con n ≥ 15.
+     · Orden de la tabla: primero las A+ del método, luego el resto por score.
+   - **Convicción: solo dos niveles, "alta" o "baja"** ("media" queda retirada; donde otra
+     regla diga "tope media", léelo como "baja"). **"alta"** exige TODO: la zona del `focus` es
+     A+ del método (reversión + `vs24h` against), sin `frameConflict.on`, sin shock activo,
+     `whipsawRisk` < 0.6 y niveles frescos. Todo lo demás es "baja".
+   - **GO** = convicción "alta" + el resto de la sección 9 (precio en o llegando a la zona,
+     permiso de sesión, sin estiramiento, `risk.rr` ≥ 1.5, gatillo esperable, fuera de manos
+     fuera). El GO ya NO exige que el sesgo de las fuentes esté alineado.
+   - **Revisión**: `scorecard.zoneEdge` (lo arma `update_scorecard.py` desde `grades/`) lleva
+     `family|vs24h`, `type|vs24h` y `family|session` con `avgR`. En el weekly, si
+     `reversion|against` baja de `avgR` 0 con n ≥ 40, o una celda con tope B pasa a
+     `avgR` ≥ +0.25 con n ≥ 25, dilo en `## Dónde fallo` y propón el cambio en
+     `proposals`. No cambies la jerarquía por tu cuenta.
 9. **Veredicto de un vistazo** (`verdict`): un semáforo por instrumento que PROTEGE la
    disciplina de Jesus. Su edge es CONFLUENCIA a favor del sesgo en un nivel mapeado con
    gatillo (sección 4). Prioridad **AVOID > WAIT > GO** (ante la duda, WAIT):
@@ -804,7 +855,7 @@ viejo lo que solo refleja mercado cerrado).
      recorrió >70 % del presupuesto y el precio
      está a mitad de rango (poco jugo, alto riesgo de chop restante). Protege de OPERAR EL CHOP,
      SOBREOPERAR y ANTICIPAR (fugas #1, #4, #7).
-   - **GO** (hay edge a favor): sesgo alineado con convicción media/alta Y el precio está EN
+   - **GO** (hay edge a favor): convicción "alta" según la regla 8e Y el precio está EN
      (o llegando a) una zona **A+ (score ≥ 6, sección 4)** que es un nivel mapeado a favor del
      sesgo, con permiso de sesión (`permisoLong`/`permisoShort`), sin estar estirado, con
      `risk.rr` ≥ 1.5 y flag no malo, con un gatillo esperable ahí (FVG/iFVG, reclaim, rechazo,
@@ -963,7 +1014,8 @@ De los tres factores nuevos (SMT + prior día anterior + borde de gap) cuenta **
 para no inflar la clasificación.
 
 **Clasificación** (manda el `verdict` y qué entra en la tabla):
-- **A+** (score ≥ 6): confluencia real a favor del sesgo en un nivel mapeado → candidata a GO.
+- **A+** (score ≥ 6): confluencia real en un nivel mapeado → candidata a GO **solo si además es
+  A+ del método** (reversión con `vs24h` against, regla 8e); si no, se queda en B aunque sume 6+.
 - **B** (score 3–5): plausible pero floja → WAIT, pide confirmación extra.
 - **Tierra de nadie** (score ≤ 2): NO es zona. Nunca va a la tabla, nunca es GO. Si el precio
   está aquí sin una A+/B a tiro → `verdict` = WAIT/AVOID y se dice fuerte ("no hay borde").
@@ -998,7 +1050,7 @@ valor MANDA sobre el de abajo — lo ajustó el weekly con `winN ≥ 30`):
 - **reversión** (`fade_vah` `fade_val` `poc_reversion` `bounce_val` `bounce_vah` `golden_zone`
   `ib_fade`) → `0.55`
 - **continuación** (`pullback_cont` `retest_break` `poc_breakout` `ib_break`
-  `asia_range_break`) → `0.50`
+  `asia_range_break`) → `0.40` (bajado el 30 oct: 19 % de acierto real a favor de las 24 h)
 - **sweep/reclaim** (`sweep_*`, `liq_reclaim`) → `0.58`
 - **oferta/demanda** (`supply` `demand`) → `0.52`
 - **objetivo/otro** (`ext_target` `otro`) → `0.45`
@@ -1618,6 +1670,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "instruments": {
     "NQ": {
       "biasDay": "SHORT", "biasSession": "SHORT", "conviction": "alta",
+      "move24h": { "dir": "LONG", "pct": 0.84 },
       "prevDay": { "type": { "es": "tendencia bajista cerrando en el extremo", "en": "downtrend closing at the low" },
                    "closedAt": { "es": "cerca del low", "en": "near the low" },
                    "prior": { "es": "CONTINUACIÓN corto", "en": "short CONTINUATION" },
@@ -1645,7 +1698,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
           "text": { "es": "dirección neta de Asia SHORT (cierre < apertura)", "en": "Asia net direction SHORT (close < open)" } }
       ],
       "zones": [
-        { "range": [29655, 29660], "dir": "SHORT", "type": "fade_vah", "confluence": 6,
+        { "range": [29655, 29660], "dir": "SHORT", "type": "fade_vah", "vs24h": "against", "confluence": 6,
           "distPts": 12.5, "distTicks": 50, "winRate": 0.66, "winSource": "leaf", "winN": 10, "n": 9,
           "tcl": "favor",
           "fvg": [ { "tf": "1h", "dir": "bear", "range": [29655, 29668], "weight": 2,

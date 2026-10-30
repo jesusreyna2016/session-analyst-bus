@@ -27,6 +27,14 @@ command, regime, trendcl? }, BTCUSDT: {…} }`. Mismo esquema por fuente que los
   Lee también `news.headlines` (tags `crypto`, `geo`, `trump`, `fed`): un hackeo de exchange,
   un ataque o un anuncio de Trump el fin de semana mueven cripto sin calendario. Aplica la regla
   8b de `instructions.md` (el titular modula la convicción, no crea setups) y nómbralo en `reason`.
+- **Regla 8e de `instructions.md` (30 oct), versión cripto:** corre `python3 method/move24h.py`
+  y guarda `move24h` por símbolo, y `vs24h` en cada zona (mismo esquema que futuros). La
+  dirección de las fuentes vale solo como lectura, no decide convicción ni GO (en futuros no
+  predijo nada). La jerarquía de zonas (reversión en contra de las 24 h = A+ del método,
+  continuación tope B) se aplica aquí también, pero **el sesgo por defecto "fade de las 24 h"
+  NO**: en cripto de fin de semana no está medido (n chico). Convicción en dos niveles,
+  "alta" o "baja", con la misma definición de la 8e; el funding negativo (1b) puede sumar el
+  punto de confluencia que ya tenía, no convierte una continuación en A+.
 
 ## 1b · Contexto cripto fuera del gráfico (regla dura, cada corrida)
 
@@ -184,7 +192,7 @@ precio está lejos; **AVOID** si está en tierra de nadie o en chop sin borde a 
   "instruments": {
     "ETHUSDT": {
       "price": n, "biasDay": "LONG|SHORT|NEUTRAL", "biasSession": "LONG|SHORT|NEUTRAL",
-      "conviction": "alta|media|baja", "regime": "CHOP|BULL|BEAR|NEUTRAL",
+      "conviction": "alta|baja", "move24h": { "dir": "SHORT", "pct": -5.96 }, "regime": "CHOP|BULL|BEAR|NEUTRAL",
       "tcl": { "v": -1|0|1, "flip": n } | null,
       "context": { "es": "...", "en": "..." },
       "levels": { "vah": n, "poc": n, "val": n, "pdh": n, "pdl": n, "dayOpen": n, "vwap": n, "pwh": n, "pwl": n },
