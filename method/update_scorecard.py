@@ -25,12 +25,16 @@ Usage: python3 method/update_scorecard.py <fecha_ayer>        (pre-asia, after t
    zone / em totals REPLACE the hand grades of hitLog["<fecha_ayer>"] (scenAB stays hand-graded,
    it needs judgment). Check: the grades file must exist, or the review must say
    "sin calificacion automatica" with the reason.
+7. scorecard.execution.planFit = method/plan_vs_exec.py over live/journal.json fills: each real
+   position vs the plan live at that minute (in-plan / off-zone / against / no-plan).
 """
 import datetime as dt
 import io
 import json
 import os
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 STATE = "state/sa-state.json"
 WINDOW_DAYS = 45
@@ -238,6 +242,14 @@ def main():
             errs.append("scorecard.execution.ALL.lastDate=%s but journal has %s: run python3 method/update_scorecard.py %s" % (cur.get("lastDate"), ex["lastDate"], end))
     elif ex:
         sc.setdefault("execution", {})["ALL"] = ex
+    if not check_only:
+        try:
+            import plan_vs_exec
+            fit = plan_vs_exec.plan_fit(load("live/journal.json"))
+            if fit["positions"]:
+                sc.setdefault("execution", {})["planFit"] = fit
+        except FileNotFoundError:
+            pass
 
     cal = sc.get("emCalibration") or {}
     if not check_only:

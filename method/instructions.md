@@ -1518,6 +1518,10 @@ clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
    - **Dónde fallo** (una línea): los 2-3 `scorecard.blindSpots` con más n y los 2 mejores
      `strengths`, con el número. Si un blind spot se repite 2 semanas seguidas, propón en
      `state.overrides` la clase segura correspondiente (tope de convicción en ese contexto).
+   - **Plan vs ejecución** (una línea, de `scorecard.execution.planFit`): cuántas posiciones
+     reales fueron `in-plan`, `off-zone` y `against`, con el % ganador y los puntos medios de
+     cada grupo por símbolo. Es la cuenta de cuánto se queda en la ejecución: dila sin
+     sermón, con números, y si `in-plan` gana más que `off-zone`, dilo así de simple.
    - **Contexto fuera del gráfico** (una línea): de los `macroContext.drivers` de la semana,
      cuáles explicaron el movimiento y cuáles no (según las reviews diarias, regla 8b), y si
      el `crossAsset.tone` iba con o contra el resultado del día.
