@@ -729,10 +729,13 @@ viejo lo que solo refleja mercado cerrado).
      (`contango` | `short-term-stress` | `backwardation`). US10Y y la curva del VIX solo se
      mueven en horario de NY: fuera de él usa `ZN` (futuro del bono, precio inverso al
      rendimiento) y di que el VIX es del cierre.
-     * **NQ (y ES/YM):** rendimientos subiendo fuerte (US10Y `chgPct` ≥ +1.5 % o ZN rompiendo
-       `prevLow`) = viento en contra para LONG; bajando (ZN rompiendo `prevHigh`) = a favor.
-     * **GC:** DXY `chgPct` ≥ +0.4 % o rompiendo `prevHigh` = viento en contra para LONG GC;
-       DXY rompiendo `prevLow` = a favor. Rendimientos bajando también apoyan al oro.
+     * **Dirección (bonos y dólar): solo contexto, NO baja la convicción.** Backtest del 30 oct
+       sobre 47 días con velas reales: el cambio de 6 h del ZN no predijo la dirección de la
+       sesión de NQ/ES (34-46 %) ni el del DXY la del oro (33-46 %), y los sesgos del plan
+       acertaron igual con viento a favor que en contra (NQ 47 % vs 46 %). Nómbralo en
+       `crossAsset.notes` (rendimientos subiendo = presión sobre NQ; DXY fuerte = presión sobre
+       GC) para que `contextScore` lo mida (dimensión `crossAsset`), pero no lo uses para
+       recortar un GO hasta que `blindSpots` muestre que importa.
      * **Riesgo:** VIX `chgPct` ≥ +8 % o rompiendo `prevHigh`, o `vixCurve.state` ≠ `contango`
        = risk-off: `whipsawRisk` +0.1 en los índices, EM +10 %, y un LONG de índices en contra
        del VIX lleva `conviction` tope "media". `backwardation` = estrés real: `newsRisk` de los
@@ -740,8 +743,9 @@ viejo lo que solo refleja mercado cerrado).
      * **BTC** rompiendo `prevLow` con `chgPct` ≤ −3 % confirma risk-off (sobre todo de noche y
        en fin de semana); no lo uses solo.
      * Resume el tono en `macroContext.crossAsset`: `{ tone: risk-on|risk-off|mixto, notes }`.
-       Si va en contra del sesgo del plan en el instrumento, dilo en `counterCase` y aplica el
-       mismo tope de convicción que un titular en contra (8b).
+       Escribe además, por instrumento, `crossAsset` = `"with"` | `"against"` | `"mixed"`
+       (el tono respecto al sesgo de ESE instrumento) en `macroContext.crossAsset.bySym`. Si va
+       en contra, dilo en `counterCase`; el tope de convicción solo aplica por el VIX (abajo).
    - `macro.reactions[]` (datos USD de alto impacto de las últimas 24 h: `moves.{NQ,ES,GC,ZN}`
      con `pct15` y `pct60`, `headline` si un titular da el signo de la sorpresa). Es la lectura
      del mercado del dato, que pesa más que el número. Si `pct60` sigue el signo de `pct15`

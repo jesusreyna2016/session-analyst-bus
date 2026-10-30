@@ -37,10 +37,14 @@ apalancamiento). Todo sale de `live/market.json` → `macro.crypto` y `news.head
 
 - **Derivados** (`macro.crypto.ethDeriv` / `btcDeriv`: `fundingPct` por 8 h, `fundingState`,
   `oiUsd`, `oiChg24hPct`, `longShortAccounts`, `longShortChg24h`, todo de OKX):
-  * `fundingState` = `longs-crowded` (funding ≥ 0.03 %) + `oiChg24hPct` ≥ +5 % = largos
-    apalancados nuevos: combustible para un barrido hacia abajo. Al revés con `shorts-crowded`.
-    **Excepción:** una zona `sweep_*` o `fade_*` que va CONTRA el lado apalancado suma +1 a su
-    confluencia (máximo +1, dilo en `why`). Una zona A FAVOR del lado apalancado no suma nada.
+  * OKX topa el funding en +0.01 % por 8 h: funding positivo en el tope es lo NORMAL y no es
+    señal (backtest 30 oct, 54 % al alza en 24 h). `shorts-crowded` = funding **negativo** (los
+    cortos pagan): ETH subió 24 h después el 66 % de las veces, 5/5 en fin de semana (n chico,
+    julio-octubre 2026). `longs-crowded` = funding en el tope Y `oiChg24hPct` ≥ +5 % (largos
+    apalancados nuevos), sin backtest todavía.
+    **Excepción:** con `shorts-crowded`, una zona LONG `sweep_*` o de reclaim suma +1 a su
+    confluencia (máximo +1, dilo en `why`). `longs-crowded` NO suma: solo va en `counterCase`
+    hasta que `byContext` lo valide (n ≥ 8).
   * Precio subiendo con OI subiendo = posiciones nuevas, el movimiento tiene gasolina. Precio
     moviéndose con OI bajando = cierres, el movimiento es más débil y suele revertir: en ese
     caso no persigas la ruptura, espera el retest.

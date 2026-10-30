@@ -149,6 +149,10 @@ def day_context(plans, sym):
     }
     if macro >= 0:
         ctx["macro"] = ["low", "medium", "high"][macro]
+    ca = [(((p.get("macroContext") or {}).get("crossAsset") or {}).get("bySym") or {}).get(sym) for p in plans]
+    ca = [c for c in ca if c]
+    if ca:
+        ctx["crossAsset"] = ca[0]
     return ctx
 
 
