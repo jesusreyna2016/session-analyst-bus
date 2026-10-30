@@ -110,8 +110,12 @@ Si `patterns` trae una alerta activa de tamaño o revancha, va en `personal.note
 
 ## 4 · Calificación de la corrida anterior (siempre, antes del plan nuevo)
 
-Lee `plans/crypto-latest.json` (si existe) y califícalo con lo que el feed actual permite
-comprobar (precio, hod/lod de `drbias`, toques de `command.touchlog`):
+Primero corre `python3 method/grade_plans.py --crypto <fecha de la corrida anterior>` (velas
+reales de `bars/`, zonas con gatillo de cierre 5m, `play.stop`/`play.tp1`; escribe
+`grades/crypto/<fecha>.json`) y usa SUS resultados para las zonas y el sesgo: `worked` /
+`failed` / `broken` / `untouched` salen de ahí, no de memoria. Lo que el script no decide
+(predicciones de texto) lo calificas tú con lo que el feed actual permite comprobar
+(precio, hod/lod de `drbias`, toques de `command.touchlog`):
 - cada `prediction` con `resolveAt` ya pasado → `hit` / `miss` / `unresolved` (si el feed no
   basta para decidir, `unresolved`, no adivines);
 - cada zona: `touched` (el precio entró al rango) y, si se tocó, `worked` (llegó al primer

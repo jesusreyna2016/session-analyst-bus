@@ -164,8 +164,15 @@ de sesión ni toca `plans/`. Solo lee los planes + `reviews/` diarios + `state` 
    `plans/digest.txt` (sección 7).
 5. Aplica el merge sobre `state/sa-state.json` y escríbelo (sección 7). En `pre-asia`
    escribe también `reviews/<fecha>.md`. Actualiza los sub-objetos de calibración del
-   `scorecard` (sección 6) solo en `pre-asia`, y en `pre-asia` corre después
-   `python3 method/update_scorecard.py <fecha_ayer>`: reconstruye `scorecard.execution.ALL`
+   `scorecard` (sección 6) solo en `pre-asia`, y en `pre-asia` corre después, en este orden,
+   `python3 method/grade_plans.py <fecha_ayer>` (califica los planes del día con las velas
+   reales de `bars/<día UTC>.json`: sesgo de sesión, escenario A, zonas con gatillo de cierre
+   5m y EM; escribe `grades/<fecha_ayer>.json`) y
+   `python3 method/update_scorecard.py <fecha_ayer>`. **La calificación automática manda**
+   para `bias`, `scenA`, `zone` y `em` de `hitLog` (el script reemplaza lo que hayas escrito a
+   mano y lo guarda en `hand`); tú solo calificas a mano `scenAB` y las `predictions`, y en la
+   review usas los números de `grades/<fecha_ayer>.json`, no los de memoria. Si faltan las
+   velas del día, escribe "sin calificacion automatica: <motivo>" en la review. El script reconstruye `scorecard.execution.ALL`
    desde el journal, deriva `emErrorTicks`, reconstruye `biasHitPct`/`scenarioAHitPct`/
    `scenarioABHitPct`/`zoneHitPct` desde `hitLog`, y falla si `emCalibration` no recibió la
    muestra de `<fecha_ayer>` o si falta `hitLog["<fecha_ayer>"]`. Si falla, arregla lo que diga

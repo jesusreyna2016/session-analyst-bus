@@ -21,10 +21,15 @@ Usage: python3 method/update_scorecard.py <fecha_ayer>        (pre-asia, after t
    conflict, whipsaw risk, conviction, neutral vs directional bias, weekday, macroContext risk.
    scorecard.blindSpots / strengths list the segments where the agent is clearly worse / better
    than its own average, so the plan can lower or keep conviction in that context.
+6. If grades/<fecha_ayer>.json exists (method/grade_plans.py, real 5m bars), its bias / scenA /
+   zone / em totals REPLACE the hand grades of hitLog["<fecha_ayer>"] (scenAB stays hand-graded,
+   it needs judgment). Check: the grades file must exist, or the review must say
+   "sin calificacion automatica" with the reason.
 """
 import datetime as dt
 import io
 import json
+import os
 import sys
 
 STATE = "state/sa-state.json"
@@ -191,6 +196,24 @@ def context_score(sc, end):
     sc["strengths"] = sorted(strong, key=lambda r: -r["pct"])
 
 
+def apply_auto_grades(sc, end):
+    """Real-bar grades win over hand grades for the metrics a script can decide."""
+    try:
+        g = load("grades/%s.json" % end)
+    except (FileNotFoundError, ValueError):
+        return False
+    day = sc.setdefault("hitLog", {}).setdefault(end, {})
+    for sym, t in (g.get("hitLog") or {}).items():
+        e = day.setdefault(sym, {})
+        for k in ("bias", "scenA", "zone", "em"):
+            if k in t:
+                if k in e and "src" not in e:
+                    e.setdefault("hand", {})[k] = e[k]
+                e[k] = t[k]
+        e["src"] = "auto"
+    return True
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
@@ -223,9 +246,18 @@ def main():
         if "sin muestra em" not in rv:
             errs.append('emCalibration._lastDate=%s, expected %s: add the EM samples of %s to emCalibration (section "Calibracion") and set _lastDate, or write "sin muestra EM: <motivo>" in reviews/%s.md' % (cal.get("_lastDate"), end, end, end))
 
+    auto = os.path.exists("grades/%s.json" % end)
     if not check_only:
+        apply_auto_grades(sc, end)
         hit_counters(sc, end)
         context_score(sc, end)
+    if not auto:
+        try:
+            rv = io.open("reviews/%s.md" % end, encoding="utf-8").read().lower()
+        except FileNotFoundError:
+            rv = ""
+        if "sin calificacion automatica" not in rv and "sin calificación automática" not in rv:
+            errs.append('grades/%s.json missing: run python3 method/grade_plans.py %s before this script (needs bars/<day>.json in the repo), or write "sin calificacion automatica: <motivo>" in reviews/%s.md' % (end, end, end))
     if end not in (sc.get("hitLog") or {}):
         try:
             rv = io.open("reviews/%s.md" % end, encoding="utf-8").read().lower()
