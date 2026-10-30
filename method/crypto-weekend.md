@@ -28,6 +28,56 @@ command, regime, trendcl? }, BTCUSDT: {…} }`. Mismo esquema por fuente que los
   un ataque o un anuncio de Trump el fin de semana mueven cripto sin calendario. Aplica la regla
   8b de `instructions.md` (el titular modula la convicción, no crea setups) y nómbralo en `reason`.
 
+## 1b · Contexto cripto fuera del gráfico (regla dura, cada corrida)
+
+El fin de semana no hay calendario macro, así que lo que mueve a ETH es esto. Igual que en
+futuros: **modula la convicción, el riesgo y los objetivos; nunca crea un setup ni una
+dirección por sí solo.** La única excepción está marcada abajo (punto de confluencia por
+apalancamiento). Todo sale de `live/market.json` → `macro.crypto` y `news.headlines`.
+
+- **Derivados** (`macro.crypto.ethDeriv` / `btcDeriv`: `fundingPct` por 8 h, `fundingState`,
+  `oiUsd`, `oiChg24hPct`, `longShortAccounts`, `longShortChg24h`, todo de OKX):
+  * `fundingState` = `longs-crowded` (funding ≥ 0.03 %) + `oiChg24hPct` ≥ +5 % = largos
+    apalancados nuevos: combustible para un barrido hacia abajo. Al revés con `shorts-crowded`.
+    **Excepción:** una zona `sweep_*` o `fade_*` que va CONTRA el lado apalancado suma +1 a su
+    confluencia (máximo +1, dilo en `why`). Una zona A FAVOR del lado apalancado no suma nada.
+  * Precio subiendo con OI subiendo = posiciones nuevas, el movimiento tiene gasolina. Precio
+    moviéndose con OI bajando = cierres, el movimiento es más débil y suele revertir: en ese
+    caso no persigas la ruptura, espera el retest.
+  * `longShortAccounts` ≥ 3 = el retail muy cargado de largos (contrario): escenario de barrida
+    de largos en `counterCase`.
+- **Volatilidad implícita** (`macro.crypto.dvol`: `last`, `chg24h`, DVOL de Deribit):
+  `chg24h` ≥ +5 = el mercado de opciones espera movimiento: ensancha stops y objetivos, nada de
+  GO en zonas de menos de 0.5 % de ancho, y avisa en `riskWindow` si coincide con un titular.
+  DVOL bajando y bajo (< 45) = rango: favorece los `fade_*` en bordes del perfil.
+- **Gap del CME** (`macro.crypto.cmeGap`: `cmeClose`, `cmeCloseDate`, `gapPct`): el cierre del
+  futuro CME de ETH del viernes. Si `cmeCloseDate` es el viernes y |`gapPct`| ≥ 1.5 %, ese precio
+  es un **imán** hacia la reapertura del domingo 17:00 CT: nómbralo como objetivo (`tp2` o
+  predicción `level`), **nunca como gatillo**. Si el plan es en contra del gap, dilo en
+  `counterCase`. Entre semana `cmeCloseDate` es el día anterior y no aplica.
+- **Fuerza relativa** (`macro.crypto.ethBtc`: `chg24hPct`, `chg7dPct`): ETH/BTC ≤ −1 % en 24 h
+  con un LONG de ETH = ETH más débil que BTC, `conviction` un escalón abajo. ≥ +1 % apoya los
+  largos de ETH. Complementa la regla de divergencia con BTC de la sección 2.
+- **Sentimiento** (`macro.crypto.fearGreed`: `value`, `label`, `prev`): ≤ 20 (miedo extremo) o
+  ≥ 80 (codicia extrema) es contexto contrario: va en `counterCase`, no en el sesgo. Una caída
+  de ≥ 15 puntos en un día = pánico reciente: las mechas hacia abajo se recompran más rápido.
+- **Titulares cripto** (`news.headlines` con tag `crypto` + sub-tags `eth`, `hack`, `etf`,
+  `regulation`, `liquidation`; fuentes CNBC, Cointelegraph, The Block, Decrypt, Google News):
+  * `hack` de un exchange grande o de un protocolo de ETH en las últimas 24 h = `newsRisk`
+    **ALTA**: nada de GO en la primera hora después del titular, y WAIT si el precio todavía
+    está buscando piso. Si el hackeo es de ETH (o de un bridge/L2), el escenario bajista de ETH
+    pesa más que el de BTC.
+  * `etf` (flujos de entrada/salida), `regulation` (SEC, leyes, demandas) y `liquidation`
+    (cascadas): driver de `cryptoContext.drivers` si es un HECHO de las últimas 12 h.
+  * `eth` (actualizaciones de la red, staking, Vitalik): solo si es un hecho con fecha.
+  * Ignora opinión y pronósticos ("price prediction", "could", "analyst says").
+- **Domingo**: en la corrida pm del domingo, mira `news.events` y `news.earnings` de la semana
+  que entra (FOMC, CPI, NFP, megacaps): una línea en `summary` ("FOMC el miércoles: no cargues
+  tamaño de swing esta noche").
+- Si `macro.crypto` falta o un bloque trae `error`, dilo en `dataHealth.notes` y sigue sin él.
+
+Resume todo en `cryptoContext` a nivel de plan (esquema en la sección 6).
+
 ## 2 · Lo que cambia frente a futuros
 
 - **24/7, sin RTH**: no hay IB, overnight, gap de apertura ni sesiones CME. Los niveles
@@ -38,9 +88,9 @@ command, regime, trendcl? }, BTCUSDT: {…} }`. Mismo esquema por fuente que los
   perfil; desconfía de rupturas sin volumen (pide `regime` BREAKOUT grado A o retest).
 - **Domingo 17:00 CT** (reapertura de futuros CME): ventana de volatilidad. La corrida del
   domingo la marca como `riskWindow` y no da GO en la hora alrededor de esa apertura.
-  **BTC**: el gap CME de BTC (cierre del viernes de futuros vs precio actual) suele actuar de
-  imán; si lo puedes estimar con los niveles del feed, nómbralo como objetivo, nunca como
-  gatillo.
+  **Gap del CME**: el de ETH viene calculado en `macro.crypto.cmeGap` (sección 1b). El de
+  BTC suele actuar igual de imán; si lo puedes estimar con los niveles del feed, nómbralo como
+  objetivo, nunca como gatillo.
 - **ETH es el instrumento principal** (`focus` por defecto). BTC va como contexto y
   confirmación: si BTC no acompaña un movimiento de ETH (divergencia de extremos, como la SMT
   de índices), resta convicción y dilo.
@@ -73,11 +123,22 @@ Acumula en `state/crypto-state.json` (créalo si no existe, mergea si existe):
               "zones": {"worked":n,"failed":n,"untouched":n,"unresolved":n} } } ],   // últimas 40
   "scorecard": { "predictions": {"n":n,"hit":n}, "zones": {"n":n,"worked":n},
                  "byTcl": { "favor": {"n":n,"worked":n}, "contra": {"n":n,"worked":n} },
-                 "bySym": { "ETHUSDT": {"n":n,"worked":n}, "BTCUSDT": {"n":n,"worked":n} } },
+                 "bySym": { "ETHUSDT": {"n":n,"worked":n}, "BTCUSDT": {"n":n,"worked":n} },
+                 "byContext": { "funding=longs-crowded": {"n":n,"worked":n}, "fg=fear": {"n":n,"worked":n},
+                                "dvol=up": {"n":n,"worked":n}, "gap=above": {"n":n,"worked":n},
+                                "headline=hack": {"n":n,"worked":n} } },
   "notes": [ "<aprendizaje corto, máx 10, el más nuevo primero>" ] }
 ```
 Usa el `scorecard` como prior: si un tipo de zona o un lado lleva `n ≥ 8` con
 `worked/n < 0.4`, baja su clasificación un escalón y dilo.
+**`byContext`** (dónde fallas tú, igual que la regla 8d de futuros): al calificar cada zona,
+súmala a las claves del contexto que tenía SU plan (`cryptoContext` de la corrida anterior):
+`funding=<longs-crowded|shorts-crowded|neutral>` (de ETH), `fg=<fear|neutral|greed>` (≤ 40 /
+41-59 / ≥ 60), `dvol=<up|down>` (signo de `chg24h`), `gap=<above|below|none>` (spot respecto
+a `cmeClose`, `none` si |gapPct| < 1.5 o no aplica) y `headline=<hack|etf|regulation|none>`.
+Si el contexto de HOY coincide con una clave con `n ≥ 8` y `worked/n < 0.4`, baja la
+`conviction` un escalón y dilo con el número ("con funding cargado de largos mis zonas
+funcionan 3/9").
 
 ## 5 · Plan (por símbolo)
 
@@ -102,6 +163,12 @@ precio está lejos; **AVOID** si está en tierra de nadie o en chop sin borde a 
   "summary": { "es": "...", "en": "..." },
   "focus": { "sym": "ETHUSDT", "setup": { "es": "...", "en": "..." } },
   "riskWindow": null | { "from": "<ISO>", "to": "<ISO>", "why": { "es": "...", "en": "..." } },
+  "cryptoContext": { "risk": "BAJO|MEDIO|ALTO",
+    "deriv": { "es": "funding neutral, OI de ETH -5 % en 24 h (cierres)", "en": "neutral funding, ETH OI -5% in 24h (closing)" },
+    "dvol": n, "fearGreed": n, "cmeGap": { "price": n, "gapPct": n } | null, "ethBtc24hPct": n,
+    "drivers": [ { "theme": "hack|etf|regulation|liquidation|eth|geo|trump|fed", "headline": "...", "source": "...", "ageH": n,
+                   "note": { "es": "...", "en": "..." } } ],
+    "note": { "es": "...", "en": "..." } },
   "personal": { "patternId": "...", "note": {"es":"...","en":"..."}, "capLine": {"es":"...","en":"..."} },
   "instruments": {
     "ETHUSDT": {
