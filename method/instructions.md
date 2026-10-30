@@ -894,6 +894,24 @@ Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
      `reversion|against` baja de `avgR` 0 con n ≥ 40, o una celda con tope B pasa a
      `avgR` ≥ +0.25 con n ≥ 25, dilo en `## Dónde fallo` y propón el cambio en
      `proposals`. No cambies la jerarquía por tu cuenta.
+8f. **El score de confluencia ya no clasifica (medido el 30 oct, regla dura).** Reconstruidos
+   los componentes de 254 zonas calificadas con velas reales: el `confluence` del plan predice AL
+   REVÉS (≤ 4 = +0.25R en las dos mitades del periodo; 5–6 = −0.33R; ≥ 7 = −0.32R); dos FVG
+   apilados = −0.85R (n=21); PDH/PDL, perfil u overnight dentro de la zona cambian de signo entre
+   mitades (sin señal). Lo único estable es la familia × `vs24h` de la regla 8e.
+   - Sigue calculando y publicando `confluence` (describe la zona, alimenta la tabla y el
+     weekly), pero **la clasificación A+ / B / tierra de nadie sale de la 8e**: A+ = reversión con
+     `vs24h` against; B = el resto que esté en un nivel mapeado; tierra de nadie = sin nivel
+     mapeado. Un score alto NO sube una zona de B a A+ ni sirve de base de GO, y el listón
+     "confluence ≥ 7" de la sección 9 queda sustituido por "A+ del método".
+   - Los FVG no se suman: un FVG en la zona cuenta UNA vez como gatillo/contexto (campo `fvg`),
+     aunque haya varios o de varias temporalidades.
+   - **R:R ≥ 3.5 en una zona que NO es A+ = stop barato en zona floja** (8 % llegó al objetivo,
+     −0.57R; ensanchar el stop o recortar el objetivo no la arregla). Va al final de la tabla con
+     `risk.flag = "RR_SOSPECHOSO"` y nunca es `focus`. En una A+ el R:R alto está bien (+1.52R con
+     el stop del plan, n=12): no la toques.
+   - Medición: `scorecard.zoneEdge` (8e) ya separa por familia y `vs24h`; el weekly mira además
+     las zonas con `RR_SOSPECHOSO` para confirmar la regla.
 9. **Veredicto de un vistazo** (`verdict`): un semáforo por instrumento que PROTEGE la
    disciplina de Jesus. Su edge es CONFLUENCIA a favor del sesgo en un nivel mapeado con
    gatillo (sección 4). Prioridad **AVOID > WAIT > GO** (ante la duda, WAIT):
@@ -922,7 +940,7 @@ Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
    **Freno por whipsaw**: si `whipsawRisk.score ≥ 0.6`, la convicción no pasa de "media" y el
    `summary` + `focus.note` abren nombrándolo ("día de chop probable, no fuerces").
    **Listón de GO por histórico**: si `scorecard.verdictScore["<SYM>|<sesion>"].go.rate < 0.45`
-   con `n ≥ 12`, sube el listón de GO para ese instrumento/sesión: exige `confluence ≥ 7` **o**
+   con `n ≥ 12`, sube el listón de GO para ese instrumento/sesión: exige zona A+ del método (8f; ya no `confluence ≥ 7`) **o**
    `winN ≥ 8` a favor (win-rate encogido ≥ 0.55). Dilo en el `reason` ("GO 4/13 histórico aquí
    → pido confluencia 7").
    **GO liberado por missedOps (autorizado por Jesus 2026-09-20; no bajar el listón de
@@ -1165,6 +1183,8 @@ Para cada zona de la tabla calcula el objeto `risk` (por **1 contrato full**; mi
   - `FLOJO` si `rr` < 1.3 · `AJUSTADO` si 1.3 ≤ `rr` < 2 · `OK` si `rr` ≥ 2.
   - `STOP_ANCHO` si `stopPts` > 40 % del `expectedMove.base` de la sesión (el stop se come casi
     todo el recorrido esperado: o achica el objetivo o pásala).
+  - `RR_SOSPECHOSO` si `rr` ≥ 3.5 y la zona NO es A+ del método (regla 8f): stop barato en zona
+    floja. Gana sobre `OK`.
 
 **Chequeo de presupuesto**: si la mejor zona A+ sale `FLOJO` / `STOP_ANCHO` / `OBJETIVO_BLOQUEADO`,
 el `verdict` baja a WAIT y el `reason` lo dice ("A+ pero R:R 1.1, no compensa"). Nota de disciplina
@@ -1272,8 +1292,17 @@ El plan no es para "un trader", es para Jesus. Con el perfil:
    el grueso del rango llega tras el EIA de las 09:30 CT. Usa el % medido cuando exista.
 3. **Rango restante del día** = presupuesto − recorrido (`rangeToday`/`rangeNow`/`command.raw.dayRangePts`; contrasta con `command.raw.remPts` y `atrPctUsed`).
 4. **Salida por instrumento**:
-   - **Corrección de calibración**: mira `scorecard.emCalibration["<SYM>|<sesion>"]`:
-     - `n ≥ 10` → multiplica base/baja/alta por su `mult` (0.7–1.8) y anótalo (`expectedMove.mult`).
+   - **Corrección de calibración** (automática desde el 2026-10-30): `scorecard.emCalibration`
+     ya no se llena a mano; `update_scorecard.py` la reconstruye cada día desde `grades/` (rango
+     real de la sesión contra la base cruda del plan, últimas 30 sesiones). Claves
+     `"<SYM>|asia"`, `"<SYM>|london"`, `"<SYM>|ny"` ("londres" quedó retirado; lo viejo está en
+     `_hand`, no lo uses). Con `n ≥ 10`: **base = base cruda × `mult`**, **baja = base cruda ×
+     `p25`**, **alta = base cruda × `p75`** (la banda sale de lo medido, no de 0.65/1.4), y anota
+     `expectedMove.mult`. Medido el 30 oct: el plan se quedaba corto en casi todo (Asia NQ/GC/CL
+     ~2×, NY 1.5–2×, Londres 1.3–1.7×); con la banda nueva el rango real debería caer dentro
+     ~50 % de las veces. Si en el weekly el `hit` del EM baja de 35 % con n ≥ 20, dilo.
+     Lo de abajo aplica solo a una celda con `n < 10`:
+     - `n ≥ 10` → multiplica base/baja/alta por su `mult` (0.7–3.0) y anótalo (`expectedMove.mult`).
      - `5 ≤ n < 10` **y** `biasTk` con el mismo signo en toda la ventana (error consistente, no
        ruido) → corrección **provisional a media fuerza**: `mult_prov = 1 + 0.5·(mult − 1)`,
        recortado a 0.8–1.25; anótalo como `expectedMove.mult` + `" (provisional, n=X)"`.

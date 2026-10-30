@@ -27,6 +27,10 @@ Usage: python3 method/update_scorecard.py <fecha_ayer>        (pre-asia, after t
    "sin calificacion automatica" with the reason.
 7. scorecard.execution.planFit = method/plan_vs_exec.py over live/journal.json fills: each real
    position vs the plan live at that minute (in-plan / off-zone / against / no-plan).
+9. scorecard.emCalibration is rebuilt from grades/*.json (2026-10-30): per "<SYM>|<asia|london|ny>",
+   the last 30 graded sessions, ratio = real range / raw base (plan base divided by the mult the
+   plan applied). mult = median ratio clipped to 0.7-3.0; meanErrTk/biasTk in ticks of that same
+   raw base. The hand-kept cells (including the old "londres" split) are kept under "_hand".
 8. scorecard.zoneEdge = every graded futures zone in grades/*.json up to <fecha_ayer> pooled by
    family x vs24h, type x vs24h and family x session: n (worked + failed), wins, winRate,
    avgR. Rule 8e reads it to keep or retire the zone hierarchy it set on 2026-10-30.
@@ -71,6 +75,59 @@ def execution(by_day, end):
         "firstDate": days[0]["date"], "lastDate": days[-1]["date"],
         "note": "Rebuilt by method/update_scorecard.py from live/journal.json byDay (%d-day window). Account-level, the journal does not split by instrument." % WINDOW_DAYS,
     }
+
+
+EM_TICK = {"NQ": 0.25, "ES": 0.25, "GC": 0.1, "YM": 1.0, "CL": 0.01}
+EM_WINDOW = 30
+
+
+def em_calibration_auto(sc, end):
+    samples = {}
+    for f in sorted(os.listdir("grades")) if os.path.isdir("grades") else []:
+        if not f.endswith(".json") or f[:10] > end:
+            continue
+        try:
+            g = load(os.path.join("grades", f))
+        except ValueError:
+            continue
+        for run in g.get("runs") or []:
+            sess = {"londres": "london"}.get(run.get("session"), run.get("session"))
+            try:
+                plan = load("plans/%s-%s.json" % (f[:10], run.get("run")))
+            except (FileNotFoundError, ValueError):
+                plan = {}
+            for sym, gi in (run.get("instruments") or {}).items():
+                em = gi.get("em") or {}
+                try:
+                    base, real = float(em["base"]), float(em["realPts"])
+                except (KeyError, TypeError, ValueError):
+                    continue
+                pm = (((plan.get("instruments") or {}).get(sym) or {}).get("expectedMove") or {}).get("mult")
+                try:
+                    pm = float(str(pm).split()[0]) if pm not in (None, "") else 1.0
+                except ValueError:
+                    pm = 1.0
+                raw = base / pm if pm else base
+                if raw > 0:
+                    samples.setdefault("%s|%s" % (sym, sess), []).append((f[:10], raw, real))
+    if not samples:
+        return False
+    old = {k: v for k, v in (sc.get("emCalibration") or {}).items() if k != "_hand"}
+    cal = {"_hand": (sc.get("emCalibration") or {}).get("_hand") or old,
+           "_note": "auto from grades/ (real-bar session range vs raw plan base), last %d sessions per cell" % EM_WINDOW}
+    for key, v in sorted(samples.items()):
+        v = sorted(v)[-EM_WINDOW:]
+        ratios = sorted(r / b for _, b, r in v)
+        tick = EM_TICK.get(key.split("|")[0], 0.01)
+        errs = [(r - b) / tick for _, b, r in v]
+        n = len(v)
+        cal[key] = {"n": n, "mult": round(min(3.0, max(0.7, ratios[n // 2])), 2),
+                    "p25": round(ratios[n // 4], 2), "p75": round(ratios[(3 * n) // 4], 2),
+                    "meanErrTk": round(sum(abs(e) for e in errs) / n, 1), "biasTk": round(sum(errs) / n, 1),
+                    "biasTkSign": "+" if sum(errs) > 0 else "-", "src": "auto"}
+    cal["_lastDate"] = end
+    sc["emCalibration"] = cal
+    return True
 
 
 def em_error_ticks(cal, end):
@@ -279,6 +336,8 @@ def main():
         except FileNotFoundError:
             pass
 
+    if not check_only and os.path.exists("grades/%s.json" % end):
+        em_calibration_auto(sc, end)
     cal = sc.get("emCalibration") or {}
     if not check_only:
         sc["emErrorTicks"] = em_error_ticks(cal, end)
