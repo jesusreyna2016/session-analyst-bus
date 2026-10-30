@@ -405,8 +405,16 @@ viejo lo que solo refleja mercado cerrado).
   - 25–90 min → **vieja**: métela en `dataHealth.stale` como `"<fuente>@<SYM> <edad>"`, pésala a la
     mitad, y no bases una zona SOLO en ella.
   - > 90 min → **muerta**: trátala como si faltara (va a `dataHealth.missing`), no la uses.
-- **`orb`** no trae `receivedAt`. Contrasta sus niveles (vah/poc/val/pdh/pdl) con los de `command`
-  (trae los mismos): si discrepan > 0.3 % está congelado → usa `command` para niveles y anótalo en
+- **Perfil de volumen = el del DÍA ANTERIOR (pedido de Jesus, 30 oct: el del día en curso se
+  repinta).** Desde `orb.ver` = "v10", `orb.levels.vah/poc/val` son el perfil terminado del día
+  previo (fijo todo el día) y `orb.levels.dvah/dpoc/dval` el del día en curso. Para zonas,
+  score, `keyLevels` y tipos `fade_vah`/`poc_reversion`/`bounce_val` usa SOLO el del día
+  anterior. El en formación (`dvah/dpoc/dval`, y los `vah/poc/val` de `drbias`, `command` y
+  `3reads`, que también son del día en curso) no suma confluencia ni define zonas; como mucho
+  una línea de `context` ("el POC de hoy migra hacia arriba"). Si `orb.ver` aún no es v10, sus
+  vah/poc/val son del día en curso: no los uses como perfil y dilo en `dataHealth.notes`.
+- **`orb`** no trae `receivedAt`. Contrasta sus niveles (pdh/pdl) con los de `command`
+  (trae los mismos; vah/poc/val ya NO, desde v10 son de días distintos): si discrepan > 0.3 % está congelado → usa `command` para niveles y anótalo en
   `dataHealth.notes`.
 - Si una fuente **falta** para un símbolo → `dataHealth.missing`, no inventes sus zonas.
 - **Regla dura**: si ≥ 3 fuentes crudas de un instrumento están viejas/muertas, su `conviction` no
@@ -974,7 +982,8 @@ VWAP, PD Mid, **ONH/ONL** (rango overnight), **IBH/IBL** (Initial Balance del RT
 
 **Score de confluencia** (el EDGE COMPLETO de Jesus, suma; una A+ toca varios a la vez):
 - +2 a favor del sesgo de sesión Y del de mayor peso (`command.dir`)
-- +1 nivel de perfil en la zona: VAH / POC / VAL (actual o previo)
+- +1 nivel de perfil en la zona: VAH / POC / VAL **del día anterior** (`orb.levels`, v10; el
+  del día en curso no cuenta, ver sección 2)
 - +1 pivote en la zona: PDH / PDL / PWH / PWL / DO / TDO / ONH / ONL / IBH / IBL / apertura
   mensual / H-L mes previo
 - +1 EMA 20 en la zona · +1 EMA 50 en la zona (`command.ema20`/`ema50`, ±5 ticks)
