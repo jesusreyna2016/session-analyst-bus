@@ -16,6 +16,11 @@ Usage: python3 method/update_scorecard.py <fecha_ayer>        (pre-asia, after t
    hand-kept totals as of 2026-10-16). They were hand-merged from review prose and froze twice
    (9 days in October, then a full week). Check: hitLog["<fecha_ayer>"] must exist, or
    reviews/<fecha_ayer>.md must say "sin calificacion de aciertos" with the reason.
+5. scorecard.contextScore = the same hitLog grades split by the context each day had (taken
+   from that day's saved plans, never typed by hand): news risk, major calendar day, frame
+   conflict, whipsaw risk, conviction, neutral vs directional bias, weekday, macroContext risk.
+   scorecard.blindSpots / strengths list the segments where the agent is clearly worse / better
+   than its own average, so the plan can lower or keep conviction in that context.
 """
 import datetime as dt
 import io
@@ -99,6 +104,93 @@ def hit_counters(sc, end):
                        for sym, (h, n) in sorted(tot.items())}
 
 
+CTX_METRICS = ("bias", "zone", "scenA")
+CTX_MIN_N = 8          # a segment needs this many graded calls before it counts as a blind spot / strength
+RISK_ORDER = {"NINGUNA": 0, "BAJO": 0, "MEDIA": 1, "MEDIO": 1, "ALTA": 2, "ALTO": 2}
+MAJOR_TAGS = ("fomc", "nfp", "cpi", "earnings-megacap")
+
+
+def day_plans(d):
+    out = []
+    for run in ("pre-asia", "asia-2", "pre-london", "pre-ny"):
+        try:
+            out.append(load("plans/%s-%s.json" % (d, run)))
+        except (FileNotFoundError, ValueError):
+            pass
+    return out
+
+
+def day_context(plans, sym):
+    """Context of one symbol on one day: the first plan sets the call, risks take the max of the day."""
+    if not plans:
+        return None
+    first = plans[0]
+    inst0 = (first.get("instruments") or {}).get(sym) or {}
+    news = max((RISK_ORDER.get(((p.get("newsRisk") or {}).get("level") or "").upper(), 0) for p in plans), default=0)
+    macro = max((RISK_ORDER.get(((p.get("macroContext") or {}).get("risk") or "").upper(), -1) for p in plans), default=-1)
+    tags = " ".join(" ".join((p.get("calendarContext") or {}).get("tags") or []) for p in plans).lower()
+    insts = [((p.get("instruments") or {}).get(sym) or {}) for p in plans]
+    conflict = any(((i.get("frameConflict") or {}).get("on")) for i in insts)
+    whip = max((float((i.get("whipsawRisk") or {}).get("score") or 0) for i in insts), default=0)
+    bias = (inst0.get("biasDay") or "").upper()
+    ctx = {
+        "news": ["none", "medium", "high"][news],
+        "calendar": "major" if any(t in tags for t in MAJOR_TAGS) else "normal",
+        "frame": "conflict" if conflict else "aligned",
+        "whipsaw": "high" if whip >= 0.5 else "low",
+        "conviction": (inst0.get("conviction") or "n/a").lower(),
+        "bias": "neutral" if bias in ("", "NEUTRAL", "INDECISO") else "directional",
+        "weekday": ["mon", "tue", "wed", "thu", "fri", "sat", "sun"][dt.date.fromisoformat(plans[0].get("date") or "2000-01-03").weekday()],
+    }
+    if macro >= 0:
+        ctx["macro"] = ["low", "medium", "high"][macro]
+    return ctx
+
+
+def context_score(sc, end):
+    log = sc.get("hitLog") or {}
+    acc = {}   # metric -> sym -> dim -> value -> [hits, n]
+    for d in sorted(x for x in log if x <= end):
+        plans = day_plans(d)
+        for sym, g in log[d].items():
+            if not isinstance(g, dict):
+                continue
+            ctx = day_context(plans, sym)
+            if not ctx:
+                continue
+            for m in CTX_METRICS:
+                if not g.get(m):
+                    continue
+                h, n = float(g[m][0]), int(g[m][1])
+                for who in (sym, "ALL"):
+                    for dim, val in ctx.items():
+                        t = acc.setdefault(m, {}).setdefault(who, {}).setdefault(dim, {}).setdefault(val, [0.0, 0])
+                        t[0] += h
+                        t[1] += n
+    score, blind, strong = {}, [], []
+    for m, by_sym in acc.items():
+        for who, dims in by_sym.items():
+            tot_h = tot_n = 0
+            for val in next(iter(dims.values())).values():
+                tot_h += val[0]
+                tot_n += val[1]
+            base = tot_h / tot_n if tot_n else None
+            for dim, vals in dims.items():
+                for val, (h, n) in vals.items():
+                    pct = round(100 * h / n) if n else None
+                    score.setdefault(m, {}).setdefault(who, {}).setdefault(dim, {})[val] = {"n": n, "hits": round(h, 2), "pct": pct}
+                    if n < CTX_MIN_N or base is None or pct is None:
+                        continue
+                    row = {"metric": m, "sym": who, "when": "%s=%s" % (dim, val), "pct": pct, "n": n, "avgPct": round(100 * base)}
+                    if pct <= 40 and pct <= 100 * base - 10:
+                        blind.append(row)
+                    elif pct >= 65 and pct >= 100 * base + 10:
+                        strong.append(row)
+    sc["contextScore"] = {"_note": "hitLog grades split by the context of each day, derived from plans/<date>-*.json by method/update_scorecard.py. as of %s" % end, **score}
+    sc["blindSpots"] = sorted(blind, key=lambda r: r["pct"])
+    sc["strengths"] = sorted(strong, key=lambda r: -r["pct"])
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
@@ -133,6 +225,7 @@ def main():
 
     if not check_only:
         hit_counters(sc, end)
+        context_score(sc, end)
     if end not in (sc.get("hitLog") or {}):
         try:
             rv = io.open("reviews/%s.md" % end, encoding="utf-8").read().lower()
@@ -143,6 +236,7 @@ def main():
 
     if not check_only:
         io.open(STATE, "w", encoding="utf-8", newline="\n").write(json.dumps(state, ensure_ascii=False, indent=1))
+        print("contextScore: %d blind spots, %d strengths" % (len(sc.get("blindSpots") or []), len(sc.get("strengths") or [])))
         if ex:
             print("execution.ALL: %d days to %s, disciplined %d%%" % (ex["days"], ex["lastDate"], ex["disciplinedPct"]))
     if errs:

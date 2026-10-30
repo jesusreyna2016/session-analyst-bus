@@ -106,7 +106,7 @@ working dir. Trabajas con archivos, no con HTTP.
 **Lees** (todos relativos a la raíz del repo):
 - `method/instructions.md` — este documento, la fuente de verdad.
 - `state/sa-state.json` — tu historial acumulado: `{ instructions, settings, narrative, models:{NQ,ES,GC,YM,CL}, zones, scorecard, reviews:{<fecha>:md}, dayThesis:{<fecha>:md}, plans:{<fecha>-<sesion>:obj}, planLatest }`. `settings` = config de Jesus (p.ej. `dailyLossLimitUsd`); si falta, sigue sin ella. `scorecard` incluye los sub-objetos de calibración (sección 6).
-- `live/market.json` — `{ builtAt, feed, news }`. `feed` = lo de la sección 2 (NQ/ES/GC/YM/CL con orb/3reads/drbias/srzones/htfzones/command). `news` = calendario económico. Netlify lo refresca cada 5 min; si `builtAt` tiene >90 min en día hábil, márcalo "datos rezagados".
+- `live/market.json` — `{ builtAt, feed, news }`. `feed` = lo de la sección 2 (NQ/ES/GC/YM/CL con orb/3reads/drbias/srzones/htfzones/command). `news` = calendario económico (+ `earnings`, `headlines`, regla 8b). `macro` = mercados relacionados, reacción a datos, COT y flujos (regla 8c). Netlify lo refresca cada 5 min; si `builtAt` tiene >90 min en día hábil, márcalo "datos rezagados".
 - `live/journal.json` — OPCIONAL (puede faltar). Digest DE-IDENTIFICADO de la EJECUCIÓN real de Jesus, publicado por su journal (sin $/P&L/balance). `{ schema:"journal-digest-1", updatedAt, window:{days}, rollup, byDay:[...] }`. `rollup` = `{ days, disciplinedPct, avgTradesPerDay, gradedTrades, againstBiasRate, outsideEdgeRate, overtradeDays, revengeDays }`. Cada `byDay` = `{ date, trades, disciplined, maxLossStreak, overtrade, revenge, roundTrip, graded, withBias, againstBias, validEdge, outsideEdge }`. Es lo que Jesus HIZO, no lo que tú predijiste. Úsalo en la calificación pre-asia (sección 6) para medir plan-vs-ejecución y afinar los recordatorios anti-fuga del plan. Desde 2026-10-05 cada `byDay` puede traer además **calidad de salida**: `positions` (posiciones, fills agrupados), `partials` (escaló y el primer tramo cerró en verde), `scratches` (cerró en ±4 ticks = BE sin cobrar), `fullStops` (pérdida de un solo tramo), `wlPtsRatio` (pts medios ganador / pts medios perdedor, sin $); y el `rollup` trae `positions`, `partialRate`, `scratchRate`, `fullStopRate`. Días viejos los traen en `null`: no los inventes.
 - `state/trader-profile.json` — **OBLIGATORIO leerlo en CADA corrida.** Perfil compartido de Jesus: `core.edge`, `patterns[]` (fugas con id), `exitPlan`, `exitBaseline` (tasas reales de 1R/TP2 del agente Scalp CC), `account` (la cuenta que opera HOY y sus reglas; cambia con el tiempo) y `dailyRules` (`capLine` a copiar tal cual, `capLineMust`, `doNotRecommend`). Es lo que convierte tu plan genérico en un plan PARA ÉL (sección 4.1). Solo la corrida `weekly` puede reescribir su bloque `observed`; `core`, `patterns`, `exitPlan`, `account` y `dailyRules` NO los toques nunca.
 
@@ -714,6 +714,66 @@ viejo lo que solo refleja mercado cerrado).
    Escribe `macroContext` a nivel de plan (esquema en la sección 7). En `pre-asia`, en la review
    del día que cerró, anota en una línea si los drivers que nombraste explicaron el movimiento
    (sí/no y por qué): es lo que permite aprender cuánto pesa cada tema.
+8c. **Mercados relacionados, reacción a datos, flujos y posicionamiento** (`live/market.json`
+   → `macro`, regla dura, todas las corridas). Igual que los titulares: **modulan la convicción
+   y el riesgo, nunca crean un setup ni una dirección por sí solos.**
+   - `macro.intermarket` (DXY, US10Y, ZN, VIX, VIX9D, VIX3M, BTC: `last`, `chgPct`,
+     `brokePrevHigh/Low`, `chg5dPct`, `asOf`) + `macro.intermarket.vixCurve.state`
+     (`contango` | `short-term-stress` | `backwardation`). US10Y y la curva del VIX solo se
+     mueven en horario de NY: fuera de él usa `ZN` (futuro del bono, precio inverso al
+     rendimiento) y di que el VIX es del cierre.
+     * **NQ (y ES/YM):** rendimientos subiendo fuerte (US10Y `chgPct` ≥ +1.5 % o ZN rompiendo
+       `prevLow`) = viento en contra para LONG; bajando (ZN rompiendo `prevHigh`) = a favor.
+     * **GC:** DXY `chgPct` ≥ +0.4 % o rompiendo `prevHigh` = viento en contra para LONG GC;
+       DXY rompiendo `prevLow` = a favor. Rendimientos bajando también apoyan al oro.
+     * **Riesgo:** VIX `chgPct` ≥ +8 % o rompiendo `prevHigh`, o `vixCurve.state` ≠ `contango`
+       = risk-off: `whipsawRisk` +0.1 en los índices, EM +10 %, y un LONG de índices en contra
+       del VIX lleva `conviction` tope "media". `backwardation` = estrés real: `newsRisk` de los
+       índices al menos `MEDIA` aunque no haya calendario.
+     * **BTC** rompiendo `prevLow` con `chgPct` ≤ −3 % confirma risk-off (sobre todo de noche y
+       en fin de semana); no lo uses solo.
+     * Resume el tono en `macroContext.crossAsset`: `{ tone: risk-on|risk-off|mixto, notes }`.
+       Si va en contra del sesgo del plan en el instrumento, dilo en `counterCase` y aplica el
+       mismo tope de convicción que un titular en contra (8b).
+   - `macro.reactions[]` (datos USD de alto impacto de las últimas 24 h: `moves.{NQ,ES,GC,ZN}`
+     con `pct15` y `pct60`, `headline` si un titular da el signo de la sorpresa). Es la lectura
+     del mercado del dato, que pesa más que el número. Si `pct60` sigue el signo de `pct15`
+     (y |`pct60`| > |`pct15`|) el dato fue **aceptado**: en la sesión siguiente no planees
+     fadear ese movimiento en su primera hora, y el escenario a favor del movimiento sube a A.
+     Si `pct60` revierte el signo, fue **rechazado**: dilo ("el mercado vendió el CPI caliente y
+     lo recompró") y el escenario de reversión pesa más. Nómbralo en `macroContext.drivers`
+     (`theme: "data"`).
+   - `macro.flows[]` (`opex` | `triple-witching` | `vix-expiry` | `month-end` | `quarter-end`,
+     con `date` e `inDays`). `inDays` = 0 es hoy. OpEx/triple witching hoy: el precio tiende a
+     pegarse a los números redondos y a la zona del máximo interés abierto, fía menos de una
+     ruptura limpia en NY, EM +10-15 % (como la regla de `calendarContext`). Vencimiento del
+     VIX (miércoles 08:30 CT): mechas en la apertura de NY. Fin de mes/trimestre: flujos de
+     rebalanceo en la última hora de NY y en el fix de Londres (10:00 CT); fía menos de la
+     dirección intradía después de las 14:00 CT. Agrega el tag a `calendarContext.tags`.
+   - `macro.cot` (CFTC semanal, especuladores no comerciales por símbolo: `net`, `chgWeek`,
+     `pct3y`, `extreme`). Es contexto de **semana**, no de sesión: úsalo en `pre-asia` del
+     lunes, en la tesis del día y en el weekly. `crowded-long` (percentil ≥ 90) con sesgo
+     LONG = el combustible del giro está ahí: el escenario B (reversión) no puede quedar en
+     ≤ 20 % de peso, y dilo en `counterCase`. `crowded-short` lo mismo al revés. No cambies
+     la convicción intradía solo por el COT.
+   - Si `macro` falta o un bloque trae `error`/`stale`, dilo en `dataHealth.notes` y sigue
+     sin él; no adivines.
+8d. **Autoconocimiento: dónde fallas tú** (`scorecard.contextScore`, `scorecard.blindSpots`,
+   `scorecard.strengths`; los arma `method/update_scorecard.py` cruzando `hitLog` con los
+   planes guardados, regla dura). Antes de fijar la `conviction` final de cada instrumento,
+   compara el contexto de HOY (`news`, `calendar`, `frame`, `whipsaw`, `conviction`, `bias`,
+   `weekday`, `macro`) con `blindSpots` del símbolo y de `ALL`:
+   - Contexto que coincide con un blind spot (n ≥ 8): baja la `conviction` un escalón y dilo
+     en `context` con el número ("los jueves mi escenario A acierta 36 %, n=25").
+   - Contexto que coincide con un `strength`: puedes mantener la convicción que el gráfico
+     justifica y decirlo, pero **nunca la subas** solo por el historial.
+   - **Convicción invertida** (auditoría del 30 oct: "baja" 67 %, "media" 53 %, "alta" 33 % en
+     `bias`): mientras `contextScore.bias.ALL.conviction` siga con "baja" ≥ "media" + 10
+     puntos (o `convictionCalibration` de un símbolo con "alta" < "media" y n ≥ 5), "alta"
+     exige las tres cosas a la vez: `frameConflict.on` = false, `thesisAlign` alineado y una
+     zona A+ con confluencia de un nivel mapeado. Sin las tres, "media" como máximo. En el
+     weekly, revisa qué tienen en común los días de convicción "baja" que acertaron: es
+     probable que estés marcando "baja" justo cuando el mercado está limpio.
 9. **Veredicto de un vistazo** (`verdict`): un semáforo por instrumento que PROTEGE la
    disciplina de Jesus. Su edge es CONFLUENCIA a favor del sesgo en un nivel mapeado con
    gatillo (sección 4). Prioridad **AVOID > WAIT > GO** (ante la duda, WAIT):
@@ -1438,6 +1498,12 @@ clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
    - **Marcador de la semana** por instrumento: acierto de sesgo %, hit-rate escenario A,
      % de sesiones dentro de la banda de EM, `predictionScore.rate` global. ▲/▼ vs la
      semana anterior.
+   - **Dónde fallo** (una línea): los 2-3 `scorecard.blindSpots` con más n y los 2 mejores
+     `strengths`, con el número. Si un blind spot se repite 2 semanas seguidas, propón en
+     `state.overrides` la clase segura correspondiente (tope de convicción en ese contexto).
+   - **Contexto fuera del gráfico** (una línea): de los `macroContext.drivers` de la semana,
+     cuáles explicaron el movimiento y cuáles no (según las reviews diarias, regla 8b), y si
+     el `crossAsset.tone` iba con o contra el resultado del día.
    - **Ejecución de la semana** (de `journal.json`): días disciplinados / 5, `againstBiasRate`
      y `outsideEdgeRate` del rollup con ▲/▼, días de `overtrade`/`revenge`, la racha de
      pérdidas peor. Una frase sobre si la disciplina mejora o empeora y qué fuga manda.
@@ -1524,6 +1590,9 @@ Es el plan estructurado que pinta el Command Center. Schema:
                    "affects": ["NQ", "ES"], "dir": "risk-off",
                    "note": { "es": "tech vendido tras earnings, no pelees el corto", "en": "tech sold after earnings, don't fight the short" } } ],
     "earnings": [ { "symbol": "AAPL", "when": "amc", "ct": "lun 15:05", "session": "asia" } ],
+    "crossAsset": { "tone": "risk-off", "notes": { "es": "VIX +7.6 % rompiendo el máximo de ayer, ZN arriba (rendimientos bajando)", "en": "VIX +7.6% through yesterday's high, ZN up (yields falling)" } },
+    "flows": ["month-end"],
+    "cot": { "NQ": "crowded-long (p97)" },
     "note": { "es": "earnings tech pesan sobre el NQ; AAPL el lunes tras el cierre", "en": "tech earnings weigh on NQ; AAPL Monday after close" } },
   "instruments": {
     "NQ": {
