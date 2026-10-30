@@ -32,7 +32,11 @@ reconstruirse.
   - ≤ 20 min → `OK`
   - > 20 min día hábil → `VIEJO` (el cron de Netlify `sa-bus-snapshot` se cortó;
     TODO lo de abajo es sospechoso).
-- **Fuentes `ind-ingest`** por símbolo (`3reads`, `drbias`, `srzones`, `htfzones`,
+- **`feed`** (TDL Feed, desde 2026-10-30, un mensaje por vela de 5m): `ageMin = now − receivedAt`.
+  < 25 → `fresh` · 25–90 → `stale` · > 90 → `dead` · sin campo → `missing`. Reemplaza a las
+  cinco de abajo: si `feed` de un símbolo está `fresh`, esas cinco van en el reporte pero su
+  `stale`/`dead`/`missing` NO genera issue (se están borrando).
+- **Fuentes `ind-ingest` viejas** por símbolo (`3reads`, `drbias`, `srzones`, `htfzones`,
   `command`): `ageMin = now − receivedAt`.
   - < 25 → `fresh` · 25–90 → `stale` · > 90 → `dead` · sin campo → `missing`.
 - **Fuentes auxiliares** (desde 2026-10-26, mandan heartbeat más espaciado, otros cortes):
@@ -96,7 +100,7 @@ JSON válido, sin comentarios. Reescríbelo entero cada corrida:
 
 - `status`:
   - `down` — `builtAt VIEJO`, o webhook `silencioso`, o ≥ 3 símbolos con su
-    `command` o backbone `orb` en `dead`/`missing`.
+    `feed` (o `command`, si ese símbolo aún no tiene `feed`) o backbone `orb` en `dead`/`missing`.
   - `warn` — cualquier `stale`/`frozen`/`lento`/`news stale`/`SA atrasada`, sin
     llegar a `down`.
   - `ok` — todo `fresh` y snapshot `OK`.

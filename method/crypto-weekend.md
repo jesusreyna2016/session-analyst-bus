@@ -14,7 +14,9 @@ en prosa: coma, punto o `·`.
 ## 1 · Entrada
 
 `live/market.json` → `.feed.crypto` = `{ ETHUSDT: { orb, "3reads", drbias, srzones, htfzones,
-command, regime, trendcl? }, BTCUSDT: {…} }`. Mismo esquema por fuente que los futuros.
+command, regime, trendcl?, feed? }, BTCUSDT: {…} }`. Mismo esquema por fuente que los futuros.
+  Con `feed` fresca (TDL Feed, sección 2b de `instructions.md`) esa es la fuente de niveles y
+  contexto y las cinco viejas pueden faltar sin contar como caída.
 - Frescura: igual que la sección 2 del método (< 25 min fresca, 25–90 vieja, > 90 muerta;
   `regime` y `trendcl` con sus cortes propios). Aquí el mercado está ABIERTO: no relajes
   umbrales por fin de semana. Si `.feed.crypto` falta o un símbolo trae < 3 fuentes frescas,

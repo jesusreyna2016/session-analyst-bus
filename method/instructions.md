@@ -482,6 +482,50 @@ viejo lo que solo refleja mercado cerrado).
   **Medición**: el `weekly` compara el hit-rate de las zonas `tcl:"contra"` vs `"favor"`; si
   con `n ≥ 20` por grupo la diferencia es < 3 pp, propone quitar la regla.
 
+### 2b · TDL Feed (fuente `feed`, desde 2026-10-30) · reemplaza a 3reads, drbias, srzones, htfzones y command
+
+Un solo indicador por símbolo (`tdl_feed.pine`, 5m, prefijo `FEED1`, un mensaje por vela
+cerrada) con NIVELES y CONTEXTO, sin voto de dirección (regla 8e). Se queda junto a `orb`
+(alimenta el Command Center), `regime` y `trendcl`. **Transición**: mientras `feed` de un
+símbolo esté fresca (< 25 min), es LA fuente de niveles y contexto de ese símbolo; las cinco
+viejas pueden faltar o estar muertas y eso NO cuenta como fuente caída ni baja la convicción
+(se van a borrar). Si `feed` falta o está muerta, usa las viejas como hasta ahora.
+
+Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
+- **Perfil** (regla de perfil de la sección 2): `vah`/`poc`/`val` = día ANTERIOR, fijo;
+  `dvah`/`dpoc`/`dval` = día en curso, solo contexto.
+- **Pivotes**: `pdh` `pdl` `pdc` `pdMid` `pwh` `pwl` `do` (apertura del día de trading) `tdo`
+  (00:00 NY) `wo` `mOpen` `pmh` `pml` `onh` `onl` `ibh` `ibl` `ibBrk` (up/dn/none) `asH` `asL`
+  (rango de Asia 17:00-02:00 CT) `loH` `loL` (Londres 02:00-08:30 CT). Las reglas de lectura de
+  ONH/ONL e IB por corrida (sección 2, `command`) valen igual aquí.
+- **Extensiones del rango previo**: `exU` / `exD` = tres precios separados por coma (±25 %,
+  ±50 %, ±100 % del rango de ayer desde PDH / PDL).
+- **Medias y swings**: `ema20` `ema50` `ema200` (5m), `ema20h` `ema50h` (1H confirmadas),
+  `sh5`/`sl5`, `sh1h`/`sl1h`, `sh4h`/`sl4h` (último swing alto/bajo por TF; sustituyen a las
+  zonas S/R de `srzones`).
+- **Volatilidad / presupuesto**: `atrD` (ATR diario 14 de ayer), `hod` `lod` `rangeToday`,
+  `rangePct` (% del ATR ya recorrido), `remPts`, `emRegime` (EXPANSION < 60 % · AVANZADO
+  < 90 % · AGOTADO), `atr5`, `stretchAtr` (|precio − VWAP| / ATR 5m, misma definición que
+  `command.stretchAtr`), `chopIdx` (Choppiness 14 en 5m; ≥ 61.8 = chop, cuenta como
+  `command.chop` = 1 para el `whipsawRisk`), `vwap` `vwapUp` `vwapDn` (±1 desviación).
+- **Rango de trato** (ayer + hoy): `rngHi` `rngLo` `eq` `disc25` `prem75`, `gzLong` / `gzShort`
+  (golden zones `lo:hi`, 0.214-0.382 y 0.618-0.786 del rango), `dPos` (0-1 dentro del rango de
+  hoy). Sustituyen a `premZone`/`discZone`/`goldenZone` y `command.disc25`/`prem75`.
+- **FVG**: `fvg` = `"<TF> <tipo>:lo:hi;…"`, TF 5m/15m/1h/4h, hasta 3 por TF (los más cercanos);
+  tipo `bull`/`bear` = FVG vivo (soporte/resistencia) e `ibull`/`ibear` = iFVG (un FVG que el
+  precio cruzó con cierre y ahora actúa al revés: `ibear` = ex-alcista que hace de resistencia).
+  Mismo uso que `srzones.fvg` en el score (sección 4).
+- **Eventos**: `sweep` = último barrido `NIVEL:dn|up` (`dn` = barrió un máximo y cerró de vuelta
+  abajo; `up` = barrió un mínimo y cerró arriba) con `sweepAgo` en velas de 5m; sustituye a
+  `command.lastSig` SWEEP y a `srzones.resBroken`/`supBroken`. `smt` = `bull`/`bear`/`none`
+  (NQ vs ES, últimas 12 velas; sustituye a `3reads.smtBull`/`smtBear`). `touchlog` = mismo
+  formato que `command.touchlog`, con más niveles (`ASH` `ASL` `LOH` `LOL`); VAH/POC/VAL son los
+  del día anterior.
+- **VIX**: `vix`, `vixRank` (0-100 sobre 252 días).
+- Sin equivalente (retirados a propósito): direcciones (`3reads.context`, `drbias.bias`,
+  `htfzones.biasHTF/biasD`, `command.dir/biasScore/verdict`), `drbias.rvol` y los setups de
+  `drbias`. Donde una regla de este archivo cite uno de esos campos, con `feed` fresca se omite.
+
 ---
 
 ## 3 · Plan de la sesión (por instrumento: NQ, ES, GC, YM, CL)
