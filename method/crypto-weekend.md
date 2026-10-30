@@ -24,6 +24,9 @@ command, regime, trendcl? }, BTCUSDT: {…} }`. Mismo esquema por fuente que los
   el viernes respecto a su rango (ETH correlaciona con el Nasdaq entre semana).
 - `news`: el fin de semana casi nunca hay macro. Si hay un evento con `ts` dentro de la
   ventana del plan, nómbralo; si no, `newsRisk: "NINGUNA"`.
+  Lee también `news.headlines` (tags `crypto`, `geo`, `trump`, `fed`): un hackeo de exchange,
+  un ataque o un anuncio de Trump el fin de semana mueven cripto sin calendario. Aplica la regla
+  8b de `instructions.md` (el titular modula la convicción, no crea setups) y nómbralo en `reason`.
 
 ## 2 · Lo que cambia frente a futuros
 

@@ -54,6 +54,7 @@ tag), reescríbelo. Tabla de traducción obligatoria:
 | `dayType 'X'` | un día de X (sin comillas ni el nombre del campo) | an X day |
 | `verdict BUSCANDO LONG` / `lastSig X` | veredicto: buscando largos / última señal: X | verdict: looking for longs / last signal: X |
 | `newsRisk` | riesgo de noticias | news risk |
+| `macroContext` / `drivers` | el contexto fuera del gráfico / lo que mueve hoy | the off-chart context / what is moving today |
 | `predictionScore` | la precisión de las predicciones | prediction accuracy |
 | `builtAt` | la antigüedad del snapshot | the snapshot age |
 | `conviction` | la convicción | conviction |
@@ -668,6 +669,51 @@ viejo lo que solo refleja mercado cerrado).
    CPI, el +10 % genérico de "noticia alto impacto" **no basta**. Usa el escalón de la sección 5
    (+20–25 % al presupuesto del día, o el siguiente bucket de calibración) y, en la sesión
    *posterior* al dato, trata el restante como residual si `atrPctUsed` ya ≥ 85 % / `remPts`≈0.
+8b. **Contexto fuera del gráfico** (`macroContext`, regla dura, todas las corridas). No todo
+   está en el gráfico: earnings, guerra, Trump/aranceles, la Fed. `news` trae dos listas más
+   aparte del calendario:
+   - `news.earnings[]`: `{ symbol, name, date (ET), when: bmo|amc|tbd, ts, epsForecast }` de
+     las megacaps que pesan en el NQ (NVDA, AAPL, MSFT, AMZN, GOOGL, META, AVGO, TSLA, NFLX,
+     COST, AMD, PLTR), hoy + 7 días. `amc` ≈ 16:05 ET (15:05 CT), `bmo` ≈ 08:00 ET, `tbd` se
+     trata como `amc`.
+   - `news.headlines[]`: `{ title, ts, source, tags[] }` de las últimas 24 h; `tags` ∈ `geo`
+     (guerra, Irán, Rusia, Taiwán, Ormuz), `trump` (aranceles, Casa Blanca), `fed`, `earnings`,
+     `oil`, `crypto`.
+   **Earnings** (afectan sobre todo al NQ; ES y YM como máximo `MEDIA`):
+   - Megacap `amc` HOY → la reacción cae entre las 15:05 CT y la reapertura de Globex (17:00 CT),
+     o sea, en la sesión de Asia de Jesus. En `pre-asia`: `newsRisk` del NQ al menos **ALTA**
+     para Asia, manos fuera los primeros 30 min de Globex (17:00-17:30 CT), `reason` lo nombra
+     ("AMZN reportó tras el cierre, deja que asiente el gap"). Si un titular dice que la acción
+     se mueve ≥5 % after-hours, EM del NQ +10-15 % y `whipsawRisk` al menos 0.5.
+   - Megacap `bmo` HOY → `newsRisk` del NQ al menos `MEDIA` en `pre-ny`.
+   - Megacap `amc` MAÑANA → dilo en la tesis del día en `pre-ny`/`pre-asia` ("NVDA reporta
+     mañana tras el cierre: no cargues tamaño a la noche").
+   - Dos o más megacaps el mismo día (semana de earnings tech) → el NQ trata el día como
+     `calendarContext` `earnings-megacap`, mismo efecto que CPI en el EM (sección 5).
+   **Titulares** (lee todos, quédate con 3 drivers como mucho):
+   - Solo cuentan HECHOS (un ataque, un arancel anunciado, un dato, una decisión, un reporte que
+     ya salió). Ignora pronósticos, opinión y listas ("price forecast", "will X cause", "what to
+     buy", "here's what"): no son drivers.
+   - Mapa de efectos: `geo` = risk-off (índices abajo, GC arriba; si toca Oriente Medio, Ormuz,
+     Rusia u oferta → CL arriba) · `trump` (aranceles, China, chips) = sobre todo NQ, después ES/YM ·
+     `fed` = todos, más fuerte GC y NQ · `oil` = solo CL · `crypto` = solo `crypto-weekend`.
+   - Un driver fresco (<6 h) de `geo`/`trump`/`fed` sube el `newsRisk` de los instrumentos
+     afectados a al menos `MEDIA`. Uno de las últimas 2 h con el precio ya moviéndose en esa
+     dirección → `ALTA` para esa sesión.
+   - **El titular modula, no crea setups.** El edge de Jesus son los niveles del gráfico: un
+     titular nunca abre un GO ni inventa dirección por sí solo. Lo que hace: si el sesgo del plan
+     va EN CONTRA de un driver fresco (LONG NQ con escalada de aranceles, SHORT GC con un ataque),
+     `conviction` tope "media" y el GO solo se mantiene si la estructura ya confirmó; si no, WAIT
+     y `reason` nombra el titular. Si va A FAVOR, dilo como confluencia en `reason`/`focus` (no
+     sube el tier de la zona).
+   - Si se activa la regla de shock macro (sección 4) y un titular la explica, nombra el titular
+     en vez de "shock no calendarizado".
+   - Sin drivers ni earnings relevantes → `macroContext.risk` = `BAJO` y una línea ("sin
+     catalizadores fuera del gráfico"). Si `news.headlines` viene vacío o falta, dilo en
+     `dataHealth.notes` y no adivines.
+   Escribe `macroContext` a nivel de plan (esquema en la sección 7). En `pre-asia`, en la review
+   del día que cerró, anota en una línea si los drivers que nombraste explicaron el movimiento
+   (sí/no y por qué): es lo que permite aprender cuánto pesa cada tema.
 9. **Veredicto de un vistazo** (`verdict`): un semáforo por instrumento que PROTEGE la
    disciplina de Jesus. Su edge es CONFLUENCIA a favor del sesgo en un nivel mapeado con
    gatillo (sección 4). Prioridad **AVOID > WAIT > GO** (ante la duda, WAIT):
@@ -1473,6 +1519,12 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "newsRisk": { "level": "ALTA", "session": "ny",
     "events": [ { "title": "ISM Manufacturing PMI", "ct": "09:00", "impact": "high", "handsOff": "08:45-09:10" } ],
     "note": { "es": "no operar los primeros 30 min de NY hasta que asiente el dato", "en": "don't trade the first 30 min of NY until the print settles" } },
+  "macroContext": { "risk": "ALTO",
+    "drivers": [ { "theme": "earnings", "headline": "Amazon falls 7%, Intel plunges 25% in premarket", "source": "CNBC", "ageH": 1,
+                   "affects": ["NQ", "ES"], "dir": "risk-off",
+                   "note": { "es": "tech vendido tras earnings, no pelees el corto", "en": "tech sold after earnings, don't fight the short" } } ],
+    "earnings": [ { "symbol": "AAPL", "when": "amc", "ct": "lun 15:05", "session": "asia" } ],
+    "note": { "es": "earnings tech pesan sobre el NQ; AAPL el lunes tras el cierre", "en": "tech earnings weigh on NQ; AAPL Monday after close" } },
   "instruments": {
     "NQ": {
       "biasDay": "SHORT", "biasSession": "SHORT", "conviction": "alta",
