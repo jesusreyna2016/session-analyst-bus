@@ -721,6 +721,12 @@ viejo lo que solo refleja mercado cerrado).
    Escribe `macroContext` a nivel de plan (esquema en la sección 7). En `pre-asia`, en la review
    del día que cerró, anota en una línea si los drivers que nombraste explicaron el movimiento
    (sí/no y por qué): es lo que permite aprender cuánto pesa cada tema.
+   **Shock entre corridas** (`live/shock.json`, lo escribe el vigilante `cc-shock` de Netlify
+   cada 10 min: `active[]` con `kind` headline|price|vix|dvol, `sym` (ALL, CRYPTO o el
+   símbolo), `msg`, `seenAt` epoch ms). Un shock con `seenAt` de los últimos 60 min que aplica
+   al instrumento (`ALL`, o su símbolo) → `verdict` como máximo **WAIT**, `reason` lo nombra
+   ("NQ -0.8 % en 15 min, espera a que asiente") y `whipsawRisk` +0.1. Más de 60 min: ya no
+   frena, pero si fue `headline` sigue contando como driver de 8b.
 8c. **Mercados relacionados, reacción a datos, flujos y posicionamiento** (`live/market.json`
    → `macro`, regla dura, todas las corridas). Igual que los titulares: **modulan la convicción
    y el riesgo, nunca crean un setup ni una dirección por sí solos.**

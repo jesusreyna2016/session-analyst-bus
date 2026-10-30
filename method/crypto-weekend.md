@@ -78,6 +78,9 @@ apalancamiento). Todo sale de `live/market.json` → `macro.crypto` y `news.head
 - **Domingo**: en la corrida pm del domingo, mira `news.events` y `news.earnings` de la semana
   que entra (FOMC, CPI, NFP, megacaps): una línea en `summary` ("FOMC el miércoles: no cargues
   tamaño de swing esta noche").
+- **Shock entre corridas** (`live/shock.json`): un shock de los últimos 60 min con `sym`
+  `ALL`, `CRYPTO`, `ETHUSDT` o `BTCUSDT` → `verdict` como máximo WAIT en los símbolos que
+  toca, `riskWindow` hasta 60 min después de `seenAt`, y nómbralo en `reason`.
 - Si `macro.crypto` falta o un bloque trae `error`, dilo en `dataHealth.notes` y sigue sin él.
 
 Resume todo en `cryptoContext` a nivel de plan (esquema en la sección 6).
