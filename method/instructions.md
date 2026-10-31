@@ -1525,7 +1525,8 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
      <hits>/<evidenceN>") y púdala.
   5. `abierta` con `evidenceN` bajo y > 30 días sin ocurrencia → `status:"sin_senal"`, púdala
      en la siguiente corrida.
-  Poda: máx ~20 `abierta`; si sobran, cierra primero las más viejas sin señal. `pre-london`/
+  Poda: máx ~20 `abierta`; si sobran, cierra primero las más viejas sin señal. La poda la hace
+  `python3 method/prune_hypotheses.py` al final de pre-asia (regla 5 + este tope), no a mano. `pre-london`/
   `pre-ny` NO tocan `hypotheses` (solo `pre-asia`).
 - `narrative`: primero decide si el día CONFIRMÓ / EVOLUCIONÓ / ROMPIÓ la tesis vigente de cada
   instrumento (cruza con las causas de fallo de arriba). Luego reescribe la tesis como
