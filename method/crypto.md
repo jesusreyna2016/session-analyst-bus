@@ -93,9 +93,11 @@ apalancamiento). Todo sale de `live/market.json` → `macro.crypto` y `news.head
 - **Titulares cripto** (`news.headlines` con tag `crypto` + sub-tags `eth`, `hack`, `etf`,
   `regulation`, `liquidation`; fuentes CNBC, Cointelegraph, The Block, Decrypt, Google News):
   * `hack` de un exchange grande o de un protocolo de ETH en las últimas 24 h = `newsRisk`
-    **ALTA**: nada de GO en la primera hora después del titular, y WAIT si el precio todavía
-    está buscando piso. Si el hackeo es de ETH (o de un bridge/L2), el escenario bajista de ETH
-    pesa más que el de BTC.
+    **ALTA** (`cryptoContext.risk` = "ALTO") durante las 24 h siguientes al primer titular,
+    aunque el precio ya lo haya absorbido: "absorbido" solo levanta el veto de la primera hora,
+    no baja el riesgo. Nada de GO en la primera hora después del titular, y WAIT si el precio
+    todavía está buscando piso. Si el hackeo es de ETH o usa una función de ETH (un bridge, un
+    L2, una actualización como EIP-7702), el escenario bajista de ETH pesa más que el de BTC.
   * `etf` (flujos de entrada/salida), `regulation` (SEC, leyes, demandas) y `liquidation`
     (cascadas): driver de `cryptoContext.drivers` si es un HECHO de las últimas 12 h.
   * `eth` (actualizaciones de la red, staking, Vitalik): solo si es un hecho con fecha.
@@ -212,11 +214,12 @@ precio está lejos; **AVOID** si está en tierra de nadie o en chop sin borde a 
     "ETHUSDT": {
       "price": n, "biasDay": "LONG|SHORT|NEUTRAL", "biasSession": "LONG|SHORT|NEUTRAL",
       "conviction": "alta|baja", "move24h": { "dir": "SHORT", "pct": -5.96 }, "regime": "CHOP|BULL|BEAR|NEUTRAL",
-      "tcl": { "v": -1|0|1, "flip": n } | null,
+      "tcl": { "v": -1|0|1, "flip": n } | null,   // v es el veredicto CONFIRMADO de trendcl, solo -1, 0 o 1
       "context": { "es": "...", "en": "..." },
       "levels": { "vah": n, "poc": n, "val": n, "pdh": n, "pdl": n, "dayOpen": n, "vwap": n, "pwh": n, "pwl": n },
       "zones": [ { "range": [lo, hi], "dir": "LONG|SHORT", "type": "<tipos de la sección 4>",
                    "confluence": n, "grade": "A+|B", "tcl": "favor|contra|null",
+                   "vs24h": "with|against|flat",   // OBLIGATORIO (regla 8e): dir de la zona contra move24h.dir
                    "why": { "es": "...", "en": "..." },
                    "play": { "trigger": {"es":"...","en":"..."}, "stop": n, "tp1": n, "tp2": n,
                              "maxNotionalUsd": n, "qtyNote": {"es":"...","en":"..."} } } ],
