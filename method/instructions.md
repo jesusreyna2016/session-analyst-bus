@@ -1652,6 +1652,13 @@ clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
    - **Dónde fallo** (una línea): los 2-3 `scorecard.blindSpots` con más n y los 2 mejores
      `strengths`, con el número. Si un blind spot se repite 2 semanas seguidas, propón en
      `state.overrides` la clase segura correspondiente (tope de convicción en ese contexto).
+   - **Expectativa en R** (una línea, EL número de la semana, sale de `python3 method/weekly_r.py`):
+     "plan +0.48R (n=34) · tú +0.10R (n=52) · brecha 0.38R por trade", con la ejecución partida en
+     in-plan / off-zone / against si hay posiciones. Plan = zonas de la semana calificadas con
+     velas reales que dispararon; tú = cada posición del journal en puntos dividida entre el stop
+     del plan vigente para ese símbolo. Si el journal no trae posiciones con precio, escribe
+     "ejecución sin datos: sincroniza el journal desde mywhyjournal.com" y da solo el del plan.
+     ▲/▼ de la brecha contra la semana anterior.
    - **Plan vs ejecución** (una línea, de `scorecard.execution.planFit`): cuántas posiciones
      reales fueron `in-plan`, `off-zone` y `against`, con el % ganador y los puntos medios de
      cada grupo por símbolo. Es la cuenta de cuánto se queda en la ejecución: dila sin
