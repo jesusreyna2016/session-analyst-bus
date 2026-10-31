@@ -1622,6 +1622,8 @@ NO re-califica días (eso ya lo hizo cada `pre-asia`), NO re-incrementa `zones`/
 ni sub-objetos de calibración (doble conteo). LEE y produce el balance de la semana
 lunes-viernes que cerró. Lo ÚNICO que puede escribir en `state` es `state.overrides` (la
 clase segura auto-aplicable del paso 5) y `state.reviews["<sábado>-semana"]`.
+Prosa: la regla de la cabecera vale también aquí, **sin guión largo** en el md (coma, punto o
+·). Antes del commit: `grep -c "—" reviews/<HOY>-semana.md` debe dar 0; si no, corrígelo.
 
 **Flujo:**
 1. `git checkout main && git pull --rebase --autostash origin main`.
