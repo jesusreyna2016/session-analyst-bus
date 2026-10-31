@@ -1,7 +1,7 @@
 {
   "schema": "trader-profile-1",
   "note": "Shared profile of the trader, read by every agent (Session Analyst, Scalp CC, Plan Coach, Watchdog). Behavioral and rule data only: no balances, no P&L, no personal life, and no broker, firm or account details. Humans own `core`; the weekly run may only rewrite `observed`.",
-  "updatedAt": "2026-10-24T15:30:00Z",
+  "updatedAt": "2026-10-31T15:15:49Z",
   "core": {
     "instruments": [
       "NQ / NDX (Nasdaq 100)",
@@ -66,18 +66,18 @@
   },
   "exitBaseline": {
     "source": "scalp-cc-bus outcomes, all kinds and TFs",
-    "asOf": "2026-10-24",
+    "asOf": "2026-10-31",
     "NQ": {
-      "n": 6702,
-      "hit1R": 0.329,
-      "stoppedOut": 0.474,
-      "slWasGreenHalfRFirst": 0.325,
-      "slWasGreen1RFirst": 0.119,
-      "reachedTP2": 0.042
+      "n": 8485,
+      "hit1R": 0.331,
+      "stoppedOut": 0.478,
+      "slWasGreenHalfRFirst": 0.321,
+      "slWasGreen1RFirst": 0.123,
+      "reachedTP2": 0.049
     },
     "readout": {
-      "es": "Solo ~33% de las entradas llega a 1R y apenas ~4.2% llega a TP2: el home run sigue siendo raro. ~32.5% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta.",
-      "en": "Only ~33% of entries reach 1R and barely ~4.2% reach TP2: the home run is still rare. ~32.5% of stops were +0.5R green first before getting hit: the early partial is still the missing lever."
+      "es": "Solo ~33.1% de las entradas llega a 1R y apenas ~4.9% llega a TP2: el home run sigue siendo raro. ~32.1% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta.",
+      "en": "Only ~33.1% of entries reach 1R and barely ~4.9% reach TP2: the home run is still rare. ~32.1% of stops were +0.5R green first before getting hit: the early partial is still the missing lever."
     }
   },
   "dailyRules": {
@@ -94,15 +94,15 @@
     }
   },
   "observed": {
-    "updatedBy": "weekly 2026-10-24",
-    "window": "2026-10-19..2026-10-23 (5 dias calendario, pero solo 3 con dato real en live/journal.json -- lunes a miercoles; jueves y viernes sin entrada, journal.updatedAt sigue en 2026-10-21T09:14Z, 3 dias sin refrescar)",
-    "disciplinedPct": 14,
+    "updatedBy": "weekly 2026-10-31",
+    "window": "2026-10-26..2026-10-30 (5 dias calendario, pero solo 3 con dato real en live/journal.json -- lunes, martes y jueves; miercoles y viernes sin entrada, journal.updatedAt sigue en 2026-10-29T20:29Z, 2 dias sin refrescar)",
+    "disciplinedPct": 17,
     "againstBiasRate": 0.33,
     "outsideEdgeRate": 0.52,
     "trend": {
-      "es": "Semana con retroceso en cobertura de datos (3/5 dias) tras la primera semana completa del journal. De los 3 dias con dato, 0/3 disciplinados (peor que 1/5 la semana pasada), revenge en los 3, overtrade en 2/3, con la peor racha de perdidas en semanas el miercoles (6 seguidas, overtrade+revenge). El rollup rodante de 37 dias se mantiene casi plano (disciplinado 14% vs 15%, contra-sesgo 33% =, fuera de zona 52% =). Calidad de salida: 0 parciales en las 17 posiciones con dato esta semana (6a+ semana seguida sin cobrar un parcial), fullStopRate del rollup sube a 51% (antes 49%) -- la fuga homerun-exit sigue sin alivio.",
-      "en": "Week with a data-coverage setback (3/5 days) after the journal's first fully-covered week. Of the 3 days with data, 0/3 disciplined (worse than 1/5 last week), revenge on all 3, overtrade on 2/3, with the worst loss streak in weeks on Wednesday (6 in a row, overtrade+revenge). The 37-day rolling rollup stays nearly flat (disciplined 14% vs 15%, against-bias 33% =, outside-edge 52% =). Exit quality: 0 partials across the week's 17 positions with data (6th+ week in a row without a single partial booked), rollup fullStopRate rises to 51% (was 49%) -- the homerun-exit leak remains unrelieved."
+      "es": "Semana de catalizadores encadenados (FOMC miercoles, GDP+PCE jueves, earnings tech + Fed hawkish + cripto viernes) con cobertura de journal igual de parcial (3/5 dias). De los 3 dias con dato, 2/3 disciplinados (mejor que 0/3 la semana pasada), revenge en 2/3 (peor que el rollup), overtrade en solo 1/3 (mejor que el rollup), sin ninguna racha de perdidas severa (maximo 3, lejos de las 6 de la semana pasada). El rollup rodante de 42 dias sube levemente en disciplina (17% vs 14%) y se mantiene igual en contra-sesgo (33%) y fuera de zona (52%). Calidad de salida: 0 parciales en las 17 posiciones con dato esta semana (7a+ semana seguida sin cobrar un parcial), fullStopRate del rollup en 53% (▲ leve vs 51%) -- la fuga homerun-exit sigue sin alivio.",
+      "en": "A week of chained catalysts (Wednesday FOMC, Thursday GDP+PCE, Friday tech earnings + hawkish Fed + crypto contagion) with journal coverage just as partial (3/5 days). Of the 3 days with data, 2/3 disciplined (better than 0/3 last week), revenge on 2/3 (worse than the rollup), overtrade on only 1/3 (better than the rollup), with no severe loss streak (max 3, well below last week's 6). The 42-day rolling rollup ticks up slightly in discipline (17% vs 14%) and stays flat on against-bias (33%) and outside-edge (52%). Exit quality: 0 partials across the week's 17 positions with data (7th+ week in a row without a single partial booked), rollup fullStopRate at 53% (▲ slight vs 51%) -- the homerun-exit leak remains unrelieved."
     },
-    "exitQuality": { "partialRate": 0.02, "scratchRate": 0.04, "fullStopRate": 0.51 }
+    "exitQuality": { "partialRate": 0.02, "scratchRate": 0.04, "fullStopRate": 0.53 }
   }
 }
