@@ -3,7 +3,7 @@
 by the Netlify function sa-bus-bars). Deterministic: the agent no longer grades from memory.
 
 Usage: python3 method/grade_plans.py <fecha>             futures day (pre-asia/pre-london/pre-ny)
-       python3 method/grade_plans.py --crypto <fecha>    crypto-weekend plans of that CT day
+       python3 method/grade_plans.py --crypto <fecha>    crypto plans (close + ny) of that UTC crypto day
 
 Writes grades/<fecha>.json (or grades/crypto/<fecha>.json) and prints a one-line summary.
 update_scorecard.py reads grades/<fecha>.json and uses it for hitLog bias / scenA / zone.

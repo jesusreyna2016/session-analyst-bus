@@ -756,7 +756,7 @@ Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
      buy", "here's what"): no son drivers.
    - Mapa de efectos: `geo` = risk-off (índices abajo, GC arriba; si toca Oriente Medio, Ormuz,
      Rusia u oferta → CL arriba) · `trump` (aranceles, China, chips) = sobre todo NQ, después ES/YM ·
-     `fed` = todos, más fuerte GC y NQ · `oil` = solo CL · `crypto` = solo `crypto-weekend`.
+     `fed` = todos, más fuerte GC y NQ · `oil` = solo CL · `crypto` = solo las corridas cripto (`method/crypto.md`).
    - Un driver fresco (<6 h) de `geo`/`trump`/`fed` sube el `newsRisk` de los instrumentos
      afectados a al menos `MEDIA`. Uno de las últimas 2 h con el precio ya moviéndose en esa
      dirección → `ALTA` para esa sesión.
