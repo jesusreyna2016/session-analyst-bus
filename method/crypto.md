@@ -78,6 +78,9 @@ apalancamiento). Todo sale de `live/market.json` → `macro.crypto` y `news.head
   `chg24h` ≥ +5 = el mercado de opciones espera movimiento: ensancha stops y objetivos, nada de
   GO en zonas de menos de 0.5 % de ancho, y avisa en `riskWindow` si coincide con un titular.
   DVOL bajando y bajo (< 45) = rango: favorece los `fade_*` en bordes del perfil.
+  Desde el TDL Feed v18 cada símbolo trae además su propio DVOL en `feed.raw.dvol` (ETH usa
+  ETHDVOL, BTC el DVOL de BTC) y `dvolRank` (0-100 en el rango de 1 año). Usa el del símbolo
+  para ETH; `dvolRank` ≥ 80 = volatilidad cara (stops y objetivos anchos), ≤ 20 = barata.
 - **Gap del CME** (`macro.crypto.cmeGap`: `cmeClose`, `cmeCloseDate`, `gapPct`): el último
   cierre diario del futuro CME de ETH (16:00 CT). Solo aplica con `cmeCloseDate` = viernes, en
   las corridas del viernes noche al lunes: si |`gapPct`| ≥ 1.5 %, ese precio es un **imán**
