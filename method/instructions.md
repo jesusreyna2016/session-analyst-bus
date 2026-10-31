@@ -462,7 +462,7 @@ viejo lo que solo refleja mercado cerrado).
   la zona de reversión del lado barrido. Máx +1 de regime por zona.
 - **trendcl.raw** (Trend Checklist, por ahora solo NQ; heartbeat cada hora en punto →
   fresca < 75 min, vieja 75–150, muerta > 150): `v` = veredicto CONFIRMADO con velas cerradas
-  (1 solo largos · −1 solo cortos · 0 sin dirección), `vl` = veredicto en vivo (puede
+  (de −2 a 2, tal cual lo manda el indicador: 2 solo largos tamaño normal · 1 solo largos tamaño reducido · 0 sin dirección · −1 solo cortos reducido · −2 solo cortos normal; para "a favor / en contra" cuenta el SIGNO, nunca lo recortes a ±1), `vl` = veredicto en vivo (puede
   revertir, NO lo uses para reglas), `d`/`h4`/`h1` (alineación por TF, 1/−1/0), `flip` (EMA 20
   1H, el nivel de giro), `edge` (EMA 50 1H, el borde de stop), `sh`/`sl` (swing alto/bajo 1H),
   `eq`, `zone` (toque de nivel A FAVOR del veredicto en esa vela), `ag` (toque EN CONTRA),

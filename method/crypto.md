@@ -214,7 +214,7 @@ precio está lejos; **AVOID** si está en tierra de nadie o en chop sin borde a 
     "ETHUSDT": {
       "price": n, "biasDay": "LONG|SHORT|NEUTRAL", "biasSession": "LONG|SHORT|NEUTRAL",
       "conviction": "alta|baja", "move24h": { "dir": "SHORT", "pct": -5.96 }, "regime": "CHOP|BULL|BEAR|NEUTRAL",
-      "tcl": { "v": -1|0|1, "flip": n } | null,   // v es el veredicto CONFIRMADO de trendcl, solo -1, 0 o 1
+      "tcl": { "v": -2|-1|0|1|2, "flip": n } | null,   // v = veredicto CONFIRMADO de trendcl tal cual llega (-2..2): el signo es la direccion, 2 = tamaño normal, 1 = reducido
       "context": { "es": "...", "en": "..." },
       "levels": { "vah": n, "poc": n, "val": n, "pdh": n, "pdl": n, "dayOpen": n, "vwap": n, "pwh": n, "pwl": n },
       "zones": [ { "range": [lo, hi], "dir": "LONG|SHORT", "type": "<tipos de la sección 4>",
