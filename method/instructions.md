@@ -855,8 +855,11 @@ Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
    - **Paso obligatorio**: corre `python3 method/move24h.py` al armar el plan y guarda el
      resultado por instrumento en `instruments.<SYM>.move24h` = `{dir, pct}`. Cada zona lleva
      `vs24h`: `"against"` (su `dir` es contraria a `move24h.dir`), `"with"` o `"flat"`
-     (`move24h.dir` FLAT). Sin barras suficientes: `move24h` = null, dilo en `dataHealth.notes`
-     y trata todas las zonas como `"flat"`.
+     (`move24h.dir` FLAT). Sin barras suficientes: `move24h` = null, dilo en `dataHealth.notes`,
+     trata todas las zonas como `"flat"` y deja `biasSession` NEUTRAL. Tras un cierre (domingo,
+     lunes temprano, festivo) el script mide las últimas 24 h con velas y marca
+     `acrossClosure: true`: es un dato válido, úsalo igual y dilo en `dataHealth.notes`. El domingo
+     en Asia va en contra de ese movimiento el 57 % de las veces (n=42, 10 domingos), medido a 6 h.
    - **Las fuentes valen por sus NIVELES, no por su dirección.** `orb.biasDir`,
      `3reads.context`, `drbias.bias`, `htfzones.biasHTF`, `command.dir` y `regime` se reportan
      en `context` como lectura, pero **no suman confluencia por dirección, no suben la
