@@ -1,71 +1,73 @@
 {
-  "date": "2026-10-31",
+  "date": "2026-11-02",
   "session": "asia",
   "runType": "pre-asia",
-  "generatedAt": "2026-10-30T16:09:00-05:00",
+  "generatedAt": "2026-11-01T16:16:00-06:00",
   "schema": "sa-plan-2",
-  "cleanest": "CL",
+  "cleanest": "GC",
   "focus": {
-    "sym": "CL",
+    "sym": "GC",
     "verdict": "WAIT",
-    "window": "reapertura domingo 17:00 CT",
+    "window": "17:00-23:00 CT",
     "setup": {
-      "es": "sin setup operable: mercado cerrado todo el fin de semana",
-      "en": "no tradable setup: the market is closed the whole weekend"
+      "es": "vigilar el cluster roto 3956-4002 (IBH/POC) -- el instrumento con los 4 marcos de tendencia mas alineados, pero tambien el mas estirado (16A)",
+      "en": "watch the broken 3956-4002 cluster (IBH/POC) -- the instrument with the most aligned trend frames, but also the most stretched (16A)"
     },
     "trigger": {
-      "es": "ninguno hasta que reabra Globex el domingo 17:00 CT",
-      "en": "none until Globex reopens Sunday 17:00 CT"
+      "es": "rechazo visible (mecha + cierre 5m de vuelta bajo 3956) tras un toque del cluster; nunca market al toque",
+      "en": "visible rejection (wick + 5m close back below 3956) after a touch of the cluster; never market on touch"
     },
     "invalid": {
-      "es": "no aplica mientras el mercado este cerrado",
-      "en": "not applicable while the market is closed"
+      "es": "cierre 5m sostenido sobre 3956 (revive la duda) o sobre 4002 (la revive del todo)",
+      "en": "5m close sustained above 3956 (revives the doubt) or above 4002 (fully revives it)"
     },
     "note": {
-      "es": "hoy no hay nada, no fuerces; el plan real de la reapertura lo da la pre-asia del domingo",
-      "en": "nothing today, don't force it; the real reopen plan comes from Sunday's own pre-asia"
+      "es": "estructura la mas limpia de los 5 pero el libro largo crowded (COT p97) liquidandose puede dar el rebote mas violento de la noche -- no se persigue el corto aqui, se espera el rechazo confirmado",
+      "en": "the cleanest structure of the 5 but the crowded long book (COT p97) unwinding could produce the most violent bounce of the night -- not chasing the short here, waiting for a confirmed rejection"
     }
   },
   "summary": {
     "es": [
-      "Mercado de futuros cerrado hasta la reapertura de Globex el domingo 17:00 CT: no hay sesion de Asia que operar este sabado.",
-      "NQ: corto confirmado dia 2, cerro 28527.25 muy estirado (3.2 ATR) tras un dia de tendencia extrema (-652.75pts).",
-      "ES: corto confirmado, cerro 7613.00 (-96.25pts) tras romper la invalidacion de 3 dias esta misma madrugada.",
-      "GC: corto confirmado dia 2, cerro 3886.3 (-147.3pts) con el mayor estiramiento de los 5 (15.5 ATR).",
-      "YM: corto confirmado dia 2, cerro 51922 (-577pts) muy estirado (6.3 ATR).",
-      "CL: largo confirmado dia 4, cerro 102.88 casi plano pese a un rango amplio (hod 104.99/lod 102.43): reversion intradia a vigilar.",
-      "mas limpio: CL (4 marcos alineados desde hace dias, aunque hoy con reversion intradia marcada)",
-      "Este plan es un puente de fin de semana: lo reemplaza por completo la pre-asia del domingo antes de la reapertura real."
+      "domingo pre-asia: mercado de futuros cerrado desde el viernes 16:00 CT hasta hoy 17:00 CT, corrida puramente anticipatoria",
+      "viernes fue un dia de liquidacion extrema en los 5 instrumentos (168-211% del ATR), sin resolucion de ningun gap de Monday hasta la reapertura",
+      "sin dato de 24h (move24h) por el cierre de mercado: ninguna zona puede ser A+ del metodo esta noche, las 5 quedan en B",
+      "NQ: corto dia 2, estirado 2.8A, vigilar rechazo en 28860-28940",
+      "ES: corto dia 1, vigilar rechazo en 7664-7690 (invalidacion de 3 dias)",
+      "GC: corto dia 2, el mas limpio en estructura (4 marcos alineados) pero el mas estirado (16A), vigilar 3956-4002 -- mas limpio: GC",
+      "YM: corto dia 2, deriva del complejo NQ/ES, vigilar 52421-52499",
+      "CL: unico con frameConflict activo, dia 4 del largo en duda tras el giveback sin catalizador de ayer, vigilar 102.38-102.74",
+      "limite diario $1000 (extremo bajo) y K=3 stops: con los stops estimados de esta noche, maxContracts full sale en 0 para NQ/ES/GC/CL y 1 para YM -- usa micros si algo dispara"
     ],
     "en": [
-      "Futures market closed until the Sunday 17:00 CT Globex reopen: there is no Asia session to trade this Saturday.",
-      "NQ: short confirmed, day 2, closed 28527.25 very stretched (3.2 ATR) after an extreme trend day (-652.75pts).",
-      "ES: short confirmed, closed 7613.00 (-96.25pts) after breaking the 3-day invalidation earlier this morning.",
-      "GC: short confirmed, day 2, closed 3886.3 (-147.3pts) with the biggest stretch of the five (15.5 ATR).",
-      "YM: short confirmed, day 2, closed 51922 (-577pts), very stretched (6.3 ATR).",
-      "CL: long confirmed, day 4, closed 102.88 nearly flat despite a wide range (hod 104.99/lod 102.43): an intraday reversal worth watching.",
-      "cleanest: CL (4 frames aligned for days, though today with a marked intraday reversal)",
-      "This plan is a weekend bridge: Sunday's own pre-asia fully replaces it before the real reopen."
+      "Sunday pre-asia: futures market closed since Friday 16:00 CT until today's 17:00 CT reopen, a purely anticipatory run",
+      "Friday was a day of extreme liquidation across all 5 instruments (168-211% of ATR), with no gap resolution until the reopen",
+      "no 24h data (move24h) due to the market closure: no zone can be A+ of the method tonight, all 5 stay at B",
+      "NQ: short day 2, stretched 2.8A, watch for rejection at 28860-28940",
+      "ES: short day 1, watch for rejection at 7664-7690 (3-day invalidation)",
+      "GC: short day 2, the cleanest in structure (4 aligned frames) but the most stretched (16A), watch 3956-4002 -- cleanest: GC",
+      "YM: short day 2, derives from the NQ/ES complex, watch 52421-52499",
+      "CL: the only one with an active frame conflict, day 4 of the long in doubt after yesterday's catalyst-free giveback, watch 102.38-102.74",
+      "$1000 daily limit (low end) and K=3 stops: with tonight's estimated stops, full-size maxContracts comes out to 0 for NQ/ES/GC/CL and 1 for YM -- use micros if anything triggers"
     ]
   },
   "alarm": null,
   "dataHealth": {
     "snapshot": "OK",
-    "builtAtAgeMin": 9,
+    "builtAtAgeMin": 10,
     "stale": [],
     "missing": [],
     "notes": {
-      "es": "6 fuentes frescas por simbolo; mercado cerrado asi que estas son las lecturas finales del cierre de hoy, no datos en vivo",
-      "en": "6 fresh sources per symbol; market closed so these are today's final close readings, not live data"
+      "es": "mercado cerrado desde el viernes 16:00 CT hasta la reapertura de hoy 17:00 CT: las fuentes estan congeladas en el cierre del viernes (~25h), lo esperado en domingo pre-asia. move24h no disponible: todas las zonas se tratan como vs24h flat esta corrida.",
+      "en": "market closed since Friday 16:00 CT until today's 17:00 CT reopen: sources are frozen at Friday's close (~25h), expected for Sunday pre-asia. move24h unavailable: all zones are treated as vs24h flat this run."
     }
   },
   "calendarContext": {
     "tags": [
-      "month-end"
+      "semana-NFP"
     ],
     "note": {
-      "es": "fin de mes hoy (30-oct); sin FOMC/NFP/CPI en la ventana de reapertura del domingo",
-      "en": "month-end today (Oct 30); no FOMC/NFP/CPI in the Sunday reopen window"
+      "es": "semana de NFP (viernes 6-nov); lunes trae ISM manufacturero 09:00 CT (medio, sesion NY) y AAPL/PLTR reportan amc tras el cierre del lunes -- esa reaccion cae en el Asia del ciclo del martes",
+      "en": "NFP week (Friday Nov 6); Monday brings ISM manufacturing at 09:00 CT (medium, NY session) and AAPL/PLTR report amc after Monday's close -- that reaction lands in Tuesday's Asia cycle"
     }
   },
   "newsRisk": {
@@ -73,55 +75,42 @@
     "session": "asia",
     "events": [],
     "note": {
-      "es": "sin calendario de alto impacto en la reapertura del domingo; vigilar earnings megacap AAPL/PLTR el lunes tras el cierre",
-      "en": "no high-impact calendar at the Sunday reopen; watch AAPL/PLTR megacap earnings Monday after the close"
+      "es": "sin eventos calendarizados en la ventana de Asia de esta noche (17:00-01:00 CT); ISM manufacturero y AAPL/PLTR caen en el ciclo del lunes por la tarde/martes, no en esta sesion",
+      "en": "no calendar events in tonight's Asia window (17:00-01:00 CT); ISM manufacturing and AAPL/PLTR fall in Monday afternoon/Tuesday's cycle, not this session"
     }
   },
   "macroContext": {
-    "risk": "MEDIO",
+    "risk": "ALTO",
     "drivers": [
       {
-        "theme": "earnings",
-        "headline": "Tech Stock Selloff Deepens on Earnings, Oil Rises: Markets Wrap",
-        "source": "Bloomberg",
-        "ageH": 1,
+        "theme": "geo",
+        "headline": "Oil surges on Middle East/Strait of Hormuz escalation while stocks sell off",
+        "source": "headlines agregados",
+        "ageH": 20,
         "affects": [
+          "CL",
           "NQ",
-          "ES"
+          "ES",
+          "YM"
         ],
-        "dir": "risk-off",
+        "dir": "mixto",
         "note": {
-          "es": "venta de tech tras resultados (Reddit -30% tras IA de Google) explica buena parte de la amplitud de hoy",
-          "en": "tech selloff after earnings (Reddit -30% on Google's AI) explains much of today's amplitude"
+          "es": "la escalada en Oriente Medio empuja el crudo al alza por oferta mientras pesa sobre el apetito de riesgo de los indices; no es un driver limpio de una sola direccion",
+          "en": "Middle East escalation pushes crude up on supply while weighing on index risk appetite; not a clean one-direction driver"
         }
       },
       {
-        "theme": "fed",
-        "headline": "Fed officials are already saying they'll need to get back to hiking rates",
-        "source": "headline",
-        "ageH": 3,
+        "theme": "crypto",
+        "headline": "Binance hack ($242M) triggers $3.64B in net outflows, Bitcoin ETF investors exit",
+        "source": "headlines agregados",
+        "ageH": 24,
         "affects": [
-          "NQ",
           "GC"
         ],
         "dir": "risk-off",
         "note": {
-          "es": "comentario hawkish fresco, pesa sobre indices y oro hasta que se disipe",
-          "en": "fresh hawkish comment, weighs on indices and gold until it fades"
-        }
-      },
-      {
-        "theme": "geo",
-        "headline": "Tankers defy sharp escalation of Iranian attacks to keep crude oil flowing through Strait of Hormuz",
-        "source": "headline",
-        "ageH": 3,
-        "affects": [
-          "CL"
-        ],
-        "dir": "risk-off",
-        "note": {
-          "es": "riesgo de oferta en Ormuz apoya el sesgo largo de CL",
-          "en": "Hormuz supply risk supports CL's long bias"
+          "es": "la liquidacion cripto forzada coincide con el desplome de GC pese a que el oro suele subir en risk-off puro -- lectura mas probable: liquidacion de margen/cobertura del libro largo crowded (COT p97), no un rechazo clasico del oro como refugio",
+          "en": "the forced crypto liquidation coincides with GC's collapse even though gold usually rallies in pure risk-off -- the more likely read is margin/forced-covering liquidation of the crowded long book (COT p97), not a classic safe-haven rejection"
         }
       }
     ],
@@ -130,32 +119,37 @@
         "symbol": "AAPL",
         "when": "amc",
         "ct": "lun 15:05",
-        "session": "ny"
+        "session": "asia (ciclo martes)"
       },
       {
         "symbol": "PLTR",
         "when": "amc",
         "ct": "lun 15:05",
-        "session": "ny"
+        "session": "asia (ciclo martes)"
       }
     ],
     "crossAsset": {
       "tone": "risk-off",
       "notes": {
-        "es": "VIX +12.9% rompiendo el maximo previo (19.42, contango todavia); DXY plano; BTC rompiendo su minimo previo (-1.3%)",
-        "en": "VIX +12.9% breaking its prior high (19.42, still contango); DXY flat; BTC breaking its prior low (-1.3%)"
+        "es": "VIX +12.9% rompiendo el maximo de ayer (VIX9D +21.3%), US10Y perdio su minimo (rendimientos abajo), DXY casi plano -- risk-off real pero la curva del VIX sigue en contango, no backwardation",
+        "en": "VIX +12.9% breaking yesterday's high (VIX9D +21.3%), US10Y lost its low (yields down), DXY nearly flat -- real risk-off but the VIX curve stays in contango, not backwardation"
+      },
+      "bySym": {
+        "NQ": "with",
+        "ES": "with",
+        "YM": "with",
+        "GC": "mixed",
+        "CL": "mixed"
       }
     },
-    "flows": [
-      "month-end"
-    ],
+    "flows": [],
     "cot": {
-      "NQ": "crowded-long (p97)",
-      "GC": "crowded-long (p99.7, netPctOi 49.7%)"
+      "NQ": "crowded-long (p95)",
+      "CL": "crowded-short (p10)"
     },
     "note": {
-      "es": "earnings tech + Fed hawkish + contagio cripto (hackeo Binance $6.3B) explican la mayoria del movimiento de hoy; sin catalizador propio para el fin de semana",
-      "en": "tech earnings + hawkish Fed + crypto contagion (Binance $6.3B hack) explain most of today's move; no catalyst of its own for the weekend"
+      "es": "viernes fue liquidacion amplia (indices y oro abajo, crudo con reversal violento) sin un catalizador de calendario que lo explique del todo",
+      "en": "Friday was broad liquidation (indices and gold down, crude with a violent reversal) without a calendar catalyst fully explaining it"
     }
   },
   "instruments": {
@@ -163,161 +157,164 @@
       "biasDay": "SHORT",
       "biasSession": "SHORT",
       "conviction": "baja",
-      "move24h": {
-        "dir": "SHORT",
-        "pct": -2.77
-      },
+      "move24h": null,
       "prevDay": {
         "type": {
-          "es": "tendencia bajista extrema, dia ya cerrado (futuros no reabren hasta el domingo 17:00 CT)",
-          "en": "extreme downtrend, day already closed (futures don't reopen until Sunday 17:00 CT)"
+          "es": "tendencia bajista con rebote tecnico hacia el cierre (no cerro en el extremo)",
+          "en": "downtrend with a technical bounce into the close (did not close at the extreme)"
         },
         "closedAt": {
-          "es": "cerca de su minimo (28232.75)",
-          "en": "near its low (28232.75)"
+          "es": "tercio bajo del rango, lejos del minimo tras un rebote tecnico",
+          "en": "lower third of the range, away from the low after a technical bounce"
         },
         "prior": {
-          "es": "CONTINUACION corto",
-          "en": "short CONTINUATION"
+          "es": "CONTINUACION corto, con cautela",
+          "en": "short CONTINUATION, with caution"
         },
         "note": {
-          "es": "salvo que el hueco de la reapertura del domingo lo contradiga",
-          "en": "unless the Sunday reopen gap contradicts it"
+          "es": "el rebote tecnico de cierre (28232.75 a 28543) puede extenderse primero antes de que el corto retome con autoridad",
+          "en": "the closing technical bounce (28232.75 to 28543) may extend first before the short resumes with authority"
         }
       },
       "gap": {
-        "pts": null,
-        "ticks": null,
-        "filled": null,
+        "pts": -99.9,
+        "ticks": -400,
+        "filled": false,
         "size": {
-          "es": "sin medir",
-          "en": "unmeasured"
+          "es": "grande (estimado)",
+          "en": "large (estimated)"
         },
         "note": {
-          "es": "sin gap medible: el futuro no ha reabierto desde el cierre de las 16:00 CT de hoy",
-          "en": "no measurable gap: the future hasn't reopened since today's 16:00 CT close"
+          "es": "Globex aun no reabre (17:00 CT); el gap real del dia de futuros de hoy no existe todavia -- usa weekendGap como estimado anticipado",
+          "en": "Globex hasn't reopened yet (17:00 CT); today's real futures-day gap doesn't exist yet -- uses weekendGap as the anticipated estimate"
         }
       },
-      "weekendGap": null,
+      "weekendGap": {
+        "pct": -0.35,
+        "pts": -99.9,
+        "dir": "abajo",
+        "source": "IG Weekend US Tech 100",
+        "note": {
+          "es": "IG finde apunta a una reapertura ~0.35% bajo el cierre del viernes; signo inferido cruzando el precio medio de IG con el cierre real de NQ (el porcentaje de IG aplicado a 28543 da casi exactamente los 99.9pts que muestra la pagina), peso bajo",
+          "en": "IG weekend points to a reopen ~0.35% below Friday's close; sign inferred by cross-checking IG's mid price against NQ's real close (IG's percent applied to 28543 gives almost exactly the 99.9pts the page shows), low weight"
+        }
+      },
       "smt": {
         "state": "ninguna",
         "note": {
-          "es": "sin sesion en curso para medir divergencia NQ/ES/YM",
-          "en": "no live session to measure NQ/ES/YM divergence"
+          "es": "3reads no marca divergencia NQ/ES (smtBull/smtBear en 0 en ambos) en el cierre del viernes",
+          "en": "3reads shows no NQ/ES divergence (smtBull/smtBear both 0) at Friday's close"
         }
       },
       "frameConflict": {
         "on": false,
         "note": {
-          "es": "diario y sesion alineados, pero sin sesion en curso para operarlo",
-          "en": "daily and session aligned, but no live session to trade it"
+          "es": "fondo diario -3 y semanal +1 casi sin peso; el control 1h giro a positivo tras el rebote pero no es una estructura 1h confirmada contraria -- no es un choque limpio",
+          "en": "daily background -3 and weekly +1 nearly weightless; 1h control flipped positive after the bounce but it's not a confirmed opposite 1h structure -- not a clean clash"
         }
       },
       "whipsawRisk": {
-        "score": 0.2,
+        "score": 0.4,
         "note": {
-          "es": "mercado cerrado: el riesgo real es el hueco de la reapertura del domingo, no el chop intradia",
-          "en": "market closed: the real risk is the Sunday reopen gap, not intraday chop"
+          "es": "el dia que cerro fue un dia de tendencia limpio (no chop), pero el cierre de mercado de 49h mas el estiramiento de 2.8 ATR anaden incertidumbre real a como abre la reapertura",
+          "en": "the day that closed was a clean trend day (no chop), but the 49h market closure plus the 2.8 ATR stretch add real uncertainty to how the reopen starts"
         }
       },
       "thesisAlign": {
         "state": "ALIGN",
         "daysHeld": 2,
         "note": {
-          "es": "la tesis confirmada hoy se extendio con autoridad; nada que operar hasta que reabra el domingo",
-          "en": "today's confirmed thesis extended with authority; nothing to trade until the Sunday reopen"
+          "es": "el dia 2 del corto confirmo con autoridad extrema; la tesis sigue viva sin fisuras",
+          "en": "day 2 of the short confirmed with extreme authority; the thesis is still alive without cracks"
         }
       },
       "counterCase": {
-        "es": "alcista pese al corto: el estiramiento extremo de hoy (dia ya 242% del ATR) invita a una cobertura de cortos fuerte al reabrir; si el domingo abre con hueco hacia cluster roto IBH/VWAP (28860-28940) y lo sostiene, el corto de fondo queda en duda real. Lo mantengo: el movimiento de hoy fue de tendencia confirmada en los 3 marcos (diario, sesion, estructura), no un giro de estructura.",
-        "en": "bullish despite the short: today's extreme stretch (day already at 242% of ATR) invites a strong short-covering bounce on the reopen; if Sunday opens with a gap toward cluster roto IBH/VWAP (28860-28940) and holds it, the underlying short is in real doubt. I'm keeping it: today's move was a confirmed trend in all 3 frames (daily, session, structure), not a structure reversal."
+        "es": "alcista pese al corto: el estiramiento de 2.8 ATR y el control 1h ya girado a positivo tras el crash sugieren que el rebote tecnico puede extenderse bastante antes de que el corto retome; el semanal (+1) sigue sin alinearse a la baja. Lo mantengo pero degrado -- no fuerzo nada hasta ver la reaccion en el cluster 28860-28940; si lo recupera con autoridad, giro.",
+        "en": "bullish despite the short: the 2.8 ATR stretch and the 1h control already flipping positive after the crash suggest the technical bounce could extend a good deal before the short resumes; the weekly (+1) still hasn't aligned to the downside. I keep it but degrade -- forcing nothing until I see the reaction at the 28860-28940 cluster; if it reclaims with authority, I flip."
       },
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "mercado cerrado hasta la reapertura del domingo 17:00 CT, sin sesion que operar; la estructura sigue a favor pero no es base de ningun gatillo hoy",
-          "en": "market closed until the Sunday 17:00 CT reopen, no session to trade; structure still favors the move but it's not the basis for any trigger today"
+          "es": "sin dato de 24h (mercado cerrado) asi que ninguna zona puede ser A+ del metodo esta noche (tope B); ademas el precio esta muy lejos de cualquier nivel fresco y el dia que cerro quedo estirado 2.8 ATR -- no se persigue el corto aqui, se espera la reaccion en el cluster roto 28860-28940",
+          "en": "no 24h data (market closed) so no zone can be A+ of the method tonight (capped at B); plus price is far from any fresh level and the day that closed ended stretched 2.8 ATR -- not chasing the short here, waiting for the reaction at the broken 28860-28940 cluster"
         }
       },
       "context": {
-        "es": "cerro en 28527.25 tras un dia de tendencia bajista (652.75pts, 242% del ATR). Sin sesion en curso: el proximo precio real llega con la reapertura de Globex el domingo 17:00 CT.",
-        "en": "closed at 28527.25 after a day of downtrend (652.75pts, 242% of ATR). No live session: the next real price comes with the Sunday 17:00 CT Globex reopen."
+        "es": "NQ cerro el viernes en 28543, el 2o dia de un corto que confirmo con la extension mas violenta en semanas (947pts, 168% del ATR, minimo en 28232.75) antes de un rebote tecnico. El sesgo combinado sigue bajista (biasScore -5, MODERADO) pero muy lejos de cualquier nivel (VAL a 1005 ticks). El Trend Checklist (v=-2) confirma corto fuerte en las 3 temporalidades. Con el mercado cerrado hasta las 17:00 CT, esta corrida es puramente anticipatoria.",
+        "en": "NQ closed Friday at 28543, day 2 of a short that confirmed with the most violent extension in weeks (947pts, 168% of ATR, low at 28232.75) before a technical bounce. The combined bias stays bearish (biasScore -5, MODERATE) but very far from any level (VAL at 1005 ticks away). The Trend Checklist (v=-2) confirms a strong short across all 3 timeframes. With the market closed until 17:00 CT, this run is purely anticipatory."
       },
       "scenarioA": {
         "text": {
-          "es": "si el domingo reabre con hueco a la baja o plano, continuacion del corto hacia 28100-28230",
-          "en": "if Sunday reopens with a gap down or flat, short continuation toward 28100-28230"
+          "es": "rechazo en el cluster roto 28860-28940 (IBH + FVG 4h) con cierre 5m de vuelta abajo, continuacion del corto hacia 28650 y 28232.75",
+          "en": "rejection at the broken 28860-28940 cluster (IBH + 4h FVG) with a 5m close back below, short continuation toward 28650 and 28232.75"
         },
         "trigger": {
-          "es": "cierre 5m sostenido bajo 28400 en la reapertura",
-          "en": "5m close sustained below 28400 at the reopen"
+          "es": "cierre 5m bajo 28860 tras un toque del cluster 28860-28940",
+          "en": "5m close below 28860 after a touch of the 28860-28940 cluster"
         },
-        "target": 28230,
-        "target2": 28100,
+        "target": 28650.0,
+        "target2": 28232.75,
         "entryZone": [
-          28400,
-          28480
-        ]
-      },
-      "scenarioB": {
-        "text": {
-          "es": "si el domingo reabre con hueco contrario y lo sostiene, rebote hacia cluster roto IBH/VWAP 28860-28940 antes de decidir si el corto continua",
-          "en": "if Sunday reopens with a gap against the move and holds it, a bounce toward cluster roto IBH/VWAP 28860-28940 before deciding whether the short continues"
-        },
-        "trigger": {
-          "es": "cierre 5m sostenido sobre 28620 en la reapertura",
-          "en": "5m close sustained above 28620 at the reopen"
-        },
-        "zone": [
           28860,
           28940
         ]
       },
+      "scenarioB": {
+        "text": {
+          "es": "el rebote tecnico se extiende primero y el cluster 28860-28940 se reclama con autoridad, abriendo la zona dorada hacia el VWAP/POC roto 28647-28804 antes de cualquier intento de corto nuevo",
+          "en": "the technical bounce extends first and the 28860-28940 cluster gets reclaimed with authority, opening the golden zone toward the broken VWAP/POC 28647-28804 before any new short attempt"
+        },
+        "trigger": {
+          "es": "cierre 5m sostenido sobre 28940",
+          "en": "5m close sustained above 28940"
+        },
+        "zone": [
+          28647,
+          28804
+        ]
+      },
       "invalidation": {
         "text": {
-          "es": "cierre 5m sostenido sobre 28940 con reclamo con autoridad",
-          "en": "5m close sustained above 28940 with an authoritative reclaim"
+          "es": "cierre 5m sostenido sobre 28860 con reclamo con autoridad revive la duda alcista; sobre 28940 la revive del todo",
+          "en": "5m close sustained above 28860 with an authoritative reclaim revives the bullish doubt; above 28940 it fully revives it"
         },
-        "level": 28940
+        "level": 28860
       },
       "predictions": [
         {
           "id": "NQ-1",
           "kind": "range",
-          "resolveAt": "primeras 2h tras la reapertura del domingo",
+          "resolveAt": "cierre Asia ~01:00 CT",
           "text": {
-            "es": "el hueco de apertura del domingo sera menor a 100pts en valor absoluto (sin catalizador de fin de semana calendarizado)",
-            "en": "Sunday's opening gap will be smaller than 100pts in absolute value (no calendarized weekend catalyst)"
+            "es": "rango de Asia entre 190 y 310 pts",
+            "en": "Asia range between 190 and 310 pts"
           }
         },
         {
           "id": "NQ-2",
           "kind": "level_first",
-          "resolveAt": "primeras 2h tras reabrir",
-          "prob": 0.55,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "toca primero cluster roto IBH/VWAP 28860-28940 (reaccion tecnica) que una extension nueva hacia 28100",
-            "en": "touches cluster roto IBH/VWAP 28860-28940 first (technical reaction) rather than a fresh extension toward 28100"
+            "es": "toca antes el cluster 28860-28940 que un nuevo minimo bajo 28232.75",
+            "en": "touches the 28860-28940 cluster before a new low below 28232.75"
           }
         },
         {
           "id": "NQ-3",
           "kind": "conditional",
-          "resolveAt": "primera hora tras reabrir",
-          "prob": 0.6,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "si el domingo abre con hueco a la baja o plano, probabilidad alta de que el cierre de la primera hora quede bajo 28527.25 (el cierre de hoy)",
-            "en": "if Sunday opens with a gap down or flat, high probability the first hour closes below 28527.25 (today's close)"
+            "es": "si el precio rechaza el cluster 28860-28940 con cierre 5m de vuelta abajo, el cierre de Asia queda bajo 28700",
+            "en": "if price rejects the 28860-28940 cluster with a 5m close back below, Asia's close stays under 28700"
           }
         },
         {
           "id": "NQ-4",
           "kind": "conditional",
-          "resolveAt": "reapertura domingo",
-          "prob": 0.25,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "probabilidad baja de un hueco de apertura mayor al 1.5% (reclamo total que revive la duda alcista de inmediato)",
-            "en": "low probability of an opening gap larger than 1.5% (a full reclaim that revives the bullish doubt immediately"
+            "es": "si el precio recupera 28860 con cierre 5m sostenido arriba, extiende hacia 29100 antes del cierre de Asia",
+            "en": "if price reclaims 28860 with a sustained 5m close above, it extends toward 29100 before Asia's close"
           }
         }
       ],
@@ -329,28 +326,22 @@
           ],
           "dir": "SHORT",
           "type": "retest_break",
-          "vs24h": "with",
-          "confluence": 4,
-          "distPts": null,
-          "distTicks": null,
-          "winRate": 0.45,
-          "winSource": "type",
-          "winN": 20,
-          "tcl": null,
-          "role": "watch",
-          "reach": {
-            "distPts": null,
-            "budgetPts": null,
-            "ratio": null,
-            "class": "WATCH"
-          },
+          "vs24h": "flat",
+          "confluence": 7,
+          "distPts": 317.0,
+          "distTicks": 1268,
+          "winRate": 0.4743,
+          "winSource": "symType",
+          "winN": 13.5,
+          "n": 3,
+          "tcl": "favor",
           "fvg": [
             {
               "tf": "4h",
               "dir": "bear",
               "range": [
-                28628.0,
-                28865.25
+                28858.75,
+                28871.5
               ],
               "weight": 2,
               "role": {
@@ -360,65 +351,74 @@
             }
           ],
           "risk": {
-            "stopPts": 40,
-            "stopTk": 160,
-            "stopUsd": 800,
-            "tgtPts": 230,
-            "tgtTk": 920,
-            "tgtUsd": 4600,
-            "rr": 5.8,
-            "flag": "OK",
-            "maxContracts": null
+            "stopPts": 45.0,
+            "stopTk": 180,
+            "stopUsd": 900,
+            "tgtPts": 250.0,
+            "tgtTk": 1000,
+            "tgtUsd": 5000,
+            "rr": 5.6,
+            "flag": "RR_SOSPECHOSO",
+            "maxContracts": 0
           },
           "play": {
-            "window": "reapertura del domingo 17:00 CT en adelante",
+            "window": "17:00-23:00 CT",
             "trigger": {
-              "es": "reaccion clara (rechazo o ruptura) en 28860-28940 con la primera vela 5m real de la reapertura, no antes",
-              "en": "a clear reaction (rejection or break) at 28860-28940 on the reopen's first real 5m candle, not before"
+              "es": "rechazo visible (mecha + cierre 5m de vuelta) en el cluster 28860-28940, no market al toque",
+              "en": "visible rejection (wick + 5m close back) at the 28860-28940 cluster, never market on touch"
             },
             "structStop": {
-              "es": "fuera del otro lado de cluster roto IBH/VWAP + colchon",
-              "en": "beyond the far side of cluster roto IBH/VWAP + cushion"
+              "es": "sobre 28940 (alto del cluster) +5tk",
+              "en": "above 28940 (cluster high) +5tk"
             },
             "scale": {
-              "es": "TP1 1/2 parcial en 28230 y BE solo despues del parcial; TP2 resto a 28100",
-              "en": "TP1 1/2 partial at 28230 and BE only after the partial; TP2 rest to 28100"
+              "es": "1/2 en 28650 (primer reaccion) y mueve a BE; resto a 28232.75 (low del dia)",
+              "en": "1/2 at 28650 (first reaction) and move to BE; rest to 28232.75 (day low)"
             },
             "ifWrong": {
-              "es": "rapido: cierre 5m contrario con autoridad en la reapertura -> fuera; lento: solo mechas -> espera la vela siguiente",
-              "en": "fast: an authoritative opposite 5m close at the reopen -> out; slow: wicks only -> wait for the next candle"
+              "es": "rapido: cierre 5m sobre 28940 -> fuera; lento: solo mechas sin cierre -> aguanta hasta 28970",
+              "en": "fast: 5m close above 28940 -> out; slow: wicks only, no close -> hold to 28970"
             }
           }
         }
       ],
       "noTradeZone": [
-        28512.99,
-        28541.51
+        28543.0,
+        28860.0
       ],
       "expectedMove": {
-        "low": null,
-        "base": null,
-        "high": null,
-        "lowTk": null,
-        "baseTk": null,
-        "highTk": null,
-        "dayBudget": null,
-        "dayUsed": null,
-        "dayUsedPct": null,
-        "dayRemaining": null,
-        "flag": "SIN_SESION",
-        "mult": 1.0,
+        "low": 187.2,
+        "base": 257.3,
+        "high": 310.4,
+        "lowTk": 749,
+        "baseTk": 1029,
+        "highTk": 1242,
+        "dayBudget": 549.0,
+        "dayUsed": 0,
+        "dayUsedPct": 0,
+        "dayRemaining": 549.0,
+        "flag": "EXPANSIÓN",
+        "mult": 2.13,
         "underCal": null
       },
       "keyLevels": [
         {
           "name": {
-            "es": "ONH/IBH",
-            "en": "ONH/IBH"
+            "es": "Low del dia (viernes)",
+            "en": "Day low (Friday)"
+          },
+          "price": 28232.75,
+          "distPts": 310.25,
+          "distTicks": 1241
+        },
+        {
+          "name": {
+            "es": "IBH",
+            "en": "IBH"
           },
           "price": 28860.5,
-          "distPts": 333.25,
-          "distTicks": 1333
+          "distPts": 317.5,
+          "distTicks": 1270
         },
         {
           "name": {
@@ -426,144 +426,154 @@
             "en": "VWAP"
           },
           "price": 28647.75,
-          "distPts": 120.5,
-          "distTicks": 482
+          "distPts": 104.75,
+          "distTicks": 419
         },
         {
           "name": {
-            "es": "low del dia / day low",
-            "en": "low del dia / day low"
+            "es": "POC",
+            "en": "POC"
           },
-          "price": 28232.75,
-          "distPts": 294.5,
-          "distTicks": 1178
+          "price": 28804.25,
+          "distPts": 261.25,
+          "distTicks": 1045
+        },
+        {
+          "name": {
+            "es": "PDL",
+            "en": "PDL"
+          },
+          "price": 29111.0,
+          "distPts": 568.0,
+          "distTicks": 2272
         }
       ],
-      "news": [],
-      "reachability": {
-        "hasTactical": false,
-        "bestTactical": null,
-        "bestWatch": "28860-28940"
-      }
+      "news": []
     },
     "ES": {
       "biasDay": "SHORT",
       "biasSession": "SHORT",
       "conviction": "baja",
-      "move24h": {
-        "dir": "SHORT",
-        "pct": -1.53
-      },
+      "move24h": null,
       "prevDay": {
         "type": {
-          "es": "tendencia bajista extrema, dia ya cerrado (futuros no reabren hasta el domingo 17:00 CT)",
-          "en": "extreme downtrend, day already closed (futures don't reopen until Sunday 17:00 CT)"
+          "es": "ruptura bajista confirmada con rebote tecnico hacia el cierre",
+          "en": "confirmed bearish breakdown with a technical bounce into the close"
         },
         "closedAt": {
-          "es": "cerca de su minimo (7558.25)",
-          "en": "near its low (7558.25)"
+          "es": "tercio bajo del rango, lejos del minimo tras el rebote",
+          "en": "lower third of the range, away from the low after the bounce"
         },
         "prior": {
-          "es": "CONTINUACION corto",
-          "en": "short CONTINUATION"
+          "es": "CONTINUACION corto, con cautela",
+          "en": "short CONTINUATION, with caution"
         },
         "note": {
-          "es": "salvo que el hueco de la reapertura del domingo lo contradiga",
-          "en": "unless the Sunday reopen gap contradicts it"
+          "es": "cerro 96.25pts bajo la apertura y bajo la vieja invalidacion de 3 dias (7690), que ahora actua como resistencia de fondo",
+          "en": "closed 96.25pts below the open and below the old 3-day invalidation (7690), which now acts as background resistance"
         }
       },
       "gap": {
-        "pts": null,
-        "ticks": null,
-        "filled": null,
+        "pts": -13.7,
+        "ticks": -55,
+        "filled": false,
         "size": {
-          "es": "sin medir",
-          "en": "unmeasured"
+          "es": "normal (estimado)",
+          "en": "normal (estimated)"
         },
         "note": {
-          "es": "sin gap medible: el futuro no ha reabierto desde el cierre de las 16:00 CT de hoy",
-          "en": "no measurable gap: the future hasn't reopened since today's 16:00 CT close"
+          "es": "Globex aun no reabre; usa weekendGap (proxy NQ/YM) como estimado anticipado",
+          "en": "Globex hasn't reopened yet; uses weekendGap (NQ/YM proxy) as the anticipated estimate"
         }
       },
-      "weekendGap": null,
+      "weekendGap": {
+        "pct": -0.18,
+        "pts": -13.7,
+        "dir": "abajo",
+        "source": "proxy NQ/YM",
+        "note": {
+          "es": "sin pagina propia de IG; promedio ponderado de NQ (-0.35%) e YM (-0.06%), algo mas pegado a YM, peso bajo",
+          "en": "no dedicated IG page; weighted average of NQ (-0.35%) and YM (-0.06%), leaning a bit more to YM, low weight"
+        }
+      },
       "smt": {
         "state": "ninguna",
         "note": {
-          "es": "sin sesion en curso para medir divergencia NQ/ES/YM",
-          "en": "no live session to measure NQ/ES/YM divergence"
+          "es": "3reads no marca divergencia NQ/ES en el cierre del viernes (smtBull 1 pero sin confirmacion de estructura)",
+          "en": "3reads shows no NQ/ES divergence at Friday's close (smtBull 1 but without structural confirmation)"
         }
       },
       "frameConflict": {
         "on": false,
         "note": {
-          "es": "diario y sesion alineados, pero sin sesion en curso para operarlo",
-          "en": "daily and session aligned, but no live session to trade it"
+          "es": "fondo diario -1/semanal +1 son debiles, no opuestos con autoridad; sesion tambien bajista -- no hay choque limpio",
+          "en": "daily -1/weekly +1 background is weak, not an authoritative opposite; session is also bearish -- no clean clash"
         }
       },
       "whipsawRisk": {
-        "score": 0.2,
+        "score": 0.4,
         "note": {
-          "es": "mercado cerrado: el riesgo real es el hueco de la reapertura del domingo, no el chop intradia",
-          "en": "market closed: the real risk is the Sunday reopen gap, not intraday chop"
+          "es": "mismo contexto que NQ: dia resuelto con tendencia, pero cierre de 49h y estiramiento 1.6A anaden incertidumbre a la reapertura",
+          "en": "same context as NQ: a resolved trend day, but the 49h closure and 1.6A stretch add uncertainty to the reopen"
         }
       },
       "thesisAlign": {
         "state": "ALIGN",
         "daysHeld": 1,
         "note": {
-          "es": "la tesis confirmada hoy se extendio con autoridad; nada que operar hasta que reabra el domingo",
-          "en": "today's confirmed thesis extended with authority; nothing to trade until the Sunday reopen"
+          "es": "dia 1 del corto, confirmado en el cierre completo tras romperse en Asia de ayer",
+          "en": "day 1 of the short, confirmed at the full close after breaking in yesterday's Asia"
         }
       },
       "counterCase": {
-        "es": "alcista pese al corto: el estiramiento extremo de hoy (dia ya 193% del ATR) invita a una cobertura de cortos fuerte al reabrir; si el domingo abre con hueco hacia cluster roto PDL/invalidacion de 3 dias (7664-7690) y lo sostiene, el corto de fondo queda en duda real. Lo mantengo: el movimiento de hoy fue de tendencia confirmada en los 3 marcos (diario, sesion, estructura), no un giro de estructura.",
-        "en": "bullish despite the short: today's extreme stretch (day already at 193% of ATR) invites a strong short-covering bounce on the reopen; if Sunday opens with a gap toward cluster roto PDL/invalidacion de 3 dias (7664-7690) and holds it, the underlying short is in real doubt. I'm keeping it: today's move was a confirmed trend in all 3 frames (daily, session, structure), not a structure reversal."
+        "es": "alcista pese al corto: R-ES-estiramiento-discrepante -- command marca 1.6A pero drbias apenas -0.15A (casi plano), lo que sugiere que el estiramiento real es menor del que parece y el rebote hacia 7664-7690 podria sostenerse como soporte, no solo actuar de resistencia. Lo mantengo pero degrado -- vigilo el cluster con mas respeto del habitual.",
+        "en": "bullish despite the short: R-ES-estiramiento-discrepante -- command shows 1.6A but drbias barely -0.15A (nearly flat), suggesting the real stretch is smaller than it looks and the bounce into 7664-7690 could hold as support, not just act as resistance. I keep it but degrade -- watching the cluster with more respect than usual."
       },
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "mercado cerrado hasta la reapertura del domingo 17:00 CT, sin sesion que operar; la estructura sigue a favor pero no es base de ningun gatillo hoy",
-          "en": "market closed until the Sunday 17:00 CT reopen, no session to trade; structure still favors the move but it's not the basis for any trigger today"
+          "es": "mismo freno que NQ: sin dato de 24h ninguna zona puede ser A+ (tope B), y el discrepante estiramiento command/drbias (R-ES-estiramiento-discrepante) pide mas respeto en el cluster roto 7664-7690 antes de asumir que es resistencia limpia",
+          "en": "same brake as NQ: with no 24h data no zone can be A+ (capped at B), and the command/drbias stretch discrepancy (R-ES-estiramiento-discrepante) calls for more respect at the broken 7664-7690 cluster before assuming it's clean resistance"
         }
       },
       "context": {
-        "es": "cerro en 7613.0 tras un dia de tendencia bajista (96.25pts, 193% del ATR). Sin sesion en curso: el proximo precio real llega con la reapertura de Globex el domingo 17:00 CT.",
-        "en": "closed at 7613.0 after a day of downtrend (96.25pts, 193% of ATR). No live session: the next real price comes with the Sunday 17:00 CT Globex reopen."
+        "es": "ES cerro el viernes en 7614.50, dia 1 de un corto confirmado con ruptura de la invalidacion dura de 3 dias (7690) y un nuevo minimo (7558.25, 193% del ATR) antes de un rebote tecnico. El motor fusionado dice BUSCANDO SHORT (biasScore -6) pero sin permiso de sesion (mercado cerrado). El precio esta relativamente cerca del POC (6 ticks), el nivel mas 'en juego' de los 5 instrumentos aunque el mercado siga cerrado.",
+        "en": "ES closed Friday at 7614.50, day 1 of a confirmed short with a break of the hard 3-day invalidation (7690) and a new low (7558.25, 193% of ATR) before a technical bounce. The fused engine says LOOKING FOR SHORT (biasScore -6) but without session permission (market closed). Price sits relatively close to the POC (6 ticks), the most 'in play' level of the 5 instruments even with the market still closed."
       },
       "scenarioA": {
         "text": {
-          "es": "si el domingo reabre con hueco a la baja o plano, continuacion del corto hacia 7520-7558",
-          "en": "if Sunday reopens with a gap down or flat, short continuation toward 7520-7558"
+          "es": "rechazo en el cluster roto 7664-7690 con cierre 5m de vuelta abajo, continuacion del corto hacia 7600 y 7558.25",
+          "en": "rejection at the broken 7664-7690 cluster with a 5m close back below, short continuation toward 7600 and 7558.25"
         },
         "trigger": {
-          "es": "cierre 5m sostenido bajo 7598 en la reapertura",
-          "en": "5m close sustained below 7598 at the reopen"
+          "es": "cierre 5m bajo 7664 tras un toque del cluster 7664-7690",
+          "en": "5m close below 7664 after a touch of the 7664-7690 cluster"
         },
-        "target": 7558,
-        "target2": 7520,
+        "target": 7600.0,
+        "target2": 7558.25,
         "entryZone": [
-          7598,
-          7613
-        ]
-      },
-      "scenarioB": {
-        "text": {
-          "es": "si el domingo reabre con hueco contrario y lo sostiene, rebote hacia cluster roto PDL/invalidacion de 3 dias 7664-7690 antes de decidir si el corto continua",
-          "en": "if Sunday reopens with a gap against the move and holds it, a bounce toward cluster roto PDL/invalidacion de 3 dias 7664-7690 before deciding whether the short continues"
-        },
-        "trigger": {
-          "es": "cierre 5m sostenido sobre 7650 en la reapertura",
-          "en": "5m close sustained above 7650 at the reopen"
-        },
-        "zone": [
           7664,
           7690
         ]
       },
+      "scenarioB": {
+        "text": {
+          "es": "el rebote se extiende y 7690 se reclama con autoridad (no solo mecha), abriendo paso hacia el PDL roto 7709.50",
+          "en": "the bounce extends and 7690 gets reclaimed with authority (not just a wick), opening the way toward the broken PDL 7709.50"
+        },
+        "trigger": {
+          "es": "cierre 5m sostenido sobre 7690",
+          "en": "5m close sustained above 7690"
+        },
+        "zone": [
+          7690,
+          7709.5
+        ]
+      },
       "invalidation": {
         "text": {
-          "es": "cierre 5m sostenido sobre 7690 con reclamo con autoridad",
-          "en": "5m close sustained above 7690 with an authoritative reclaim"
+          "es": "cierre 5m sostenido sobre 7690 con reclamo con autoridad revive la duda alcista de 3 dias",
+          "en": "5m close sustained above 7690 with an authoritative reclaim revives the 3-day bullish doubt"
         },
         "level": 7690
       },
@@ -571,40 +581,37 @@
         {
           "id": "ES-1",
           "kind": "range",
-          "resolveAt": "primeras 2h tras la reapertura del domingo",
+          "resolveAt": "cierre Asia ~01:00 CT",
           "text": {
-            "es": "el hueco de apertura del domingo sera menor a 25pts en valor absoluto (sin catalizador de fin de semana calendarizado)",
-            "en": "Sunday's opening gap will be smaller than 25pts in absolute value (no calendarized weekend catalyst)"
+            "es": "rango de Asia entre 91 y 153 pts",
+            "en": "Asia range between 91 and 153 pts"
           }
         },
         {
           "id": "ES-2",
           "kind": "level_first",
-          "resolveAt": "primeras 2h tras reabrir",
-          "prob": 0.55,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "toca primero cluster roto PDL/invalidacion de 3 dias 7664-7690 (reaccion tecnica) que una extension nueva hacia 7520",
-            "en": "touches cluster roto PDL/invalidacion de 3 dias 7664-7690 first (technical reaction) rather than a fresh extension toward 7520"
+            "es": "toca antes el cluster 7664-7690 que un nuevo minimo bajo 7558.25",
+            "en": "touches the 7664-7690 cluster before a new low below 7558.25"
           }
         },
         {
           "id": "ES-3",
           "kind": "conditional",
-          "resolveAt": "primera hora tras reabrir",
-          "prob": 0.6,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "si el domingo abre con hueco a la baja o plano, probabilidad alta de que el cierre de la primera hora quede bajo 7613.0 (el cierre de hoy)",
-            "en": "if Sunday opens with a gap down or flat, high probability the first hour closes below 7613.0 (today's close)"
+            "es": "si rechaza 7664-7690 con cierre 5m de vuelta abajo, el cierre de Asia queda bajo 7640",
+            "en": "if it rejects 7664-7690 with a 5m close back below, Asia's close stays under 7640"
           }
         },
         {
           "id": "ES-4",
           "kind": "conditional",
-          "resolveAt": "reapertura domingo",
-          "prob": 0.25,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "probabilidad baja de un hueco de apertura mayor al 1.5% (reclamo total que revive la duda alcista de inmediato)",
-            "en": "low probability of an opening gap larger than 1.5% (a full reclaim that revives the bullish doubt immediately"
+            "es": "si recupera 7690 con cierre 5m sostenido arriba, extiende hacia 7709.50 antes del cierre de Asia",
+            "en": "if it reclaims 7690 with a sustained 5m close above, it extends toward 7709.50 before Asia's close"
           }
         }
       ],
@@ -616,282 +623,278 @@
           ],
           "dir": "SHORT",
           "type": "retest_break",
-          "vs24h": "with",
-          "confluence": 4,
-          "distPts": null,
-          "distTicks": null,
+          "vs24h": "flat",
+          "confluence": 5,
+          "distPts": 49.5,
+          "distTicks": 198,
           "winRate": 0.45,
-          "winSource": "type",
-          "winN": 20,
-          "tcl": null,
-          "role": "watch",
-          "reach": {
-            "distPts": null,
-            "budgetPts": null,
-            "ratio": null,
-            "class": "WATCH"
-          },
-          "fvg": [
-            {
-              "tf": "1h",
-              "dir": "bear",
-              "range": [
-                7616.25,
-                7626.75
-              ],
-              "weight": 2,
-              "role": {
-                "es": "confluencia",
-                "en": "confluence"
-              }
-            }
-          ],
+          "winSource": "leaf",
+          "winN": 10.0,
+          "n": 8,
+          "tcl": "favor",
+          "fvg": [],
           "risk": {
-            "stopPts": 10,
-            "stopTk": 40,
-            "stopUsd": 500,
-            "tgtPts": 58,
-            "tgtTk": 232,
-            "tgtUsd": 2900,
-            "rr": 5.8,
-            "flag": "OK",
-            "maxContracts": null
+            "stopPts": 14.0,
+            "stopTk": 56,
+            "stopUsd": 700,
+            "tgtPts": 80.0,
+            "tgtTk": 320,
+            "tgtUsd": 4000,
+            "rr": 5.7,
+            "flag": "RR_SOSPECHOSO",
+            "maxContracts": 0
           },
           "play": {
-            "window": "reapertura del domingo 17:00 CT en adelante",
+            "window": "17:00-23:00 CT",
             "trigger": {
-              "es": "reaccion clara (rechazo o ruptura) en 7664-7690 con la primera vela 5m real de la reapertura, no antes",
-              "en": "a clear reaction (rejection or break) at 7664-7690 on the reopen's first real 5m candle, not before"
+              "es": "rechazo visible (mecha + cierre 5m de vuelta) en el cluster 7664-7690, no market al toque",
+              "en": "visible rejection (wick + 5m close back) at the 7664-7690 cluster, never market on touch"
             },
             "structStop": {
-              "es": "fuera del otro lado de cluster roto PDL/invalidacion de 3 dias + colchon",
-              "en": "beyond the far side of cluster roto PDL/invalidacion de 3 dias + cushion"
+              "es": "sobre 7690 (alto del cluster) +4tk",
+              "en": "above 7690 (cluster high) +4tk"
             },
             "scale": {
-              "es": "TP1 1/2 parcial en 7558 y BE solo despues del parcial; TP2 resto a 7520",
-              "en": "TP1 1/2 partial at 7558 and BE only after the partial; TP2 rest to 7520"
+              "es": "1/2 en 7600 (primer reaccion) y mueve a BE; resto a 7558.25 (low del dia)",
+              "en": "1/2 at 7600 (first reaction) and move to BE; rest to 7558.25 (day low)"
             },
             "ifWrong": {
-              "es": "rapido: cierre 5m contrario con autoridad en la reapertura -> fuera; lento: solo mechas -> espera la vela siguiente",
-              "en": "fast: an authoritative opposite 5m close at the reopen -> out; slow: wicks only -> wait for the next candle"
+              "es": "rapido: cierre 5m sobre 7690 -> fuera; lento: solo mechas sin cierre -> aguanta hasta 7700",
+              "en": "fast: 5m close above 7690 -> out; slow: wicks only, no close -> hold to 7700"
             }
           }
         }
       ],
       "noTradeZone": [
-        7609.19,
-        7616.81
+        7614.5,
+        7664.0
       ],
       "expectedMove": {
-        "low": null,
-        "base": null,
-        "high": null,
-        "lowTk": null,
-        "baseTk": null,
-        "highTk": null,
-        "dayBudget": null,
-        "dayUsed": null,
-        "dayUsedPct": null,
-        "dayRemaining": null,
-        "flag": "SIN_SESION",
-        "mult": 1.0,
+        "low": 22.8,
+        "base": 29.8,
+        "high": 38.4,
+        "lowTk": 91,
+        "baseTk": 119,
+        "highTk": 153,
+        "dayBudget": 79.2,
+        "dayUsed": 0,
+        "dayUsedPct": 0,
+        "dayRemaining": 79.2,
+        "flag": "EXPANSIÓN",
+        "mult": 1.71,
         "underCal": null
       },
       "keyLevels": [
         {
           "name": {
-            "es": "PDL / 3-day invalidation",
-            "en": "PDL / 3-day invalidation"
-          },
-          "price": 7690.0,
-          "distPts": 77.0,
-          "distTicks": 308
-        },
-        {
-          "name": {
-            "es": "VWAP",
-            "en": "VWAP"
-          },
-          "price": 7626.5,
-          "distPts": 13.5,
-          "distTicks": 54
-        },
-        {
-          "name": {
-            "es": "low del dia / day low",
-            "en": "low del dia / day low"
+            "es": "Low del dia (viernes)",
+            "en": "Day low (Friday)"
           },
           "price": 7558.25,
-          "distPts": 54.75,
-          "distTicks": 219
+          "distPts": 56.25,
+          "distTicks": 225
+        },
+        {
+          "name": {
+            "es": "ONL",
+            "en": "ONL"
+          },
+          "price": 7664.0,
+          "distPts": 49.5,
+          "distTicks": 198
+        },
+        {
+          "name": {
+            "es": "Invalidacion de 3 dias",
+            "en": "3-day invalidation"
+          },
+          "price": 7690.0,
+          "distPts": 75.5,
+          "distTicks": 302
+        },
+        {
+          "name": {
+            "es": "PDL",
+            "en": "PDL"
+          },
+          "price": 7709.5,
+          "distPts": 95.0,
+          "distTicks": 380
+        },
+        {
+          "name": {
+            "es": "POC",
+            "en": "POC"
+          },
+          "price": 7616.0,
+          "distPts": 1.5,
+          "distTicks": 6
         }
       ],
-      "news": [],
-      "reachability": {
-        "hasTactical": false,
-        "bestTactical": null,
-        "bestWatch": "7664-7690"
-      }
+      "news": []
     },
     "GC": {
       "biasDay": "SHORT",
       "biasSession": "SHORT",
       "conviction": "baja",
-      "move24h": {
-        "dir": "SHORT",
-        "pct": -3.72
-      },
+      "move24h": null,
       "prevDay": {
         "type": {
-          "es": "tendencia bajista extrema, dia ya cerrado (futuros no reabren hasta el domingo 17:00 CT)",
-          "en": "extreme downtrend, day already closed (futures don't reopen until Sunday 17:00 CT)"
+          "es": "tendencia bajista confirmada, la extension mas violenta de los 5 simbolos",
+          "en": "confirmed downtrend, the most violent extension of the 5 symbols"
         },
         "closedAt": {
-          "es": "cerca de su minimo (3879.3)",
-          "en": "near its low (3879.3)"
+          "es": "tercio bajo del rango, cerca del minimo",
+          "en": "lower third of the range, near the low"
         },
         "prior": {
           "es": "CONTINUACION corto",
           "en": "short CONTINUATION"
         },
         "note": {
-          "es": "salvo que el hueco de la reapertura del domingo lo contradiga",
-          "en": "unless the Sunday reopen gap contradicts it"
+          "es": "nuevo minimo 3879.3 (211% del ATR) antes de cerrar 147.3pts bajo la apertura; COT crowded-long (p97) se esta liquidando y puede seguir alimentando la caida o, si encuentra piso, acelerar un rebote de cobertura",
+          "en": "new low at 3879.3 (211% of ATR) before closing 147.3pts below the open; COT crowded-long (p97) is unwinding and can either keep feeding the drop or, if it finds a floor, accelerate a covering bounce"
         }
       },
       "gap": {
-        "pts": null,
-        "ticks": null,
-        "filled": null,
+        "pts": 8.0,
+        "ticks": 80,
+        "filled": false,
         "size": {
-          "es": "sin medir",
-          "en": "unmeasured"
+          "es": "normal (estimado)",
+          "en": "normal (estimated)"
         },
         "note": {
-          "es": "sin gap medible: el futuro no ha reabierto desde el cierre de las 16:00 CT de hoy",
-          "en": "no measurable gap: the future hasn't reopened since today's 16:00 CT close"
+          "es": "Globex aun no reabre; weekendGap de IG es el UNICO de los 4 con lectura al alza (+0.21%), usalo como estimado anticipado",
+          "en": "Globex hasn't reopened yet; IG's weekendGap is the ONLY one of the 4 with an upside read (+0.21%), use it as the anticipated estimate"
         }
       },
-      "weekendGap": null,
+      "weekendGap": {
+        "pct": 0.21,
+        "pts": 8.0,
+        "dir": "arriba",
+        "source": "IG Weekend Gold",
+        "note": {
+          "es": "IG finde apunta a una reapertura ~0.21% sobre el cierre del viernes -- el unico de los 4 con lectura al alza, consistente con un rebote de cobertura del libro largo crowded (COT p97) que se esta liquidando, peso bajo",
+          "en": "IG weekend points to a reopen ~0.21% above Friday's close -- the only one of the 4 with an upside read, consistent with a covering bounce from the crowded long book (COT p97) unwinding, low weight"
+        }
+      },
       "smt": {
         "state": "ninguna",
         "note": {
-          "es": "sin sesion en curso para medir divergencia",
-          "en": "no live session to measure divergence"
+          "es": "GC no participa en SMT (mercado distinto a NQ/ES)",
+          "en": "GC doesn't participate in SMT (different market from NQ/ES)"
         }
       },
       "frameConflict": {
         "on": false,
         "note": {
-          "es": "diario y sesion alineados, pero sin sesion en curso para operarlo",
-          "en": "daily and session aligned, but no live session to trade it"
+          "es": "los 4 marcos (chart/HTF/diario/semanal) estan alineados a la baja (aligned=1) -- el mas limpio de los 5 en estructura",
+          "en": "all 4 frames (chart/HTF/daily/weekly) are aligned to the downside (aligned=1) -- the cleanest of the 5 in structure"
         }
       },
       "whipsawRisk": {
-        "score": 0.2,
+        "score": 0.45,
         "note": {
-          "es": "mercado cerrado: el riesgo real es el hueco de la reapertura del domingo, no el chop intradia",
-          "en": "market closed: the real risk is the Sunday reopen gap, not intraday chop"
+          "es": "estructura limpia y alineada, pero el estiramiento extremo (16A instantaneo sobre ATR de 5m) mas el libro largo crowded liquidandose dejan abierta la puerta a un rebote de cobertura violento al reabrir",
+          "en": "clean, aligned structure, but the extreme stretch (16A instantaneous on 5m ATR) plus the crowded long book unwinding leave the door open to a violent covering bounce at the reopen"
         }
       },
       "thesisAlign": {
         "state": "ALIGN",
         "daysHeld": 2,
         "note": {
-          "es": "la tesis confirmada hoy se extendio con autoridad; nada que operar hasta que reabra el domingo",
-          "en": "today's confirmed thesis extended with authority; nothing to trade until the Sunday reopen"
+          "es": "dia 2 del corto, confirmando con la extension mas violenta de los 5 simbolos; la tesis sigue intacta",
+          "en": "day 2 of the short, confirming with the most violent extension of the 5 symbols; the thesis stays intact"
         }
       },
       "counterCase": {
-        "es": "alcista pese al corto: el estiramiento extremo de hoy (dia ya 211% del ATR) invita a una cobertura de cortos fuerte al reabrir; si el domingo abre con hueco hacia cluster roto IBH/POC (3956-4002) y lo sostiene, el corto de fondo queda en duda real. Lo mantengo: el movimiento de hoy fue de tendencia confirmada en los 3 marcos (diario, sesion, estructura), no un giro de estructura.",
-        "en": "bullish despite the short: today's extreme stretch (day already at 211% of ATR) invites a strong short-covering bounce on the reopen; if Sunday opens with a gap toward cluster roto IBH/POC (3956-4002) and holds it, the underlying short is in real doubt. I'm keeping it: today's move was a confirmed trend in all 3 frames (daily, session, structure), not a structure reversal."
+        "es": "alcista pese al corto: el weekendGap de IG (unico en positivo, +0.21%) y el riesgo de cobertura forzada del libro largo crowded (COT p97) podrian producir el rebote mas violento de los 5 simbolos si el precio encuentra un piso al reabrir; R-GC-golden-eventual-tag recuerda no descartar zonas que parecen fuera de alcance. Lo mantengo pero degrado -- respeto extra al cluster 3956-4002, no asumo que aguanta como resistencia a la primera.",
+        "en": "bullish despite the short: IG's weekendGap (the only one positive, +0.21%) and the risk of forced covering from the crowded long book (COT p97) could produce the most violent bounce of the 5 symbols if price finds a floor at the reopen; R-GC-golden-eventual-tag is a reminder not to write off zones that look out of reach. I keep it but degrade -- extra respect for the 3956-4002 cluster, not assuming it holds as resistance on the first try."
       },
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "mercado cerrado hasta la reapertura del domingo 17:00 CT, sin sesion que operar; la estructura sigue a favor pero no es base de ningun gatillo hoy",
-          "en": "market closed until the Sunday 17:00 CT reopen, no session to trade; structure still favors the move but it's not the basis for any trigger today"
+          "es": "estructura la mas limpia de los 5 (4 marcos alineados) pero sin dato de 24h ninguna zona es A+ (tope B), y el estiramiento de 16A instantaneo mas el riesgo de cobertura forzada de un libro crowded hacen que perseguir el corto aqui sea la fuga de siempre -- se espera el toque y el rechazo del cluster 3956-4002",
+          "en": "the cleanest structure of the 5 (4 aligned frames) but with no 24h data no zone is A+ (capped at B), and the instantaneous 16A stretch plus the risk of forced covering from a crowded book make chasing the short here the usual leak -- waiting for the touch and rejection of the 3956-4002 cluster"
         }
       },
       "context": {
-        "es": "cerro en 3886.3 tras un dia de tendencia bajista (147.3pts, 211% del ATR). Sin sesion en curso: el proximo precio real llega con la reapertura de Globex el domingo 17:00 CT.",
-        "en": "closed at 3886.3 after a day of downtrend (147.3pts, 211% of ATR). No live session: the next real price comes with the Sunday 17:00 CT Globex reopen."
+        "es": "GC cerro el viernes en 3884.90, dia 2 de un corto que confirmo con la extension mas violenta de los 5 simbolos (159pts, 211% del ATR, minimo en 3879.3). Es el unico con los 4 marcos de tendencia alineados a la baja y el motor fusionado FUERTE, pero tambien el mas estirado (16A instantaneo). COT marca el libro largo mas crowded de los 5 (p97), combustible para cualquier giro.",
+        "en": "GC closed Friday at 3884.90, day 2 of a short that confirmed with the most violent extension of the 5 symbols (159pts, 211% of ATR, low at 3879.3). It's the only one with all 4 trend frames aligned to the downside and a STRONG fused engine, but also the most stretched (16A instantaneous). COT marks the most crowded long book of the 5 (p97), fuel for any turn."
       },
       "scenarioA": {
         "text": {
-          "es": "si el domingo reabre con hueco a la baja o plano, continuacion del corto hacia 3800-3879",
-          "en": "if Sunday reopens with a gap down or flat, short continuation toward 3800-3879"
+          "es": "rechazo en el cluster roto 3956-4002 (IBH/POC) con cierre 5m de vuelta abajo, continuacion del corto hacia 3920 y 3879.3",
+          "en": "rejection at the broken 3956-4002 cluster (IBH/POC) with a 5m close back below, short continuation toward 3920 and 3879.3"
         },
         "trigger": {
-          "es": "cierre 5m sostenido bajo 3920 en la reapertura",
-          "en": "5m close sustained below 3920 at the reopen"
+          "es": "cierre 5m bajo 3956 tras un toque del cluster 3956-4002",
+          "en": "5m close below 3956 after a touch of the 3956-4002 cluster"
         },
-        "target": 3879,
-        "target2": 3800,
+        "target": 3920.0,
+        "target2": 3879.3,
         "entryZone": [
-          3920,
-          3940
-        ]
-      },
-      "scenarioB": {
-        "text": {
-          "es": "si el domingo reabre con hueco contrario y lo sostiene, rebote hacia cluster roto IBH/POC 3956-4002 antes de decidir si el corto continua",
-          "en": "if Sunday reopens with a gap against the move and holds it, a bounce toward cluster roto IBH/POC 3956-4002 before deciding whether the short continues"
-        },
-        "trigger": {
-          "es": "cierre 5m sostenido sobre 3956 en la reapertura",
-          "en": "5m close sustained above 3956 at the reopen"
-        },
-        "zone": [
           3956,
           4002
         ]
       },
+      "scenarioB": {
+        "text": {
+          "es": "cobertura forzada del libro crowded extiende el rebote y 3956 se reclama con autoridad, abriendo paso hacia el POC/VAH roto 3994-4027",
+          "en": "forced covering from the crowded book extends the bounce and 3956 gets reclaimed with authority, opening the way toward the broken POC/VAH 3994-4027"
+        },
+        "trigger": {
+          "es": "cierre 5m sostenido sobre 3956",
+          "en": "5m close sustained above 3956"
+        },
+        "zone": [
+          3994,
+          4027
+        ]
+      },
       "invalidation": {
         "text": {
-          "es": "cierre 5m sostenido sobre 4002 con reclamo con autoridad",
-          "en": "5m close sustained above 4002 with an authoritative reclaim"
+          "es": "cierre 5m sostenido sobre 3956 con reclamo con autoridad revive la duda; sobre 4002 la revive del todo",
+          "en": "5m close sustained above 3956 with an authoritative reclaim revives the doubt; above 4002 it fully revives it"
         },
-        "level": 4002
+        "level": 3956
       },
       "predictions": [
         {
           "id": "GC-1",
           "kind": "range",
-          "resolveAt": "primeras 2h tras la reapertura del domingo",
+          "resolveAt": "cierre Asia ~01:00 CT",
           "text": {
-            "es": "el hueco de apertura del domingo sera menor a 25pts en valor absoluto (sin catalizador de fin de semana calendarizado)",
-            "en": "Sunday's opening gap will be smaller than 25pts in absolute value (no calendarized weekend catalyst)"
+            "es": "rango de Asia entre 291 y 431 tk (29.1-43.1 pts)",
+            "en": "Asia range between 291 and 431 ticks (29.1-43.1 pts)"
           }
         },
         {
           "id": "GC-2",
           "kind": "level_first",
-          "resolveAt": "primeras 2h tras reabrir",
-          "prob": 0.55,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "toca primero cluster roto IBH/POC 3956-4002 (reaccion tecnica) que una extension nueva hacia 3800",
-            "en": "touches cluster roto IBH/POC 3956-4002 first (technical reaction) rather than a fresh extension toward 3800"
+            "es": "toca antes el cluster 3956-4002 que un nuevo minimo bajo 3879.3",
+            "en": "touches the 3956-4002 cluster before a new low below 3879.3"
           }
         },
         {
           "id": "GC-3",
           "kind": "conditional",
-          "resolveAt": "primera hora tras reabrir",
-          "prob": 0.6,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "si el domingo abre con hueco a la baja o plano, probabilidad alta de que el cierre de la primera hora quede bajo 3886.3 (el cierre de hoy)",
-            "en": "if Sunday opens with a gap down or flat, high probability the first hour closes below 3886.3 (today's close)"
+            "es": "si rechaza 3956-4002 con cierre 5m de vuelta abajo, el cierre de Asia queda bajo 3940",
+            "en": "if it rejects 3956-4002 with a 5m close back below, Asia's close stays under 3940"
           }
         },
         {
           "id": "GC-4",
           "kind": "conditional",
-          "resolveAt": "reapertura domingo",
-          "prob": 0.25,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "probabilidad baja de un hueco de apertura mayor al 2.0% (reclamo total que revive la duda alcista de inmediato)",
-            "en": "low probability of an opening gap larger than 2.0% (a full reclaim that revives the bullish doubt immediately"
+            "es": "si recupera 3956 con cierre 5m sostenido arriba, extiende hacia 4002 antes del cierre de Asia (riesgo de cobertura forzada)",
+            "en": "if it reclaims 3956 with a sustained 5m close above, it extends toward 4002 before Asia's close (forced-covering risk)"
           }
         }
       ],
@@ -903,28 +906,22 @@
           ],
           "dir": "SHORT",
           "type": "retest_break",
-          "vs24h": "with",
-          "confluence": 4,
-          "distPts": null,
-          "distTicks": null,
-          "winRate": 0.45,
-          "winSource": "type",
-          "winN": 20,
-          "tcl": null,
-          "role": "watch",
-          "reach": {
-            "distPts": null,
-            "budgetPts": null,
-            "ratio": null,
-            "class": "WATCH"
-          },
+          "vs24h": "flat",
+          "confluence": 7,
+          "distPts": 71.1,
+          "distTicks": 711,
+          "winRate": 0.5176,
+          "winSource": "symType",
+          "winN": 13.0,
+          "n": 5,
+          "tcl": "favor",
           "fvg": [
             {
-              "tf": "4h",
+              "tf": "1h",
               "dir": "bear",
               "range": [
-                4048.3,
-                4121.1
+                3964.8,
+                3973.7
               ],
               "weight": 2,
               "role": {
@@ -934,251 +931,258 @@
             }
           ],
           "risk": {
-            "stopPts": 25,
-            "stopTk": 250,
-            "stopUsd": 2500,
-            "tgtPts": 120,
-            "tgtTk": 1200,
-            "tgtUsd": 12000,
-            "rr": 4.8,
+            "stopPts": 23.5,
+            "stopTk": 235,
+            "stopUsd": 2350,
+            "tgtPts": 59.0,
+            "tgtTk": 590,
+            "tgtUsd": 5900,
+            "rr": 2.5,
             "flag": "OK",
-            "maxContracts": null
+            "maxContracts": 0
           },
           "play": {
-            "window": "reapertura del domingo 17:00 CT en adelante",
+            "window": "17:00-23:00 CT",
             "trigger": {
-              "es": "reaccion clara (rechazo o ruptura) en 3956-4002 con la primera vela 5m real de la reapertura, no antes",
-              "en": "a clear reaction (rejection or break) at 3956-4002 on the reopen's first real 5m candle, not before"
+              "es": "rechazo visible (mecha + cierre 5m de vuelta) en el cluster 3956-4002, no market al toque",
+              "en": "visible rejection (wick + 5m close back) at the 3956-4002 cluster, never market on touch"
             },
             "structStop": {
-              "es": "fuera del otro lado de cluster roto IBH/POC + colchon",
-              "en": "beyond the far side of cluster roto IBH/POC + cushion"
+              "es": "sobre 4002 (alto del cluster) +5tk",
+              "en": "above 4002 (cluster high) +5tk"
             },
             "scale": {
-              "es": "TP1 1/2 parcial en 3879 y BE solo despues del parcial; TP2 resto a 3800",
-              "en": "TP1 1/2 partial at 3879 and BE only after the partial; TP2 rest to 3800"
+              "es": "1/2 en 3920 (primer reaccion) y mueve a BE; resto a 3879.3 (low del dia)",
+              "en": "1/2 at 3920 (first reaction) and move to BE; rest to 3879.3 (day low)"
             },
             "ifWrong": {
-              "es": "rapido: cierre 5m contrario con autoridad en la reapertura -> fuera; lento: solo mechas -> espera la vela siguiente",
-              "en": "fast: an authoritative opposite 5m close at the reopen -> out; slow: wicks only -> wait for the next candle"
+              "es": "rapido: cierre 5m sobre 4002 -> fuera (ojo: cobertura forzada puede ser muy violenta); lento: solo mechas sin cierre -> aguanta hasta 4015",
+              "en": "fast: 5m close above 4002 -> out (watch: forced covering can be very violent); slow: wicks only, no close -> hold to 4015"
             }
           }
         }
       ],
       "noTradeZone": [
-        3884.36,
-        3888.24
+        3884.9,
+        3956.0
       ],
       "expectedMove": {
-        "low": null,
-        "base": null,
-        "high": null,
-        "lowTk": null,
-        "baseTk": null,
-        "highTk": null,
-        "dayBudget": null,
-        "dayUsed": null,
-        "dayUsedPct": null,
-        "dayRemaining": null,
-        "flag": "SIN_SESION",
-        "mult": 1.0,
+        "low": 29.1,
+        "base": 34.4,
+        "high": 43.1,
+        "lowTk": 291,
+        "baseTk": 344,
+        "highTk": 431,
+        "dayBudget": 74.2,
+        "dayUsed": 0,
+        "dayUsedPct": 0,
+        "dayRemaining": 74.2,
+        "flag": "EXPANSIÓN",
+        "mult": 2.11,
         "underCal": null
       },
       "keyLevels": [
+        {
+          "name": {
+            "es": "Low del dia (viernes)",
+            "en": "Day low (Friday)"
+          },
+          "price": 3879.3,
+          "distPts": 5.6,
+          "distTicks": 56
+        },
         {
           "name": {
             "es": "IBH",
             "en": "IBH"
           },
           "price": 3956.0,
-          "distPts": 69.7,
-          "distTicks": 697
+          "distPts": 71.1,
+          "distTicks": 711
         },
         {
           "name": {
-            "es": "POC (hoy)",
-            "en": "POC (hoy)"
+            "es": "ONH",
+            "en": "ONH"
           },
-          "price": 4038.0,
-          "distPts": 151.7,
-          "distTicks": 1517
+          "price": 4038.2,
+          "distPts": 153.3,
+          "distTicks": 1533
         },
         {
           "name": {
-            "es": "low del dia / day low",
-            "en": "low del dia / day low"
+            "es": "VWAP",
+            "en": "VWAP"
           },
-          "price": 3879.3,
-          "distPts": 7.0,
-          "distTicks": 70
+          "price": 3952.2,
+          "distPts": 67.3,
+          "distTicks": 673
         }
       ],
-      "news": [],
-      "reachability": {
-        "hasTactical": false,
-        "bestTactical": null,
-        "bestWatch": "3956-4002"
-      }
+      "news": []
     },
     "YM": {
       "biasDay": "SHORT",
       "biasSession": "SHORT",
       "conviction": "baja",
-      "move24h": {
-        "dir": "SHORT",
-        "pct": -1.24
-      },
+      "move24h": null,
       "prevDay": {
         "type": {
-          "es": "tendencia bajista extrema, dia ya cerrado (futuros no reabren hasta el domingo 17:00 CT)",
-          "en": "extreme downtrend, day already closed (futures don't reopen until Sunday 17:00 CT)"
+          "es": "tendencia bajista confirmada, dia mas expandido con rebote tecnico hacia el cierre",
+          "en": "confirmed downtrend, the most expanded day with a technical bounce into the close"
         },
         "closedAt": {
-          "es": "cerca de su minimo (51701.0)",
-          "en": "near its low (51701.0)"
+          "es": "tercio bajo del rango, lejos del minimo tras el rebote",
+          "en": "lower third of the range, away from the low after the bounce"
         },
         "prior": {
-          "es": "CONTINUACION corto",
-          "en": "short CONTINUATION"
+          "es": "CONTINUACION corto, con cautela",
+          "en": "short CONTINUATION, with caution"
         },
         "note": {
-          "es": "salvo que el hueco de la reapertura del domingo lo contradiga",
-          "en": "unless the Sunday reopen gap contradicts it"
+          "es": "nuevo minimo 51701 (158% del ATR) antes de cerrar 577pts bajo la apertura; YM suele arrastrarse del precio de NQ/ES (R-YM-arrastre-sin-confirmar) con su propio marco superior sin confirmar (biasW +1 vs biasD -3)",
+          "en": "new low at 51701 (158% of ATR) before closing 577pts below the open; YM tends to get dragged by NQ/ES price action (R-YM-arrastre-sin-confirmar) with its own higher frame unconfirmed (biasW +1 vs biasD -3)"
         }
       },
       "gap": {
-        "pts": null,
-        "ticks": null,
-        "filled": null,
+        "pts": -31.2,
+        "ticks": -31,
+        "filled": false,
         "size": {
-          "es": "sin medir",
-          "en": "unmeasured"
+          "es": "pequeno (estimado)",
+          "en": "small (estimated)"
         },
         "note": {
-          "es": "sin gap medible: el futuro no ha reabierto desde el cierre de las 16:00 CT de hoy",
-          "en": "no measurable gap: the future hasn't reopened since today's 16:00 CT close"
+          "es": "Globex aun no reabre; usa weekendGap como estimado anticipado, movimiento minimo",
+          "en": "Globex hasn't reopened yet; uses weekendGap as the anticipated estimate, minimal move"
         }
       },
-      "weekendGap": null,
+      "weekendGap": {
+        "pct": -0.06,
+        "pts": -31.2,
+        "dir": "abajo",
+        "source": "IG Weekend Wall Street",
+        "note": {
+          "es": "IG finde apunta a una reapertura ~0.06% bajo el cierre del viernes, movimiento minimo, peso bajo",
+          "en": "IG weekend points to a reopen ~0.06% below Friday's close, minimal move, low weight"
+        }
+      },
       "smt": {
         "state": "ninguna",
         "note": {
-          "es": "sin sesion en curso para medir divergencia NQ/ES/YM",
-          "en": "no live session to measure NQ/ES/YM divergence"
+          "es": "3reads no marca divergencia en YM al cierre del viernes (smtBull/smtBear en 0)",
+          "en": "3reads shows no divergence in YM at Friday's close (smtBull/smtBear both 0)"
         }
       },
       "frameConflict": {
         "on": false,
         "note": {
-          "es": "diario y sesion alineados, pero sin sesion en curso para operarlo",
-          "en": "daily and session aligned, but no live session to trade it"
+          "es": "biasD -3 vs biasW +1 es un desacople debil, no una oposicion confirmada en estructura -- YM sigue el precio del complejo NQ/ES sin voz propia (R-YM-arrastre-sin-confirmar)",
+          "en": "biasD -3 vs biasW +1 is a weak decoupling, not a confirmed structural opposition -- YM follows the NQ/ES complex's price without its own voice (R-YM-arrastre-sin-confirmar)"
         }
       },
       "whipsawRisk": {
-        "score": 0.2,
+        "score": 0.45,
         "note": {
-          "es": "mercado cerrado: el riesgo real es el hueco de la reapertura del domingo, no el chop intradia",
-          "en": "market closed: the real risk is the Sunday reopen gap, not intraday chop"
+          "es": "dia resuelto con tendencia (6.5A de estiramiento) pero la conviccion propia de YM es siempre baja por su marco superior sin confirmar; el cierre de 49h anade incertidumbre adicional",
+          "en": "a resolved trend day (6.5A stretch) but YM's own conviction is always low given its unconfirmed higher frame; the 49h closure adds extra uncertainty"
         }
       },
       "thesisAlign": {
         "state": "ALIGN",
         "daysHeld": 2,
         "note": {
-          "es": "la tesis confirmada hoy se extendio con autoridad; nada que operar hasta que reabra el domingo",
-          "en": "today's confirmed thesis extended with authority; nothing to trade until the Sunday reopen"
+          "es": "dia 2 del corto, confirmando; la conviccion de YM sigue atada a lo que haga el complejo NQ/ES",
+          "en": "day 2 of the short, confirming; YM's conviction stays tied to what the NQ/ES complex does"
         }
       },
       "counterCase": {
-        "es": "alcista pese al corto: el estiramiento extremo de hoy (dia ya 158% del ATR) invita a una cobertura de cortos fuerte al reabrir; si el domingo abre con hueco hacia cluster roto IBH/VWAP (52421-52499) y lo sostiene, el corto de fondo queda en duda real. Lo mantengo: el movimiento de hoy fue de tendencia confirmada en los 3 marcos (diario, sesion, estructura), no un giro de estructura.",
-        "en": "bullish despite the short: today's extreme stretch (day already at 158% of ATR) invites a strong short-covering bounce on the reopen; if Sunday opens with a gap toward cluster roto IBH/VWAP (52421-52499) and holds it, the underlying short is in real doubt. I'm keeping it: today's move was a confirmed trend in all 3 frames (daily, session, structure), not a structure reversal."
+        "es": "alcista pese al corto: YM sigue al complejo NQ/ES en precio (R-YM-arrastre-sin-confirmar) y su propio marco superior esta muerto/sin confirmar (biasW +1 vs biasD -3) -- si NQ/ES rebotan con autoridad en sus clusters, YM seguira sin tener voz propia para resistirse. Lo mantengo pero degrado -- YM no es la via independiente esta noche, deriva del complejo.",
+        "en": "bullish despite the short: YM follows the NQ/ES complex in price (R-YM-arrastre-sin-confirmar) and its own higher frame is dead/unconfirmed (biasW +1 vs biasD -3) -- if NQ/ES bounce with authority at their clusters, YM will have no voice of its own to resist. I keep it but degrade -- YM isn't the independent path tonight, it derives from the complex."
       },
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "mercado cerrado hasta la reapertura del domingo 17:00 CT, sin sesion que operar; la estructura sigue a favor pero no es base de ningun gatillo hoy",
-          "en": "market closed until the Sunday 17:00 CT reopen, no session to trade; structure still favors the move but it's not the basis for any trigger today"
+          "es": "mismo freno que el complejo: sin dato de 24h ninguna zona es A+ (tope B); ademas YM nunca tiene voz propia (R-YM-arrastre-sin-confirmar) asi que su plan real es el de NQ/ES -- esperar el cluster 52421-52499",
+          "en": "same brake as the complex: with no 24h data no zone is A+ (capped at B); plus YM never has its own voice (R-YM-arrastre-sin-confirmar) so its real plan is NQ/ES's -- waiting on the 52421-52499 cluster"
         }
       },
       "context": {
-        "es": "cerro en 51922.0 tras un dia de tendencia bajista (577pts, 158% del ATR). Sin sesion en curso: el proximo precio real llega con la reapertura de Globex el domingo 17:00 CT.",
-        "en": "closed at 51922.0 after a day of downtrend (577pts, 158% of ATR). No live session: the next real price comes with the Sunday 17:00 CT Globex reopen."
+        "es": "YM cerro el viernes en 51928, dia 2 de un corto que confirmo con el dia mas expandido de los 5 simbolos (961pts, 158% del ATR, minimo en 51701) antes de un rebote tecnico. El motor fusionado dice BUSCANDO SHORT (biasScore -6) pegado al VAL (14 ticks) pero sin permiso de sesion (mercado cerrado). Su propio marco superior (biasW +1) no confirma la bajada diaria -- YM sigue derivando del complejo NQ/ES.",
+        "en": "YM closed Friday at 51928, day 2 of a short that confirmed with the most expanded day of the 5 symbols (961pts, 158% of ATR, low at 51701) before a technical bounce. The fused engine says LOOKING FOR SHORT (biasScore -6) pinned to VAL (14 ticks) but without session permission (market closed). Its own higher frame (biasW +1) doesn't confirm the daily downleg -- YM keeps deriving from the NQ/ES complex."
       },
       "scenarioA": {
         "text": {
-          "es": "si el domingo reabre con hueco a la baja o plano, continuacion del corto hacia 51500-51701",
-          "en": "if Sunday reopens with a gap down or flat, short continuation toward 51500-51701"
+          "es": "rechazo en el cluster roto 52421-52499 (IBH/VWAP) con cierre 5m de vuelta abajo, continuacion del corto hacia 52250 y 51701",
+          "en": "rejection at the broken 52421-52499 cluster (IBH/VWAP) with a 5m close back below, short continuation toward 52250 and 51701"
         },
         "trigger": {
-          "es": "cierre 5m sostenido bajo 51800 en la reapertura",
-          "en": "5m close sustained below 51800 at the reopen"
+          "es": "cierre 5m bajo 52421 tras un toque del cluster 52421-52499",
+          "en": "5m close below 52421 after a touch of the 52421-52499 cluster"
         },
-        "target": 51701,
-        "target2": 51500,
+        "target": 52250.0,
+        "target2": 51701.0,
         "entryZone": [
-          51800,
-          51850
-        ]
-      },
-      "scenarioB": {
-        "text": {
-          "es": "si el domingo reabre con hueco contrario y lo sostiene, rebote hacia cluster roto IBH/VWAP 52421-52499 antes de decidir si el corto continua",
-          "en": "if Sunday reopens with a gap against the move and holds it, a bounce toward cluster roto IBH/VWAP 52421-52499 before deciding whether the short continues"
-        },
-        "trigger": {
-          "es": "cierre 5m sostenido sobre 52050 en la reapertura",
-          "en": "5m close sustained above 52050 at the reopen"
-        },
-        "zone": [
           52421,
           52499
         ]
       },
+      "scenarioB": {
+        "text": {
+          "es": "el complejo NQ/ES rebota con autoridad y YM lo sigue, reclamando 52421 y abriendo paso hacia el VAH roto 52583-52657",
+          "en": "the NQ/ES complex bounces with authority and YM follows, reclaiming 52421 and opening the way toward the broken VAH 52583-52657"
+        },
+        "trigger": {
+          "es": "cierre 5m sostenido sobre 52421",
+          "en": "5m close sustained above 52421"
+        },
+        "zone": [
+          52499,
+          52657
+        ]
+      },
       "invalidation": {
         "text": {
-          "es": "cierre 5m sostenido sobre 52499 con reclamo con autoridad",
-          "en": "5m close sustained above 52499 with an authoritative reclaim"
+          "es": "cierre 5m sostenido sobre 52421 con reclamo con autoridad revive la duda alcista",
+          "en": "5m close sustained above 52421 with an authoritative reclaim revives the bullish doubt"
         },
-        "level": 52499
+        "level": 52421
       },
       "predictions": [
         {
           "id": "YM-1",
           "kind": "range",
-          "resolveAt": "primeras 2h tras la reapertura del domingo",
+          "resolveAt": "cierre Asia ~01:00 CT",
           "text": {
-            "es": "el hueco de apertura del domingo sera menor a 150pts en valor absoluto (sin catalizador de fin de semana calendarizado)",
-            "en": "Sunday's opening gap will be smaller than 150pts in absolute value (no calendarized weekend catalyst)"
+            "es": "rango de Asia entre 165 y 236 pts",
+            "en": "Asia range between 165 and 236 pts"
           }
         },
         {
           "id": "YM-2",
           "kind": "level_first",
-          "resolveAt": "primeras 2h tras reabrir",
-          "prob": 0.55,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "toca primero cluster roto IBH/VWAP 52421-52499 (reaccion tecnica) que una extension nueva hacia 51500",
-            "en": "touches cluster roto IBH/VWAP 52421-52499 first (technical reaction) rather than a fresh extension toward 51500"
+            "es": "toca antes el cluster 52421-52499 que un nuevo minimo bajo 51701",
+            "en": "touches the 52421-52499 cluster before a new low below 51701"
           }
         },
         {
           "id": "YM-3",
           "kind": "conditional",
-          "resolveAt": "primera hora tras reabrir",
-          "prob": 0.6,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "si el domingo abre con hueco a la baja o plano, probabilidad alta de que el cierre de la primera hora quede bajo 51922.0 (el cierre de hoy)",
-            "en": "if Sunday opens with a gap down or flat, high probability the first hour closes below 51922.0 (today's close)"
+            "es": "si NQ/ES rechazan sus clusters, YM rechaza 52421-52499 y el cierre de Asia queda bajo 52350",
+            "en": "if NQ/ES reject their clusters, YM rejects 52421-52499 and Asia's close stays under 52350"
           }
         },
         {
           "id": "YM-4",
           "kind": "conditional",
-          "resolveAt": "reapertura domingo",
-          "prob": 0.25,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "probabilidad baja de un hueco de apertura mayor al 1.5% (reclamo total que revive la duda alcista de inmediato)",
-            "en": "low probability of an opening gap larger than 1.5% (a full reclaim that revives the bullish doubt immediately"
+            "es": "si NQ/ES reclaman sus clusters, YM reclama 52421 y extiende hacia 52583 antes del cierre de Asia",
+            "en": "if NQ/ES reclaim their clusters, YM reclaims 52421 and extends toward 52583 before Asia's close"
           }
         }
       ],
@@ -1190,28 +1194,22 @@
           ],
           "dir": "SHORT",
           "type": "retest_break",
-          "vs24h": "with",
-          "confluence": 4,
-          "distPts": null,
-          "distTicks": null,
-          "winRate": 0.45,
-          "winSource": "type",
-          "winN": 20,
-          "tcl": null,
-          "role": "watch",
-          "reach": {
-            "distPts": null,
-            "budgetPts": null,
-            "ratio": null,
-            "class": "WATCH"
-          },
+          "vs24h": "flat",
+          "confluence": 7,
+          "distPts": 493.0,
+          "distTicks": 493,
+          "winRate": 0.4596,
+          "winSource": "symType",
+          "winN": 19.5,
+          "n": 4,
+          "tcl": "favor",
           "fvg": [
             {
               "tf": "4h",
               "dir": "bear",
               "range": [
-                52586,
-                52806
+                52319,
+                52437
               ],
               "weight": 2,
               "role": {
@@ -1221,210 +1219,220 @@
             }
           ],
           "risk": {
-            "stopPts": 60,
-            "stopTk": 60,
-            "stopUsd": 300,
-            "tgtPts": 330,
-            "tgtTk": 330,
-            "tgtUsd": 1650,
-            "rr": 5.5,
-            "flag": "OK",
-            "maxContracts": null
+            "stopPts": 44.0,
+            "stopTk": 44,
+            "stopUsd": 220,
+            "tgtPts": 210.0,
+            "tgtTk": 210,
+            "tgtUsd": 1050,
+            "rr": 4.8,
+            "flag": "RR_SOSPECHOSO",
+            "maxContracts": 1
           },
           "play": {
-            "window": "reapertura del domingo 17:00 CT en adelante",
+            "window": "17:00-23:00 CT",
             "trigger": {
-              "es": "reaccion clara (rechazo o ruptura) en 52421-52499 con la primera vela 5m real de la reapertura, no antes",
-              "en": "a clear reaction (rejection or break) at 52421-52499 on the reopen's first real 5m candle, not before"
+              "es": "rechazo visible (mecha + cierre 5m de vuelta) en el cluster 52421-52499, no market al toque",
+              "en": "visible rejection (wick + 5m close back) at the 52421-52499 cluster, never market on touch"
             },
             "structStop": {
-              "es": "fuera del otro lado de cluster roto IBH/VWAP + colchon",
-              "en": "beyond the far side of cluster roto IBH/VWAP + cushion"
+              "es": "sobre 52499 (alto del cluster) +5tk",
+              "en": "above 52499 (cluster high) +5tk"
             },
             "scale": {
-              "es": "TP1 1/2 parcial en 51701 y BE solo despues del parcial; TP2 resto a 51500",
-              "en": "TP1 1/2 partial at 51701 and BE only after the partial; TP2 rest to 51500"
+              "es": "1/2 en 52250 (primer reaccion) y mueve a BE; resto a 51701 (low del dia)",
+              "en": "1/2 at 52250 (first reaction) and move to BE; rest to 51701 (day low)"
             },
             "ifWrong": {
-              "es": "rapido: cierre 5m contrario con autoridad en la reapertura -> fuera; lento: solo mechas -> espera la vela siguiente",
-              "en": "fast: an authoritative opposite 5m close at the reopen -> out; slow: wicks only -> wait for the next candle"
+              "es": "rapido: cierre 5m sobre 52499 -> fuera; lento: solo mechas sin cierre -> aguanta hasta 52530",
+              "en": "fast: 5m close above 52499 -> out; slow: wicks only, no close -> hold to 52530"
             }
           }
         }
       ],
       "noTradeZone": [
-        51896.04,
-        51947.96
+        51928.0,
+        52421.0
       ],
       "expectedMove": {
-        "low": null,
-        "base": null,
-        "high": null,
-        "lowTk": null,
-        "baseTk": null,
-        "highTk": null,
-        "dayBudget": null,
-        "dayUsed": null,
-        "dayUsedPct": null,
-        "dayRemaining": null,
-        "flag": "SIN_SESION",
-        "mult": 1.0,
+        "low": 165.3,
+        "base": 200.0,
+        "high": 236.0,
+        "lowTk": 165,
+        "baseTk": 200,
+        "highTk": 236,
+        "dayBudget": 606.0,
+        "dayUsed": 0,
+        "dayUsedPct": 0,
+        "dayRemaining": 606.0,
+        "flag": "EXPANSIÓN",
+        "mult": 1.5,
         "underCal": null
       },
       "keyLevels": [
+        {
+          "name": {
+            "es": "Low del dia (viernes)",
+            "en": "Day low (Friday)"
+          },
+          "price": 51701.0,
+          "distPts": 227.0,
+          "distTicks": 227
+        },
         {
           "name": {
             "es": "IBH",
             "en": "IBH"
           },
           "price": 52421.0,
-          "distPts": 499.0,
-          "distTicks": 499
+          "distPts": 493.0,
+          "distTicks": 493
         },
         {
           "name": {
             "es": "VWAP",
             "en": "VWAP"
           },
-          "price": 52155.66,
-          "distPts": 233.66,
-          "distTicks": 234
+          "price": 52155.0,
+          "distPts": 227.0,
+          "distTicks": 227
         },
         {
           "name": {
-            "es": "low del dia / day low",
-            "en": "low del dia / day low"
+            "es": "PDL",
+            "en": "PDL"
           },
-          "price": 51701.0,
-          "distPts": 221.0,
-          "distTicks": 221
+          "price": 52310.0,
+          "distPts": 382.0,
+          "distTicks": 382
         }
       ],
-      "news": [],
-      "reachability": {
-        "hasTactical": false,
-        "bestTactical": null,
-        "bestWatch": "52421-52499"
-      }
+      "news": []
     },
     "CL": {
       "biasDay": "LONG",
-      "biasSession": "LONG",
+      "biasSession": "NEUTRAL",
       "conviction": "baja",
-      "move24h": {
-        "dir": "LONG",
-        "pct": 1.57
-      },
+      "move24h": null,
       "prevDay": {
         "type": {
-          "es": "tendencia alcista extrema, dia ya cerrado (futuros no reabren hasta el domingo 17:00 CT)",
-          "en": "extreme uptrend, day already closed (futures don't reopen until Sunday 17:00 CT)"
+          "es": "reversion intradia amplia sin resolucion neta clara (cierre casi plano, cerca del punto medio)",
+          "en": "wide intraday reversal with no clear net resolution (close nearly flat, near the midpoint)"
         },
         "closedAt": {
-          "es": "cerca de un maximo de ciclo, con reversion intradia marcada (104.99)",
-          "en": "near a cycle high, with a marked intraday reversal (104.99)"
+          "es": "punto medio del rango completo del dia, no en ningun extremo",
+          "en": "midpoint of the full day's range, not at either extreme"
         },
         "prior": {
-          "es": "CONTINUACION largo",
-          "en": "long CONTINUATION"
+          "es": "NEUTRAL cauteloso: ni continuacion limpia ni reversal confirmado",
+          "en": "cautious NEUTRAL: neither a clean continuation nor a confirmed reversal"
         },
         "note": {
-          "es": "salvo que el hueco de la reapertura del domingo lo contradiga",
-          "en": "unless the Sunday reopen gap contradicts it"
+          "es": "llego a un nuevo maximo de ciclo (104.99) tocando el objetivo de la tesis pero perdio toda la extension y cerro casi plano (102.88 vs apertura 102.80) -- el rango completo (104.99/102.43) fue el mas amplio del ciclo; coincide con el patron medido R-CL-reversal-completo-sin-catalizador (sin EIA/API/OPEP en curso)",
+          "en": "reached a new cycle high (104.99) touching the thesis target but gave back the whole extension, closing nearly flat (102.88 vs 102.80 open) -- the full range (104.99/102.43) was the widest of the cycle; matches the measured R-CL-reversal-completo-sin-catalizador pattern (no EIA/API/OPEC in progress)"
         }
       },
       "gap": {
-        "pts": null,
-        "ticks": null,
-        "filled": null,
+        "pts": -0.37,
+        "ticks": -37,
+        "filled": false,
         "size": {
-          "es": "sin medir",
-          "en": "unmeasured"
+          "es": "sin gap (estimado)",
+          "en": "no gap (estimated)"
         },
         "note": {
-          "es": "sin gap medible: el futuro no ha reabierto desde el cierre de las 16:00 CT de hoy",
-          "en": "no measurable gap: the future hasn't reopened since today's 16:00 CT close"
+          "es": "Globex aun no reabre; weekendGap de IG confirma signo negativo explicito (-0.36%), refuerza la fragilidad del reversal de ayer",
+          "en": "Globex hasn't reopened yet; IG's weekendGap explicitly confirms a negative sign (-0.36%), reinforcing the fragility of yesterday's reversal"
         }
       },
-      "weekendGap": null,
+      "weekendGap": {
+        "pct": -0.36,
+        "pts": -0.37,
+        "dir": "abajo",
+        "source": "IG Weekend US Crude",
+        "note": {
+          "es": "IG finde confirma signo negativo explicito, ~0.36% bajo el cierre del viernes -- refuerza la fragilidad del reversal completo de ayer sin catalizador (patron R-CL-reversal-completo-sin-catalizador), peso bajo",
+          "en": "IG weekend explicitly confirms a negative sign, ~0.36% below Friday's close -- reinforces the fragility of yesterday's full reversal with no catalyst (R-CL-reversal-completo-sin-catalizador pattern), low weight"
+        }
+      },
       "smt": {
         "state": "ninguna",
         "note": {
-          "es": "sin sesion en curso para medir divergencia",
-          "en": "no live session to measure divergence"
+          "es": "CL no participa en SMT (materia prima, mercado distinto)",
+          "en": "CL doesn't participate in SMT (commodity, different market)"
         }
       },
       "frameConflict": {
-        "on": false,
+        "on": true,
         "note": {
-          "es": "diario y sesion alineados, pero sin sesion en curso para operarlo",
-          "en": "daily and session aligned, but no live session to trade it"
+          "es": "biasChart -3 (estructura de corto plazo tras el giveback de ayer) choca de frente con biasHTF/biasD/biasW +1/+3/+3 (tesis alcista de 4 dias) -- htfzones.aligned=0, el unico de los 5 con conflicto de marcos activo",
+          "en": "biasChart -3 (short-term structure after yesterday's giveback) clashes head-on with biasHTF/biasD/biasW +1/+3/+3 (4-day bullish thesis) -- htfzones.aligned=0, the only one of the 5 with an active frame conflict"
         }
       },
       "whipsawRisk": {
-        "score": 0.2,
+        "score": 0.55,
         "note": {
-          "es": "mercado cerrado: el riesgo real es el hueco de la reapertura del domingo, no el chop intradia",
-          "en": "market closed: the real risk is the Sunday reopen gap, not intraday chop"
+          "es": "el reversal completo sin catalizador de ayer (patron R-CL-reversal-completo-sin-catalizador) mas el frameConflict activo apuntan a una sesion fragil, con riesgo real de chop sin resolucion limpia",
+          "en": "yesterday's full reversal without a catalyst (R-CL-reversal-completo-sin-catalizador pattern) plus the active frame conflict point to a fragile session, with real risk of chop without a clean resolution"
         }
       },
       "thesisAlign": {
-        "state": "ALIGN",
+        "state": "EVOLVING",
         "daysHeld": 4,
         "note": {
-          "es": "la tesis confirmada hoy se extendio con autoridad; nada que operar hasta que reabra el domingo",
-          "en": "today's confirmed thesis extended with authority; nothing to trade until the Sunday reopen"
+          "es": "la tesis alcista de 4 dias sigue en pie pero el giveback completo de ayer sin catalizador es la primera fisura real; pide reescritura si se repite sin EIA/API/OPEP de por medio",
+          "en": "the 4-day bullish thesis is still standing but yesterday's full giveback without a catalyst is the first real crack; it calls for a rewrite if it repeats without an EIA/API/OPEC event involved"
         }
       },
       "counterCase": {
-        "es": "bajista pese al largo: el estiramiento extremo de hoy (dia ya 65% ADR (con el rango completo mucho mas amplio) del ATR) invita a una toma de ganancias fuerte al reabrir; si el domingo abre con hueco hacia pullback al cluster VAH/POC/EMA50 de ayer (102.38-102.74) y lo sostiene, el largo de fondo queda en duda real. Lo mantengo: el movimiento de hoy fue de tendencia confirmada en los 3 marcos (diario, sesion, estructura), no un giro de estructura.",
-        "en": "bearish despite the long: today's extreme stretch (day already at 65% ADR (con el rango completo mucho mas amplio) of ATR) invites a strong profit-taking pullback on the reopen; if Sunday opens with a gap toward pullback al cluster VAH/POC/EMA50 de ayer (102.38-102.74) and holds it, the underlying long is in real doubt. I'm keeping it: today's move was a confirmed trend in all 3 frames (daily, session, structure), not a structure reversal."
+        "es": "bajista pese al largo de fondo: el reversal completo sin catalizador de ayer (ya la 5a variante del patron R-CL-reversal-completo-sin-catalizador) y el frameConflict real (biasChart -3 vs biasD/biasW +3/+3) sugieren que el intento alcista de 4 dias esta mostrando su primera fisura real; COT marca crowded-short, que de hecho favoreceria MAS alza si hay un short squeeze, pero el patron de reversal pide cautela antes de confiar en el largo. Lo mantengo pero degrado -- trato el dia 4 del largo como en duda hasta ver si 102.38-102.74 aguanta con autoridad.",
+        "en": "bearish despite the underlying long: yesterday's full reversal with no catalyst (already the 5th variant of the R-CL-reversal-completo-sin-catalizador pattern) and the real frame conflict (biasChart -3 vs biasD/biasW +3/+3) suggest the 4-day bullish attempt is showing its first real crack; COT marks crowded-short, which would actually favor MORE upside if there's a short squeeze, but the reversal pattern calls for caution before trusting the long. I keep it but degrade -- treating day 4 of the long as in doubt until I see whether 102.38-102.74 holds with authority."
       },
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "mercado cerrado hasta la reapertura del domingo 17:00 CT, sin sesion que operar; la estructura sigue a favor pero no es base de ningun gatillo hoy",
-          "en": "market closed until the Sunday 17:00 CT reopen, no session to trade; structure still favors the move but it's not the basis for any trigger today"
+          "es": "frameConflict activo (el unico de los 5) ya bloquea el GO por regla dura, y sin dato de 24h tampoco hay A+ posible; ademas el patron R-CL-reversal-completo-sin-catalizador pide tratar el intento alcista como fragil hasta que 102.38-102.74 aguante con autoridad",
+          "en": "active frame conflict (the only one of the 5) already blocks GO by hard rule, and with no 24h data there's no A+ possible either; plus the R-CL-reversal-completo-sin-catalizador pattern calls for treating the bullish attempt as fragile until 102.38-102.74 holds with authority"
         }
       },
       "context": {
-        "es": "cerro en 102.88 tras un dia de rango amplio con reversion intradia (+0.08pts neto, con reversion amplia (hod 104.99 / lod 102.43), 65% ADR (con el rango completo mucho mas amplio) del ATR). Sin sesion en curso: el proximo precio real llega con la reapertura de Globex el domingo 17:00 CT.",
-        "en": "closed at 102.88 after a day of wide range with a marked intraday reversal (+0.08pts neto, con reversion amplia (hod 104.99 / lod 102.43), 65% ADR (con el rango completo mucho mas amplio) of ATR). No live session: the next real price comes with the Sunday 17:00 CT Globex reopen."
+        "es": "CL cerro el viernes en 102.95 (narrativa interna 102.88), dia 4 de un intento alcista que toco un nuevo maximo de ciclo (104.99) pero devolvio todo el tramo sin ningun catalizador de calendario (EIA/API/OPEP) en curso -- la 5a variante del patron medido de reversal fragil. Es el unico instrumento con frameConflict activo (estructura de corto plazo bajista vs HTF/diario/semanal alcistas). Los titulares de escalada en Oriente Medio siguen apoyando la oferta ajustada, pero el weekendGap de IG confirma signo negativo.",
+        "en": "CL closed Friday at 102.95 (internal narrative 102.88), day 4 of a bullish attempt that touched a new cycle high (104.99) but gave back the entire leg with no calendar catalyst (EIA/API/OPEC) in progress -- the 5th variant of the measured fragile-reversal pattern. It's the only instrument with an active frame conflict (bearish short-term structure vs bullish HTF/daily/weekly). Middle East escalation headlines keep supporting tight supply, but IG's weekendGap confirms a negative sign."
       },
       "scenarioA": {
         "text": {
-          "es": "si el domingo reabre con hueco al alza o plano, continuacion del largo hacia 104.41-104.99",
-          "en": "if Sunday reopens with a gap up or flat, long continuation toward 104.41-104.99"
+          "es": "retest de 102.38-102.74 (viejo pullback, FVG 1h) con rebote y cierre 5m de vuelta arriba, confirma el largo con autoridad hacia 103.60 y 104.50",
+          "en": "retest of 102.38-102.74 (old pullback, 1h FVG) with a bounce and 5m close back above, confirms the long with authority toward 103.60 and 104.50"
         },
         "trigger": {
-          "es": "cierre 5m sostenido sobre 102.74 en la reapertura",
-          "en": "5m close sustained above 102.74 at the reopen"
+          "es": "cierre 5m sobre 102.74 tras un toque de 102.38-102.74",
+          "en": "5m close above 102.74 after a touch of 102.38-102.74"
         },
-        "target": 104.41,
-        "target2": 104.99,
+        "target": 103.6,
+        "target2": 104.5,
         "entryZone": [
-          102.5,
+          102.38,
           102.74
         ]
       },
       "scenarioB": {
         "text": {
-          "es": "si el domingo reabre con hueco contrario y lo sostiene, rebote hacia pullback al cluster VAH/POC/EMA50 de ayer 102.38-102.74 antes de decidir si el largo continua",
-          "en": "if Sunday reopens with a gap against the move and holds it, a bounce toward pullback al cluster VAH/POC/EMA50 de ayer 102.38-102.74 before deciding whether the long continues"
+          "es": "el giveback de ayer es la primera fisura real: pierde 102.38 con cierre 5m sostenido abajo y abre paso hacia el soporte mas duro 102.00/100.33",
+          "en": "yesterday's giveback is the first real crack: it loses 102.38 with a sustained 5m close below and opens the way toward the harder support at 102.00/100.33"
         },
         "trigger": {
-          "es": "cierre 5m sostenido bajo 102.38 en la reapertura",
-          "en": "5m close sustained below 102.38 at the reopen"
+          "es": "cierre 5m sostenido bajo 102.38",
+          "en": "5m close sustained below 102.38"
         },
         "zone": [
-          102.38,
-          102.74
+          100.33,
+          102.0
         ]
       },
       "invalidation": {
         "text": {
-          "es": "cierre 5m sostenido bajo 102.0 con reclamo con autoridad",
-          "en": "5m close sustained below 102.0 with an authoritative reclaim"
+          "es": "cierre 5m sostenido bajo 102.00 revive la duda bajista y rompe la tesis alcista de 4 dias",
+          "en": "5m close sustained below 102.00 revives the bearish doubt and breaks the 4-day bullish thesis"
         },
         "level": 102.0
       },
@@ -1432,40 +1440,38 @@
         {
           "id": "CL-1",
           "kind": "range",
-          "resolveAt": "primeras 2h tras la reapertura del domingo",
+          "resolveAt": "cierre Asia ~01:00 CT",
           "text": {
-            "es": "el hueco de apertura del domingo sera menor a 0.5pts en valor absoluto (sin catalizador de fin de semana calendarizado)",
-            "en": "Sunday's opening gap will be smaller than 0.5pts in absolute value (no calendarized weekend catalyst)"
+            "es": "rango de Asia entre 1.24 y 1.84 pts",
+            "en": "Asia range between 1.24 and 1.84 pts"
           }
         },
         {
           "id": "CL-2",
           "kind": "level_first",
-          "resolveAt": "primeras 2h tras reabrir",
-          "prob": 0.55,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "toca primero pullback al cluster VAH/POC/EMA50 de ayer 102.38-102.74 (reaccion tecnica) que una extension nueva hacia 104.99",
-            "en": "touches pullback al cluster VAH/POC/EMA50 de ayer 102.38-102.74 first (technical reaction) rather than a fresh extension toward 104.99"
+            "es": "toca antes 102.38-102.74 (soporte) que 103.60 (confirmacion alcista)",
+            "en": "touches 102.38-102.74 (support) before 103.60 (bullish confirmation)"
           }
         },
         {
           "id": "CL-3",
-          "kind": "conditional",
-          "resolveAt": "primera hora tras reabrir",
-          "prob": 0.6,
+          "kind": "direction",
+          "resolveAt": "cierre Asia",
+          "prob": 0.35,
           "text": {
-            "es": "si el domingo abre con hueco al alza o plano, probabilidad alta de que el cierre de la primera hora quede sobre 102.88 (el cierre de hoy)",
-            "en": "if Sunday opens with a gap up or flat, high probability the first hour closes above 102.88 (today's close)"
+            "es": "direccion neta de Asia LONG (cierre > apertura): prob 0.35 -- el patron de reversal fragil sin catalizador pesa mas que el sesgo de fondo esta noche",
+            "en": "Asia net direction LONG (close > open): prob 0.35 -- the fragile reversal-without-catalyst pattern outweighs the underlying bias tonight"
           }
         },
         {
           "id": "CL-4",
           "kind": "conditional",
-          "resolveAt": "reapertura domingo",
-          "prob": 0.25,
+          "resolveAt": "cierre Asia",
           "text": {
-            "es": "probabilidad baja de un hueco de apertura mayor al 1.5% (reclamo total que revive la duda bajista de inmediato)",
-            "en": "low probability of an opening gap larger than 1.5% (a full reclaim that revives the bearish doubt immediately"
+            "es": "si pierde 102.38 con cierre 5m sostenido abajo, el cierre de Asia queda bajo 102.00",
+            "en": "if it loses 102.38 with a sustained 5m close below, Asia's close stays under 102.00"
           }
         }
       ],
@@ -1476,190 +1482,192 @@
             102.74
           ],
           "dir": "LONG",
-          "type": "retest_break",
-          "vs24h": "with",
+          "type": "pullback_cont",
+          "vs24h": "flat",
           "confluence": 4,
-          "distPts": null,
-          "distTicks": null,
-          "winRate": 0.45,
-          "winSource": "type",
-          "winN": 20,
+          "distPts": -0.57,
+          "distTicks": -57,
+          "winRate": 0.3833,
+          "winSource": "leaf",
+          "winN": 8.0,
+          "n": 8,
           "tcl": null,
-          "role": "watch",
-          "reach": {
-            "distPts": null,
-            "budgetPts": null,
-            "ratio": null,
-            "class": "WATCH"
-          },
           "fvg": [
             {
               "tf": "1h",
               "dir": "bull",
               "range": [
-                102.1,
-                102.38
+                102.38,
+                102.74
               ],
               "weight": 2,
               "role": {
-                "es": "confluencia",
-                "en": "confluence"
+                "es": "gatillo",
+                "en": "trigger"
               }
             }
           ],
           "risk": {
-            "stopPts": 0.4,
-            "stopTk": 40,
-            "stopUsd": 400,
-            "tgtPts": 1.5,
-            "tgtTk": 150,
-            "tgtUsd": 1500,
-            "rr": 3.8,
+            "stopPts": 0.45,
+            "stopTk": 45,
+            "stopUsd": 450,
+            "tgtPts": 1.05,
+            "tgtTk": 105,
+            "tgtUsd": 1050,
+            "rr": 2.3,
             "flag": "OK",
-            "maxContracts": null
+            "maxContracts": 0
           },
           "play": {
-            "window": "reapertura del domingo 17:00 CT en adelante",
+            "window": "18:00-23:30 CT",
             "trigger": {
-              "es": "reaccion clara (rechazo o ruptura) en 102.38-102.74 con la primera vela 5m real de la reapertura, no antes",
-              "en": "a clear reaction (rejection or break) at 102.38-102.74 on the reopen's first real 5m candle, not before"
+              "es": "reclamo del FVG 1h 102.38-102.74 con cierre 5m de vuelta arriba, no market al toque",
+              "en": "reclaim of the 1h FVG 102.38-102.74 with a 5m close back above, never market on touch"
             },
             "structStop": {
-              "es": "fuera del otro lado de pullback al cluster VAH/POC/EMA50 de ayer + colchon",
-              "en": "beyond the far side of pullback al cluster VAH/POC/EMA50 de ayer + cushion"
+              "es": "bajo 102.10 (debajo del FVG 4h 102.23-102.43) +buffer",
+              "en": "below 102.10 (under the 4h FVG 102.23-102.43) +buffer"
             },
             "scale": {
-              "es": "TP1 1/2 parcial en 104.41 y BE solo despues del parcial; TP2 resto a 104.99",
-              "en": "TP1 1/2 partial at 104.41 and BE only after the partial; TP2 rest to 104.99"
+              "es": "1/2 en 103.60 (nivel de confirmacion alcista) y mueve a BE; resto a 104.50",
+              "en": "1/2 at 103.60 (bullish confirmation level) and move to BE; rest to 104.50"
             },
             "ifWrong": {
-              "es": "rapido: cierre 5m contrario con autoridad en la reapertura -> fuera; lento: solo mechas -> espera la vela siguiente",
-              "en": "fast: an authoritative opposite 5m close at the reopen -> out; slow: wicks only -> wait for the next candle"
+              "es": "rapido: cierre 5m bajo 102.10 -> fuera; lento: solo mechas sin cierre -> aguanta hasta 102.00",
+              "en": "fast: 5m close below 102.10 -> out; slow: wicks only, no close -> hold to 102.00"
             }
           }
         }
       ],
       "noTradeZone": [
-        102.83,
-        102.93
+        101.84,
+        102.38
       ],
       "expectedMove": {
-        "low": null,
-        "base": null,
-        "high": null,
-        "lowTk": null,
-        "baseTk": null,
-        "highTk": null,
-        "dayBudget": null,
-        "dayUsed": null,
-        "dayUsedPct": null,
-        "dayRemaining": null,
-        "flag": "SIN_SESION",
-        "mult": 1.0,
+        "low": 1.2,
+        "base": 1.6,
+        "high": 1.8,
+        "lowTk": 124,
+        "baseTk": 162,
+        "highTk": 184,
+        "dayBudget": 3.9,
+        "dayUsed": 0,
+        "dayUsedPct": 0,
+        "dayRemaining": 3.9,
+        "flag": "EXPANSIÓN",
+        "mult": 2.08,
         "underCal": null
       },
       "keyLevels": [
         {
           "name": {
-            "es": "VAH/POC/EMA50 de ayer",
-            "en": "VAH/POC/EMA50 de ayer"
+            "es": "Soporte 1h FVG",
+            "en": "1h FVG support"
           },
-          "price": 102.56,
-          "distPts": 0.32,
-          "distTicks": 32
+          "price": 102.38,
+          "distPts": -0.57,
+          "distTicks": -57
         },
         {
           "name": {
-            "es": "low del dia / day low",
-            "en": "low del dia / day low"
+            "es": "Confirmacion alcista",
+            "en": "Bullish confirmation"
           },
-          "price": 102.43,
-          "distPts": 0.45,
-          "distTicks": 45
+          "price": 103.6,
+          "distPts": 0.65,
+          "distTicks": 65
         },
         {
           "name": {
-            "es": "hod",
-            "en": "hod"
+            "es": "Maximo de ciclo (viernes)",
+            "en": "Cycle high (Friday)"
           },
           "price": 104.99,
-          "distPts": 2.11,
-          "distTicks": 211
+          "distPts": 2.04,
+          "distTicks": 204
+        },
+        {
+          "name": {
+            "es": "Invalidacion dura",
+            "en": "Hard invalidation"
+          },
+          "price": 102.0,
+          "distPts": -0.95,
+          "distTicks": -95
         }
       ],
-      "news": [],
-      "reachability": {
-        "hasTactical": false,
-        "bestTactical": null,
-        "bestWatch": "102.38-102.74"
-      }
+      "news": []
     }
   },
   "dayThesis": {
     "NQ": {
-      "es": "Dia 2 del corto, confirmado con autoridad extrema (242% ATR en el minimo). Sin sesion hasta el domingo 17:00 CT: vigilar si la reapertura retestea el cluster roto 28860-28940 como resistencia o si el estiramiento fuerza un rebote tecnico primero.",
-      "en": "Day 2 of the short, confirmed with extreme authority (242% ATR at the low). No session until Sunday 17:00 CT: watch whether the reopen retests the broken 28860-28940 cluster as resistance or the stretch forces a technical bounce first."
+      "es": "dia 2 de un corto confirmado con autoridad extrema (minimo 28232.75, 168% del ATR). Esta noche es anticipatoria: vigilar si Asia retestea el cluster roto 28860-28940 (IBH/VWAP) como resistencia -- confirma el corto -- o si el estiramiento de 2.8A fuerza primero un rebote tecnico mas largo. ISM manufacturero y AAPL/PLTR caen fuera de esta sesion (ciclo del martes).",
+      "en": "day 2 of a short confirmed with extreme authority (low 28232.75, 168% of ATR). Tonight is anticipatory: watch whether Asia retests the broken 28860-28940 cluster (IBH/VWAP) as resistance -- confirms the short -- or whether the 2.8A stretch forces a longer technical bounce first. ISM manufacturing and AAPL/PLTR fall outside this session (Tuesday's cycle)."
     },
     "ES": {
-      "es": "Dia 1 del corto, confirmado en el cierre completo tras romperse esta misma madrugada. Sin sesion hasta el domingo: vigilar si la reapertura retestea 7664-7690 como resistencia.",
-      "en": "Day 1 of the short, confirmed at the full close after breaking earlier this morning. No session until Sunday: watch whether the reopen retests 7664-7690 as resistance."
+      "es": "dia 1 de un corto confirmado, rompiendo la invalidacion dura de 3 dias (7690). Vigilar si Asia retestea 7664-7690 como resistencia (confirma) o si el rebote tecnico se sostiene como soporte real (R-ES-estiramiento-discrepante pide respeto extra aqui).",
+      "en": "day 1 of a confirmed short, breaking the hard 3-day invalidation (7690). Watch whether Asia retests 7664-7690 as resistance (confirms) or the technical bounce holds as real support (R-ES-estiramiento-discrepante calls for extra respect here)."
     },
     "GC": {
-      "es": "Dia 2 del corto, la extension mas violenta de los 5 (15.5 ATR). Candidato a revision del modelo de distancias en el weekly. Sin sesion hasta el domingo: vigilar el cluster roto 3956-4002.",
-      "en": "Day 2 of the short, the most violent extension of the five (15.5 ATR). A candidate for the distance model to be revisited in the weekly. No session until Sunday: watch the broken 3956-4002 cluster."
+      "es": "dia 2 del corto mas violento de los 5 (minimo 3879.3, 211% del ATR), con los 4 marcos de tendencia alineados pero el estiramiento mas extremo (16A). El libro largo crowded (COT p97) liquidandose es la variable clave: puede seguir alimentando la caida o dar el rebote mas fuerte de la noche si encuentra piso en 3956-4002.",
+      "en": "day 2 of the most violent short of the 5 (low 3879.3, 211% of ATR), with all 4 trend frames aligned but the most extreme stretch (16A). The crowded long book (COT p97) unwinding is the key variable: it can keep feeding the drop or produce the strongest bounce of the night if it finds a floor at 3956-4002."
     },
     "YM": {
-      "es": "Dia 2 del corto, confirmado (158% ATR). Sin sesion hasta el domingo: vigilar el cluster roto 52421-52499.",
-      "en": "Day 2 of the short, confirmed (158% ATR). No session until Sunday: watch the broken 52421-52499 cluster."
+      "es": "dia 2 del corto, dia mas expandido de los 5 (961pts, 158% del ATR). YM sigue derivando del complejo NQ/ES sin voz propia (R-YM-arrastre-sin-confirmar): vigilar si el complejo retestea y rechaza sus clusters, YM hara lo mismo en 52421-52499.",
+      "en": "day 2 of the short, the most expanded day of the 5 (961pts, 158% of ATR). YM keeps deriving from the NQ/ES complex without its own voice (R-YM-arrastre-sin-confirmar): watch whether the complex retests and rejects its clusters, YM will do the same at 52421-52499."
     },
     "CL": {
-      "es": "Dia 4 del largo, confirmado pero con una reversion intradia marcada (cerro casi plano tras un rango muy amplio). Sin sesion hasta el domingo: vigilar si la reapertura sostiene el pullback 102.38-102.74 o si la reversion de hoy es el primer aviso de agotamiento.",
-      "en": "Day 4 of the long, confirmed but with a marked intraday reversal (closed nearly flat after a very wide range). No session until Sunday: watch whether the reopen holds the 102.38-102.74 pullback or today's reversal is the first sign of exhaustion."
+      "es": "dia 4 de un intento alcista que mostro su primera fisura real ayer: toco un nuevo maximo de ciclo (104.99) y devolvio todo sin catalizador (5a variante de R-CL-reversal-completo-sin-catalizador). Es el unico con frameConflict activo. Vigilar si 102.38-102.74 aguanta con autoridad (confirma el largo) o si se pierde (revive la duda bajista).",
+      "en": "day 4 of a bullish attempt that showed its first real crack yesterday: touched a new cycle high (104.99) and gave it all back with no catalyst (5th variant of R-CL-reversal-completo-sin-catalizador). It's the only one with an active frame conflict. Watch whether 102.38-102.74 holds with authority (confirms the long) or breaks (revives the bearish doubt)."
     }
   },
   "alertLevels": [
     {
       "sym": "NQ",
-      "price": 28940,
+      "price": 28860.0,
       "band": null,
       "dir": null,
       "kind": "invalidation",
+      "verdict": null,
       "label": {
-        "es": "invalida el corto del dia",
-        "en": "invalidates the day's short"
+        "es": "invalida el corto si se reclama con autoridad",
+        "en": "invalidates the short if reclaimed with authority"
       }
     },
     {
       "sym": "ES",
-      "price": 7690,
+      "price": 7690.0,
       "band": null,
       "dir": null,
       "kind": "invalidation",
+      "verdict": null,
       "label": {
-        "es": "invalida el corto del dia",
-        "en": "invalidates the day's short"
+        "es": "invalida el corto si se reclama con autoridad",
+        "en": "invalidates the short if reclaimed with authority"
       }
     },
     {
       "sym": "GC",
-      "price": 4002,
+      "price": 3956.0,
       "band": null,
       "dir": null,
       "kind": "invalidation",
+      "verdict": null,
       "label": {
-        "es": "invalida el corto del dia",
-        "en": "invalidates the day's short"
+        "es": "invalida el corto si se reclama con autoridad",
+        "en": "invalidates the short if reclaimed with authority"
       }
     },
     {
       "sym": "YM",
-      "price": 52499,
+      "price": 52421.0,
       "band": null,
       "dir": null,
       "kind": "invalidation",
+      "verdict": null,
       "label": {
-        "es": "invalida el corto del dia",
-        "en": "invalidates the day's short"
+        "es": "invalida el corto si se reclama con autoridad",
+        "en": "invalidates the short if reclaimed with authority"
       }
     },
     {
@@ -1668,18 +1676,19 @@
       "band": null,
       "dir": null,
       "kind": "invalidation",
+      "verdict": null,
       "label": {
-        "es": "invalida el largo del dia",
-        "en": "invalidates the day's long"
+        "es": "invalida el largo de 4 dias si se pierde con cierre sostenido",
+        "en": "invalidates the 4-day long if lost with a sustained close"
       }
     }
   ],
-  "reviewYesterday": "2026-10-30",
+  "reviewYesterday": null,
   "personal": {
     "patternId": "homerun-exit",
     "note": {
-      "es": "fin de semana sin mercado: cuando reabra el domingo, el plan de la reapertura vendra de la pre-asia del domingo, no de este; si entras el domingo, cobra el primer parcial, no busques el home run completo",
-      "en": "no market this weekend: when it reopens Sunday, the reopen plan comes from Sunday's own pre-asia, not this one; if you trade Sunday, bank the first partial, don't hold for the full home run"
+      "es": "noche de rebote tecnico extremo tras el crash del viernes: si algo dispara, cobra el parcial en el primer nivel, no esperes el home run",
+      "en": "night of extreme technical bounce after Friday's crash: if anything triggers, bank the partial at the first level, don't wait for the home run"
     },
     "capLine": {
       "es": "Stop puesto en el libro al entrar · tamaño definido por el riesgo antes de entrar · no añadir a una posición perdedora",
