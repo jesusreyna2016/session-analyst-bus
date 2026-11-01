@@ -1,40 +1,55 @@
 {
  "schema": "crypto-state-1",
- "updatedAt": "2026-10-31T00:31:11Z",
- "runs": [],
+ "updatedAt": "2026-11-01T00:30:00Z",
+ "runs": [
+  {
+   "plan": "2026-10-31-close",
+   "graded": {
+    "predictions": {"hit": 3, "miss": 1, "unresolved": 0},
+    "zones": {"worked": 1, "failed": 0, "untouched": 2, "unresolved": 0}
+   }
+  },
+  {
+   "plan": "2026-10-31-ny",
+   "graded": {
+    "predictions": {"hit": 0, "miss": 0, "unresolved": 0},
+    "zones": {"worked": 1, "failed": 0, "untouched": 1, "unresolved": 1}
+   }
+  }
+ ],
  "scorecard": {
-  "predictions": {"n": 0, "hit": 0},
-  "zones": {"n": 0, "worked": 0},
+  "predictions": {"n": 4, "hit": 3},
+  "zones": {"n": 6, "worked": 2},
   "byTcl": {
-   "favor": {"n": 0, "worked": 0},
+   "favor": {"n": 2, "worked": 0},
    "contra": {"n": 0, "worked": 0}
   },
   "bySym": {
-   "ETHUSDT": {"n": 0, "worked": 0},
-   "BTCUSDT": {"n": 0, "worked": 0}
+   "ETHUSDT": {"n": 4, "worked": 2},
+   "BTCUSDT": {"n": 2, "worked": 0}
   },
   "byContext": {
    "funding=longs-crowded": {"n": 0, "worked": 0},
-   "funding=shorts-crowded": {"n": 0, "worked": 0},
+   "funding=shorts-crowded": {"n": 6, "worked": 2},
    "funding=neutral": {"n": 0, "worked": 0},
-   "fg=fear": {"n": 0, "worked": 0},
+   "fg=fear": {"n": 6, "worked": 2},
    "fg=neutral": {"n": 0, "worked": 0},
    "fg=greed": {"n": 0, "worked": 0},
    "dvol=up": {"n": 0, "worked": 0},
    "dvol=down": {"n": 0, "worked": 0},
    "gap=above": {"n": 0, "worked": 0},
    "gap=below": {"n": 0, "worked": 0},
-   "gap=none": {"n": 0, "worked": 0},
-   "headline=hack": {"n": 0, "worked": 0},
+   "gap=none": {"n": 6, "worked": 2},
+   "headline=hack": {"n": 6, "worked": 2},
    "headline=etf": {"n": 0, "worked": 0},
    "headline=regulation": {"n": 0, "worked": 0},
    "headline=none": {"n": 0, "worked": 0}
   }
  },
  "notes": [
-  "Primera corrida real de crypto-close (31 oct, metodo activo desde el 30 oct): grade_plans.py --crypto 2026-10-30 no encontro planes previos, el scorecard arranca en cero.",
-  "BTC funding longs-crowded (tope + OI +6%/24h) justo bajo resistencia 78110-78804: zona A+ de venta identificada pero lejos del precio, vigilar si llega a tocarla.",
-  "ETH funding shorts-crowded este fin de semana (contexto medido 5/5 al alza en findes, n chico): da +1 de confluencia a zonas largas de barrida/reclamo, no crea el sesgo por si solo.",
-  "Hackeo de Binance (6.3B, mayor robo cripto registrado) ~3h antes de esta corrida: precio ya estabilizado, newsRisk MEDIO, no bloqueo de GO por estar fuera de la primera hora."
+  "2026-10-31 califico (grade_plans.py --crypto): BTC fallo el sesgo en el close (predijo corto, se movio 228.6 pts al alza) pero lo acerto en el ny; ETH acerto el sesgo las dos veces. La zona larga de ETH (barrida/reclamo 2,208-2,241) funciono en las dos corridas; la A+ de venta de BTC (sweep_pdh) nunca se toco en ninguna de las dos. Predicciones de texto: 3 aciertos, 1 fallo (ETH nunca bajo a barrer 2,208-2,218, se quedo arriba en 2,233).",
+  "dvol=up/down de byContext no se pudo rellenar hoy ni ayer: el plan solo guarda el nivel de dvol (macro.crypto.dvol.last), no su chg24h por corrida; si se quiere medir esa clave hay que agregar chg24h al esquema del plan o leerlo de market.json en vivo solo el dia de la calificacion (no retroactivo).",
+  "BTC funding se enfrio de longs-crowded (anoche, OI +6.1%/24h) a neutral (hoy, OI -0.62%/24h): la zona de venta en el maximo de ayer ya no trae el extra de riesgo de barrida medido, solo el score base.",
+  "Hackeo de Binance (6.3B) supero las 24h desde el primer titular: el riesgo ALTO automatico de la regla dura ya expiro: la noticia paso a ser de recuperacion (90% repuesto, reapertura de retiros hoy domingo), riesgo bajado a BAJO en el plan de hoy."
  ]
 }
