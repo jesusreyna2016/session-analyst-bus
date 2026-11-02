@@ -1,83 +1,100 @@
 {
  "schema": "crypto-plan-1",
- "runType": "crypto-close",
- "builtAt": "2026-11-02T01:24:11Z",
+ "runType": "crypto-ny",
+ "builtAt": "2026-11-02T15:37:00Z",
  "date": "2026-11-02",
- "slot": "close",
- "validUntil": "2026-11-02T14:45:00Z",
+ "slot": "ny",
+ "validUntil": "2026-11-03T00:00:00Z",
  "dataHealth": {
-  "snapshotAgeMin": 9,
+  "snapshotAgeMin": 22,
   "stale": [],
   "missing": [],
   "notes": [
-   "Las 5 fuentes viejas (3reads, drbias, srzones, htfzones, command) tienen mas de 90 min desde su ultimo dato en los dos simbolos (tecnicamente muertas); el TDL Feed esta fresco (9 min) y es la fuente de niveles y contexto en los dos, asi que no cuenta como fuente caida (regla de transicion del metodo cripto).",
-   "Hueco del CME de ETH activo (2,235.76, 2.14% abajo del precio): aplica porque esta corrida es de domingo noche a lunes (cierre del viernes). Iman hacia abajo, nunca gatillo.",
-   "Corrida de domingo por la noche CT (lunes 00:15 UTC): incluye la revision semanal cripto en reviews/crypto/2026-11-01-semana.md.",
-   "cryptoContext.risk sube de BAJO (ayer) a MEDIO por la escalada de retiros de Binance (3.64B a 5.8B dolares) y la atribucion del FBI a Corea del Norte; no crea direccion por si sola."
+   "Las 5 fuentes viejas (3reads, drbias, srzones, htfzones, command) siguen muertas (mas de 15 horas) en los dos simbolos; el TDL Feed sigue fresco (22 min) y sigue siendo la fuente de niveles y contexto en los dos.",
+   "Hueco del CME de ETH sigue activo (2,235.76, ahora 2.52% abajo del precio): aplica porque esta corrida cae todavia dentro de la ventana de viernes noche a lunes. Iman hacia abajo, nunca gatillo.",
+   "Apertura de NY entre semana: ISM Manufacturing PMI (09:00 CT, impacto medio) sin actual ni reaccion capturada todavia en el feed, no se puede calificar aceptado o rechazado.",
+   "El riesgo de contexto se mantiene en MEDIO; el titular de la reaccion calmada al hackeo de Binance quedo marcado como shock de las ultimas 60 min (live/shock.json), asi que esta corrida trae una ventana de riesgo con tope WAIT hasta que expire."
   ]
  },
  "summary": {
   "es": [
-   "BTC y ETH corrieron hasta el maximo de la noche y de Asia (78,523 / 2,291) barriendo el maximo de ayer, pero con calidad distinta: ETH trae dinero nuevo (interes abierto +2.5% en 24 h), BTC son cierres de cortos (interes abierto -1.14%).",
-   "Las dos mejores zonas de venta (fade del maximo) se quedan en B, no A+: la de ETH pierde la A+ por ir contra el checklist de tendencia (favorece largos reducidos hoy) y por lo estirada que esta el precio; la de BTC no llega al score 6. Las dos compras de retroceso puntuan alto pero la jerarquia cripto cripto las topa en B por ir CON las ultimas 24 h.",
-   "El hackeo de Binance volvio a escalar: los retiros netos subieron de 3.64 a 5.8 mil millones de dolares en pocas horas y el FBI atribuyo el ataque a Corea del Norte. No crea una direccion, pero sube el riesgo de contexto de BAJO a MEDIO frente a ayer.",
-   "El hueco del CME de ETH (2,235.76, 2.14% abajo) sigue como iman hacia abajo, nunca como gatillo; aplica solo en corridas de viernes noche a lunes como esta.",
-   "Veredicto en los dos: WAIT. Esperar un cierre de 5m o 15m de rechazo en el maximo de la noche para el corto, o un retroceso con reclamo hacia el soporte (2,274 a 2,278.50 en ETH, 78,000 a 78,200 en BTC) para el largo de continuacion."
+   "Update ligero de NY (no re-deriva ni califica). Desde el close, BTC y ETH ya recorrieron lo que el plan dibujaba: los dos barrieron por encima de su zona de venta con mecha, ETH llegando a 2,317.84 (paso el stop 2,303 de esa zona) y BTC a la zona de la mecha reclamada sobre 78,422 a 78,600; luego los dos se dieron la vuelta con fuerza.",
+   "BTC siguio cayendo y barrio el minimo de Asia y el VAL de ayer (mecha bajo 77,517 segun el touchlog), reclamo y esta ahora en 77,976, justo en el bolsillo de no-trade entre el POC y el VAH de ayer: la zona de compra 78,000 a 78,200 quedo rota, el precio la atraveso sin el reclamo descrito. El checklist de tendencia de BTC paso de sin veredicto a corto confirmado de tamano normal.",
+   "ETH se replego desde 2,317.84 hasta 2,295.72, quedando de nuevo DENTRO de su propia zona de venta (2,291 a 2,301.50): posible retest fresco desde arriba, pero sigue en B, no sube de categoria. El fondeo de ETH se normalizo a neutral (ya no esta shorts-crowded) y el interes abierto crece mas lento (+1.06% vs +2.5%).",
+   "El hackeo de Binance sigue en el feed pero con tono mas calmado: Tom Lee describe la reaccion como calmada mientras Bitmine compra mas ETH, y Binance publico prueba de reservas usando la mitad de su fondo SAFU; sigue circulando un titular de lavado (tokens de Solana robados cambiados por Bitcoin). Riesgo de contexto se mantiene en MEDIO, con ventana de riesgo hasta las 16:10 UTC por el titular mas reciente (shock de la ultima hora).",
+   "NQ acompana con un rebote desde su apertura (28,588 a 28,770, +0.6%) tras la caida del petroleo; ETH acompana parcialmente esa fuerza, BTC diverge (cae mientras los indices suben), reforzando que BTC va a la zaga. Veredicto en los dos: WAIT, sin zona A+ a tiro."
   ],
   "en": [
-   "BTC and ETH both ran up to the overnight/Asia high (78,523 / 2,291), sweeping yesterday's high, but with different quality behind it: ETH carries fresh money (open interest +2.5% in 24h), BTC is short-covering (open interest -1.14%).",
-   "Both top-of-range shorts stay at B, not A+: ETH's loses A+ for going against the trend checklist (it favors reduced-size longs today) and for how stretched price is; BTC's doesn't reach score 6. Both pullback longs score well but the crypto hierarchy caps them at B for going WITH the last 24h.",
-   "The Binance hack escalated again: net outflows jumped from $3.64B to $5.8B within hours and the FBI attributed the attack to North Korea. It does not create a direction, but it lifts context risk from LOW to MEDIUM versus yesterday.",
-   "ETH's CME gap (2,235.76, 2.14% below) remains a downside magnet, never a trigger; it applies only on Friday-night-to-Monday runs like this one.",
-   "Verdict on both: WAIT. Wait for a 5m or 15m rejection close at the overnight high for the short, or a pullback with reclaim toward support (2,274 to 2,278.50 on ETH, 78,000 to 78,200 on BTC) for the continuation long."
+   "Light NY update (no re-derivation, no grading). Since the close, BTC and ETH already ran what the plan sketched: both swept above their sell zone with a wick, ETH reaching 2,317.84 (clearing that zone's 2,303 stop) and BTC reaching the reclaimed-wick zone above 78,422 to 78,600; then both reversed hard.",
+   "BTC kept falling and swept the Asia low and yesterday's VAL (a wick below 77,517 per the touchlog), reclaimed, and now sits at 77,976, right in the no-trade pocket between yesterday's POC and VAH: the 78,000 to 78,200 pullback long zone is now broken, price sliced through it without the described reclaim. BTC's trend checklist flipped from no verdict to a confirmed normal-size short.",
+   "ETH pulled back from 2,317.84 to 2,295.72, landing back INSIDE its own sell zone (2,291 to 2,301.50): a possible fresh retest from above, but it stays at B, no upgrade. ETH's funding normalized to neutral (no longer crowded-short) and open interest growth slowed (+1.06% vs +2.5%).",
+   "The Binance hack is still in the feed but with a calmer tone: Tom Lee calls the reaction muted while Bitmine keeps buying ETH, and Binance published proof of reserves using half its SAFU fund; a laundering headline (stolen Solana tokens swapped for Bitcoin) is still circulating. Context risk stays at MEDIUM, with a risk window until 16:10 UTC for the most recent headline (a shock from the last hour).",
+   "NQ is rebounding off its open (28,588 to 28,770, +0.6%) after oil dropped; ETH partly tracks that strength, BTC diverges (falling while indexes rise), reinforcing that BTC is lagging. Verdict on both: WAIT, no A+ zone within reach."
   ]
  },
  "focus": {
   "sym": "ETHUSDT",
   "setup": {
-   "es": "ETH cotiza en 2,289.25, a un paso del maximo de la noche y de Asia (2,291), con un bloque de huecos bajistas de 1h/4h justo encima (2,291 a 2,327) y dinero nuevo real detras del rally (interes abierto +2.5% en 24 h). La zona de venta ahi (2,291 a 2,301.50) es la mas cercana pero se queda en B: va contra el checklist de tendencia (hoy favorece largos reducidos) y el precio esta muy estirado del VWAP. Con fondeo de cortos cargados (shorts-crowded), mis zonas en ese contexto solo funcionan 3 de 10 (30%, scorecard): no sube la convicción solo por el viento de cola de fin de semana. Vigilar el cierre de rechazo ahi, o el retroceso hacia 2,274 a 2,278.50 (VAH de ayer + EMA20) para el largo de continuacion.",
-   "en": "ETH trades at 2,289.25, one step from the overnight/Asia high (2,291), with a block of 1h/4h bearish gaps right above it (2,291 to 2,327) and real fresh money behind the rally (open interest +2.5% in 24h). The short zone there (2,291 to 2,301.50) is the nearest one but stays at B: it goes against the trend checklist (it favors reduced-size longs today) and price is very stretched from VWAP. With crowded-short funding, my zones in that context only work 3 of 10 (30%, scorecard): that does not raise conviction just because of the weekend tailwind. Watch for a rejection close there, or the pullback toward 2,274 to 2,278.50 (yesterday's VAH + EMA20) for the continuation long."
+   "es": "ETH ya hizo lo que el close vigilaba y mas: barrio el maximo de la noche hasta 2,317.84 (paso el stop 2,303 de la zona de venta) y ahora se repliega de vuelta DENTRO de esa misma zona (2,291 a 2,301.50), cotizando en 2,295.72. Sigue en B, el checklist de tendencia sigue a favor de largos reducidos, no en contra de ella. Fondeo ya neutral (se acabo el shorts-crowded), asi que ese viento de cola especifico ya no aplica. Vigilar un nuevo cierre de rechazo de 5m o 15m dentro de 2,291 a 2,301.50, o el retroceso mas profundo hacia 2,274 a 2,278.50 (VAH de ayer + EMA20) para el largo de continuacion, todavia sin tocar.",
+   "en": "ETH already did what the close was watching for, and more: it swept the overnight high to 2,317.84 (clearing the sell zone's 2,303 stop) and is now pulling back INSIDE that same zone (2,291 to 2,301.50), trading at 2,295.72. Still B grade; the trend checklist still favors reduced-size longs, not against it. Funding has gone neutral (the crowded-short tailwind is gone), so that specific edge no longer applies. Watch for a fresh 5m or 15m rejection close inside 2,291 to 2,301.50, or the deeper pullback toward 2,274 to 2,278.50 (yesterday's VAH + EMA20) for the continuation long, still untouched."
   }
  },
- "riskWindow": null,
+ "riskWindow": {
+  "from": "2026-11-02T15:37:00Z",
+  "to": "2026-11-02T16:10:18Z",
+  "why": {
+   "es": "Titular de hackeo cripto visto en los ultimos 60 min (live/shock.json: reaccion calmada al hackeo de Binance, Bitmine comprando ETH). Tope WAIT en BTC y ETH hasta que expire; ya estaban en WAIT, no cambia el veredicto.",
+   "en": "A crypto hack headline seen in the last 60 min (live/shock.json: calm reaction to the Binance hack, Bitmine buying ETH). WAIT cap on BTC and ETH until it expires; both were already at WAIT, so it does not change the verdict."
+  }
+ },
  "cryptoContext": {
   "risk": "MEDIO",
   "deriv": {
-   "es": "BTC: fondeo neutral en el tope normal, interes abierto -1.14% en 24 h (cierres de cortos, no dinero nuevo: no perseguir la ruptura). ETH: fondeo negativo (los cortos pagan, shorts-crowded), interes abierto +2.5% en 24 h (dinero nuevo real detras de la subida); el viento de cola historico de fin de semana sigue de pie, pero en este contexto especifico mis zonas solo funcionan 3 de 10.",
-   "en": "BTC: neutral funding at the normal cap, open interest -1.14% in 24h (short-covering, not fresh money: don't chase the breakout). ETH: negative funding (shorts paying, crowded-short), open interest +2.5% in 24h (real fresh money behind the rally); the historical weekend tailwind still stands, but in this specific context my zones only work 3 of 10."
+   "es": "BTC: fondeo neutral en el tope normal, interes abierto -2.57% en 24 h (cierres de cortos se aceleran, sigue sin dinero nuevo: no perseguir la ruptura). ETH: fondeo ya neutral (se acabo el shorts-crowded de ayer), interes abierto +1.06% en 24 h (todavia dinero nuevo, pero creciendo mas lento que ayer).",
+   "en": "BTC: neutral funding at the normal cap, open interest -2.57% in 24h (short-covering accelerating, still no fresh money: don't chase the breakout). ETH: funding already neutral (yesterday's crowded-short is gone), open interest +1.06% in 24h (still fresh money, but growing slower than yesterday)."
   },
-  "dvol": 54.04,
+  "dvol": 52.84,
   "fearGreed": 37,
   "cmeGap": {
    "price": 2235.76,
-   "gapPct": 2.14
+   "gapPct": 2.52
   },
-  "ethBtc24hPct": 0.27,
+  "ethBtc24hPct": 1.3,
   "drivers": [
    {
     "theme": "hack",
-    "headline": "Binance net outflows surge to $5.8B as withdrawals resume after record hack",
-    "source": "Cointelegraph",
+    "headline": "Bitmine adds 8,573 ETH as Tom Lee flags muted Binance hack reaction",
+    "source": "The Block",
     "ageH": 1,
     "note": {
-     "es": "Los retiros netos subieron de 3,640 a 5,800 millones de dolares en pocas horas: la fase de recuperacion se ve menos ordenada que ayer. No crea una direccion por si sola, pero sube el riesgo de contexto de BAJO a MEDIO.",
-     "en": "Net withdrawals jumped from $3.64B to $5.8B within hours: the recovery phase looks less orderly than yesterday. It does not create a direction on its own, but it lifts context risk from LOW to MEDIUM."
+     "es": "Tom Lee describe la reaccion del mercado como calmada mientras Bitmine sigue comprando ETH: primera senal de que la fase mas caliente del hackeo puede estar quedando atras. No crea una direccion por si sola.",
+     "en": "Tom Lee describes the market reaction as muted while Bitmine keeps buying ETH: a first sign the hottest phase of the hack may be fading. It does not create a direction on its own."
     }
    },
    {
     "theme": "hack",
-    "headline": "FBI blames North Korea for record $6.3B Binance hack",
+    "headline": "Binance taps half its SAFU Bitcoin holdings, releases reserve proof",
     "source": "Cointelegraph",
-    "ageH": 18,
+    "ageH": 2,
     "note": {
-     "es": "El FBI confirmo que el ataque fue de Corea del Norte: encuadre geopolitico y regulatorio, no un nuevo incidente tecnico, pero mantiene el tema vivo en los titulares.",
-     "en": "The FBI confirmed the attack came from North Korea: a geopolitical and regulatory framing, not a new technical incident, but it keeps the story alive in the headlines."
+     "es": "Binance publico prueba de reservas tras usar la mitad de su fondo de seguros SAFU: gesto de transparencia que baja un poco la tension, aunque confirma que el fondo de emergencia ya se uso a fondo.",
+     "en": "Binance published proof of reserves after tapping half its SAFU insurance fund: a transparency move that eases tension a bit, though it confirms the emergency fund has already been used heavily."
+    }
+   },
+   {
+    "theme": "hack",
+    "headline": "Binance hackers begin swapping stolen Solana tokens for Bitcoin: Chainalysis",
+    "source": "Cointelegraph",
+    "ageH": 3,
+    "note": {
+     "es": "Los atacantes empezaron a lavar los fondos robados (Solana a Bitcoin): el tema sigue vivo y mantiene el riesgo en MEDIO, aunque es una fase de limpieza, no un nuevo incidente.",
+     "en": "The attackers started laundering the stolen funds (Solana into Bitcoin): the story stays alive and keeps risk at MEDIUM, though it is a cleanup phase, not a new incident."
     }
    }
   ],
   "note": {
-   "es": "Riesgo MEDIO (sube de BAJO): los retiros netos de Binance se aceleraron de 3,640 a 5,800 millones de dolares en las ultimas horas y el FBI atribuyo el ataque a Corea del Norte; nada de esto crea una direccion, pero pide mas cautela que ayer. BTC y ETH estan en el maximo de la noche y de Asia, muy estirados, con huecos bajistas de 1h/4h justo encima; ETH tiene dinero nuevo detras del rally (interes abierto subiendo), BTC no (interes abierto cae, son cierres). Sin evento de calendario en la ventana de este plan.",
-   "en": "MEDIUM risk (up from LOW): Binance's net withdrawals accelerated from $3.64B to $5.8B in the last few hours and the FBI attributed the attack to North Korea; none of this creates a direction, but it calls for more caution than yesterday. BTC and ETH are at the overnight/Asia high, very stretched, with 1h/4h bearish gaps right above; ETH has fresh money behind the rally (open interest rising), BTC does not (open interest falling, short-covering). No calendar event inside this plan's window."
+   "es": "Riesgo se mantiene en MEDIO: el hackeo de Binance sigue en los titulares (lavado de fondos robados en curso) pero con tono mas calmado que ayer (reaccion calmada segun Tom Lee, prueba de reservas publicada). BTC y ETH ya recorrieron y se dieron la vuelta desde el maximo de la noche; BTC sigue sin dinero nuevo detras (interes abierto cae mas), ETH sigue con dinero nuevo pero mas lento, y su fondeo ya no esta cargado de cortos. Sin evento de calendario de alto impacto en la ventana; el ISM Manufacturing de las 09:00 CT todavia sin actual en el feed.",
+   "en": "Risk stays at MEDIUM: the Binance hack is still in the headlines (laundering of the stolen funds under way) but with a calmer tone than yesterday (muted reaction per Tom Lee, proof of reserves published). BTC and ETH already ran up to and reversed from the overnight high; BTC still has no fresh money behind it (open interest falling further), ETH still has fresh money but slower, and its funding is no longer crowded-short. No high-impact calendar event inside the window; the 09:00 CT ISM Manufacturing print still has no actual in the feed."
   }
  },
  "personal": {
@@ -93,22 +110,22 @@
  },
  "instruments": {
   "BTCUSDT": {
-   "price": 78485.44,
+   "price": 77976.01,
    "biasDay": "NEUTRAL",
-   "biasSession": "NEUTRAL",
-   "conviction": "baja",
+   "biasSession": "SHORT",
+   "conviction": "media",
    "move24h": {
-    "dir": "LONG",
-    "pct": 0.77
+    "dir": "SHORT",
+    "pct": -0.29
    },
-   "regime": "BULL",
+   "regime": "CHOP",
    "tcl": {
-    "v": 0,
-    "flip": 77960.3
+    "v": -2,
+    "flip": 78049.1
    },
    "context": {
-    "es": "BTC en 78,485, en el maximo de la noche y de Asia (78,523) tras barrer el maximo de ayer (78,422), pero esta vez SIN dinero nuevo detras: el interes abierto cae 1.14% en 24 h, son cierres de cortos. Muy estirado del VWAP (2.1 veces el ATR de 5 minutos). El checklist de tendencia no tiene veredicto confirmado hoy (dia sin direccion) y las lecturas de tendencia diaria y semanal son apenas bajistas. BTC va a la zaga de ETH en fuerza relativa esta sesion.",
-    "en": "BTC at 78,485, at the overnight/Asia high (78,523) after sweeping yesterday's high (78,422), but this time with NO fresh money behind it: open interest falls 1.14% in 24h, it is short-covering. Very stretched from VWAP (2.1x the 5-minute ATR). The trend checklist has no confirmed verdict today (a no-direction day) and the daily/weekly trend reads are only mildly bearish. BTC is lagging ETH in relative strength this session."
+    "es": "BTC en 77,976, ya de vuelta en el bolsillo de no-trade entre el POC (77,974) y el VAH de ayer (78,144), tras un recorrido completo: barrio por encima del maximo de la noche/Asia y del PDH (78,422) con mecha, reclamo bajo esos niveles, y despues siguio cayendo hasta barrer el VAL de ayer y el minimo de Asia (mecha bajo 77,517 segun el touchlog) antes de reclamar de vuelta. El checklist de tendencia paso de sin veredicto a corto confirmado de tamano normal (lo nuevo desde el close): un escalon mas de conviccion para el sesgo corto, aunque sigue sin zona A+. Interes abierto cae 2.57% en 24 h, mas que ayer: sigue siendo cierres de cortos, no dinero nuevo. BTC diverge del rebote de los indices (NQ sube desde su apertura) y sigue a la zaga de ETH en fuerza relativa.",
+    "en": "BTC at 77,976, back in the no-trade pocket between the POC (77,974) and yesterday's VAH (78,144), after a full round trip: it swept above the overnight/Asia high and the PDH (78,422) with a wick, reclaimed back under those levels, then kept falling to sweep yesterday's VAL and the Asia low (a wick below 77,517 per the touchlog) before reclaiming back up. The trend checklist flipped from no verdict to a confirmed normal-size short (new since the close): one more notch of conviction for the short bias, though still no A+ zone. Open interest falls 2.57% in 24h, more than yesterday: still short-covering, not fresh money. BTC diverges from the index rebound (NQ is up from its open) and keeps lagging ETH in relative strength."
    },
    "levels": {
     "vah": 78144.17,
@@ -117,7 +134,7 @@
     "pdh": 78422.23,
     "pdl": 77517.2,
     "dayOpen": 78354.01,
-    "vwap": 78244.61,
+    "vwap": 78167.56,
     "pwh": 81971.0,
     "pwl": 76325.98
    },
@@ -139,8 +156,8 @@
      },
      "play": {
       "trigger": {
-       "es": "Barrida sobre 78,523 (maximo de la noche/Asia) con cierre de 5m o 15m de vuelta debajo, o mecha de rechazo dentro de 78,523 a 78,648 con cierre bajista.",
-       "en": "A sweep above 78,523 (overnight/Asia high) with a 5m or 15m close back below, or a wick rejection inside 78,523 to 78,648 with a bearish close."
+       "es": "GATILLO YA DADO desde el close: BTC barrio sobre 78,523 con mecha (toco el area de 78,422 a 78,600 segun el touchlog) y cerro de vuelta debajo, sin llegar a tocar el stop. Ya corrio hasta mas abajo de TP1 (78,354) y TP2 (78,097.49); el precio esta ahora en 77,976, la entrada de esta zona ya no esta fresca. Referencia para la proxima barrida similar sobre el mismo nivel.",
+       "en": "TRIGGER ALREADY GIVEN since the close: BTC swept above 78,523 with a wick (touching the 78,422 to 78,600 area per the touchlog) and closed back below, without reaching the stop. It already ran below TP1 (78,354) and TP2 (78,097.49); price is now at 77,976, so this zone's entry is no longer fresh. Keep it as a reference for the next similar sweep of the same level."
       },
       "stop": 78700,
       "tp1": 78354.0,
@@ -163,14 +180,15 @@
      "grade": "B",
      "tcl": null,
      "vs24h": "with",
+     "broken": true,
      "why": {
       "es": "Confluencia: VAH de ayer 78,144.41 (nivel de perfil +1) junto al borde del Initial Balance de ayer 78,097.49 a 78,000 (pivote +1), EMA20 78,198 en el borde alto (+1) y dos huecos alcistas de 15m solapados 77,996.89 a 78,076.20 y 77,892.84 a 78,069.48 (hueco del marco de la sesion, +2) = 5, pero va CON las ultimas 24 h (BTC subio 0.77%), asi que la jerarquia cripto la topa en B aunque el checklist de tendencia hoy no suma ni resta.",
       "en": "Confluence: yesterday's VAH 78,144.41 (profile level +1) next to the edge of yesterday's Initial Balance 78,097.49 to 78,000 (pivot +1), the EMA20 at 78,198 at the top edge (+1) and two overlapping 15m bullish gaps at 77,996.89 to 78,076.20 and 77,892.84 to 78,069.48 (session-frame gap, +2) = 5, but it goes WITH the last 24h (BTC was up 0.77%), so the crypto hierarchy caps it at B even though the trend checklist neither adds nor subtracts today."
      },
      "play": {
       "trigger": {
-       "es": "Retroceso a 78,000 a 78,200 (borde del Initial Balance de ayer + VAH de ayer + EMA20) con cierre de 5m de vuelta por encima de 78,050, o reclamo de los huecos alcistas de 15m en esa banda.",
-       "en": "A pullback to 78,000 to 78,200 (yesterday's Initial Balance edge + VAH + EMA20) with a 5m close back above 78,050, or a reclaim of the 15m bullish gaps in that band."
+       "es": "ROTA: el precio atraveso 78,000 a 78,200 de bajada sin el reclamo descrito y siguio cayendo hasta barrer el VAL de ayer y el minimo de Asia (mecha bajo 77,517). Ya no es un retroceso limpio a favor, se queda como referencia de estructura, no como gatillo vivo.",
+       "en": "BROKEN: price sliced through 78,000 to 78,200 to the downside without the described reclaim and kept falling to sweep yesterday's VAL and the Asia low (a wick below 77,517). No longer a clean pullback in favor; it stays as a structural reference, not a live trigger."
       },
       "stop": 77940,
       "tp1": 78354.0,
@@ -186,8 +204,8 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "La venta en el maximo de la noche se queda en B (score 5, no llega al 6 de A+) y la compra en el retroceso tambien queda en B por ir CON las ultimas 24 h. El interes abierto de BTC cae 1.14% en 24 h mientras el precio sube: son cierres de cortos, no dinero nuevo, el impulso es mas fragil que el de ETH. Esperar el rechazo confirmado en el maximo o el reclamo del retroceso.",
-     "en": "The short at the overnight high stays at B (score 5, short of the 6 needed for A+) and the pullback long also stays at B for going WITH the last 24h. BTC's open interest falls 1.14% in 24h while price rises: short-covering, not fresh money, the move is more fragile than ETH's. Wait for a confirmed rejection at the high or a reclaim of the pullback."
+     "es": "Las dos zonas del close ya corrieron: la venta sobre 78,523 ya disparo y paso sus dos objetivos (B, score 5, nunca A+), y la compra de retroceso 78,000 a 78,200 quedo rota al atravesarla sin reclamo. BTC esta ahora en el bolsillo de no-trade (77,976, entre POC y VAH de ayer), sin zona fresca a tiro. El checklist de tendencia confirmo corto de tamano normal (subio la conviccion un escalon) y el interes abierto sigue cayendo (-2.57%, mas que ayer): son cierres de cortos, no dinero nuevo, BTC diverge del rebote de los indices. Sin A+, el veredicto sigue en WAIT.",
+     "en": "Both close zones already ran their course: the sell above 78,523 already triggered and passed its two targets (B, score 5, never A+), and the 78,000 to 78,200 pullback long is now broken, sliced through without a reclaim. BTC now sits in the no-trade pocket (77,976, between yesterday's POC and VAH), with no fresh zone in reach. The trend checklist confirmed a normal-size short (one notch more conviction) and open interest keeps falling (-2.57%, more than yesterday): short-covering, not fresh money, BTC diverging from the index rebound. With no A+, the verdict stays WAIT."
     }
    },
    "counterCase": {
@@ -216,22 +234,22 @@
    ]
   },
   "ETHUSDT": {
-   "price": 2289.25,
+   "price": 2295.72,
    "biasDay": "NEUTRAL",
    "biasSession": "LONG",
    "conviction": "baja",
    "move24h": {
     "dir": "LONG",
-    "pct": 0.58
+    "pct": 0.8
    },
-   "regime": "BULL",
+   "regime": "CHOP",
    "tcl": {
     "v": 1,
-    "flip": 2266.05
+    "flip": 2284.85
    },
    "context": {
-    "es": "ETH en 2,289, pegado al maximo de la noche y de Asia (2,291) tras barrer el maximo de ayer (2,278) con dinero nuevo real detras (el interes abierto subio 2.5% en 24 h). Muy estirado del VWAP (2.5 veces el ATR de 5 minutos), con un bloque de huecos bajistas de 1h y 4h justo encima entre 2,291 y 2,327: resistencia real. El sesgo semanal de apertura apunta al alza pero las lecturas de tendencia diaria y semanal siguen bajistas: hay conflicto de fondo entre marcos. El checklist de tendencia confirma a favor de largos reducidos.",
-    "en": "ETH at 2,289, right at the overnight/Asia high (2,291) after sweeping yesterday's high (2,278) with real fresh money behind it (open interest +2.5% in 24h). Very stretched from VWAP (2.5x the 5-minute ATR), with a block of 1h/4h bearish gaps right above between 2,291 and 2,327: real resistance. The weekly opening bias points up but the daily/weekly trend reads stay bearish: a real conflict between frames. The trend checklist confirms in favor of reduced-size longs."
+    "es": "ETH en 2,295.72, replegandose despues de barrer el maximo de la noche hasta 2,317.84 (paso el stop 2,303 de la zona de venta) y volver a entrar DENTRO de su propia zona (2,291 a 2,301.50): posible retest fresco desde arriba. El bloque de huecos bajistas de 1h/4h entre 2,291 y 2,327 sigue como resistencia real. El fondeo ya se normalizo a neutral (se acabo el shorts-crowded de ayer) y el interes abierto sigue subiendo pero mas lento (+1.06% vs +2.5% ayer). El checklist de tendencia sigue a favor de largos reducidos, sin cambio de direccion. ETH acompana parte del rebote de los indices (NQ sube desde su apertura), BTC no.",
+    "en": "ETH at 2,295.72, pulling back after sweeping the overnight high to 2,317.84 (clearing the sell zone's 2,303 stop) and re-entering its own zone (2,291 to 2,301.50): a possible fresh retest from above. The block of 1h/4h bearish gaps between 2,291 and 2,327 remains real resistance. Funding has already normalized to neutral (yesterday's crowded-short is gone) and open interest keeps rising but slower (+1.06% vs +2.5% yesterday). The trend checklist still favors reduced-size longs, no change in direction. ETH tracks part of the index rebound (NQ is up from its open), BTC does not."
    },
    "levels": {
     "vah": 2274.54,
@@ -240,7 +258,7 @@
     "pdh": 2278.0,
     "pdl": 2247.84,
     "dayOpen": 2275.3,
-    "vwap": 2277.67,
+    "vwap": 2290.78,
     "pwh": 2391.55,
     "pwl": 2174.08
    },
@@ -262,8 +280,8 @@
      },
      "play": {
       "trigger": {
-       "es": "Barrida sobre 2,291 (maximo de la noche/Asia) con cierre de 5m o 15m de vuelta debajo, o mecha de rechazo dentro de 2,291 a 2,301.50 con cierre bajista.",
-       "en": "A sweep above 2,291 (overnight/Asia high) with a 5m or 15m close back below, or a wick rejection inside 2,291 to 2,301.50 with a bearish close."
+       "es": "YA BARRIO una vez: el precio llego a 2,317.84, por encima del stop 2,303, asi que una entrada corta tomada en el primer toque se habria salido en el stop. El precio ya se replego de vuelta DENTRO de la zona (ahora en 2,295.72): vigilar un nuevo cierre de 5m o 15m de rechazo dentro de 2,291 a 2,301.50 para un segundo intento, o mecha de rechazo con cierre bajista.",
+       "en": "ALREADY SWEPT once: price reached 2,317.84, above the 2,303 stop, so a short taken on the first touch would have been stopped out. Price has pulled back INSIDE the zone (now at 2,295.72): watch for a fresh 5m or 15m rejection close inside 2,291 to 2,301.50 for a second attempt, or a wick rejection with a bearish close."
       },
       "stop": 2303,
       "tp1": 2278.0,
@@ -309,8 +327,8 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "Las dos mejores zonas se quedan en B: la venta en el maximo de la noche pierde la A+ por ir contra el checklist de tendencia y por lo estirado que esta el precio; la compra en el retroceso suma mas puntos pero la jerarquia cripto la topa en B por ir CON las ultimas 24 h. Con fondeo de cortos cargados (shorts-crowded), mis zonas en este contexto funcionan 3 de 10 (30%, scorecard): no sube la convicción solo por el viento de cola de fin de semana. Esperar el rechazo confirmado en el maximo o el reclamo del retroceso.",
-     "en": "The two best zones both stay at B: the short at the overnight high loses A+ for going against the trend checklist and for how stretched price is; the pullback long scores higher but the crypto hierarchy caps it at B for going WITH the last 24h. With crowded-short funding, my zones in this context work 3 of 10 (30%, scorecard): that does not raise conviction just because of the weekend tailwind. Wait for a confirmed rejection at the high or a reclaim of the pullback."
+     "es": "La venta del maximo ya se barrio una vez (hasta 2,317.84, por encima del stop 2,303) y el precio se replego de vuelta dentro de la zona (2,295.72): sigue en B, no sube de categoria solo por volver a entrar. La compra de retroceso (2,274 a 2,278.50) sigue sin tocarse, tambien en B. El fondeo de ETH ya es neutral, no shorts-crowded como ayer: ese viento de cola especifico ya no aplica. Esperar un nuevo rechazo confirmado dentro de la zona de venta o el reclamo del retroceso.",
+     "en": "The sell zone at the high already got swept once (to 2,317.84, above the 2,303 stop) and price pulled back inside it (2,295.72): still B, re-entering it does not raise the grade. The pullback long (2,274 to 2,278.50) remains untouched, also B. ETH's funding is now neutral, not crowded-short like yesterday: that specific tailwind no longer applies. Wait for a fresh confirmed rejection inside the sell zone or a reclaim of the pullback."
     }
    },
    "counterCase": {
@@ -346,5 +364,8 @@
    "en": "2026-11-01 grading: BTC missed the bias call at close (called short, moved 453.7 pts up with open interest falling, short-covering) and had no gradable bias at ny. BTC zones 1/2 touched worked (the A+ short failed at close hitting the stop on the strong rally, worked at ny); ETH zones 3/3 touched worked (the A+ short worked both runs, the B long worked at ny). Of the 4 text predictions: 2 hits (no 15m close broke the cited ceilings) and 2 misses (BTC and ETH both briefly cleared the prior day's range ceiling without closing above it, so the range itself did not hold)."
   }
  },
- "updated": null
+ "updated": {
+  "es": "Lo que aguanto del close: las dos zonas (venta en el maximo, compra en el retroceso) y el veredicto WAIT en los dos simbolos, sin zona A+. Lo que cambio: ambos ya barrieron sus zonas de venta con mecha y se dieron la vuelta; BTC siguio cayendo y rompio la zona de compra 78,000 a 78,200 sin reclamo (ahora broken) y su checklist de tendencia confirmo corto de tamano normal (conviccion sube a media); ETH se repliega de vuelta dentro de su zona de venta y su fondeo paso de shorts-crowded a neutral. Riesgo de contexto se mantiene en MEDIO (hackeo de Binance con tono mas calmado, pero ventana de riesgo nueva por un titular de la ultima hora). NQ rebota desde su apertura; ETH acompana en parte, BTC diverge.",
+  "en": "What held from the close: both zones (sell at the high, buy at the pullback) and the WAIT verdict on both symbols, with no A+ zone. What changed: both already swept their sell zones with a wick and reversed; BTC kept falling and broke the 78,000 to 78,200 pullback long without a reclaim (now broken) and its trend checklist confirmed a normal-size short (conviction up to medium); ETH is pulling back inside its own sell zone and its funding went from crowded-short to neutral. Context risk stays at MEDIUM (the Binance hack with a calmer tone, but a new risk window for a headline from the last hour). NQ is rebounding off its open; ETH partly tracks it, BTC diverges."
+ }
 }
