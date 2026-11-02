@@ -1,6 +1,6 @@
 {
  "schema": "crypto-state-1",
- "updatedAt": "2026-11-01T00:30:00Z",
+ "updatedAt": "2026-11-02T01:24:11Z",
  "runs": [
   {
    "plan": "2026-10-31-close",
@@ -15,38 +15,54 @@
     "predictions": {"hit": 0, "miss": 0, "unresolved": 0},
     "zones": {"worked": 1, "failed": 0, "untouched": 1, "unresolved": 1}
    }
+  },
+  {
+   "plan": "2026-11-01-close",
+   "graded": {
+    "predictions": {"hit": 2, "miss": 2, "unresolved": 0},
+    "zones": {"worked": 1, "failed": 1, "untouched": 2, "unresolved": 0}
+   }
+  },
+  {
+   "plan": "2026-11-01-ny",
+   "graded": {
+    "predictions": {"hit": 0, "miss": 0, "unresolved": 0},
+    "zones": {"worked": 3, "failed": 0, "untouched": 1, "unresolved": 0}
+   }
   }
  ],
  "scorecard": {
-  "predictions": {"n": 4, "hit": 3},
-  "zones": {"n": 6, "worked": 2},
+  "predictions": {"n": 8, "hit": 5},
+  "zones": {"n": 14, "worked": 6},
   "byTcl": {
    "favor": {"n": 2, "worked": 0},
    "contra": {"n": 0, "worked": 0}
   },
   "bySym": {
-   "ETHUSDT": {"n": 4, "worked": 2},
-   "BTCUSDT": {"n": 2, "worked": 0}
+   "ETHUSDT": {"n": 8, "worked": 5},
+   "BTCUSDT": {"n": 6, "worked": 1}
   },
   "byContext": {
    "funding=longs-crowded": {"n": 0, "worked": 0},
-   "funding=shorts-crowded": {"n": 6, "worked": 2},
-   "funding=neutral": {"n": 0, "worked": 0},
-   "fg=fear": {"n": 6, "worked": 2},
+   "funding=shorts-crowded": {"n": 10, "worked": 3},
+   "funding=neutral": {"n": 4, "worked": 3},
+   "fg=fear": {"n": 14, "worked": 6},
    "fg=neutral": {"n": 0, "worked": 0},
    "fg=greed": {"n": 0, "worked": 0},
    "dvol=up": {"n": 0, "worked": 0},
    "dvol=down": {"n": 0, "worked": 0},
    "gap=above": {"n": 0, "worked": 0},
    "gap=below": {"n": 0, "worked": 0},
-   "gap=none": {"n": 6, "worked": 2},
-   "headline=hack": {"n": 6, "worked": 2},
+   "gap=none": {"n": 14, "worked": 6},
+   "headline=hack": {"n": 14, "worked": 6},
    "headline=etf": {"n": 0, "worked": 0},
    "headline=regulation": {"n": 0, "worked": 0},
    "headline=none": {"n": 0, "worked": 0}
   }
  },
  "notes": [
+  "El hackeo de Binance volvio a escalar el 1-2 de noviembre (retiros netos de 3.64B a 5.8B dolares, atribucion del FBI a Corea del Norte): no crea direccion por si sola pero el riesgo de contexto del plan de hoy sube de BAJO a MEDIO frente a ayer.",
+  "2026-11-02 califico (grade_plans.py --crypto 2026-11-01): BTC fallo el sesgo en el close (predijo corto, se movio 453.7 pts al alza con el interes abierto cayendo, cierres de cortos y no dinero nuevo) y no tuvo sesgo calificable en el ny. Zonas BTC 1/2 tocadas funcionaron (venta A+ fallo en el close tocando el stop por el rally fuerte, funciono en el ny); zonas ETH 3/3 tocadas funcionaron (venta A+ funciono en las dos corridas, compra B funciono en el ny). Predicciones de texto: 2 aciertos (ningun cierre de 15m rompio los techos citados) y 2 fallos (BTC y ETH superaron brevemente el techo del rango del dia anterior sin cerrar arriba, asi que el rango en si no se mantuvo).",
   "2026-10-31 califico (grade_plans.py --crypto): BTC fallo el sesgo en el close (predijo corto, se movio 228.6 pts al alza) pero lo acerto en el ny; ETH acerto el sesgo las dos veces. La zona larga de ETH (barrida/reclamo 2,208-2,241) funciono en las dos corridas; la A+ de venta de BTC (sweep_pdh) nunca se toco en ninguna de las dos. Predicciones de texto: 3 aciertos, 1 fallo (ETH nunca bajo a barrer 2,208-2,218, se quedo arriba en 2,233).",
   "dvol=up/down de byContext no se pudo rellenar hoy ni ayer: el plan solo guarda el nivel de dvol (macro.crypto.dvol.last), no su chg24h por corrida; si se quiere medir esa clave hay que agregar chg24h al esquema del plan o leerlo de market.json en vivo solo el dia de la calificacion (no retroactivo).",
   "BTC funding se enfrio de longs-crowded (anoche, OI +6.1%/24h) a neutral (hoy, OI -0.62%/24h): la zona de venta en el maximo de ayer ya no trae el extra de riesgo de barrida medido, solo el score base.",
