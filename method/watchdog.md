@@ -5,7 +5,8 @@ tubería que alimenta al Command Center y al Session Analyst sigue viva, y deja
 el veredicto en `live/health.json` para que el Command Center lo pinte.
 
 Corre 4 veces al día, ~1 h después de cada corrida del Session Analyst
-(`30 1,7,14,22 * * *` UTC: tras asia-2, pre-london, pre-ny y pre-asia). En una corrida
+(`30 2,9,17,20 * * *` en hora de Chicago, sigue el cambio de horario: tras pre-london,
+pre-ny y pre-asia; la de 20:30 solo vigila salud). En una corrida
 normal no escribe planes, no toca `state/` ni `live/heartbeat.json`: su artefacto es
 `live/health.json` (+ el commit). La ÚNICA excepción es la **Auto-reparación** de abajo,
 donde rehace una corrida del Session Analyst que no salió.
@@ -14,7 +15,7 @@ donde rehace una corrida del Session Analyst que no salió.
 
 Solo el checkout del repo bus. Sin red a tradedadlog.com. Lee:
 
-- `live/market.json` — `{ builtAt, feed.symbols.<SYM>.{orb,3reads,drbias,srzones,htfzones,command,regime,trendcl}, news }`.
+- `live/market.json` — `{ builtAt, feed.symbols.<SYM>.{orb,feed,3reads,drbias,srzones,htfzones,command,regime,trendcl}, news }`.
   Lo escribe Netlify cada ~5 min; es el espejo de todo lo que recibe la web.
 - `live/heartbeat.json` — `{ lastRun, runType, ok, note }`. Última corrida del Session Analyst.
 - `state/sa-state.json` — solo para leer `scorecard`/nada crítico; NO lo reescribas.
@@ -82,6 +83,7 @@ JSON válido, sin comentarios. Reescríbelo entero cada corrida:
   "sources": {
     "<SYM>": {
       "orb":      { "ageMin": <int|null>, "state": "fresh|stale|dead|frozen|missing" },
+      "feed":     { "ageMin": <int|null>, "state": "fresh|stale|dead|missing" },
       "3reads":   { "ageMin": <int|null>, "state": "fresh|stale|dead|missing" },
       "drbias":   { "...": "..." },
       "srzones":  { "...": "..." },
@@ -147,12 +149,12 @@ El Session Analyst debe aplicar `method/reachability.md` en cada corrida. Si `pl
 Antes de escribir `health.json`, mira si la corrida del Session Analyst que tocaba en esta
 ventana salió. Cada corrida del watchdog vigila UNA sola corrida (la de su franja):
 
-| Watchdog (UTC) | Vigila | Cron original | Días (UTC) |
+| Watchdog (CT) | Vigila | Cron original (CT) | Días (CT) |
 |---|---|---|---|
-| 01:30 | nada (solo salud) · `asia-2` desactivada 2026-10-05: 0 cambios de veredicto/zona en 11 ciclos | · | · |
-| 07:30 | `pre-london` | 06:25 | lun-vie |
-| 14:30 | `pre-ny` | 12:55 | lun-vie |
-| 22:30 | `pre-asia` | 21:05 | dom-vie |
+| 20:30 | nada (solo salud) · `asia-2` desactivada 2026-10-05: 0 cambios de veredicto/zona en 11 ciclos | · | · |
+| 02:30 | `pre-london` | 01:25 | lun-vie |
+| 09:30 | `pre-ny` | 07:55 | lun-vie |
+| 17:30 | `pre-asia` | 16:05 | dom-vie |
 
 "Salió" = existe un commit con mensaje que empieza por `sa <runtype>` en las últimas 3 h:
 `git log origin/main --since="3 hours ago" --format=%s | grep -E "^sa <runtype>"`.
