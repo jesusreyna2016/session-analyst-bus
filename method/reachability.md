@@ -16,6 +16,10 @@ una caja inalcanzable.
 - `budget` = lo que queda de rango útil:
   - Preferir `command.remPts` si viene sano; si no, `expectedMove.base * (1 - dayUsedFrac)` con
     `dayUsedFrac` de `expectedMove.dayUsed` / `command.atrPctUsed` (0–1).
+  - **Piso de sesión: `budget = max(lo anterior, 0.7 * expectedMove.base)`.** Lo gastado del día no
+    predice lo que hace la sesión que entra: el rango real sobre el reparto normal es ~1.4× con el
+    día usado 0-85 % y ~1.3× con ≥ 85 % (cuartil bajo ~0.7× de la base). Sin piso, un día agotado
+    daba budget 0 y toda zona salía WATCH (`instructions.md` sección 5, "Día agotado").
   - Piso: nunca uses un budget inventado; si no hay número, marca `budgetUnknown=true` y
     trata la zona como **no táctica** (solo watch).
 - `reachRatio = distToZone / budget` (si budget > 0).
@@ -74,9 +78,9 @@ impide que una A+ inalcanzable se vista de plan del día.
 
 Además del rankeo de zonas, en **asia-2 / pre-london / pre-ny** (y cualquier re-disparo):
 
-1. Si `command.remPts` (o equivalente) es **0 / AGOTADO** y `zones[0]` ya no es TÁCTICA vs
-   precio vivo → reescribe el plan: o bien nueva zona táctica cerca de precio, o
-   `verdict=AVOID|WAIT` con frase **"sin borde a tiro; día sin presupuesto"**. No dejes
+1. Si `zones[0]` ya no es TÁCTICA vs precio vivo (con el piso de sesión de `budget`; un día
+   AGOTADO por sí solo no la saca) → reescribe el plan: o bien nueva zona táctica cerca de
+   precio, o `verdict=AVOID|WAIT` con frase **"sin borde a tiro"**. No dejes
    colgado el plan de la mañana como operable.
 2. Si el precio se movió tanto que `reachRatio` de `zones[0]` pasó de TÁCTICA a WATCH desde
    `generatedAt`, el update **debe** cambiar `zones[0]` / digest / `tvPayload` (no solo
@@ -101,5 +105,5 @@ Si `instructions.md` y este archivo divergen, gana **este archivo** para alcance
 
 ## Post-catalizador / presupuesto agotado
 Si el día es FOMC/NFP/CPI (ver `instructions.md` §5) o `remPts`≈0 tras un shock, reutiliza
-la sección **Update forzado** arriba: no dejes zonas tácticas de la mañana como operable
-cuando el presupuesto ya se gastó. Preferir WAIT + borde cercano o AVOID.
+la sección **Update forzado** arriba: revisa las zonas de la mañana contra el precio vivo, baja
+convicción un escalón y no prometas targets lejanos. Sigue valiendo el piso de sesión de `budget`.

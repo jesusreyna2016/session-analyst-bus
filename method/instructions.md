@@ -728,7 +728,8 @@ Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
    **EM en catalizador mayor calendarizado (regla dura, sección 5):** en día/semana FOMC, NFP o
    CPI, el +10 % genérico de "noticia alto impacto" **no basta**. Usa el escalón de la sección 5
    (+20–25 % al presupuesto del día, o el siguiente bucket de calibración) y, en la sesión
-   *posterior* al dato, trata el restante como residual si `atrPctUsed` ya ≥ 85 % / `remPts`≈0.
+   *posterior* al dato, si `atrPctUsed` ya ≥ 85 % / `remPts`≈0 márcalo AGOTADO y baja convicción
+   un escalón, pero el EM de la sesión NO se recorta (sección 5, "Día agotado").
 8b. **Contexto fuera del gráfico** (`macroContext`, regla dura, todas las corridas). No todo
    está en el gráfico: earnings, guerra, Trump/aranceles, la Fed. `news` trae dos listas más
    aparte del calendario:
@@ -1079,6 +1080,13 @@ VWAP, PD Mid, **ONH/ONL** (rango overnight), **IBH/IBL** (Initial Balance del RT
 - −2 si cae en no-trade / tierra de nadie (entre niveles, sin NADA de lo de arriba)
 - −2 si va contra el sesgo de mayor peso sin ser borde de reversión claro (sweep + rechazo)
 - −1 si el precio ya está muy estirado hacia esa zona (`command.stretchAtr` ≥ 2)
+- **Sesión que abre con `stretchAtr` > 5** (provisional, no suma ni resta): una zona de pullback a
+  favor puede no llegar nunca (2026-10-30: las 5 de Asia quedaron sin tocar). La zona sigue en su
+  nivel real, nunca se mueve el precio de un nivel. Si es de continuación: no puede ser el único
+  `focus`, y el `scenarioB` dice qué pasa si no hay pullback ("sigue sin retroceso: no se persigue").
+  Medido: zonas de continuación tocadas 54 % con estiramiento > 5 (n=37) vs 66 % con < 2 (n=32); la
+  muestra es corta y la diferencia ~1 error estándar, por eso es aviso y no castigo. Hipótesis
+  `stretch5-pullback-no-llega`.
 - ±1 **Trend Checklist** (`trendcl.v`, sección 2): +1 a favor, −1 en contra (y en contra =
   tope B, nunca GO)
 - +1 **Market Regime** (`regime`, sección 2): borde de caja de chop, breakout A o fake
@@ -1285,11 +1293,17 @@ El plan no es para "un trader", es para Jesus. Con el perfil:
    día **que NO sea** FOMC/NFP/CPI; **+20–25 %** (o el siguiente bucket de `emCalibration`) si
    `calendarContext` marca FOMC, NFP o CPI ese día — el +10 % solo se quedó corto de forma
    recurrente (Fed 09-17, NFP 09-04, CPI 09-11); escala por `drbias.raw.rvol` lejos de 1
-   (rvol 1.5 → ×1.15, 0.7 → ×0.85, tope ±25 %); si `emRegime`=AGOTADO o `adrPct`>90 el estimado
-   de la sesión pasa a "residual".
+   (rvol 1.5 → ×1.15, 0.7 → ×0.85, tope ±25 %).
+   **Día agotado** (`emRegime`=AGOTADO, `adrPct`>90 o `dayUsedPct` ≥ 85, los 5 símbolos): el EM de
+   la sesión **NO** pasa a residual. Usa el reparto normal × `mult` como cualquier otra sesión, sin
+   un `mult` aparte. Medido en 47 sesiones que entraron con el día ≥ 90 % usado (08-31 a 11-02): el
+   rango real fue ~1.3× el reparto normal, igual que un día normal (~1.4×), y **ninguna** quedó por
+   debajo del 40 % del reparto, mientras el residual daba una base de ~0.41× el reparto. Generaliza
+   `R-NQ-agotado-no-limita-sesion`. `flag` sigue diciendo `AGOTADO` como aviso. Se revierte si 3
+   sesiones agotadas seguidas de un símbolo quedan < 40 % del reparto: dilo en el weekly.
    **Post-catalizador:** si la sesión anterior al dato (o la del propio dato) ya gastó ≥ 85 %
-   del ADR / `remPts`≈0, la sesión que sigue NO reutiliza el presupuesto "lleno" del día: marca
-   bandera `AGOTADO`/`residual`, baja convicción un escalón y no prometas targets lejanos.
+   del ADR / `remPts`≈0: marca bandera `AGOTADO`, baja convicción un escalón y no prometas targets
+   lejanos. El EM de la sesión no se recorta (ver "Día agotado").
 2. **Reparto por sesión**: priores NQ Asia ~22 %, Londres ~33 %, NY ~45 %. ES, GC e YM igual
    hasta tener % medido en `models.*`. **CL** carga aún más a NY (~20/30/50) y los miércoles
    el grueso del rango llega tras el EIA de las 09:30 CT. Usa el % medido cuando exista.
@@ -1613,9 +1627,14 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
     un nivel fuerte en contra a < 20 % del recorrido, si no baja a WAIT.
   - El lado WAIT lo cubre `missedOps` (no se duplica).
 - **`whipsawCal`**: `{ "<SYM>": { n, hits, rate, brier } }` sobre el acierto de `whipsawRisk`
-  (ver arriba, bullet "Whipsaw"). Si `rate > 0.62` con `n ≥ 15` → `whipsawRisk` tiene skill:
-  la 3.9 puede usar `score ≥ 0.6` para forzar WAIT (no solo tope de convicción). Si
-  `rate < 0.45` con `n ≥ 15` → no tiene skill, degrádalo a informativo y revísalo en `models`.
+  (ver arriba, bullet "Whipsaw"). **`rate` no mide skill**: ~72 % de las sesiones resuelven, así que decir
+  siempre "riesgo bajo" ya saca ~72 %. La 3.9 **no** usa `score ≥ 0.6` para forzar WAIT, sea cual sea
+  `rate`. Eso solo se activa para un símbolo si el weekly mide, cruzando `plans/` con `grades/`, que
+  la proporción de sesiones chop (|neto| < 25 % del rango) con `score ≥ 0.5` supera por ≥ 10 pts a
+  la de `score < 0.5`, con `n ≥ 30` en cada lado. Medido al 2026-11-02: global 31 % (n=134) vs 26 %
+  (n=256); YM 37 % vs 31 %; ES 21 % vs 33 %. Ninguno llega. No bajes el peso de `frameConflict.on`
+  por `rate` bajo: es el mejor discriminador medido (chop con conflicto 34 % vs 24 % sin él; YM 41 %
+  vs 25 %). El tope de convicción con `score ≥ 0.6` sigue igual.
 
 Poda: cada sub-objeto guarda ventana rodante de ~60 días; borra lo más viejo en el mismo write.
 
