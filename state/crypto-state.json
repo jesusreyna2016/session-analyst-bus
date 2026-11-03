@@ -1,6 +1,6 @@
 {
  "schema": "crypto-state-1",
- "updatedAt": "2026-11-02T01:24:11Z",
+ "updatedAt": "2026-11-03T01:30:00Z",
  "runs": [
   {
    "plan": "2026-10-31-close",
@@ -29,38 +29,55 @@
     "predictions": {"hit": 0, "miss": 0, "unresolved": 0},
     "zones": {"worked": 3, "failed": 0, "untouched": 1, "unresolved": 0}
    }
+  },
+  {
+   "plan": "2026-11-02-close",
+   "graded": {
+    "predictions": {"hit": 1, "miss": 3, "unresolved": 0},
+    "zones": {"worked": 1, "failed": 3, "untouched": 0, "unresolved": 0}
+   }
+  },
+  {
+   "plan": "2026-11-02-ny",
+   "graded": {
+    "predictions": {"hit": 0, "miss": 0, "unresolved": 0},
+    "zones": {"worked": 1, "failed": 1, "untouched": 2, "unresolved": 0}
+   }
   }
  ],
  "scorecard": {
-  "predictions": {"n": 8, "hit": 5},
-  "zones": {"n": 14, "worked": 6},
+  "predictions": {"n": 12, "hit": 6},
+  "zones": {"n": 22, "worked": 8},
   "byTcl": {
-   "favor": {"n": 2, "worked": 0},
-   "contra": {"n": 0, "worked": 0}
+   "favor": {"n": 4, "worked": 1},
+   "contra": {"n": 2, "worked": 1}
   },
   "bySym": {
-   "ETHUSDT": {"n": 8, "worked": 5},
-   "BTCUSDT": {"n": 6, "worked": 1}
+   "ETHUSDT": {"n": 12, "worked": 7},
+   "BTCUSDT": {"n": 10, "worked": 1}
   },
   "byContext": {
    "funding=longs-crowded": {"n": 0, "worked": 0},
-   "funding=shorts-crowded": {"n": 10, "worked": 3},
-   "funding=neutral": {"n": 4, "worked": 3},
-   "fg=fear": {"n": 14, "worked": 6},
+   "funding=shorts-crowded": {"n": 14, "worked": 4},
+   "funding=neutral": {"n": 8, "worked": 4},
+   "fg=fear": {"n": 22, "worked": 8},
    "fg=neutral": {"n": 0, "worked": 0},
    "fg=greed": {"n": 0, "worked": 0},
    "dvol=up": {"n": 0, "worked": 0},
    "dvol=down": {"n": 0, "worked": 0},
-   "gap=above": {"n": 0, "worked": 0},
+   "gap=above": {"n": 8, "worked": 2},
    "gap=below": {"n": 0, "worked": 0},
    "gap=none": {"n": 14, "worked": 6},
-   "headline=hack": {"n": 14, "worked": 6},
+   "headline=hack": {"n": 22, "worked": 8},
    "headline=etf": {"n": 0, "worked": 0},
    "headline=regulation": {"n": 0, "worked": 0},
    "headline=none": {"n": 0, "worked": 0}
   }
  },
  "notes": [
+  "2026-11-03 califique (grade_plans.py --crypto 2026-11-02): BTC sin sesgo calificable en el close (neutral) pero acerto en el ny (corto, se movio 1,044.5 pts a la baja); sus 4 zonas no funcionaron ninguna (2 tocaron el stop en el close, 2 nunca se tocaron en el ny). ETH fallo el sesgo las dos corridas (predije largo, el precio cayo en las dos ventanas); de sus 4 zonas, 2 funcionaron (compra B del close, venta B del ny) y 2 fallaron. Predicciones de texto del close: 1 acierto, 3 fallos (BTC rompio 78,000 sin el reclamo descrito; ETH rompio su techo 2,301.50 y con el su rango completo).",
+  "Con contexto de miedo (Fear&Greed <=40) y titulares de hackeo activos, el scorecard acumulado muestra que mis zonas en ese contexto solo funcionan 8 de 22 (36%, n suficiente): baje la conviccion un escalon en BTC y ETH en el plan de hoy (2026-11-03), primera vez que esta regla de prior se activa en cripto.",
+  "Dos hackeos nuevos de exchanges cripto (Mercado Bitcoin $46M, robo de $106M a una entidad de la UE) en las ultimas horas del 2 de noviembre: subo el riesgo de contexto de MEDIO a ALTO en el plan de hoy; el hackeo de Binance de la semana pasada ya habia bajado a BAJO/MEDIO, este es un evento nuevo e independiente.",
   "El hackeo de Binance volvio a escalar el 1-2 de noviembre (retiros netos de 3.64B a 5.8B dolares, atribucion del FBI a Corea del Norte): no crea direccion por si sola pero el riesgo de contexto del plan de hoy sube de BAJO a MEDIO frente a ayer.",
   "2026-11-02 califico (grade_plans.py --crypto 2026-11-01): BTC fallo el sesgo en el close (predijo corto, se movio 453.7 pts al alza con el interes abierto cayendo, cierres de cortos y no dinero nuevo) y no tuvo sesgo calificable en el ny. Zonas BTC 1/2 tocadas funcionaron (venta A+ fallo en el close tocando el stop por el rally fuerte, funciono en el ny); zonas ETH 3/3 tocadas funcionaron (venta A+ funciono en las dos corridas, compra B funciono en el ny). Predicciones de texto: 2 aciertos (ningun cierre de 15m rompio los techos citados) y 2 fallos (BTC y ETH superaron brevemente el techo del rango del dia anterior sin cerrar arriba, asi que el rango en si no se mantuvo).",
   "2026-10-31 califico (grade_plans.py --crypto): BTC fallo el sesgo en el close (predijo corto, se movio 228.6 pts al alza) pero lo acerto en el ny; ETH acerto el sesgo las dos veces. La zona larga de ETH (barrida/reclamo 2,208-2,241) funciono en las dos corridas; la A+ de venta de BTC (sweep_pdh) nunca se toco en ninguna de las dos. Predicciones de texto: 3 aciertos, 1 fallo (ETH nunca bajo a barrer 2,208-2,218, se quedo arriba en 2,233).",
