@@ -24,13 +24,12 @@ Nunca uses el guión largo en prosa: coma, punto o `·`.
 
 ## 1 · Entrada
 
-`live/market.json` → `.feed.crypto` = `{ ETHUSDT: { orb, "3reads", drbias, srzones, htfzones,
-command, regime, trendcl?, feed? }, BTCUSDT: {…} }`. Mismo esquema por fuente que los futuros.
-  Con `feed` fresca (TDL Feed, sección 2b de `instructions.md`) esa es la fuente de niveles y
-  contexto y las cinco viejas pueden faltar sin contar como caída.
+`live/market.json` → `.feed.crypto` = `{ ETHUSDT: { orb, feed, regime, trendcl? }, BTCUSDT: {…} }`.
+Mismo esquema por fuente que los futuros. `feed` (TDL Feed, sección 2b de `instructions.md`) es
+la fuente de niveles y contexto.
 - Frescura: igual que la sección 2 del método (< 25 min fresca, 25–90 vieja, > 90 muerta;
   `regime` y `trendcl` con sus cortes propios). El mercado cripto está ABIERTO siempre: no
-  relajes umbrales ni en fin de semana. Si `.feed.crypto` falta o un símbolo trae < 3 fuentes frescas,
+  relajes umbrales ni en fin de semana. Si `.feed.crypto` falta o un símbolo llega sin `feed` y sin `orb` frescas,
   omítelo y dilo en `summary`. Si faltan los dos, escribe el plan con `instruments: {}` y
   `summary` "sin feed cripto", y termina normal (commit incluido).
 - `.feed.symbols` (futuros) solo para una línea de contexto: dónde está NQ respecto a su rango
@@ -154,7 +153,7 @@ reales de `bars/`, zonas con gatillo de cierre 5m, `play.stop`/`play.tp1`; escri
 `grades/crypto/<fecha>.json`) y usa SUS resultados para las zonas y el sesgo: `worked` /
 `failed` / `broken` / `untouched` salen de ahí, no de memoria. Lo que el script no decide
 (predicciones de texto) lo calificas tú con lo que el feed actual permite comprobar
-(precio, hod/lod de `drbias`, toques de `command.touchlog`):
+(precio, `hod`/`lod` y `touchlog` de `feed.raw`):
 - cada `prediction` con `resolveAt` ya pasado → `hit` / `miss` / `unresolved` (si el feed no
   basta para decidir, `unresolved`, no adivines);
 - cada zona: `touched` (el precio entró al rango) y, si se tocó, `worked` (llegó al primer

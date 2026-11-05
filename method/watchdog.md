@@ -15,7 +15,7 @@ donde rehace una corrida del Session Analyst que no salió.
 
 Solo el checkout del repo bus. Sin red a tradedadlog.com. Lee:
 
-- `live/market.json` — `{ builtAt, feed.symbols.<SYM>.{orb,feed,3reads,drbias,srzones,htfzones,command,regime,trendcl}, news }`.
+- `live/market.json` — `{ builtAt, feed.symbols.<SYM>.{orb,feed,regime,trendcl}, news }`.
   Lo escribe Netlify cada ~5 min; es el espejo de todo lo que recibe la web.
 - `live/heartbeat.json` — `{ lastRun, runType, ok, note }`. Última corrida del Session Analyst.
 - `state/sa-state.json` — solo para leer `scorecard`/nada crítico; NO lo reescribas.
@@ -34,12 +34,9 @@ reconstruirse.
   - > 20 min día hábil → `VIEJO` (el cron de Netlify `sa-bus-snapshot` se cortó;
     TODO lo de abajo es sospechoso).
 - **`feed`** (TDL Feed, desde 2026-10-30, un mensaje por vela de 5m): `ageMin = now − receivedAt`.
-  < 25 → `fresh` · 25–90 → `stale` · > 90 → `dead` · sin campo → `missing`. Reemplaza a las
-  cinco de abajo: si `feed` de un símbolo está `fresh`, esas cinco van en el reporte pero su
-  `stale`/`dead`/`missing` NO genera issue (se están borrando).
-- **Fuentes `ind-ingest` viejas** por símbolo (`3reads`, `drbias`, `srzones`, `htfzones`,
-  `command`): `ageMin = now − receivedAt`.
-  - < 25 → `fresh` · 25–90 → `stale` · > 90 → `dead` · sin campo → `missing`.
+  < 25 → `fresh` · 25–90 → `stale` · > 90 → `dead` · sin campo → `missing`.
+  `3reads`, `drbias`, `srzones`, `htfzones` y `command` se retiraron el 2026-11-04: no van en el
+  reporte ni generan issue.
 - **Fuentes auxiliares** (desde 2026-10-26, mandan heartbeat más espaciado, otros cortes):
   - `regime` (Market Regime 5m, heartbeat cada 30 min, los 5 símbolos): < 45 → `fresh` ·
     45–120 → `stale` · > 120 → `dead` · sin campo → `missing`.
@@ -50,9 +47,10 @@ reconstruirse.
   - Ambas pueden llevar a `warn` (issue `"regime@CL dead (130 min)"`), **nunca** a `down`.
 - **`orb`** (backbone, de `cc-ingest`): `session-feed` le copia `updatedAt` a
   `receivedAt`, así que aplica el mismo corte de edad. **`frozen`** solo si el ORB está
-  realmente parado: `orb.date` es anterior al día de `command` (no rodó de día), o
-  `orb.levels.pdh/pdl` difieren de `command.raw.pdh/pdl` (esos deben ser idénticos).
-  **VAH/POC/VAL NO sirven para esto**: orb_sesgo y Command calculan el perfil con binning
+  realmente parado: `orb.levels.pdh/pdl` difieren de `feed.raw.pdh/pdl` (esos deben ser
+  idénticos; si no rodó de día, difieren). No compares `orb.date` con `feed.ts`: en cripto
+  difieren por zona horaria sin que nada esté parado.
+  **VAH/POC/VAL NO sirven para esto**: los indicadores calculan el perfil con binning
   distinto y en CL/GC unos pocos ticks ya pasan de 0.3 % (falsa alarma confirmada
   2026-10-05: con orb fresco a 0 min, CL poc 89.19 vs 89.43). Si VAH/POC/VAL difieren > 1 %
   con edades frescas, anótalo como dato en `note`, nunca en `issues`.
@@ -84,25 +82,20 @@ JSON válido, sin comentarios. Reescríbelo entero cada corrida:
     "<SYM>": {
       "orb":      { "ageMin": <int|null>, "state": "fresh|stale|dead|frozen|missing" },
       "feed":     { "ageMin": <int|null>, "state": "fresh|stale|dead|missing" },
-      "3reads":   { "ageMin": <int|null>, "state": "fresh|stale|dead|missing" },
-      "drbias":   { "...": "..." },
-      "srzones":  { "...": "..." },
-      "htfzones": { "...": "..." },
-      "command":  { "...": "..." },
       "regime":   { "...": "..." },
       "trendcl":  { "...": "..." }
     }
     // ... NQ ES GC YM CL
   },
   "scalp": { "ingestMin": <int|null>, "snapshotMin": <int|null>, "state": "ok|atascado|silencioso|missing" },
-  "issues": [ "3reads@GC dead (142 min)", "webhook silencioso (68 min)" ],
+  "issues": [ "feed@GC dead (142 min)", "webhook silencioso (68 min)" ],
   "note": { "es": "<1 frase>", "en": "<1 sentence>" }
 }
 ```
 
 - `status`:
   - `down` — `builtAt VIEJO`, o webhook `silencioso`, o ≥ 3 símbolos con su
-    `feed` (o `command`, si ese símbolo aún no tiene `feed`) o backbone `orb` en `dead`/`missing`.
+    `feed` o backbone `orb` en `dead`/`missing`.
   - `warn` — cualquier `stale`/`frozen`/`lento`/`news stale`/`SA atrasada`, sin
     llegar a `down`.
   - `ok` — todo `fresh` y snapshot `OK`.
@@ -118,12 +111,12 @@ de journal. Si el journal solo cubre 1 día reciente y faltan jornadas hábiles 
 issue `"journal gaps (solo <fecha>)"` (warn).
 
 ## Orb / fuente frozen o dead (recordatorio)
-`frozen` sigue la regla de arriba (fecha o PDH/PDL, nunca el perfil). Si un símbolo lleva
+`frozen` sigue la regla de arriba (PDH/PDL, nunca el perfil). Si un símbolo lleva
 `frozen` ≥ 2 checks seguidos, incluye en `note` que hay que revisar el indicador/export
 TradingView de ese símbolo (no es un fallo del Session Analyst).
-Igual si **cualquier** fuente (`srzones`/`3reads`/…) de un símbolo va `dead` ≥ 2 checks
+Igual si **cualquier** fuente (`feed`/`regime`/…) de un símbolo va `dead` ≥ 2 checks
 hábil seguidos mientras el resto del complejo está fresco o solo "muerto de finde": issue
-`"<fuente>@<SYM> dead streak"` y pide revisión TV (caso visto: `srzones@GC`).
+`"<fuente>@<SYM> dead streak"` y pide revisión TV (caso visto: una fuente de GC).
 
 ## Scalp CC · tubería al bus `scalp-cc-bus` (desde 2026-10-28)
 `live/market.json` → `.feed.scalp` = `{ lastIngestAt, lastSnapshotAt }`: último webhook de

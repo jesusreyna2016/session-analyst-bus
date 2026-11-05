@@ -106,7 +106,7 @@ working dir. Trabajas con archivos, no con HTTP.
 **Lees** (todos relativos a la raíz del repo):
 - `method/instructions.md` — este documento, la fuente de verdad.
 - `state/sa-state.json` — tu historial acumulado: `{ instructions, settings, narrative, models:{NQ,ES,GC,YM,CL}, zones, scorecard, reviews:{<fecha>:md}, dayThesis:{<fecha>:md}, plans:{<fecha>-<sesion>:obj}, planLatest }`. `settings` = config de Jesus (p.ej. `dailyLossLimitUsd`); si falta, sigue sin ella. `scorecard` incluye los sub-objetos de calibración (sección 6).
-- `live/market.json` — `{ builtAt, feed, news }`. `feed` = lo de la sección 2 (NQ/ES/GC/YM/CL con orb/3reads/drbias/srzones/htfzones/command). `news` = calendario económico (+ `earnings`, `headlines`, regla 8b). `macro` = mercados relacionados, reacción a datos, COT y flujos (regla 8c). Netlify lo refresca cada 5 min; si `builtAt` tiene >90 min en día hábil, márcalo "datos rezagados".
+- `live/market.json` — `{ builtAt, feed, news }`. `feed` = lo de la sección 2 (NQ/ES/GC/YM/CL con orb/feed/regime/trendcl). `news` = calendario económico (+ `earnings`, `headlines`, regla 8b). `macro` = mercados relacionados, reacción a datos, COT y flujos (regla 8c). Netlify lo refresca cada 5 min; si `builtAt` tiene >90 min en día hábil, márcalo "datos rezagados".
 - `live/journal.json` — OPCIONAL (puede faltar). Digest DE-IDENTIFICADO de la EJECUCIÓN real de Jesus, publicado por su journal (sin $/P&L/balance). `{ schema:"journal-digest-1", updatedAt, window:{days}, rollup, byDay:[...] }`. `rollup` = `{ days, disciplinedPct, avgTradesPerDay, gradedTrades, againstBiasRate, outsideEdgeRate, overtradeDays, revengeDays }`. Cada `byDay` = `{ date, trades, disciplined, maxLossStreak, overtrade, revenge, roundTrip, graded, withBias, againstBias, validEdge, outsideEdge }`. Es lo que Jesus HIZO, no lo que tú predijiste. Úsalo en la calificación pre-asia (sección 6) para medir plan-vs-ejecución y afinar los recordatorios anti-fuga del plan. Desde 2026-10-05 cada `byDay` puede traer además **calidad de salida**: `positions` (posiciones, fills agrupados), `partials` (escaló y el primer tramo cerró en verde), `scratches` (cerró en ±4 ticks = BE sin cobrar), `fullStops` (pérdida de un solo tramo), `wlPtsRatio` (pts medios ganador / pts medios perdedor, sin $); y el `rollup` trae `positions`, `partialRate`, `scratchRate`, `fullStopRate`. Días viejos los traen en `null`: no los inventes.
 - `state/trader-profile.json` — **OBLIGATORIO leerlo en CADA corrida.** Perfil compartido de Jesus: `core.edge`, `patterns[]` (fugas con id), `exitPlan`, `exitBaseline` (tasas reales de 1R/TP2 del agente Scalp CC), `account` (la cuenta que opera HOY y sus reglas; cambia con el tiempo) y `dailyRules` (`capLine` a copiar tal cual, `capLineMust`, `doNotRecommend`). Es lo que convierte tu plan genérico en un plan PARA ÉL (sección 4.1). Solo la corrida `weekly` puede reescribir su bloque `observed`; `core`, `patterns`, `exitPlan`, `account` y `dailyRules` NO los toques nunca.
 
@@ -379,14 +379,14 @@ corrida igual, marca en el `summary` "cron descalzado por DST, ajustar" y sigue.
 
 ## 2 · Campos del feed por fuente
 
-`live/market.json` → `.feed` = `{ symbols: { NQ: { orb, "3reads", drbias, srzones, htfzones, command, regime, trendcl }, ES:…, GC:…, YM:…, CL:… }, generatedAt }`.
+`live/market.json` → `.feed` = `{ symbols: { NQ: { orb, feed, regime, trendcl }, ES:…, GC:…, YM:…, CL:… }, generatedAt }`.
 `regime` y `trendcl` son **fuentes auxiliares** (desde 2026-10-26): NO cuentan para el mínimo de
-3 fuentes, ni para la regla dura de fuentes viejas, ni para el GO por consenso crudo. Si faltan
+fuentes ni para la regla dura de fuentes viejas. Si faltan
 o están viejas, se ignoran y se anota en `dataHealth.notes`; el plan sigue igual que antes.
 YM (mini-Dow, índice, correlaciona con NQ/ES) y CL (WTI, materia prima, ritmo propio: el
 gran evento es el inventario EIA los miércoles ~09:30 CT, más OPEP y geopolítica que el
 feed de noticias NO trae) pueden faltar si sus alertas aún no dispararon: si un símbolo no
-está en `.feed.symbols` o llega con menos de 3 fuentes, **omítelo por completo de
+está en `.feed.symbols` o llega sin `feed` y sin `orb` frescas, **omítelo por completo de
 `instruments`** (no lo inventes) y ponlo en una línea del `summary` ("YM/CL: sin feed
 suficiente esta corrida"). Cuando sí tiene datos, va como un instrumento más, mismo esquema.
 Cada fuente de `ind-ingest` trae `raw` (campos crudos, todo string), `ts` (timestamp del
@@ -400,7 +400,7 @@ viejo lo que solo refleja mercado cerrado).
 - **`builtAt`** (snapshot entero): edad = `now − builtAt`. > 20 min en día hábil = el cron de
   Netlify se cortó y TODO el plan es sospechoso → `dataHealth.snapshot = "VIEJO"`, dilo en la
   primera línea del `summary`.
-- **Por fuente de `ind-ingest`** (3reads, drbias, srzones, htfzones, command): edad = `now − receivedAt`.
+- **`feed`** (de `ind-ingest`): edad = `now − receivedAt`.
   - < 25 min → fresca, peso normal.
   - 25–90 min → **vieja**: métela en `dataHealth.stale` como `"<fuente>@<SYM> <edad>"`, pésala a la
     mitad, y no bases una zona SOLO en ella.
@@ -409,28 +409,22 @@ viejo lo que solo refleja mercado cerrado).
   repinta).** Desde `orb.ver` = "v10", `orb.levels.vah/poc/val` son el perfil terminado del día
   previo (fijo todo el día) y `orb.levels.dvah/dpoc/dval` el del día en curso. Para zonas,
   score, `keyLevels` y tipos `fade_vah`/`poc_reversion`/`bounce_val` usa SOLO el del día
-  anterior. El en formación (`dvah/dpoc/dval`, y los `vah/poc/val` de `drbias`, `command` y
-  `3reads`, que también son del día en curso) no suma confluencia ni define zonas; como mucho
+  anterior. El en formación (`dvah/dpoc/dval`) no suma confluencia ni define zonas; como mucho
   una línea de `context` ("el POC de hoy migra hacia arriba"). Si `orb.ver` aún no es v10, sus
   vah/poc/val son del día en curso: no los uses como perfil y dilo en `dataHealth.notes`.
-- **`orb`** no trae `receivedAt`. Contrasta sus niveles (pdh/pdl) con los de `command`
-  (trae los mismos; vah/poc/val ya NO, desde v10 son de días distintos): si discrepan > 0.3 % está congelado → usa `command` para niveles y anótalo en
+- **`orb`** no trae `receivedAt`. Contrasta sus niveles (pdh/pdl) con los de `feed.raw`
+  (trae los mismos): si discrepan > 0.3 % está congelado → usa `feed` para niveles y anótalo en
   `dataHealth.notes`.
 - Si una fuente **falta** para un símbolo → `dataHealth.missing`, no inventes sus zonas.
-- **Regla dura**: si ≥ 3 fuentes crudas de un instrumento están viejas/muertas, su `conviction` no
-  pasa de "baja" y su `verdict.signal` NO puede ser "GO".
-- **Solo `command` caído** (viejo/muerto) con ≥ 4 de las 5 fuentes crudas (orb, 3reads, drbias,
-  srzones, htfzones) frescas y de acuerdo en la dirección: GO permitido, pero con tope de
-  `conviction` "media", solo sobre una zona A+ (confluencia ≥ 6) y cumpliendo TODO lo demás de
-  la 3.9 (sin `frameConflict.on`, sin noticia/shock, sin `whipsawRisk` ≥ 0.5). Marca
-  `verdict.basis = "raw"` y dilo en `verdict.reason` ("motor fusionado caído, GO por consenso
-  crudo"). Si no llega a 4 fuentes frescas alineadas, se queda la regla de arriba (máx "baja",
-  sin GO). Origen: el apagón de `command` del 2026-10-23 forzó WAIT en todo y dejó varias A+
-  de GC/CL que pagaron ≥ 1R (`missedOps`). Medición: cada GO con `basis:"raw"` se califica
-  también en `verdictScore["<SYM>|raw"]`; si con `n ≥ 8` su `go.rate < 0.45`, el weekly
-  lo propone para revertir.
+- **Regla dura**: si `feed` de un instrumento está vieja, muerta o falta, su `conviction` no pasa
+  de "baja" y su `verdict.signal` NO puede ser "GO". Sin `feed` fresca no hay niveles fiables.
+  `orb` vieja o muerta con `feed` fresca no pone tope: va a `dataHealth` y sigues con `feed`.
 
-- **orb** (backbone): `biasDir`, `weeklyDir`, `dayType`, `price`, `levels` (vah/poc/val/vwap/pdh/pdl/dayOpen/orH/orL/pwh/pwl/tdo/ema5/ema15/ema50), `noTradeZone`, `signal`, `struct`, `regime`, `vol`, `htf1`, `htf2`, `rs`, `inNtz`.
+**Fuentes retiradas (2026-11-04):** `3reads`, `drbias`, `srzones`, `htfzones` y `command` ya no
+llegan al feed. Los cinco apartados siguientes quedan solo como diccionario para leer reglas y
+planes antiguos, y las reglas ligadas a ellos se leen con la tabla de la sección 2b. No las
+listes en `dataHealth`: que falten es lo normal.
+
 - **3reads.raw**: `context` (LONG/SHORT/UNCLEAR), `ctrl1h`/`ctrl4h`, `trendOK`, `inDiscount`, `chop`, `chopIdx`, `atrD`, `atrDtk`, `rangeToday`, `rangeTodayTk`, `emUsedPct`, `emRemain`, `emRemainTk`, `emRegime` (EXPANSIÓN/AVANZADO/AGOTADO), `vix`, `vixRank`, `vixState`, `ema20tk`/`ema50tk`/`ema200tk`/`vwaptk` (+ slopes), `emaBias`, `smtBull`/`smtBear`, `csdUp`, `exU`/`exD` (4 extensiones del rango previo c/u), `exTouchU`/`exTouchD`, `pdh/pdl/pwh/pwl/do/vah/poc/val/swHi/swLo`.
 - **drbias.raw**: `bias` (Bullish/Bearish/Neutral), `zone` (Premium/Discount/Equilibrium), `bullScore`/`bearScore`, `setup`, `setupGo`, `opTarget`/`opInval`/`opR`, `tradeActive`/`tradeTarget`/`tradeInval`/`tradeR`, `hitTarget`/`hitInval`, `hod`/`lod`, `rangeNow`/`rangeNowTk`, `atrD`/`atrDtk`, `atrPct`, `remATR`/`remATRtk`, `rvol`, `vix`/`vixRegime`, `stretchAtr`, `emaBull`/`emaBear`, `dayType`, `vwap`, `pdMid`, `pdh/pdl/pdc/pwh/pwl/open`, `poc/vah/val`, `zDisc`/`zPrem`, `plan` (texto).
 - **srzones.raw**: `zones` = `TF:R|S:lo:hi;…` (R=resistencia, S=soporte), `fvg` = `TFlabel:bull|bear:lo:hi;…`, `resBroken`/`supBroken`, `vwap`.
@@ -482,14 +476,22 @@ viejo lo que solo refleja mercado cerrado).
   **Medición**: el `weekly` compara el hit-rate de las zonas `tcl:"contra"` vs `"favor"`; si
   con `n ≥ 20` por grupo la diferencia es < 3 pp, propone quitar la regla.
 
-### 2b · TDL Feed (fuente `feed`, desde 2026-10-30) · reemplaza a 3reads, drbias, srzones, htfzones y command
+### 2b · TDL Feed (fuente `feed`, desde 2026-10-30) · la fuente de niveles y contexto
 
 Un solo indicador por símbolo (`tdl_feed.pine`, 5m, prefijo `FEED1`, un mensaje por vela
 cerrada) con NIVELES y CONTEXTO, sin voto de dirección (regla 8e). Se queda junto a `orb`
-(alimenta el Command Center), `regime` y `trendcl`. **Transición**: mientras `feed` de un
-símbolo esté fresca (< 25 min), es LA fuente de niveles y contexto de ese símbolo; las cinco
-viejas pueden faltar o estar muertas y eso NO cuenta como fuente caída ni baja la convicción
-(se van a borrar). Si `feed` falta o está muerta, usa las viejas como hasta ahora.
+(alimenta el Command Center), `regime` y `trendcl`. Es LA fuente de niveles y contexto: no hay
+respaldo si cae (regla dura de la sección 2).
+
+**Donde una regla de este archivo cite una fuente retirada**, usa el campo de `feed.raw`:
+`command.raw.pdh/pdl/pwh/pwl/tdo` y `drbias.pdc` → mismos nombres · `dayOpen` → `do` ·
+`ema20`/`ema50` → iguales · `stretchAtr` → igual · `command.chop` → `chopIdx` ≥ 61.8 ·
+`touchlog` → igual · `disc25`/`prem75` → iguales · `dayRangePts` → `rangeToday` ·
+`atrPctUsed` → `rangePct` · `remPts` → igual · `dayATR`, `3reads.atrD`, `drbias.atrD` y
+`htfzones.adr` → `atrD` · hod/lod → `hod`/`lod` · `srzones.fvg` → `fvg` · `srzones.zones` →
+swings `sh*`/`sl*` · `lastSig` SWEEP, `resBroken`/`supBroken` y `exTouchU/D` → `sweep` y
+`touchlog` · `3reads.exU/exD` → `exU`/`exD` · `3reads.smtBull/smtBear` → `smt` · zonas premium,
+discount y golden de `htfzones` → `prem75`, `disc25`, `gzLong`, `gzShort`.
 
 Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
 - **Perfil** (regla de perfil de la sección 2): `vah`/`poc`/`val` = día ANTERIOR, fijo;
@@ -1565,7 +1567,7 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
 ### Calibración · sub-objetos de `scorecard` (solo `pre-asia` los toca)
 
 - **`sourceReliability`**: `{ "<SYM>|<sesion>|<fuente>": { calls, hits, rate, n } }`. Cada
-  review, por instrumento/sesión, +1 `calls` a cada una de las 6 fuentes y +1 `hits` si su
+  review, por instrumento/sesión, +1 `calls` a cada fuente que traiga dirección (`orb`, `regime`) y +1 `hits` si su
   dirección/bias coincidió con la dirección NETA realizada de esa sesión. `rate = hits/max(1,
   calls)`, `n = calls`. → lo aplica la sección 3.1 (fuente floja = medio peso).
 - **`emCalibration`**: `{ "<SYM>|<sesion>": { n, meanErrTk, biasTk, mult, biasTkSign }, "_lastDate": "<fecha_ayer>" }`.
@@ -1766,7 +1768,7 @@ Es el plan estructurado que pinta el Command Center. Schema:
   "summary": { "es": ["NQ: …", "ES: …", "GC: …", "más limpio: NQ"], "en": ["NQ: …", "ES: …", "GC: …", "cleanest: NQ"] },
   "alarm": null,
   "dataHealth": { "snapshot": "OK", "builtAtAgeMin": 4, "stale": [], "missing": [],
-    "notes": { "es": "6 fuentes frescas", "en": "6 sources fresh" } },
+    "notes": { "es": "orb y feed frescas", "en": "orb and feed fresh" } },
   "calendarContext": { "tags": ["semana-NFP"],
     "note": { "es": "NFP viernes; día tratado como newsRisk ALTA", "en": "NFP Friday; day treated as newsRisk HIGH" } },
   "newsRisk": { "level": "ALTA", "session": "ny",
