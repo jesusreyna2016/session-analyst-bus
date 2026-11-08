@@ -188,7 +188,7 @@ export class Engine {
     const slots = halted ? 0 : Math.min(
       this.cfg.maxConcurrent - nOpen,
       Math.floor(budget / this.cfg.riskUsd),
-      this.cfg.maxEntriesPerDay - this.st.entriesToday,
+      this.cfg.maxEntriesPerDay > 0 ? this.cfg.maxEntriesPerDay - this.st.entriesToday : Infinity,
     );
     const want = halted ? [] : this.desired(openMarkets, slots);
     const wantByKey = new Map(want.map((w) => [w.key, w]));
