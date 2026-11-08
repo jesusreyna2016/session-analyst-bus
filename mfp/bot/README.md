@@ -21,7 +21,7 @@ Cada 15 s:
    - Nunca pone una orden si la pérdida del día + el riesgo de lo abierto + $300 pasa de ese freno.
    - Máximo 3 a la vez (posiciones + órdenes en espera) y 1 por mercado. Sin límite de entradas por día
      (`MAX_ENTRIES_PER_DAY=0`); se puede poner un tope después de la fase de pruebas.
-4. Elige zonas **A+ y A**, en estado `nueva` o `activa`, con TP1 ≥ 1R, a ≤ 4 ATR de 5m, con el feed fresco y el veredicto `OPERABLE`.
+4. Elige zonas **A+ y A**, en estado `nueva` o `activa`, con TP1 ≥ 1R, a ≤ 6 ATR de 5m, con el feed fresco y el veredicto `OPERABLE`.
 5. Pone una **orden limit en la entrada de la zona** trasladada a precio MFP, con **SL y TP1 incluidos** y expiración (GTD) de 30 min.
    La renueva antes de vencer y la cancela si la zona deja de ser elegible o sus precios cambian.
    Si el bot se cae, las órdenes vencen solas y las posiciones quedan con su SL y TP en MFP.

@@ -25,7 +25,7 @@ export const cfg = {
   // Que zonas se operan
   grades: (env.GRADES || 'A+,A').split(',').map((s) => s.trim()),
   minRR: num('MIN_RR', 1),
-  maxDistAtr: num('MAX_DIST_ATR5', 4),
+  maxDistAtr: num('MAX_DIST_ATR5', 6),
   maxFeedAgeMin: num('MAX_FEED_AGE_MIN', 5),
   requireOperable: env.REQUIRE_OPERABLE !== '0',
 
