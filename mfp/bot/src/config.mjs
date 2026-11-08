@@ -18,7 +18,7 @@ export const cfg = {
   dllUsd: num('DLL_USD', 3000),
   dayStopPct: num('DAY_STOP_PCT', 0.9),
   maxDdUsd: num('MAX_DD_USD', 3000),
-  maxConcurrent: num('MAX_CONCURRENT', 3),
+  maxConcurrent: num('MAX_CONCURRENT', 5),
   // 0 = sin limite de entradas por dia (fase de pruebas)
   maxEntriesPerDay: num('MAX_ENTRIES_PER_DAY', 0),
 
