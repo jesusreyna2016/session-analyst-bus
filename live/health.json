@@ -1,65 +1,49 @@
 {
-  "checkedAt": "2026-11-08T15:39:25Z",
-  "status": "ok",
-  "snapshot": {
-    "builtAt": "2026-11-08T15:30:31.016Z",
-    "ageMin": 9,
-    "state": "OK"
-  },
-  "webhook": {
-    "lastSeenMin": 2498,
-    "state": "silencioso"
-  },
-  "news": {
-    "ageMin": 35,
-    "count": 10,
-    "state": "ok"
-  },
-  "sa": {
-    "lastRun": "2026-11-07T16:19:57Z",
-    "runType": "weekly",
-    "lateBy": null
-  },
+  "checkedAt": "2026-11-08T23:37:23Z",
+  "status": "warn",
+  "snapshot": { "builtAt": "2026-11-08T23:30:31.429Z", "ageMin": 7, "state": "OK" },
+  "webhook": { "lastSeenMin": 7, "state": "ok" },
+  "news": { "ageMin": 8, "count": 10, "state": "ok" },
+  "sa": { "lastRun": "2026-11-07T16:19:57Z", "runType": "weekly", "lateBy": 92 },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 2498, "state": "dead" },
-      "feed": { "ageMin": 2498, "state": "dead" },
-      "regime": { "ageMin": 2524, "state": "dead" },
-      "trendcl": { "ageMin": 2559, "state": "dead" }
+      "orb": { "ageMin": 7, "state": "fresh" },
+      "feed": { "ageMin": 7, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 37, "state": "fresh" }
     },
     "ES": {
-      "orb": { "ageMin": 2498, "state": "dead" },
-      "feed": { "ageMin": 2498, "state": "dead" },
-      "regime": { "ageMin": 2524, "state": "dead" },
-      "trendcl": { "ageMin": 2559, "state": "dead" }
+      "orb": { "ageMin": 7, "state": "fresh" },
+      "feed": { "ageMin": 7, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 37, "state": "fresh" }
     },
     "GC": {
-      "orb": { "ageMin": 2498, "state": "dead" },
-      "feed": { "ageMin": 2498, "state": "dead" },
-      "regime": { "ageMin": 2524, "state": "dead" },
-      "trendcl": { "ageMin": 2559, "state": "dead" }
+      "orb": { "ageMin": 7, "state": "fresh" },
+      "feed": { "ageMin": 7, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 37, "state": "fresh" }
     },
     "YM": {
-      "orb": { "ageMin": 2498, "state": "dead" },
-      "feed": { "ageMin": 2498, "state": "dead" },
-      "regime": { "ageMin": 2524, "state": "dead" },
-      "trendcl": { "ageMin": 2559, "state": "dead" }
+      "orb": { "ageMin": 7, "state": "fresh" },
+      "feed": { "ageMin": 7, "state": "fresh" },
+      "regime": { "ageMin": 27, "state": "fresh" },
+      "trendcl": { "ageMin": 3037, "state": "dead" }
     },
     "CL": {
-      "orb": { "ageMin": 2498, "state": "dead" },
-      "feed": { "ageMin": 2498, "state": "dead" },
-      "regime": { "ageMin": 2524, "state": "dead" },
-      "trendcl": { "ageMin": 2559, "state": "dead" }
+      "orb": { "ageMin": 7, "state": "fresh" },
+      "feed": { "ageMin": 7, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 7, "state": "fresh" }
     }
   },
-  "scalp": {
-    "ingestMin": 9,
-    "snapshotMin": 39,
-    "state": "ok"
-  },
-  "issues": [],
+  "scalp": { "ingestMin": 7, "snapshotMin": 37, "state": "ok" },
+  "issues": [
+    "SA pre-asia no salió · catch-up en curso",
+    "trendcl@YM dead (3037 min)"
+  ],
   "note": {
-    "es": "Franja 09:30 CT (domingo): hoy no es lun-vie, asi que no vigila pre-ny (tabla de auto-reparacion), sin catch-up. Snapshot 9 min OK, scalp CC ok (ingest 9 min, snapshot 39 min), news ok (10 eventos, 35 min). Las 5 futuras (NQ/ES/GC/YM/CL) siguen con orb/feed/regime/trendcl dead (~2498-2559 min) y webhook silencioso: mismo cierre de Globex del viernes 16:00 CT (reabre hoy domingo 17:00 CT), orb.pdh/pdl coincide con feed.raw.pdh/pdl en los 5 simbolos asi que no hay frozen real, cae todo el complejo junto por la misma razon de finde -- no es un fallo de pipeline ni dead-streak real, asi que no genera issue ni baja status. Journal a 12.3h, hoy es finde asi que la regla de >72h lun-vie NY no aplica. plans/latest.json sigue sin campo reach en sus zonas, no aplica reach.unactionable.",
-    "en": "09:30 CT slot (Sunday): today is not Mon-Fri, so this slot does not watch pre-ny (per the auto-repair table), no catch-up needed. Snapshot 9 min OK, Scalp CC ok (ingest 9 min, snapshot 39 min), news ok (10 events, 35 min). All 5 futures (NQ/ES/GC/YM/CL) still show orb/feed/regime/trendcl dead (~2498-2559 min) and the webhook is quiet: same Friday 16:00 CT Globex close window (reopens today Sunday 17:00 CT), orb.pdh/pdl matches feed.raw.pdh/pdl on all 5 symbols so there's no real frozen state, the whole complex drops together for the same weekend reason -- not a pipeline failure or a real dead-streak, so it raises no issue and does not lower status. Journal at 12.3h, today is weekend so the >72h Mon-Fri NY rule doesn't apply. plans/latest.json zones still carry no reach field, so reach.unactionable does not apply."
+    "es": "Franja 17:30 CT (domingo, vigila pre-asia): el mercado reabrio hace ~37 min (17:00 CT) y snapshot/feed/orb/regime de los 5 simbolos ya estan frescos (7-32 min), scalp CC ok, news ok. No hay commit 'sa pre-asia' en las ultimas 3h ni en heartbeat.json (sigue en 'weekly' del sabado) -- la corrida de pre-asia de hoy (cron 16:05 CT) no salio, 92 min tarde. Lanzando catch-up segun method/catchup.md. trendcl@YM quedo parado en 2026-11-06T21:00 (viernes), ~3037 min, mientras el resto del complejo ya se refresco al reabrir -- primera vez que se ve aislado (antes caia junto con todo por el cierre de finde), posible alerta TV de YM trendcl caida; no sube a down (regla fuente auxiliar).",
+    "en": "17:30 CT slot (Sunday, watches pre-asia): the market reopened ~37 min ago (17:00 CT) and snapshot/feed/orb/regime for all 5 symbols are already fresh (7-32 min), Scalp CC ok, news ok. No 'sa pre-asia' commit in the last 3h and heartbeat.json still shows Saturday's 'weekly' run -- today's pre-asia run (cron 16:05 CT) did not go out, 92 min late. Starting catch-up per method/catchup.md. trendcl@YM is stuck at 2026-11-06T21:00 (Friday), ~3037 min old, while the rest of the complex already refreshed on reopen -- first time it's isolated (before it was down together with everything from the weekend close), possible dead YM trendcl TV alert; does not push status to down (auxiliary-source rule)."
   }
 }
