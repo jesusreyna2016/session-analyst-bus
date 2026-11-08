@@ -25,3 +25,11 @@ chop str(estirado, ATR del VWAP) keys(niveles que coinciden, separados por +) tf
 
 `id day fam side topen tclose entry exit R session hasPlan zoneId zoneLo zoneHi zoneGrade zoneManual plannedR
 planStop planTarget setup againstBias followed emotion`. Nunca dinero.
+
+## Historico (backtest)
+
+`backtest/backtest.mjs` corre el motor del indicador (`tdl-indicators/mi_mesa_zonas.pine`) sobre las velas de 5 min
+del bus (`bars/`) y escribe `backtest/events.jsonl` con el mismo formato que el webhook, mas tres R por zona:
+`rx` (entrar al cierre de la vela del gatillo), `rl` (orden limite en la entrada de la zona) y `rp` (gatillo y
+luego limite si el precio regresa a la entrada). `analyze_zones.py` lo reporta aparte ("Historico"). Pesos de
+prueba: `BACKTEST_WEIGHTS='{"chop":1.5}' node zones/backtest/backtest.mjs`.
