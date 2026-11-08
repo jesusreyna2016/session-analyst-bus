@@ -175,13 +175,19 @@ def match_trades(trades, zones):
                 if z['lo'] - pad <= entry <= z['hi'] + pad and born <= t0:
                     zone, how = z, 'precio'
                     break
+        # cruce automatico del servidor (zone-trades): tambien usa el registro del plan del servidor, asi cubre
+        # zonas que el indicador no reporto (grafico cerrado, sin webhook)
+        auto = t.get('auto') or None
         armed_at = zone['ev'].get('armada') if zone else None
+        if zone is None and auto:
+            how = 'auto (' + (auto.get('src') or 'servidor') + ')'
+            armed_at = auto.get('armedAt')
         rows.append({
             'id': t.get('id'), 'day': t.get('day'), 'sym': sym, 'side': side, 'R': t.get('R'),
-            'inZone': zone is not None or bool(t.get('zoneId')), 'how': how or 'fuera de zona',
-            'zoneGrade': (zone or {}).get('grade') or t.get('zoneGrade'), 'zoneResult': (zone or {}).get('result'),
+            'inZone': zone is not None or bool(t.get('zoneId')) or bool(auto), 'how': how or 'fuera de zona',
+            'zoneGrade': (zone or {}).get('grade') or t.get('zoneGrade') or (auto or {}).get('grade'), 'zoneResult': (zone or {}).get('result'),
             'zoneR': (zone or {}).get('R'), 'beforeTrigger': (t0 < armed_at) if (armed_at and t0) else None,
-            'noTrigger': bool(zone and not zone['armed']), 'hasPlan': t.get('hasPlan'), 'followed': t.get('followed'),
+            'noTrigger': bool(zone and not zone['armed']) or bool(zone is None and auto and not auto.get('armed')), 'hasPlan': t.get('hasPlan'), 'followed': t.get('followed'),
             'againstBias': t.get('againstBias'), 'session': t.get('session'),
         })
     return rows
@@ -195,6 +201,101 @@ def rstats(rows):
     loss = -sum(x for x in rs if x < 0)
     return {'n': n, 'wr': round(w / n, 3) if n else None, 'eR': round(sum(rs) / n, 3) if n else None,
             'totalR': round(sum(rs), 2) if n else 0, 'pf': round(gain / loss, 2) if loss > 0 else None}
+
+
+def segments(setups):
+    f = lambda s, k: s['f'].get(k)
+    al = lambda s: {'1': 'a favor', '0': 'neutral', '-1': 'contra'}.get(str(f(s, 'al')), 'sin dato')
+    return {
+        'grado': seg_table(setups, lambda s: s.get('grade') or '?'),
+        'mercado': seg_table(setups, lambda s: s['sym']),
+        'lado': seg_table(setups, lambda s: s['side']),
+        'direccion': seg_table(setups, al),
+        'regimen': seg_table(setups, lambda s: f(s, 'reg') or 'sin dato'),
+        'sesion': seg_table(setups, lambda s: f(s, 'sess') or 'sin dato'),
+        'grado x regimen': seg_table(setups, lambda s: (s.get('grade') or '?') + ' · ' + (f(s, 'reg') or 'sin dato')),
+        'grado x direccion': seg_table(setups, lambda s: (s.get('grade') or '?') + ' · ' + al(s)),
+        'grado x mercado': seg_table(setups, lambda s: (s.get('grade') or '?') + ' · ' + s['sym']),
+        'chop': seg_table(setups, lambda s: bucket(f(s, 'chop'), [50, 61.8], ['<50 tendencia', '50-61.8', '>=61.8 lateral'])),
+        'estirado (ATR del VWAP)': seg_table(setups, lambda s: bucket(f(s, 'str'), [1, 2], ['<1', '1-2', '>=2'])),
+        'R hasta TP1': seg_table(setups, lambda s: bucket(f(s, 'rr'), [1.5, 2.5], ['<1.5R', '1.5-2.5R', '>=2.5R'])),
+        'distancia al crearse (ATR)': seg_table(setups, lambda s: bucket(f(s, 'dist'), [2, 6], ['<2', '2-6', '>=6'])),
+    }
+
+
+def excursion_of(setups):
+    f = lambda s, k: s['f'].get(k)
+    mfe_losers = [f(s, 'mfe') for s in setups if not s['win'] and f(s, 'mfe') is not None]
+    mae_winners = [f(s, 'mae') for s in setups if s['win'] and f(s, 'mae') is not None]
+    return {
+        'losersMfeAvgR': round(sum(mfe_losers) / len(mfe_losers), 2) if mfe_losers else None,
+        'losersThatReached1R': sum(1 for x in mfe_losers if x >= 1),
+        'losersN': len(mfe_losers),
+        'winnersMaeAvgR': round(sum(mae_winners) / len(mae_winners), 2) if mae_winners else None,
+        'winnersN': len(mae_winners),
+    }
+
+
+# ------------------------------------------------------------------ historico (backtest)
+def chicago_day(ms):
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.datetime.fromtimestamp(ms / 1000, ZoneInfo('America/Chicago')).strftime('%Y-%m-%d')
+    except Exception:
+        return datetime.datetime.fromtimestamp(ms / 1000 - 6 * 3600, datetime.timezone.utc).strftime('%Y-%m-%d')
+
+
+def backtest_section():
+    """zones/backtest/events.jsonl (backtest.mjs): el mismo motor sobre las velas del bus. R real = entrar al cierre
+    de la vela del gatillo y salir en TP1 o al cierre que invalida (rx); el R 'teorico' usa la entrada de la zona."""
+    path = os.path.join(HERE, 'backtest', 'events.jsonl')
+    if not os.path.exists(path):
+        return None
+    evs = []
+    with open(path) as fh:
+        for line in fh:
+            try:
+                e = json.loads(line)
+            except Exception:
+                continue
+            e['day'] = chicago_day(e.get('t') or 0)
+            evs.append(e)
+    zones = build_zones(evs)
+    armed = [z for z in zones if z['armed']]
+    setups = [z for z in armed if z['result']]
+    theo = stats(setups)
+    for z in setups:
+        if z['f'].get('rx') is not None:
+            z['R'] = z['f']['rx']
+    touched_only = [z for z in zones if z['touched'] and not z['armed'] and z['result']]
+    # como entrar: gatillo (cierre de la vela de 5 min) vs orden limite en la entrada de la zona, sobre las zonas tocadas
+    def entry_stats(rows, key):
+        rr = [dict(z, R=z['f'][key], win=z['f'][key] > 0) for z in rows if z['f'].get(key) is not None]
+        return stats(rr)
+    resolved_touched = [z for z in zones if z['touched'] and z['result']]
+    entries = {
+        'gatillo (cierre de la vela de 5 min)': entry_stats(resolved_touched, 'rx'),
+        'limite en la entrada, todas las tocadas': entry_stats(resolved_touched, 'rl'),
+        'limite en la entrada, solo las que se armaron': entry_stats([z for z in resolved_touched if z['armed']], 'rl'),
+        'limite en la entrada, las que NUNCA se armaron': entry_stats([z for z in resolved_touched if not z['armed']], 'rl'),
+        'gatillo y luego limite si regresa a la entrada': entry_stats([z for z in resolved_touched if z['armed']], 'rp'),
+    }
+    armed_res = [z for z in resolved_touched if z['armed']]
+    pb_n = sum(1 for z in armed_res if z['f'].get('rp') is not None)
+    entries_note = {'pullbackFillRate': round(pb_n / len(armed_res), 3) if armed_res else None, 'armedResolved': len(armed_res)}
+    entries_by_grade = {g: {'gatillo': entry_stats([z for z in resolved_touched if z.get('grade') == g], 'rx'),
+                            'limite': entry_stats([z for z in resolved_touched if z.get('grade') == g], 'rl')} for g in GRADES}
+    meta = load_json(os.path.join(HERE, 'backtest', 'summary.json'), {})
+    days = sorted({z['day'] for z in zones})
+    return {
+        'generatedAt': meta.get('generatedAt'), 'notes': meta.get('notes'),
+        'counts': {'zones': len(zones), 'armed': len(armed), 'resolved': len(setups), 'days': len(days),
+                   'from': days[0] if days else None, 'to': days[-1] if days else None},
+        'overallTheoretical': theo, 'overall': stats(setups),
+        'segments': segments(setups), 'confluence': key_lift(setups), 'excursion': excursion_of(setups),
+        'trigger': {'armadas': stats(setups), 'tocadasSinGatillo': stats(touched_only)},
+        'entries': entries, 'entriesByGrade': entries_by_grade, 'entriesNote': entries_note,
+    }
 
 
 # ------------------------------------------------------------------ main
@@ -217,30 +318,8 @@ def main():
     touched_only = [z for z in zones if z['touched'] and not z['armed'] and z['result']]
     f = lambda s, k: s['f'].get(k)
 
-    seg = {
-        'grado': seg_table(setups, lambda s: s.get('grade') or '?'),
-        'mercado': seg_table(setups, lambda s: s['sym']),
-        'lado': seg_table(setups, lambda s: s['side']),
-        'direccion': seg_table(setups, lambda s: {'1': 'a favor', '0': 'neutral', '-1': 'contra'}.get(str(f(s, 'al')), 'sin dato')),
-        'regimen': seg_table(setups, lambda s: f(s, 'reg') or 'sin dato'),
-        'sesion': seg_table(setups, lambda s: f(s, 'sess') or 'sin dato'),
-        'grado x regimen': seg_table(setups, lambda s: (s.get('grade') or '?') + ' · ' + (f(s, 'reg') or 'sin dato')),
-        'grado x direccion': seg_table(setups, lambda s: (s.get('grade') or '?') + ' · ' + {'1': 'a favor', '0': 'neutral', '-1': 'contra'}.get(str(f(s, 'al')), 'sin dato')),
-        'chop': seg_table(setups, lambda s: bucket(f(s, 'chop'), [50, 61.8], ['<50 tendencia', '50-61.8', '>=61.8 lateral'])),
-        'estirado (ATR del VWAP)': seg_table(setups, lambda s: bucket(f(s, 'str'), [1, 2], ['<1', '1-2', '>=2'])),
-        'R hasta TP1': seg_table(setups, lambda s: bucket(f(s, 'rr'), [1.5, 2.5], ['<1.5R', '1.5-2.5R', '>=2.5R'])),
-        'distancia al crearse (ATR)': seg_table(setups, lambda s: bucket(f(s, 'dist'), [2, 6], ['<2', '2-6', '>=6'])),
-    }
-    # MFE/MAE: cuanto se movio a favor antes de resolverse (para saber si TP1 es corto o el stop es apretado)
-    mfe_losers = [f(s, 'mfe') for s in setups if not s['win'] and f(s, 'mfe') is not None]
-    mae_winners = [f(s, 'mae') for s in setups if s['win'] and f(s, 'mae') is not None]
-    excursion = {
-        'losersMfeAvgR': round(sum(mfe_losers) / len(mfe_losers), 2) if mfe_losers else None,
-        'losersThatReached1R': sum(1 for x in mfe_losers if x >= 1),
-        'losersN': len(mfe_losers),
-        'winnersMaeAvgR': round(sum(mae_winners) / len(mae_winners), 2) if mae_winners else None,
-        'winnersN': len(mae_winners),
-    }
+    seg = segments(setups)
+    excursion = excursion_of(setups)  # MFE/MAE: si TP1 es corto o el stop es apretado
     trigger = {'armadas': stats(setups), 'tocadasSinGatillo': stats(touched_only)}
 
     # politicas: pesos activos vs en prueba (sombra)
@@ -298,6 +377,7 @@ def main():
         'policies': policies, 'experiments': exps.get('experiments', []),
         'trades': tr, 'tradesByZoneGrade': by_grade_user, 'execution': execution,
         'setups': [flat(z) for z in setups[-400:]],
+        'backtest': backtest_section(),
     }
     with open(os.path.join(HERE, 'report.json'), 'w') as fh:
         json.dump(report, fh, indent=1, ensure_ascii=False)
@@ -313,6 +393,11 @@ def main():
         'execution': execution,
         'experiments': [{k: e.get(k) for k in ('id', 'status', 'hypothesis', 'verdict', 'startDate')} for e in exps.get('experiments', [])][-5:],
         'insights': load_json(os.path.join(HERE, 'state.json'), {}).get('insights', []),
+        'backtest': ({'counts': report['backtest']['counts'], 'overall': report['backtest']['overall'],
+                      'byGrade': {g: report['backtest']['segments']['grado'].get(g) for g in GRADES if report['backtest']['segments']['grado'].get(g)},
+                      'noTrigger': report['backtest']['trigger']['tocadasSinGatillo'],
+                      'entries': {'gatillo': report['backtest']['entries']['gatillo (cierre de la vela de 5 min)'],
+                                  'limite': report['backtest']['entries']['limite en la entrada, todas las tocadas']}} if report.get('backtest') else None),
     }
     with open(os.path.join(HERE, 'state.json'), 'w') as fh:
         json.dump(state, fh, indent=1, ensure_ascii=False)
@@ -371,6 +456,33 @@ def write_md(r):
         L.append(f"| {g} | {s['n']} | {pct(s['wr'])} | {s['eR'] if s['eR'] is not None else '–'} |")
     x = r['execution']
     L.append(f"\nEjecucion ({x['n']} trades con zona resuelta): la zona gano y tu perdiste {x['zonaGanoTuPerdiste']} veces; la zona perdio y tu ganaste {x['zonaPerdioTuGanaste']}. Tu R menos el R de la zona, en promedio: {x['tuRvsZonaR']}.")
+    bt = r.get('backtest')
+    if bt:
+        bc = bt['counts']
+        L.append(f"\n## Historico (backtest)\n\nEl mismo motor sobre las velas de 5 min del bus, {bc['from']} a {bc['to']} ({bc['days']} dias): {bc['zones']} zonas tocadas, {bc['armed']} armadas, {bc['resolved']} resueltas. {bt.get('notes') or ''}.")
+        L.append("E[R] **real**: entrando al cierre de la vela del gatillo y saliendo en TP1 o al cierre que invalida. Sirve para proponer experimentos; el vivo es el que confirma.\n")
+        L.append("| | n | acierto | E[R] | PF |\n|---|---|---|---|---|")
+        L.append(row('Todos (R real)', bt['overall']))
+        L.append(row('Todos (R teorico, entrada de la zona)', bt['overallTheoretical']))
+        L.append(row('Tocadas que NUNCA se armaron', bt['trigger']['tocadasSinGatillo']))
+        L.append("\n### Historico: como entrar (R real)\n\n| | n | acierto | E[R] | PF |\n|---|---|---|---|---|")
+        for k, s2 in bt['entries'].items():
+            L.append(row(k, s2))
+        en = bt.get('entriesNote') or {}
+        if en.get('pullbackFillRate') is not None:
+            L.append(f"\nGatillo + regreso a la entrada: el precio volvio a la entrada en {pct(en['pullbackFillRate'])} de las {en['armedResolved']} armadas (las demas se pierden: no hay trade).")
+        L.append("\n| grado | gatillo n | gatillo E[R] | limite n | limite acierto | limite E[R] |\n|---|---|---|---|---|---|")
+        for g, d in bt['entriesByGrade'].items():
+            L.append(f"| {g} | {d['gatillo']['n']} | {d['gatillo']['eR']} | {d['limite']['n']} | {pct(d['limite']['wr'])} | {d['limite']['eR']} |")
+        for name, tab in bt['segments'].items():
+            L.append(f"\n### Historico por {name}\n\n| | n | acierto | E[R] | PF |\n|---|---|---|---|---|")
+            for k, s2 in tab.items():
+                L.append(row(k, s2))
+        L.append("\n### Historico: confluencias\n\n| nivel | n con | acierto con | acierto sin | diferencia |\n|---|---|---|---|---|")
+        for k, v in sorted(bt['confluence'].items(), key=lambda kv: -(kv[1]['lift'] or -9)):
+            L.append(f"| {k} | {v['with']['n']} | {pct(v['with']['wr'])} | {pct(v['without']['wr'])} | {'–' if v['lift'] is None else ('+' if v['lift'] > 0 else '') + str(round(v['lift'] * 100)) + ' pts'} |")
+        e2 = bt['excursion']
+        L.append(f"\nExcursion historica: perdedoras a favor {e2['losersMfeAvgR']}R en promedio, {e2['losersThatReached1R']} de {e2['losersN']} llegaron a +1R antes del stop; ganadoras en contra {e2['winnersMaeAvgR']}R (n {e2['winnersN']}).")
     with open(os.path.join(HERE, 'report.md'), 'w') as fh:
         fh.write('\n'.join(L) + '\n')
 

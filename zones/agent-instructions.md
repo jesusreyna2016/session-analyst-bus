@@ -10,9 +10,16 @@ Todo vive en `session-analyst-bus/zones/` (ver `README.md`). Los datos los escri
 ## Rutina diaria (despues del cierre de NY)
 
 1. `git checkout main && git pull --rebase --autostash origin main`.
-2. `python3 zones/analyze_zones.py` -> `report.md`, `report.json`, `state.json`. Lee `report.md` entero.
-3. Si hay menos de 10 setups resueltos en total, solo commitea lo que el script escribio y termina con una
-   linea de estado ("muestra corta: N setups").
+2. Domingo (o si `zones/backtest/summary.json` tiene mas de 7 dias): `node zones/backtest/backtest.mjs` para
+   rehacer el historico con las velas nuevas del bus. Luego `python3 zones/analyze_zones.py` -> `report.md`,
+   `report.json`, `state.json`. Lee `report.md` entero, incluida la seccion "Historico (backtest)".
+3. Si hay menos de 10 setups resueltos EN VIVO, los insights salen del historico (marcalos "historico" en el
+   texto) y no hay conclusiones del vivo todavia.
+
+   El historico (`zones/backtest/`) corre el mismo motor del indicador sobre las velas de 5 min del bus. Sin
+   volumen (VWAP y perfil aproximados), sin regimen, velas cerradas. Su E[R] "real" entra al cierre de la vela
+   del gatillo y sale en TP1 o al cierre que invalida; "limite" entra con orden limite en la entrada de la zona.
+   Sirve para encontrar hipotesis y para probar pesos al momento; el vivo es el que confirma.
 4. Escribe en `state.json` -> `insights` (lista, maximo 5, en espanol simple, para que Mi Mesa los muestre):
    cada uno `{ "es": "...", "en": "...", "n": <muestra>, "kind": "fuerte|debil|ejecucion|experimento" }`.
    Solo hallazgos con n >= 20 en el segmento (o marcados "temprano" si 10-19). Ejemplos del tono:
@@ -44,6 +51,11 @@ Ademas de la rutina diaria, escribe `zones/reviews/<YYYY>-week-<NN>.md`:
    - Tradúcelo a un cambio de pesos concreto con las claves de `weights.json` (ej. `chop: 0.5 -> 1.5` si las
      A en CHOP pierden; `f15m: 1.5 -> 1` si el FVG de 15m baja el acierto; `rrMin: 1.2 -> 1.5` si TP1 corto
      pierde; `a: 5 -> 5.5` si las A estan infladas).
+   - Antes de ponerlo en sombra, pruebalo en el historico:
+     `BACKTEST_WEIGHTS='{"chop":1.5}' node zones/backtest/backtest.mjs && python3 zones/analyze_zones.py`
+     y compara el E[R] real por calificacion contra la corrida con los pesos activos (anota los dos en la
+     revision). Al terminar vuelve a correr `node zones/backtest/backtest.mjs` sin la variable para dejar el
+     historico con los pesos activos. Si en el historico empeora, no lo propongas.
    - Escribelo en `experiments.json` con status `shadow`: `{ id: "z-<fecha>-<tema>", status: "shadow",
      hypothesis, changes: {clave: [antes, despues]}, segment, minGrade: "A", startDate: <hoy>,
      shadowVersion: "s<n>", approved: false }`.
