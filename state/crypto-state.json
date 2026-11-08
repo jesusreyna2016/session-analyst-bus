@@ -1,6 +1,6 @@
 {
  "schema": "crypto-state-1",
- "updatedAt": "2026-11-07T01:30:00Z",
+ "updatedAt": "2026-11-08T01:30:00Z",
  "runs": [
   {
    "plan": "2026-10-31-close",
@@ -225,21 +225,53 @@
      "unresolved": 0
     }
    }
+  },
+  {
+   "plan": "2026-11-07-close",
+   "graded": {
+    "predictions": {
+     "hit": 3,
+     "miss": 1,
+     "unresolved": 0
+    },
+    "zones": {
+     "worked": 1,
+     "failed": 1,
+     "untouched": 1,
+     "unresolved": 0
+    }
+   }
+  },
+  {
+   "plan": "2026-11-07-ny",
+   "graded": {
+    "predictions": {
+     "hit": 0,
+     "miss": 0,
+     "unresolved": 0
+    },
+    "zones": {
+     "worked": 1,
+     "failed": 0,
+     "untouched": 2,
+     "unresolved": 0
+    }
+   }
   }
  ],
  "scorecard": {
   "predictions": {
-   "n": 32,
-   "hit": 16
+   "n": 36,
+   "hit": 19
   },
   "zones": {
-   "n": 42,
-   "worked": 13
+   "n": 48,
+   "worked": 15
   },
   "byTcl": {
    "favor": {
-    "n": 10,
-    "worked": 3
+    "n": 12,
+    "worked": 4
    },
    "contra": {
     "n": 8,
@@ -248,12 +280,12 @@
   },
   "bySym": {
    "ETHUSDT": {
-    "n": 24,
-    "worked": 10
+    "n": 28,
+    "worked": 11
    },
    "BTCUSDT": {
-    "n": 18,
-    "worked": 3
+    "n": 20,
+    "worked": 4
    }
   },
   "byContext": {
@@ -266,12 +298,12 @@
     "worked": 5
    },
    "funding=neutral": {
-    "n": 20,
-    "worked": 8
+    "n": 26,
+    "worked": 10
    },
    "fg=fear": {
-    "n": 40,
-    "worked": 13
+    "n": 46,
+    "worked": 15
    },
    "fg=neutral": {
     "n": 2,
@@ -298,12 +330,12 @@
     "worked": 0
    },
    "gap=none": {
-    "n": 34,
-    "worked": 11
+    "n": 40,
+    "worked": 13
    },
    "headline=hack": {
-    "n": 42,
-    "worked": 13
+    "n": 48,
+    "worked": 15
    },
    "headline=etf": {
     "n": 0,
@@ -320,6 +352,7 @@
   }
  },
  "notes": [
+  "2026-11-08 califique (grade_plans.py --crypto 2026-11-07): BTC fallo el sesgo corto en el close (el precio subio 52.9 puntos en contra en vez de caer) y no tuvo sesgo calificable en el ny. Zonas: la venta A+ de ETH en el VAH (2,243.60-2,247.35) toco el stop y fallo en el close (r=-1) pero se volvio a tocar en el ny y esta vez funciono grande (r=2.9, el mismo patron de barrida y rechazo repitiendose en la misma vela el mismo dia); su compra B (sweep del minimo de ayer, 2,203-2,210) no se toco en ninguna de las dos corridas. La venta B de BTC (retest_break 76,050-76,330) funciono en el close (r=0.34, toco el objetivo antes que el stop) pero no se volvio a tocar en el ny. Predicciones de texto: 3 de 4 aciertos (ETH y BTC se quedaron bajo sus techos citados en cierres de 15 minutos, y BTC se quedo dentro de su rango completo); fallo el rango estrecho de ETH (2,225-2,248, una mecha llego a 2,248.38, apenas 0.38 puntos arriba del techo). Los priores que ya venian bajos siguen bajo 40% acumulado (fg=fear ahora 15/46=33%, headline=hack 15/48=31%, gap=none 13/40=33%) y el fondeo neutral cruzo bajo el umbral por primera vez (funding=neutral 10/26=38%): bajo la conviccion un escalon en las dos monedas otra vez. Por simbolo, ETH tambien cruzo bajo 40% por primera vez (11/28=39%, antes 10/24=42%); BTC sigue muy debil (4/20=20%).",
   "2026-11-07 califique (grade_plans.py --crypto 2026-11-06): dia que siguio cayendo con las acciones (BTC -336pts en el close, acerto el sesgo corto, pero reboto +176pts en la ventana del ny y lo fallo; ETH fallo el sesgo las dos veces, el precio subio 3.1 y 4.7 puntos en vez de caer). Zonas: la compra de BTC (barrida de PWL 76,050-76,330) rompio su propio stop en las dos corridas (perforo hasta 75,304 confirmando por que iba contra el checklist de tendencia, nunca podia ser GO); su venta de continuacion (77,006-78,057) nunca se toco. La compra de ETH (barrida de PDL 2,203-2,210) no se toco en el close pero si funciono en el ny (barrida y reclamo, r=0.12); su venta en el borde de VAL (2,252-2,261) tampoco se toco en ninguna corrida. Predicciones de texto: 3 de 4 aciertos en cada corrida (ETH se quedo bajo el techo de 2,265 y dentro de 2,195-2,265 las dos veces; BTC se quedo bajo el techo de 78,150 las dos veces) pero el piso de BTC (75,950) fallo en las dos por la mecha hasta 75,304. Los tres priores de contexto (miedo, titular de hackeo, sin gap del CME) siguen bajo 40% acumulado (fg=fear 13/40=32%, headline=hack 13/42=31%, gap=none 11/34=32%): bajo la conviccion un escalon en las dos monedas otra vez hoy. BTC sigue muy debil por simbolo (3/18=17%).",
   "2026-11-06 califique (grade_plans.py --crypto 2026-11-05): dia que abrio con rally y termino revirtiendo con la caida de los indices tras las elecciones (ETH -7.0%, BTC -5.1% en 24h al momento de esta corrida). Predicciones de texto: 3/4 aciertos (ETH nunca cerro sobre 2,461 y BTC se quedo dentro de 78,073-81,232 sin cerrar sobre 81,232), fallo el rango angosto de ETH (2,383-2,461, mecha hasta 2,357). La unica zona mapeada (venta B de ETH 2,447.5-2,452) nunca se toco en ninguna de las dos corridas. Tres novedades de contexto esta corrida: (1) el fondeo shorts-crowded de ETH funciona poco (4/14, 29%) pero sigue sumando el punto de excepcion a compras; (2) BTC sigue muy debil (3/14, 21%), baja su conviccion mas alla del prior de miedo; (3) por primera vez la clave gap=none (sin iman del CME activo, el caso casi todos los dias) cruzo bajo 40% (10/26, 38%): nueva regla de prior activa junto con fg=fear (12/32) y headline=hack (12/34).",
   "2026-11-05 califique (grade_plans.py --crypto 2026-11-04): dia de rally fuerte (ETH +6.6%, BTC +4.4% en 24h), las 4 predicciones de rango estrecho fallaron (0/4, las dos monedas cerraron por encima de su techo citado). Zonas: la zona de compra golden-zone de ETH se rompio (precio cerro por debajo del lado lejano antes de activarse) y no se volvio a tocar en el ny; la zona de compra sweep/reclaim de BTC si funciono en el close (llego al objetivo antes que al stop) y tampoco se volvio a tocar en el ny. Marcador del dia: 0/4 predicciones de texto, 1 zona funciono y 1 fallo en el close, las dos sin tocar en el ny. Leccion: mis predicciones de rango estrecho (stays inside X-Y) fallan fuerte en dias de rally con interes abierto subiendo junto al precio; considerar ensanchar el rango citado cuando oiChg24hPct suba mas de 5% en las dos monedas a la vez.",
@@ -328,7 +361,6 @@
   "Con contexto de miedo (Fear&Greed <=40) y titulares de hackeo activos, el scorecard acumulado muestra que mis zonas en ese contexto solo funcionan 8 de 22 (36%, n suficiente): baje la conviccion un escalon en BTC y ETH en el plan de hoy (2026-11-03), primera vez que esta regla de prior se activa en cripto.",
   "Dos hackeos nuevos de exchanges cripto (Mercado Bitcoin $46M, robo de $106M a una entidad de la UE) en las ultimas horas del 2 de noviembre: subo el riesgo de contexto de MEDIO a ALTO en el plan de hoy; el hackeo de Binance de la semana pasada ya habia bajado a BAJO/MEDIO, este es un evento nuevo e independiente.",
   "El hackeo de Binance volvio a escalar el 1-2 de noviembre (retiros netos de 3.64B a 5.8B dolares, atribucion del FBI a Corea del Norte): no crea direccion por si sola pero el riesgo de contexto del plan de hoy sube de BAJO a MEDIO frente a ayer.",
-  "2026-11-02 califico (grade_plans.py --crypto 2026-11-01): BTC fallo el sesgo en el close (predijo corto, se movio 453.7 pts al alza con el interes abierto cayendo, cierres de cortos y no dinero nuevo) y no tuvo sesgo calificable en el ny. Zonas BTC 1/2 tocadas funcionaron (venta A+ fallo en el close tocando el stop por el rally fuerte, funciono en el ny); zonas ETH 3/3 tocadas funcionaron (venta A+ funciono en las dos corridas, compra B funciono en el ny). Predicciones de texto: 2 aciertos (ningun cierre de 15m rompio los techos citados) y 2 fallos (BTC y ETH superaron brevemente el techo del rango del dia anterior sin cerrar arriba, asi que el rango en si no se mantuvo).",
-  "2026-10-31 califico (grade_plans.py --crypto): BTC fallo el sesgo en el close (predijo corto, se movio 228.6 pts al alza) pero lo acerto en el ny; ETH acerto el sesgo las dos veces. La zona larga de ETH (barrida/reclamo 2,208-2,241) funciono en las dos corridas; la A+ de venta de BTC (sweep_pdh) nunca se toco en ninguna de las dos. Predicciones de texto: 3 aciertos, 1 fallo (ETH nunca bajo a barrer 2,208-2,218, se quedo arriba en 2,233)."
+  "2026-11-02 califico (grade_plans.py --crypto 2026-11-01): BTC fallo el sesgo en el close (predijo corto, se movio 453.7 pts al alza con el interes abierto cayendo, cierres de cortos y no dinero nuevo) y no tuvo sesgo calificable en el ny. Zonas BTC 1/2 tocadas funcionaron (venta A+ fallo en el close tocando el stop por el rally fuerte, funciono en el ny); zonas ETH 3/3 tocadas funcionaron (venta A+ funciono en las dos corridas, compra B funciono en el ny). Predicciones de texto: 2 aciertos (ningun cierre de 15m rompio los techos citados) y 2 fallos (BTC y ETH superaron brevemente el techo del rango del dia anterior sin cerrar arriba, asi que el rango en si no se mantuvo)."
  ]
 }
