@@ -35,6 +35,26 @@ export class Basis {
     this.log('basis_sample', { sym, t: new Date(t).toISOString(), fut: s.price, perp, d: +d.toFixed(4), med: +median(arr.map((x) => x.d)).toFixed(4), n: arr.length });
   }
 
+  // Al arrancar recupera las muestras de la bitacora (eventos basis_sample) para no esperar
+  // a que el plan se recalcule de nuevo despues de un reinicio.
+  restore(events) {
+    let n = 0;
+    for (const e of events) {
+      if (e.evt !== 'basis_sample' || !Number.isFinite(e.d)) continue;
+      const t = Date.parse(e.t);
+      const key = `${e.sym}|${t}`;
+      if (this.seen.has(key)) continue;
+      this.seen.add(key);
+      const arr = this.samples.get(e.sym) || [];
+      arr.push({ t, fut: e.fut, perp: e.perp, d: e.d });
+      arr.sort((a, b) => a.t - b.t);
+      while (arr.length > this.cfg.basisWindow) arr.shift();
+      this.samples.set(e.sym, arr);
+      n++;
+    }
+    return n;
+  }
+
   // {value, spread, n} o null si no hay suficientes muestras recientes
   get(sym) {
     const cutoff = Date.now() - this.cfg.basisMaxAgeMin * 60000;

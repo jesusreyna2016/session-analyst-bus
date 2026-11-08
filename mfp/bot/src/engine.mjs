@@ -19,6 +19,9 @@ export class Engine {
     this.j = journal;
     this.log = (evt, data) => this.j.write(evt, data);
     this.basis = new Basis(cfg, this.log);
+    const day = (ms) => new Date(ms).toISOString().slice(0, 10);
+    const restored = this.basis.restore([...journal.read(day(Date.now() - 86400000)), ...journal.read(day(Date.now()))]);
+    if (restored) console.log(`diferencia de precio: ${restored} muestras recuperadas de la bitacora`);
     this.plan = null;
     this.planAt = 0;
     this.acct = null;
