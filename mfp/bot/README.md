@@ -15,7 +15,7 @@ Cada 15 s:
    con la última vela de 5m y el estado en vivo del indicador de TradingView, en vez de esperar la corrida de 15 min.
    NQ, ES, GC, ETH, BTC. `ZONES_FRESH=0` vuelve al plan guardado.
 2. Con cada vela nueva de 5m toma una muestra de la **diferencia perp − futuro**: el cierre de 5m del futuro
-   contra el minuto de MFP que cierra en el mismo instante. Usa la mediana de las últimas 8 muestras.
+   contra el minuto de MFP que cierra en el mismo instante. Usa la mediana de las últimas 8 muestras; la estabilidad se mide con la desviación robusta (MAD), así una muestra suelta mal alineada no frena las órdenes.
 3. Lee la cuenta y aplica el **riesgo**:
    - $300 por trade (tamaño = 300 / (distancia al stop + comisión de ida y vuelta)).
    - Freno diario al 90% del DLL de $3,000 = **$2,700**. Al tocarlo cancela todo, cierra posiciones y no opera hasta el reinicio diario de MFP.

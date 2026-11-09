@@ -61,7 +61,11 @@ export class Basis {
     const arr = (this.samples.get(sym) || []).filter((x) => x.t >= cutoff);
     if (arr.length < this.cfg.basisMinSamples) return { ready: false, n: arr.length };
     const ds = arr.map((x) => x.d);
-    return { ready: true, value: median(ds), spread: Math.max(...ds) - Math.min(...ds), n: arr.length };
+    const med = median(ds);
+    // Dispersion robusta (MAD escalada ~ desviacion estandar): una muestra desalineada aislada
+    // no la mueve, a diferencia del rango max-min.
+    const mad = median(ds.map((d) => Math.abs(d - med))) * 1.4826;
+    return { ready: true, value: med, spread: mad, range: Math.max(...ds) - Math.min(...ds), n: arr.length };
   }
 
   snapshot() {
