@@ -11,8 +11,10 @@ Por defecto apunta al **sandbox** ($100K simulados). Para una cuenta real hay qu
 
 Cada 15 s:
 
-1. Lee el plan intradía (`tradedadlog.com/api/intraday-plan`, recalculado cada 15 min): NQ, ES, GC, ETH, BTC.
-2. Cada vez que cambia el plan toma una muestra de la **diferencia perp − futuro**: el cierre de 5m del futuro
+1. Lee el plan intradía cada minuto con `?fresh=1` (`tradedadlog.com/api/intraday-plan?fresh=1`): recalculado al momento
+   con la última vela de 5m y el estado en vivo del indicador de TradingView, en vez de esperar la corrida de 15 min.
+   NQ, ES, GC, ETH, BTC. `ZONES_FRESH=0` vuelve al plan guardado.
+2. Con cada vela nueva de 5m toma una muestra de la **diferencia perp − futuro**: el cierre de 5m del futuro
    contra el minuto de MFP que cierra en el mismo instante. Usa la mediana de las últimas 8 muestras.
 3. Lee la cuenta y aplica el **riesgo**:
    - $300 por trade (tamaño = 300 / (distancia al stop + comisión de ida y vuelta)).
@@ -21,7 +23,8 @@ Cada 15 s:
    - Nunca pone una orden si la pérdida del día + el riesgo de lo abierto + $300 pasa de ese freno.
    - Máximo 5 a la vez (posiciones + órdenes en espera) y 1 por mercado. Sin límite de entradas por día
      (`MAX_ENTRIES_PER_DAY=0`); se puede poner un tope después de la fase de pruebas.
-4. Elige zonas **A+ y A**, en estado `nueva` o `activa`, con TP1 ≥ 1R, a ≤ 6 ATR de 5m, con el feed fresco y el veredicto `OPERABLE`.
+4. Elige zonas **A+ y A**, en estado `nueva`, `activa`, `tocada` o `armada` (re-test: el precio tocó la zona, salió y
+   la orden espera que vuelva), sin el precio adentro, que no hayan funcionado ni se hayan invalidado antes en el día, con TP1 ≥ 1R, a ≤ 6 ATR de 5m, con el feed fresco y el veredicto `OPERABLE`.
 5. Pone una **orden limit en la entrada de la zona** trasladada a precio MFP, con **SL y TP1 incluidos** y expiración (GTD) de 30 min.
    La renueva antes de vencer y la cancela si la zona deja de ser elegible o sus precios cambian.
    Si el bot se cae, las órdenes vencen solas y las posiciones quedan con su SL y TP en MFP.

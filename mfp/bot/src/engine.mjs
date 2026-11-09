@@ -6,7 +6,7 @@ import { Basis } from './basis.mjs';
 import { dayUtc } from './journal.mjs';
 
 const PREFIX = 'zb-';
-const LIVE_STATUSES = new Set(['nueva', 'activa']);
+const DEAD_STATUSES = new Set(['funciono', 'invalidada']);
 
 const round = (x) => Number(x.toFixed(x >= 1000 ? 2 : x >= 10 ? 4 : 6));
 const floorStep = (x, step) => { const n = Math.floor(x / step + 1e-9); return Number((n * step).toFixed(10)); };
@@ -34,7 +34,7 @@ export class Engine {
   }
 
   loadState() {
-    const d = { managed: {}, trades: {}, closedSeen: [], entriesToday: 0, dayStart: null, halted: false, blacklist: [] };
+    const d = { managed: {}, trades: {}, closedSeen: [], entriesToday: 0, dayStart: null, halted: false, blacklist: [], deadZones: [] };
     try { return { ...d, ...JSON.parse(fs.readFileSync(this.statePath, 'utf8')) }; } catch { return d; }
   }
   saveState() { fs.writeFileSync(this.statePath, JSON.stringify(this.st, null, 1)); }
@@ -68,15 +68,35 @@ export class Engine {
     if (Date.now() - this.planAt < this.cfg.zonesPollSec * 1000 && this.plan) return;
     this.planAt = Date.now();
     try {
-      const r = await fetch(this.cfg.zonesUrl, { signal: AbortSignal.timeout(20000) });
+      const url = this.cfg.zonesFresh ? `${this.cfg.zonesUrl}?fresh=1` : this.cfg.zonesUrl;
+      const r = await fetch(url, { signal: AbortSignal.timeout(20000) });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const p = await r.json();
+      if (!p.symbols) throw new Error(p.error || 'plan sin simbolos');
+      this.rememberDead(p);
       const changed = !this.plan || p.builtAt !== this.plan.builtAt;
       this.plan = p;
       if (changed) for (const sym of Object.keys(this.meta)) await this.basis.sample(sym, p, this.meta[sym], this.stream);
     } catch (e) {
       this.log('zones_error', { error: e.message });
     }
+  }
+
+  // Zonas que ya funcionaron o se invalidaron hoy: no se vuelven a operar aunque un recalculo
+  // posterior las devuelva como activas (el plan al momento no siempre arrastra el estado).
+  rememberDead(p) {
+    const dead = this.st.deadZones;
+    for (const [sym, s] of Object.entries(p.symbols || {})) {
+      for (const z of s.zones || []) {
+        if (!DEAD_STATUSES.has(z.status) || this.isDead(sym, z)) continue;
+        dead.push({ sym, side: z.side, lo: z.lo, hi: z.hi, status: z.status, at: new Date().toISOString() });
+      }
+    }
+    while (dead.length > 500) dead.shift();
+  }
+
+  isDead(sym, z) {
+    return (this.st.deadZones || []).some((d) => d.sym === sym && d.side === z.side && d.lo <= z.hi && z.lo <= d.hi);
   }
 
   async refreshAccount() {
@@ -90,6 +110,7 @@ export class Engine {
       this.st.entriesToday = 0;
       this.st.halted = false;
       this.st.blacklist = [];
+      this.st.deadZones = [];
     }
     this.st.dayStart = dayStart;
     const equity = r.equity;
@@ -146,7 +167,8 @@ export class Engine {
       for (const z of s.zones || []) {
         const key = `${sym}|${z.id}`;
         if (!cfg.grades.includes(z.grade)) continue;
-        if (!LIVE_STATUSES.has(z.status) || z.inside) continue;
+        if (!cfg.statuses.includes(z.status) || z.inside) continue;
+        if (this.isDead(sym, z)) continue;
         if (this.st.blacklist.includes(key)) continue;
         if (!(z.rr1 >= cfg.minRR)) { this.skip(key, `rr1 ${z.rr1} < ${cfg.minRR}`); continue; }
         if (!(z.distAtr5 <= cfg.maxDistAtr)) continue; // lejos: aun no
@@ -243,7 +265,7 @@ export class Engine {
       take_profit_price: w.tp, stop_loss_price: w.stop,
     };
     const rec = {
-      cid, key: w.key, sym: w.sym, zoneId: z.id, grade: z.grade, score: z.score, aligned: z.aligned, rr1: z.rr1,
+      cid, key: w.key, sym: w.sym, zoneId: z.id, zoneStatus: z.status, grade: z.grade, score: z.score, aligned: z.aligned, rr1: z.rr1,
       side: z.side, marketId: m.market_id, size, notional: +notional.toFixed(2), feeRate,
       fut: { entry: z.entry, stop: z.stop, tp1: z.tp1, lo: z.lo, hi: z.hi }, basis: +w.basis.toFixed(4), basisSpread: +w.basisSpread.toFixed(4),
       entry: w.entry, stop: w.stop, tp: w.tp, pxAtPlace: w.px, plannedRiskUsd: +(size * perUnit).toFixed(2),

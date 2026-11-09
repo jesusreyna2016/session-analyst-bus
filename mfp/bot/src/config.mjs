@@ -24,6 +24,8 @@ export const cfg = {
 
   // Que zonas se operan
   grades: (env.GRADES || 'A+,A').split(',').map((s) => s.trim()),
+  // Estados de zona que se operan. tocada/armada = re-test: el precio ya toco la zona, salio y puede volver.
+  statuses: (env.ZONE_STATUSES || 'nueva,activa,tocada,armada').split(',').map((s) => s.trim()),
   minRR: num('MIN_RR', 1),
   maxDistAtr: num('MAX_DIST_ATR5', 6),
   maxFeedAgeMin: num('MAX_FEED_AGE_MIN', 5),
@@ -42,6 +44,9 @@ export const cfg = {
 
   loopSec: num('LOOP_SEC', 15),
   zonesPollSec: num('ZONES_POLL_SEC', 60),
+  // 1 = pide el plan recalculado al momento (?fresh=1, con el estado en vivo del indicador de TradingView)
+  // en vez del guardado por la corrida de cada 15 min
+  zonesFresh: env.ZONES_FRESH !== '0',
   reconcileSec: num('RECONCILE_SEC', 30),
 
   markets: JSON.parse(env.MARKETS || JSON.stringify({
