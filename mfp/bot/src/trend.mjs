@@ -47,8 +47,8 @@ export class Trend {
       if (s && s.cur === cur) continue;
       if (s && Date.now() - s.triedAt < 20000) continue;
       try {
-        const r = await this.stream.request('candles.history', { provider: m.provider, symbol: m.coin, interval: '5m', endTime: Date.now(), limit: 600 });
-        const bars = toBars(r).filter((b) => b.t < cur);
+        const r = await this.stream.request('candles.history', { provider: m.provider, symbol: m.coin, interval: '5m', startTime: Date.now() - 5 * 86400000, endTime: Date.now(), limit: 1000 });
+        const bars = toBars(r).filter((b) => b.t < cur).slice(-600);
         if (bars.length < 220) throw new Error(`pocas velas (${bars.length})`);
         this.state.set(sym, { cur, triedAt: Date.now(), ...this.compute(bars) });
       } catch (e) {
