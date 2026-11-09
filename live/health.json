@@ -1,49 +1,46 @@
 {
-  "checkedAt": "2026-11-08T23:37:23Z",
-  "status": "warn",
-  "snapshot": { "builtAt": "2026-11-08T23:30:31.429Z", "ageMin": 7, "state": "OK" },
-  "webhook": { "lastSeenMin": 7, "state": "ok" },
-  "news": { "ageMin": 8, "count": 10, "state": "ok" },
-  "sa": { "lastRun": "2026-11-07T16:19:57Z", "runType": "weekly", "lateBy": 92 },
+  "checkedAt": "2026-11-09T00:06:45Z",
+  "status": "ok",
+  "snapshot": { "builtAt": "2026-11-09T00:00:33.775Z", "ageMin": 6, "state": "OK" },
+  "webhook": { "lastSeenMin": 6, "state": "ok" },
+  "news": { "ageMin": 7, "count": 10, "state": "ok" },
+  "sa": { "lastRun": "2026-11-09T00:05:40Z", "runType": "pre-asia", "lateBy": 121 },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 7, "state": "fresh" },
+      "orb": { "ageMin": 6, "state": "fresh" },
       "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 37, "state": "fresh" }
+      "regime": { "ageMin": 22, "state": "fresh" },
+      "trendcl": { "ageMin": 67, "state": "fresh" }
     },
     "ES": {
-      "orb": { "ageMin": 7, "state": "fresh" },
+      "orb": { "ageMin": 12, "state": "fresh" },
       "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 37, "state": "fresh" }
+      "regime": { "ageMin": 22, "state": "fresh" },
+      "trendcl": { "ageMin": 67, "state": "fresh" }
     },
     "GC": {
-      "orb": { "ageMin": 7, "state": "fresh" },
+      "orb": { "ageMin": 12, "state": "fresh" },
       "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 37, "state": "fresh" }
+      "regime": { "ageMin": 17, "state": "fresh" },
+      "trendcl": { "ageMin": 66, "state": "fresh" }
     },
     "YM": {
       "orb": { "ageMin": 7, "state": "fresh" },
       "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 27, "state": "fresh" },
-      "trendcl": { "ageMin": 3037, "state": "dead" }
+      "regime": { "ageMin": 57, "state": "fresh" },
+      "trendcl": { "ageMin": 6, "state": "fresh" }
     },
     "CL": {
-      "orb": { "ageMin": 7, "state": "fresh" },
-      "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 7, "state": "fresh" }
+      "orb": { "ageMin": 12, "state": "fresh" },
+      "feed": { "ageMin": 12, "state": "fresh" },
+      "regime": { "ageMin": 17, "state": "fresh" },
+      "trendcl": { "ageMin": 20, "state": "fresh" }
     }
   },
-  "scalp": { "ingestMin": 7, "snapshotMin": 37, "state": "ok" },
-  "issues": [
-    "SA pre-asia no salió · catch-up en curso",
-    "trendcl@YM dead (3037 min)"
-  ],
+  "scalp": { "ingestMin": 6, "snapshotMin": 36, "state": "ok" },
+  "issues": [],
   "note": {
-    "es": "Franja 17:30 CT (domingo, vigila pre-asia): el mercado reabrio hace ~37 min (17:00 CT) y snapshot/feed/orb/regime de los 5 simbolos ya estan frescos (7-32 min), scalp CC ok, news ok. No hay commit 'sa pre-asia' en las ultimas 3h ni en heartbeat.json (sigue en 'weekly' del sabado) -- la corrida de pre-asia de hoy (cron 16:05 CT) no salio, 92 min tarde. Lanzando catch-up segun method/catchup.md. trendcl@YM quedo parado en 2026-11-06T21:00 (viernes), ~3037 min, mientras el resto del complejo ya se refresco al reabrir -- primera vez que se ve aislado (antes caia junto con todo por el cierre de finde), posible alerta TV de YM trendcl caida; no sube a down (regla fuente auxiliar).",
-    "en": "17:30 CT slot (Sunday, watches pre-asia): the market reopened ~37 min ago (17:00 CT) and snapshot/feed/orb/regime for all 5 symbols are already fresh (7-32 min), Scalp CC ok, news ok. No 'sa pre-asia' commit in the last 3h and heartbeat.json still shows Saturday's 'weekly' run -- today's pre-asia run (cron 16:05 CT) did not go out, 92 min late. Starting catch-up per method/catchup.md. trendcl@YM is stuck at 2026-11-06T21:00 (Friday), ~3037 min old, while the rest of the complex already refreshed on reopen -- first time it's isolated (before it was down together with everything from the weekend close), possible dead YM trendcl TV alert; does not push status to down (auxiliary-source rule)."
+    "es": "Franja 17:30 CT (domingo, vigilaba pre-asia): la corrida de hoy (cron 16:05 CT) no habia salido, catch-up lanzado y completado OK, ~121 min tarde (heartbeat.lastRun 2026-11-09T00:05:40Z). Se construyo el plan de Asia del ciclo lunes 9-nov (NQ/ES/GC/CL con A+ por metodo en espera, YM sin zona A+, GC foco de la noche) sin re-calificar el cierre del viernes (ya lo habia hecho su propia pre-asia). trendcl@YM, que llevaba ~3037min parado y aislado en el check anterior, se recupero solo (6min) -- sin accion necesaria. Snapshot 6min, los 5 simbolos frescos en orb/feed/regime/trendcl, webhook 6min, news ok (10 eventos, 7min), scalp CC ok (ingest 6min, snapshot 36min).",
+    "en": "17:30 CT slot (Sunday, was watching pre-asia): today's run (cron 16:05 CT) hadn't gone out; catch-up launched and completed OK, ~121 min late (heartbeat.lastRun 2026-11-09T00:05:40Z). Built the Asia plan for Monday 11-9's cycle (NQ/ES/GC/CL with A+-by-method setups pending arrival, YM with no A+ zone, GC as tonight's focus) without re-grading Friday's close (its own pre-asia had already done that). trendcl@YM, which had been stuck ~3037min and isolated in the prior check, recovered on its own (6min) -- no action needed. Snapshot 6min, all 5 symbols fresh across orb/feed/regime/trendcl, webhook 6min, news ok (10 events, 7min), Scalp CC ok (ingest 6min, snapshot 36min)."
   }
 }
