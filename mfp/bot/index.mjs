@@ -3,6 +3,8 @@
 //   node index.mjs check    -> verifica cuenta, mercados, zonas y stream sin poner ordenes
 //   node index.mjs report [YYYY-MM-DD] [YYYY-MM-DD]  -> reporte zona vs ejecucion
 import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
 import { cfg, assertSafe } from './src/config.mjs';
 import { Mfp } from './src/mfp.mjs';
 import { MarketStream } from './src/stream.mjs';
@@ -13,6 +15,20 @@ import { sleep } from './src/net.mjs';
 
 const cmd = process.argv[2] || 'run';
 const journal = new Journal(cfg);
+
+// Un solo bot por DATA_DIR: dos instancias sobre la misma cuenta y el mismo state.json se pisarian.
+function lockDataDir() {
+  fs.mkdirSync(cfg.dataDir, { recursive: true });
+  const f = path.join(cfg.dataDir, 'bot.lock');
+  try {
+    const pid = Number(fs.readFileSync(f, 'utf8'));
+    if (pid && pid !== process.pid) {
+      try { process.kill(pid, 0); throw new Error(`Ya hay un bot corriendo con este DATA_DIR (pid ${pid})`); } catch (e) { if (e.code !== 'ESRCH') throw e; }
+    }
+  } catch (e) { if (e.code !== 'ENOENT') throw e; }
+  fs.writeFileSync(f, String(process.pid));
+  process.on('exit', () => { try { if (Number(fs.readFileSync(f, 'utf8')) === process.pid) fs.unlinkSync(f); } catch {} });
+}
 
 async function main() {
   if (cmd === 'report') {
@@ -28,6 +44,7 @@ async function main() {
   }
 
   assertSafe();
+  if (cmd === 'run') lockDataDir();
   const mfp = new Mfp(cfg);
   const log = (evt, data) => journal.write(evt, data);
   const engine = new Engine(cfg, mfp, null, journal);
