@@ -1,60 +1,67 @@
-# Revision semanal cripto · domingo 2026-11-01 (CT)
+# Revision semanal cripto · domingo 2026-11-08 (CT)
 
-Semana cripto lunes 00:00 UTC a lunes 00:00 UTC. El metodo diario (crypto-close +
-crypto-ny) arranco apenas el 30-31 de octubre: esta es la PRIMERA revision semanal real,
-con solo 2 dias de datos completos (sabado 31-oct y domingo 1-nov, 4 corridas en total).
-Todos los numeros de abajo son de muestra chica; se leen como arranque, no como veredicto.
+Semana cripto lunes 2026-11-02 00:00 UTC a lunes 2026-11-09 00:00 UTC, las 14 corridas
+completas (7 dias x close+ny). Primera semana con el metodo diario corriendo los 7 dias
+desde el principio, asi que ya hay muestra razonable por simbolo (aunque los cortes finos
+siguen cortos).
 
 ## Marcador
 
-- **ETHUSDT**: zonas 5/8 funcionaron (62.5%), sesgo 2/2 acertado. Predicciones de texto
-  (solo se generan en el close) 5/8 aciertos (62.5%).
-- **BTCUSDT**: zonas 1/6 funcionaron (16.7%), sesgo 1/3 acertado (el fallo grande: 1-nov
-  close predijo corto y BTC subio 453.7 pts con el interes abierto cayendo).
-- **Close vs ny**: en las zonas TOCADAS, el close acerto 2/3 (66.7%) y el ny 4/4 (100%);
-  el update de ny no empeoro ningun plan esta semana, en todo caso lo confirmo. n muy
-  chico (3-4 por lado), no es un patron todavia.
+- **ETHUSDT**: de 24 zonas propuestas, 10 se tocaron y 7 funcionaron (70% sobre tocadas).
+  Predicciones de texto 6/14 (42.9%). Sesgo de sesion 5/10 acertado (50%).
+- **BTCUSDT**: de 16 zonas propuestas, 7 se tocaron y 4 funcionaron (57.1% sobre tocadas).
+  Predicciones de texto 8/14 (57.1%). Sesgo de sesion 4/7 acertado (57.1%, pero el fallo del
+  jueves 06-nov en el ny y los dos fallos del fin de semana 07/08-nov fueron todos "sube en
+  vez de bajar", el mismo patron repitiendose).
+- **Close vs ny** (sobre zonas tocadas): el close acerto 7/11 (63.6%) y el ny 4/6 (66.7%);
+  n todavia chico para llamarlo patron, pero el ny no viene empeorando los planes del close
+  en ninguna semana medida hasta ahora.
 
 ## Fin de semana contra entre semana
 
-No hay comparacion posible: las dos corridas con dato real caen en fin de semana (sabado
-y domingo). El metodo diario entre semana (lunes a viernes) todavia no acumula un dia
-completo calificado.
+Fin de semana (sab 07 + dom 08): 5 zonas tocadas de 12 propuestas, 4 funcionaron (80%, n muy
+chico). Entre semana (lun-vie): 12 tocadas de 28 propuestas, 7 funcionaron (58.3%). La
+liquidez fina de fin de semana sigue leyendose mejor que entre semana en esta muestra, pero
+con solo 5 toques no es para apostarle todavia.
 
 ## Donde fallo
 
-- **BTC fallo el sesgo 1 de 3 veces**, y la vez que fallo fue la mas cara (453.7 pts en
-  contra, interes abierto cayendo mientras el precio subia: cerro de cortos, no dinero
-  nuevo, la pista que el plan si nombro pero que no evito la perdida en el papel).
-- **`funding=shorts-crowded` (fondeo de ETH con los cortos pagando) rinde 3/10 (30%,
-  n ≥ 8)**: ya toca la regla dura de la seccion 4 (baja la conviccion un escalon). El
-  contraste con `funding=neutral` (3/4, 75%, n chico) sugiere que el viento de cola de
-  fin de semana medido en semanas pasadas (5/5) no se esta repitiendo en estos 2 dias; se
-  aplico ya en el plan del lunes y se sigue vigilando.
-- Las 2 mejores: continuacion con la tendencia (`liq_reclaim`/`sweep_pdl` LONG, 3/3
-  tocadas funcionaron) y reversion en el maximo (`sweep_pdh`/`fade_pdh` SHORT, 3/4
-  resueltas funcionaron); ninguna con n ≥ 8 todavia.
+- Los priores acumulados que ya traia bajos siguen bajos y ahora con mas muestra: miedo
+  (`fg=fear` 17/52 = 32.7%), sin titular de hackeo activo (antes `headline=hack` 16/51 =
+  31.4%), sin iman del CME activo (`gap=none` 15/46 = 32.6%) y fondeo neutral (`funding=
+  neutral` 12/32 = 37.5%). Los cuatro casi siempre aparecen juntos el mismo dia (no hay
+  todavia un dia con uno solo activo para aislar el efecto de cada uno).
+- **BTC sigue siendo el lado mas debil con mucho margen**: 5 de 22 zonas tocadas desde que
+  se mide (22.7%), la tercera semana seguida bajo el 25%. Con `winN` ya en 22 (acercandose
+  al umbral de 30 para un ajuste de `zonePriors`), si la semana que entra lo deja en 30+
+  sin mejorar, toca proponer bajarle el prior de continuacion por separado del de ETH.
+- Las 2 mejores de la semana (n chico, no para generalizar todavia): la barrida del minimo
+  del dia anterior (`sweep_pdl`, 2 de 2 tocadas funcionaron) y el retest del nivel roto
+  (`retest_break`, 3 de 4 tocadas funcionaron, el tipo con mas muestra de la semana).
 
 ## Contexto fuera del grafico
 
-El hackeo de Binance (6.3B) dominó toda la semana: paso de riesgo ALTO a recuperacion
-(90% repuesto, reapertura de retiros) y volvio a escalar el domingo/lunes (retiros
-3.64B a 5.8B, atribucion del FBI a Corea del Norte). No se le midio impacto directo en
-precio en ninguna de las 2 jornadas calificadas; el funding y el interes abierto
-(dinero nuevo en ETH, cierres en BTC) explicaron mas del movimiento que los titulares.
+El hackeo de Binance de finales de octubre sigue de cola (renuncia del CFO, salida del jefe
+de finanzas) pero sin escalar de nuevo esta semana: no se le midio impacto directo en precio.
+Las salidas de ETF de bitcoin ($1.28B en la semana, la peor desde marzo) coincidieron con una
+semana mixta (rally lunes-martes, reversion fuerte jueves-viernes tras las elecciones de
+medio termino en EEUU): el fondeo y el interes abierto explicaron mas del movimiento dia a
+dia que los titulares de ETF o de hackeo. El trasfondo geopolitico de Iran se mantuvo de
+fondo toda la semana sin escalada real, con tono de distension hacia el domingo.
 
 ## Semana que entra
 
-Lunes 2-nov: ISM Manufacturing PMI (impacto medio, EEUU). Martes 3-nov: elecciones
-legislativas de EEUU (impacto alto, puede mover el sentimiento de riesgo general) y
-RBA (AUD, no cripto). Miercoles: ISM Services + inventarios de crudo. Seguir el
-hackeo de Binance: si los retiros netos se estabilizan o si aparece un nuevo titular de
-"hack"/"liquidation", actualizar `cryptoContext.risk` en la corrida que corresponda.
+Martes 10-nov: CPI y Core CPI de EEUU (impacto alto, el dato mas relevante de la semana) y
+Waller de la Fed habla. Jueves 12-nov: PIB del Reino Unido, Reclamos de Desempleo e
+Inventarios de Crudo en EEUU. Viernes 13-nov: PPI y Core PPI de EEUU. Sin megacaps en el
+calendario de ganancias. Seguir el fondeo de ETH (cortos cargados desde hoy, primera vez en
+varias semanas) y el hueco del CME de ETH (-4.33% el viernes 06-nov, todavia sin llenar):
+si se llena esta semana, anotar cuanto tardo desde que se activo.
 
 ## Propuestas de metodo
 
-Sin propuestas, muestra corta (n < 8 en casi todos los cortes; el metodo diario lleva
-solo 2 dias calificados). Unico punto a vigilar sin tocar nada todavia: `funding=
-shorts-crowded` ya tiene n ≥ 8 y rinde 30%, justo bajo el umbral de 0.4 de la regla
-dura; si en 1-2 semanas mas se mantiene bajo con n mayor, ahi si proponer bajar o
-quitar la excepcion de +1 por apalancamiento de la seccion 1b.
+Sin propuestas firmes todavia: BTC acumula `winN`=22 con 22.7% de exito, ya bajo el 40% con
+muestra de sobra para la regla dura de conviccion (que ya se aplica), pero falta llegar a
+`winN`=30 para tocar su `zonePriors` de continuacion por separado del de ETH (que va mejor,
+56% historico). Si las 2-3 semanas que vienen lo mantienen bajo 25% con `winN` >= 30, ahi si
+proponer bajar el prior de continuacion de BTC de 0.40 a algo mas bajo, sin tocar el de ETH.
