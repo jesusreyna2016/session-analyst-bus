@@ -31,9 +31,13 @@ export async function buildReport(cfg, journal, days) {
 
   const L = [];
   L.push(`# Bot de zonas en MFP · ${days[0]}${days.length > 1 ? ` → ${days[days.length - 1]}` : ''}\n`);
+  // realized_pnl de MFP es bruto: el resultado va neto de comisiones (las bitacoras viejas no traen netPnl)
+  for (const c of closed) {
+    if (c.netPnl == null) { c.netPnl = c.realizedPnl - (c.fees || 0); c.R = +(c.netPnl / cfg.riskUsd).toFixed(3); }
+  }
   const R = closed.map((c) => c.R);
-  const wins = closed.filter((c) => c.realizedPnl > 0).length;
-  const pnl = closed.reduce((a, c) => a + c.realizedPnl, 0);
+  const wins = closed.filter((c) => c.netPnl > 0).length;
+  const pnl = closed.reduce((a, c) => a + c.netPnl, 0);
   const fees = closed.reduce((a, c) => a + (c.fees || 0), 0);
   const funding = closed.reduce((a, c) => a + (c.funding || 0), 0);
   L.push('## Resumen\n');
@@ -55,8 +59,8 @@ export async function buildReport(cfg, journal, days) {
   for (const c of closed) {
     const p = zonesPlaced.get(`${c.sym}|${c.zone}`) || {};
     const zs = zoneLog.get(`${c.sym}|${c.zone}`) || '¿?';
-    const mfpRes = c.realizedPnl > 0 ? 'ganó' : 'perdió';
-    if (zs === 'funciono' || zs === 'invalidada') { comparable++; if ((zs === 'funciono') === (c.realizedPnl > 0)) agree++; }
+    const mfpRes = c.netPnl > 0 ? 'ganó' : 'perdió';
+    if (zs === 'funciono' || zs === 'invalidada') { comparable++; if ((zs === 'funciono') === (c.netPnl > 0)) agree++; }
     L.push(`| ${c.sym} ${c.zone} | ${c.grade} | ${zs} | ${mfpRes} (${c.closeReason || '—'}) | ${f2(c.R)} | ${f2(c.entryPlanned)} → ${f2(c.entryFill)} | ${f2(c.exitPrice)} | ${f2(p.basis)} |`);
   }
   L.push(`\nCoinciden zona y ejecución en ${agree} de ${comparable} trades comparables.`);

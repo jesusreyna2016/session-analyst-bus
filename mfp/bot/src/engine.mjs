@@ -304,7 +304,7 @@ export class Engine {
     if (o.filled_size > 0 || o.status === 'filled') {
       this.st.entriesToday += 1;
       this.st.trades[cid] = { ...rec, filledAt: Date.now(), orderStatus: o.status, fillPrice: o.fill_price ?? o.limit_price, filledSize: o.filled_size };
-      this.log('entry_filled', { cid, sym: rec.sym, zone: rec.zoneId, side: rec.side, limit: rec.entry, fill: o.fill_price ?? null, size: o.filled_size, status: o.status });
+      this.log('entry_filled', { cid, sym: rec.sym, zone: rec.zoneId, side: rec.side, limit: rec.entry, fill: o.fill_price ?? null, size: o.filled_size || o.size || rec.size, status: o.status });
     } else if (o.status !== 'canceled') {
       this.log('order_end', { cid, sym: rec?.sym, zone: rec?.zoneId, status: o.status, reason: o.cancel_reason || o.reject_reason || null, rule: o.reject_rule_id || null });
     }
@@ -326,6 +326,8 @@ export class Engine {
       const realized = Number(p.realized_pnl ?? 0);
       const fees = Number(p.fees ?? 0);
       const funding = Number(p.funding ?? 0);
+      // realized_pnl de MFP es bruto (sin comisiones): el neto descuenta las comisiones
+      const net = realized - fees;
       const exitTarget = p.close_reason;
       const slipExit = p.exit_price != null
         ? (t.side === 'long' ? 1 : -1) * (p.exit_price - (Math.abs(p.exit_price - t.stop) < Math.abs(p.exit_price - t.tp) ? t.stop : t.tp))
@@ -333,8 +335,8 @@ export class Engine {
       this.log('trade_closed', {
         cid: t.cid, sym: t.sym, zone: t.zoneId, grade: t.grade, side: t.side, positionId: p.id,
         entryPlanned: t.entry, entryFill: p.entry_price, exitPrice: p.exit_price, stop: t.stop, tp: t.tp,
-        closeReason: exitTarget, realizedPnl: realized, fees, funding,
-        R: +(realized / this.cfg.riskUsd).toFixed(3), slipEntry: p.entry_price != null ? +((t.side === 'long' ? 1 : -1) * (t.entry - p.entry_price)).toFixed(4) : null,
+        closeReason: exitTarget, realizedPnl: realized, fees, funding, netPnl: +net.toFixed(4),
+        R: +(net / this.cfg.riskUsd).toFixed(3), Rgross: +(realized / this.cfg.riskUsd).toFixed(3), slipEntry: p.entry_price != null ? +((t.side === 'long' ? 1 : -1) * (t.entry - p.entry_price)).toFixed(4) : null,
         slipExit: slipExit != null ? +slipExit.toFixed(4) : null, heldMin: p.closed_at && p.opened_at ? Math.round((p.closed_at - p.opened_at) / 60000) : null,
         raw: p,
       });
