@@ -25,6 +25,21 @@ Cada 15 s:
      (`MAX_ENTRIES_PER_DAY=0`); se puede poner un tope después de la fase de pruebas.
 4. Elige zonas **A+ y A**, en estado `nueva`, `activa`, `tocada` o `armada` (re-test: el precio tocó la zona, salió y
    la orden espera que vuelva), sin el precio adentro, que no hayan funcionado ni se hayan invalidado antes en el día, con TP1 ≥ 1R, a ≤ 6 ATR de 5m, con el feed fresco y el veredicto `OPERABLE`.
+   **Filtro de tendencia** (`TREND_FILTERS`, por defecto `ema20_50,ema200,struct5`): con velas de 5m de MFP, la zona
+   solo se opera si todos están a favor (para un short):
+   - EMA20 < EMA50.
+   - Cierre < EMA200.
+   - El último evento de estructura de 5m no es alcista. Los eventos son CHoCH/MSS, BOS, CISD e IFVG (`src/structure.mjs`).
+
+   Si alguno cambia en contra, la orden en espera se cancela. También están `ema9_21`, `struct15` y `vwap` (TWAP de la sesión,
+   porque MFP no da volumen en índices). Vacío = sin filtro. Medido en el histórico de zonas (`node tools/trend-backtest.mjs`,
+   A+/A, 21-ago a 6-nov, R en futuros sin comisiones):
+
+   | | trades | R promedio |
+   |---|---|---|
+   | sin filtro | 1396 | −0.04 |
+   | solo EMA20/50 | 744 | +0.05 |
+   | EMA20/50 + EMA200 + estructura 5m | 360 | +0.12 (sep +0.07, oct–nov +0.14) |
 5. Pone una **orden limit en la entrada de la zona** trasladada a precio MFP, con **SL y TP1 incluidos** y expiración (GTD) de 30 min.
    La renueva antes de vencer y la cancela si la zona deja de ser elegible o sus precios cambian.
    Si el bot se cae, las órdenes vencen solas y las posiciones quedan con su SL y TP en MFP.

@@ -30,6 +30,9 @@ export const cfg = {
   maxDistAtr: num('MAX_DIST_ATR5', 6),
   maxFeedAgeMin: num('MAX_FEED_AGE_MIN', 5),
   requireOperable: env.REQUIRE_OPERABLE !== '0',
+  // Filtro de tendencia (src/trend.mjs): todos los de la lista deben estar a favor. Vacio = sin filtro.
+  // Opciones: ema20_50, ema200, ema9_21, struct5, struct15, vwap
+  trendFilters: (env.TREND_FILTERS ?? 'ema20_50,ema200,struct5').split(',').map((s) => s.trim()).filter(Boolean),
 
   // Diferencia perp - futuro
   basisMinSamples: num('BASIS_MIN_SAMPLES', 3),

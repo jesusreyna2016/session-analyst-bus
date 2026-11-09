@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fetch } from './net.mjs';
 import { Basis } from './basis.mjs';
+import { Trend } from './trend.mjs';
 import { dayUtc } from './journal.mjs';
 
 const PREFIX = 'zb-';
@@ -19,6 +20,7 @@ export class Engine {
     this.j = journal;
     this.log = (evt, data) => this.j.write(evt, data);
     this.basis = new Basis(cfg, this.log);
+    this.trend = new Trend(cfg, stream, this.log);
     const day = (ms) => new Date(ms).toISOString().slice(0, 10);
     const restored = this.basis.restore([...journal.read(day(Date.now() - 86400000)), ...journal.read(day(Date.now()))]);
     if (restored) console.log(`diferencia de precio: ${restored} muestras recuperadas de la bitacora`);
@@ -172,6 +174,8 @@ export class Engine {
         if (this.st.blacklist.includes(key)) continue;
         if (!(z.rr1 >= cfg.minRR)) { this.skip(key, `rr1 ${z.rr1} < ${cfg.minRR}`); continue; }
         if (!(z.distAtr5 <= cfg.maxDistAtr)) continue; // lejos: aun no
+        const tr = this.trend.check(sym, z.side);
+        if (!tr.ok) { this.skip(key, tr.why, { trend: tr.detail }); continue; }
         if (!b.ready) { this.skip(key, `diferencia de precio sin datos (${b.n}/${cfg.basisMinSamples})`); continue; }
         const riskPts = Math.abs(z.entry - z.stop);
         if (b.spread > cfg.basisMaxSpreadR * riskPts) { this.skip(key, 'diferencia de precio inestable', { spread: b.spread, riskPts }); continue; }
@@ -182,7 +186,7 @@ export class Engine {
         const tp = round(z.tp1 + b.value);
         const gap = long ? px - entry : entry - px;
         if (gap < cfg.minGapR * riskPts) { this.skip(key, 'precio de MFP ya en la entrada', { px, entry }); continue; }
-        const cand = { sym, key, zone: z, market: m, long, entry, stop, tp, basis: b.value, basisSpread: b.spread, px };
+        const cand = { sym, key, zone: z, market: m, long, entry, stop, tp, basis: b.value, basisSpread: b.spread, px, trend: tr.detail };
         if (!best || z.score > best.zone.score) best = cand;
       }
       if (best) out.push(best);
@@ -195,6 +199,7 @@ export class Engine {
   async tick() {
     await this.refreshPlan();
     await this.refreshAccount();
+    await this.trend.refresh(this.meta);
     if (Date.now() - this.lastReconcile > this.cfg.reconcileSec * 1000) await this.reconcile();
     const halted = await this.checkHalt();
 
@@ -238,7 +243,7 @@ export class Engine {
 
     this.status = {
       ...this.status, at: new Date().toISOString(), halted: this.st.halted, risk: r, entriesToday: this.st.entriesToday,
-      planBuiltAt: this.plan?.builtAt, basis: this.basis.snapshot(),
+      planBuiltAt: this.plan?.builtAt, basis: this.basis.snapshot(), trend: this.trend.snapshot(), trendFilters: this.cfg.trendFilters,
       resting: Object.values(this.st.managed).map((m) => ({ sym: m.sym, zone: m.zoneId, side: m.side, entry: m.entry, stop: m.stop, tp: m.tp, size: m.size })),
       open: open.map((p) => ({ market: p.market_id, side: p.side, size: p.size, entry: p.entry_price })),
     };
@@ -269,7 +274,7 @@ export class Engine {
       side: z.side, marketId: m.market_id, size, notional: +notional.toFixed(2), feeRate,
       fut: { entry: z.entry, stop: z.stop, tp1: z.tp1, lo: z.lo, hi: z.hi }, basis: +w.basis.toFixed(4), basisSpread: +w.basisSpread.toFixed(4),
       entry: w.entry, stop: w.stop, tp: w.tp, pxAtPlace: w.px, plannedRiskUsd: +(size * perUnit).toFixed(2),
-      planBuiltAt: this.plan?.builtAt, placedAt: Date.now(),
+      planBuiltAt: this.plan?.builtAt, placedAt: Date.now(), trend: w.trend || null,
     };
     if (this.cfg.dryRun) { this.log('place_dry', rec); return; }
     try {
