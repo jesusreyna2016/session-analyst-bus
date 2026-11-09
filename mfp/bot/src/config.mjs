@@ -29,6 +29,8 @@ export const cfg = {
   minRR: num('MIN_RR', 1),
   maxDistAtr: num('MAX_DIST_ATR5', 6),
   maxFeedAgeMin: num('MAX_FEED_AGE_MIN', 5),
+  // minutos sin poder bajar el plan de zonas antes de dejar de operar (con ZONES_FRESH=0 el plan se guarda cada 15 min)
+  maxPlanAgeMin: num('MAX_PLAN_AGE_MIN', env.ZONES_FRESH === '0' ? 20 : 5),
   requireOperable: env.REQUIRE_OPERABLE !== '0',
   // Filtro de tendencia (src/trend.mjs): todos los de la lista deben estar a favor. Vacio = sin filtro.
   // Opciones: ema20_50, ema200, ema9_21, struct5, struct15, vwap

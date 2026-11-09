@@ -157,6 +157,9 @@ export class Engine {
   desired(openMarkets, slots) {
     const out = [];
     const cfg = this.cfg;
+    // si no se pudo bajar el plan hace rato, no se opera con zonas viejas (las ordenes en espera se cancelan)
+    const planAgeMin = this.plan?.builtAt ? (Date.now() - Date.parse(this.plan.builtAt)) / 60000 : Infinity;
+    if (planAgeMin > cfg.maxPlanAgeMin) { this.skip('plan', 'plan de zonas viejo', { planAgeMin: +planAgeMin.toFixed(1) }); return out; }
     for (const [sym, m] of Object.entries(this.meta)) {
       const s = this.plan?.symbols?.[sym];
       if (!s) continue;
