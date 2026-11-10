@@ -33,13 +33,19 @@ export const cfg = {
   maxPlanAgeMin: num('MAX_PLAN_AGE_MIN', env.ZONES_FRESH === '0' ? 20 : 5),
   requireOperable: env.REQUIRE_OPERABLE !== '0',
   // Filtro de tendencia (src/trend.mjs): todos los de la lista deben estar a favor. Vacio = sin filtro.
-  // Opciones: cisd, ema20_50, ema200, ema9_21, struct5, struct15, vwap
-  trendFilters: (env.TREND_FILTERS ?? 'cisd').split(',').map((s) => s.trim()).filter(Boolean),
+  // Opciones: cisd, ema20_50, ema200, ema9_21, struct5, struct15, vwap. Por defecto ninguno: se operan las zonas tal cual.
+  trendFilters: (env.TREND_FILTERS ?? '').split(',').map((s) => s.trim()).filter(Boolean),
   // filtro cisd: temporalidades (minutos) y modo. last = manda el CISD mas reciente de cualquiera; all = todas de acuerdo
   cisdTfs: (env.CISD_TFS ?? '1,3,5').split(',').map(Number).filter((n) => n > 0),
   cisdMode: env.CISD_MODE === 'all' ? 'all' : 'last',
   // una orden ya puesta solo se cancela por un CISD contrario en esta temporalidad (minutos), no por los cambios de 1m/3m
   cisdHoldTf: num('CISD_HOLD_TF', 5),
+  // Racha de stops: SL_STREAK stops seguidos en la misma direccion, el primero y el ultimo a <= SL_STREAK_WINDOW_MIN,
+  // bloquean esa direccion SL_BLOCK_MIN minutos (la otra direccion sigue). SL_BLOCK_SCOPE: market (por mercado) | all.
+  slStreak: num('SL_STREAK', 2),
+  slStreakWindowMin: num('SL_STREAK_WINDOW_MIN', 60),
+  slBlockMin: num('SL_BLOCK_MIN', 120),
+  slBlockScope: env.SL_BLOCK_SCOPE === 'all' ? 'all' : 'market',
 
   // Diferencia perp - futuro
   basisMinSamples: num('BASIS_MIN_SAMPLES', 3),

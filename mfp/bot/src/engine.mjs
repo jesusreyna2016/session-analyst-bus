@@ -36,7 +36,7 @@ export class Engine {
   }
 
   loadState() {
-    const d = { managed: {}, trades: {}, closedSeen: [], entriesToday: 0, dayStart: null, halted: false, blacklist: [], deadZones: [] };
+    const d = { managed: {}, trades: {}, closedSeen: [], entriesToday: 0, dayStart: null, halted: false, blacklist: [], deadZones: [], closes: [], blocks: [] };
     try { return { ...d, ...JSON.parse(fs.readFileSync(this.statePath, 'utf8')) }; } catch { return d; }
   }
   saveState() { fs.writeFileSync(this.statePath, JSON.stringify(this.st, null, 1)); }
@@ -147,6 +147,32 @@ export class Engine {
     return false;
   }
 
+  // ---------- racha de stops ----------
+  scopeOf(sym) { return this.cfg.slBlockScope === 'all' ? '*' : sym; }
+
+  blockedSide(sym, side) {
+    const now = Date.now();
+    this.st.blocks = (this.st.blocks || []).filter((b) => b.until > now);
+    return this.st.blocks.find((b) => b.side === side && (b.scope === '*' || b.scope === sym)) || null;
+  }
+
+  // registra el cierre y, si completa la racha, bloquea esa direccion
+  noteClose(t, p) {
+    if (!(this.cfg.slStreak > 0)) return;
+    const sl = p.close_reason === 'stop_loss' || (p.close_reason == null && Number(p.realized_pnl) < 0);
+    const at = Number(p.closed_at) || Date.now();
+    const scope = this.scopeOf(t.sym);
+    this.st.closes = [...(this.st.closes || []), { scope, sym: t.sym, side: t.side, sl, at }].filter((c) => at - c.at < 86400000).sort((a, b) => a.at - b.at);
+    const same = this.st.closes.filter((c) => c.side === t.side && (scope === '*' || c.scope === scope));
+    const last = same.slice(-this.cfg.slStreak);
+    if (last.length < this.cfg.slStreak || !last.every((c) => c.sl)) return;
+    if (last[last.length - 1].at - last[0].at > this.cfg.slStreakWindowMin * 60000) return;
+    if (this.blockedSide(t.sym, t.side)?.scope === scope) return;
+    const until = Date.now() + this.cfg.slBlockMin * 60000;
+    this.st.blocks.push({ scope, side: t.side, until, since: Date.now() });
+    this.log('sl_block', { scope, side: t.side, until: new Date(until).toISOString(), stops: last.map((c) => ({ sym: c.sym, at: new Date(c.at).toISOString() })) });
+  }
+
   skip(key, reason, extra = {}) {
     if (this.lastSkip.get(key) === reason) return;
     this.lastSkip.set(key, reason);
@@ -176,6 +202,8 @@ export class Engine {
         if (!cfg.statuses.includes(z.status) || z.inside) continue;
         if (this.isDead(sym, z)) continue;
         if (this.st.blacklist.includes(key)) continue;
+        const blk = this.blockedSide(sym, z.side);
+        if (blk) { this.skip(key, `${z.side === 'long' ? 'longs' : 'shorts'} bloqueados por ${this.cfg.slStreak} stops seguidos hasta ${new Date(blk.until).toISOString().slice(11, 16)} UTC`); continue; }
         if (!(z.rr1 >= cfg.minRR)) { this.skip(key, `rr1 ${z.rr1} < ${cfg.minRR}`); continue; }
         if (!(z.distAtr5 <= cfg.maxDistAtr)) continue; // lejos: aun no
         const tr = held.has(key) ? this.trend.hold(sym, z.side, held.get(key)) : this.trend.check(sym, z.side);
@@ -251,7 +279,7 @@ export class Engine {
 
     this.status = {
       ...this.status, at: new Date().toISOString(), halted: this.st.halted, risk: r, entriesToday: this.st.entriesToday,
-      planBuiltAt: this.plan?.builtAt, basis: this.basis.snapshot(), trend: this.trend.snapshot(), trendFilters: this.cfg.trendFilters,
+      planBuiltAt: this.plan?.builtAt, basis: this.basis.snapshot(), trend: this.trend.snapshot(), trendFilters: this.cfg.trendFilters, blocks: (this.st.blocks || []).filter((b) => b.until > Date.now()),
       resting: Object.values(this.st.managed).map((m) => ({ sym: m.sym, zone: m.zoneId, side: m.side, entry: m.entry, stop: m.stop, tp: m.tp, size: m.size })),
       open: open.map((p) => ({ market: p.market_id, side: p.side, size: p.size, entry: p.entry_price })),
     };
@@ -353,6 +381,7 @@ export class Engine {
         slipExit: slipExit != null ? +slipExit.toFixed(4) : null, heldMin: p.closed_at && p.opened_at ? Math.round((p.closed_at - p.opened_at) / 60000) : null,
         raw: p,
       });
+      this.noteClose(t, p);
     }
     if (this.st.closedSeen.length > 2000) this.st.closedSeen = this.st.closedSeen.slice(-1000);
   }

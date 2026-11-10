@@ -25,17 +25,20 @@ Cada 15 s:
      (`MAX_ENTRIES_PER_DAY=0`); se puede poner un tope después de la fase de pruebas.
 4. Elige zonas **A+ y A**, en estado `nueva`, `activa`, `tocada` o `armada` (re-test: el precio tocó la zona, salió y
    la orden espera que vuelva), sin el precio adentro, que no hayan funcionado ni se hayan invalidado antes en el día, con TP1 ≥ 1R, a ≤ 6 ATR de 5m, con el feed fresco y el veredicto `OPERABLE`.
-   **Filtro de dirección** (`TREND_FILTERS`, por defecto `cisd`): con velas de 1m de MFP (pedidas cada minuto, de ahí salen
-   3m y 5m) busca el último **CISD** en 1m, 3m y 5m (`CISD_TFS`). Con `CISD_MODE=last` manda el CISD más reciente de
-   cualquiera de las tres: un CISD alcista habilita los longs y bloquea los shorts hasta que aparezca uno bajista, y al revés.
-   Con `CISD_MODE=all` el último CISD de las tres tiene que coincidir. El CISD decide cuándo **poner** la orden; una vez puesta,
-   un cambio del CISD de 1m o 3m no la cancela. Solo la cancela un CISD contrario de 5m (`CISD_HOLD_TF`) que cierre después
-   de ponerla, que la zona deje de ser válida o que venza (GTD de 30 min, se renueva).
+   **Racha de stops**: si un mercado toca stop loss **2 veces seguidas en la misma dirección en menos de 1 hora**, deja de
+   tomar zonas en esa dirección en ese mercado durante **2 horas** (la otra dirección sigue). Las órdenes en espera de esa
+   dirección se cancelan. Un TP en medio corta la racha. Se ajusta con `SL_STREAK`, `SL_STREAK_WINDOW_MIN`, `SL_BLOCK_MIN`
+   y `SL_BLOCK_SCOPE` (`market` por mercado, `all` para todos los mercados juntos). En los trades del 9-nov habría evitado
+   el tercer stop seguido en NQ short (−3.17R → −2.17R); con `all` habría bloqueado además un TP de BTC.
 
-   También están, combinables con `cisd` o entre sí (todos tienen que estar a favor): `ema20_50`, `ema200`, `ema9_21`,
-   `struct5`, `struct15` (último CHoCH/MSS, BOS, CISD o IFVG, `src/structure.mjs`) y `vwap` (TWAP de la sesión, porque MFP
-   no da volumen en índices). Vacío = sin filtro. Medido en el histórico de zonas (`node tools/trend-backtest.mjs`,
-   A+/A, 21-ago a 6-nov, R en futuros sin comisiones; el histórico solo tiene velas de 5m, así que 1m y 3m no se pueden medir):
+   **Filtros de dirección** (opcionales, `TREND_FILTERS`, por defecto vacío = se operan las zonas tal cual):
+   - `cisd`: dirección del último CISD en 1m, 3m y 5m (`CISD_TFS`, `CISD_MODE=last|all`). Una orden puesta solo se cancela
+     por un CISD contrario de 5m (`CISD_HOLD_TF`) posterior a ponerla.
+   - `ema20_50`, `ema200`, `ema9_21`, `struct5`, `struct15` (último CHoCH/MSS, BOS, CISD o IFVG, `src/structure.mjs`) y
+     `vwap` (TWAP de la sesión). Todos los de la lista tienen que estar a favor.
+
+   Medido en el histórico de zonas (`node tools/trend-backtest.mjs`, A+/A, 21-ago a 6-nov, R en futuros sin comisiones;
+   el histórico solo tiene velas de 5m):
 
    | | trades | R promedio |
    |---|---|---|
@@ -84,6 +87,7 @@ Necesita disco persistente para `DATA_DIR` (ahí vive `state.json`). Con `GH_TOK
 | `cancel` | orden cancelada y motivo |
 | `entry_filled` | se llenó la entrada |
 | `order_end` | la orden venció o fue rechazada al llenarse (p. ej. tope de exposición) |
+| `sl_block` | racha de stops: dirección bloqueada (mercado, lado, hasta cuándo) |
 | `cisd` | cambió la dirección del CISD de un mercado (con el último CISD de cada temporalidad) |
 | `trade_closed` | resultado: PnL, comisiones, swap, R, deslizamiento en entrada y salida, minutos en posición |
 | `halt` / `new_day` | freno de riesgo / reinicio diario |
