@@ -1,128 +1,46 @@
 {
-  "checkedAt": "2026-11-10T02:40:48Z",
-  "status": "down",
-  "snapshot": {
-    "builtAt": "2026-11-10T02:15:24.738Z",
-    "ageMin": 25,
-    "state": "VIEJO"
-  },
-  "webhook": {
-    "lastSeenMin": 26,
-    "state": "lento"
-  },
-  "news": {
-    "ageMin": 25,
-    "count": 10,
-    "state": "ok"
-  },
-  "sa": {
-    "lastRun": "2026-11-09T22:30:00Z",
-    "runType": "pre-asia",
-    "lateBy": null
-  },
+  "checkedAt": "2026-11-10T08:39:08Z",
+  "status": "warn",
+  "snapshot": { "builtAt": "2026-11-10T08:30:31.160Z", "ageMin": 9, "state": "OK" },
+  "webhook":  { "lastSeenMin": 14, "state": "ok" },
+  "news":     { "ageMin": 17, "count": 10, "state": "ok" },
+  "sa":       { "lastRun": "2026-11-10T07:30:00Z", "runType": "pre-london", "lateBy": null },
   "sources": {
     "NQ": {
-      "orb": {
-        "ageMin": 31,
-        "state": "stale"
-      },
-      "feed": {
-        "ageMin": 26,
-        "state": "stale"
-      },
-      "regime": {
-        "ageMin": 36,
-        "state": "fresh"
-      },
-      "trendcl": {
-        "ageMin": 41,
-        "state": "fresh"
-      }
+      "orb":      { "ageMin": 14, "state": "fresh" },
+      "feed":     { "ageMin": 14, "state": "fresh" },
+      "regime":   { "ageMin": 34, "state": "fresh" },
+      "trendcl":  { "ageMin": 19, "state": "fresh" }
     },
     "ES": {
-      "orb": {
-        "ageMin": 31,
-        "state": "stale"
-      },
-      "feed": {
-        "ageMin": 26,
-        "state": "stale"
-      },
-      "regime": {
-        "ageMin": 36,
-        "state": "fresh"
-      },
-      "trendcl": {
-        "ageMin": 41,
-        "state": "fresh"
-      }
+      "orb":      { "ageMin": 14, "state": "fresh" },
+      "feed":     { "ageMin": 14, "state": "fresh" },
+      "regime":   { "ageMin": 34, "state": "fresh" },
+      "trendcl":  { "ageMin": 21, "state": "fresh" }
     },
     "GC": {
-      "orb": {
-        "ageMin": 26,
-        "state": "stale"
-      },
-      "feed": {
-        "ageMin": 31,
-        "state": "stale"
-      },
-      "regime": {
-        "ageMin": 36,
-        "state": "fresh"
-      },
-      "trendcl": {
-        "ageMin": 26,
-        "state": "fresh"
-      }
+      "orb":      { "ageMin": 14, "state": "fresh" },
+      "feed":     { "ageMin": 14, "state": "fresh" },
+      "regime":   { "ageMin": 34, "state": "fresh" },
+      "trendcl":  { "ageMin": 34, "state": "fresh" }
     },
     "YM": {
-      "orb": {
-        "ageMin": 26,
-        "state": "stale"
-      },
-      "feed": {
-        "ageMin": 31,
-        "state": "stale"
-      },
-      "regime": {
-        "ageMin": 1651,
-        "state": "dead"
-      },
-      "trendcl": {
-        "ageMin": 40,
-        "state": "fresh"
-      }
+      "orb":      { "ageMin": 14, "state": "fresh" },
+      "feed":     { "ageMin": 14, "state": "fresh" },
+      "regime":   { "ageMin": 2009, "state": "dead" },
+      "trendcl":  { "ageMin": 39, "state": "fresh" }
     },
     "CL": {
-      "orb": {
-        "ageMin": 31,
-        "state": "stale"
-      },
-      "feed": {
-        "ageMin": 31,
-        "state": "stale"
-      },
-      "regime": {
-        "ageMin": 36,
-        "state": "fresh"
-      },
-      "trendcl": {
-        "ageMin": 39,
-        "state": "fresh"
-      }
+      "orb":      { "ageMin": 14, "state": "fresh" },
+      "feed":     { "ageMin": 14, "state": "fresh" },
+      "regime":   { "ageMin": 34, "state": "fresh" },
+      "trendcl":  { "ageMin": 26, "state": "fresh" }
     }
   },
-  "scalp": {
-    "ingestMin": 29,
-    "snapshotMin": 40,
-    "state": "ok"
-  },
-  "issues": [
-    "snapshot viejo (25 min, cron sa-bus-snapshot atrasado)",
-    "regime@YM dead (1651 min) · dead streak (4o check habil seguido)"
-  ],
+  "scalp": { "ingestMin": 12, "snapshotMin": 38, "state": "ok" },
+  "issues": [ "regime@YM dead (2009 min) · dead streak (5o check habil seguido)" ],
   "note": {
-    "es": "Lunes 20:30 CT (solo salud, esta franja no vigila ninguna corrida del SA): snapshot viejo (25min, el cron sa-bus-snapshot de Netlify se atraso) arrastra orb/feed stale en los 5 simbolos -- mismo origen, no son fallos independientes; webhook lento (26min). regime@YM sigue muerto (1651min / ~27.5h), 4o check habil seguido con esta racha (ya notificado antes, sigue pendiente revisar su alerta en TradingView). pre-asia de hoy salio bien (commit 'sa pre-asia' ~16:30 CT), no hizo falta catch-up. Scalp CC, news y journal OK; sin zonas inalcanzables en los planes.",
-    "en": "Monday 20:30 CT (health-only slot, watches no Session Analyst run): snapshot is old (25min, Netlify's sa-bus-snapshot cron fell behind), dragging orb/feed into stale across all 5 symbols -- same root cause, not independent failures; webhook slow (26min). regime@YM is still dead (1651min / ~27.5h), 4th consecutive business-day check with this streak (already notified before, still pending a TradingView alert check). Today's pre-asia ran fine (commit 'sa pre-asia' ~16:30 CT), no catch-up needed. Scalp CC, news and journal OK; no unreachable zones in the plans."
+    "es": "pre-london salio a tiempo (01:30 CT), sin catch-up necesario; snapshot fresco (9min), webhook ok (14min), news ok. Unico pendiente: regime@YM sigue muerto (2009min / ~33.5h), 5to check habil seguido con la misma racha -- revisar su alerta en TradingView. Resto del complejo, scalp y journal OK; sin zonas inalcanzables en los planes.",
+    "en": "pre-london ran on time (01:30 CT), no catch-up needed; snapshot fresh (9min), webhook ok (14min), news ok. Only pending item: regime@YM is still dead (2009min / ~33.5h), 5th consecutive business-day check with the same streak -- check its TradingView alert. Rest of the complex, scalp and journal are OK; no unreachable zones in the plans."
   }
 }
