@@ -33,8 +33,11 @@ export const cfg = {
   maxPlanAgeMin: num('MAX_PLAN_AGE_MIN', env.ZONES_FRESH === '0' ? 20 : 5),
   requireOperable: env.REQUIRE_OPERABLE !== '0',
   // Filtro de tendencia (src/trend.mjs): todos los de la lista deben estar a favor. Vacio = sin filtro.
-  // Opciones: ema20_50, ema200, ema9_21, struct5, struct15, vwap
-  trendFilters: (env.TREND_FILTERS ?? 'ema20_50,ema200,struct5').split(',').map((s) => s.trim()).filter(Boolean),
+  // Opciones: cisd, ema20_50, ema200, ema9_21, struct5, struct15, vwap
+  trendFilters: (env.TREND_FILTERS ?? 'cisd').split(',').map((s) => s.trim()).filter(Boolean),
+  // filtro cisd: temporalidades (minutos) y modo. last = manda el CISD mas reciente de cualquiera; all = todas de acuerdo
+  cisdTfs: (env.CISD_TFS ?? '1,3,5').split(',').map(Number).filter((n) => n > 0),
+  cisdMode: env.CISD_MODE === 'all' ? 'all' : 'last',
 
   // Diferencia perp - futuro
   basisMinSamples: num('BASIS_MIN_SAMPLES', 3),

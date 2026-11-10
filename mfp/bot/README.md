@@ -25,19 +25,20 @@ Cada 15 s:
      (`MAX_ENTRIES_PER_DAY=0`); se puede poner un tope después de la fase de pruebas.
 4. Elige zonas **A+ y A**, en estado `nueva`, `activa`, `tocada` o `armada` (re-test: el precio tocó la zona, salió y
    la orden espera que vuelva), sin el precio adentro, que no hayan funcionado ni se hayan invalidado antes en el día, con TP1 ≥ 1R, a ≤ 6 ATR de 5m, con el feed fresco y el veredicto `OPERABLE`.
-   **Filtro de tendencia** (`TREND_FILTERS`, por defecto `ema20_50,ema200,struct5`): con velas de 5m de MFP, la zona
-   solo se opera si todos están a favor (para un short):
-   - EMA20 < EMA50.
-   - Cierre < EMA200.
-   - El último evento de estructura de 5m no es alcista. Los eventos son CHoCH/MSS, BOS, CISD e IFVG (`src/structure.mjs`).
+   **Filtro de dirección** (`TREND_FILTERS`, por defecto `cisd`): con velas de 1m de MFP (pedidas cada minuto, de ahí salen
+   3m y 5m) busca el último **CISD** en 1m, 3m y 5m (`CISD_TFS`). Con `CISD_MODE=last` manda el CISD más reciente de
+   cualquiera de las tres: un CISD alcista habilita los longs y bloquea los shorts hasta que aparezca uno bajista, y al revés.
+   Con `CISD_MODE=all` el último CISD de las tres tiene que coincidir. Si la dirección cambia, la orden en espera se cancela.
 
-   Si alguno cambia en contra, la orden en espera se cancela. También están `ema9_21`, `struct15` y `vwap` (TWAP de la sesión,
-   porque MFP no da volumen en índices). Vacío = sin filtro. Medido en el histórico de zonas (`node tools/trend-backtest.mjs`,
-   A+/A, 21-ago a 6-nov, R en futuros sin comisiones):
+   También están, combinables con `cisd` o entre sí (todos tienen que estar a favor): `ema20_50`, `ema200`, `ema9_21`,
+   `struct5`, `struct15` (último CHoCH/MSS, BOS, CISD o IFVG, `src/structure.mjs`) y `vwap` (TWAP de la sesión, porque MFP
+   no da volumen en índices). Vacío = sin filtro. Medido en el histórico de zonas (`node tools/trend-backtest.mjs`,
+   A+/A, 21-ago a 6-nov, R en futuros sin comisiones; el histórico solo tiene velas de 5m, así que 1m y 3m no se pueden medir):
 
    | | trades | R promedio |
    |---|---|---|
    | sin filtro | 1396 | −0.04 |
+   | último CISD de 5m o 15m a favor | 592 | −0.04 (sep −0.22, oct–nov +0.03) |
    | solo EMA20/50 | 744 | +0.05 |
    | EMA20/50 + EMA200 + estructura 5m | 360 | +0.12 (sep +0.07, oct–nov +0.14) |
 5. Pone una **orden limit en la entrada de la zona** trasladada a precio MFP, con **SL y TP1 incluidos** y expiración (GTD) de 30 min.
@@ -81,5 +82,6 @@ Necesita disco persistente para `DATA_DIR` (ahí vive `state.json`). Con `GH_TOK
 | `cancel` | orden cancelada y motivo |
 | `entry_filled` | se llenó la entrada |
 | `order_end` | la orden venció o fue rechazada al llenarse (p. ej. tope de exposición) |
+| `cisd` | cambió la dirección del CISD de un mercado (con el último CISD de cada temporalidad) |
 | `trade_closed` | resultado: PnL, comisiones, swap, R, deslizamiento en entrada y salida, minutos en posición |
 | `halt` / `new_day` | freno de riesgo / reinicio diario |
