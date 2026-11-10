@@ -141,6 +141,28 @@ export class Trend {
       }
       if (!this.need5) return { ok: true, detail: cd };
     }
+    return this.checkOther(sym, side, cd);
+  }
+
+  // para una orden que ya esta puesta: un cambio del CISD de 1m o 3m no la cancela. Solo la cancela un CISD contrario
+  // en CISD_HOLD_TF (5m por defecto) que cierre despues de poner la orden, o que las velas de 1m se queden viejas.
+  hold(sym, side, since) {
+    if (!this.enabled()) return { ok: true };
+    if (!this.needCisd) return this.check(sym, side);
+    const c = this.cisd.get(sym);
+    if (!c || c.lastBar == null) return { ok: false, why: 'sin velas de 1m para el CISD' };
+    if (Date.now() - c.lastBar > 3 * MIN) return { ok: false, why: 'velas de 1m viejas' };
+    const want = side === 'short' ? 'down' : 'up';
+    const n = this.cfg.cisdHoldTf;
+    const e = c.tfs[n];
+    const tf = Object.fromEntries(Object.entries(c.tfs).map(([k, v]) => [`${k}m`, v ? `${v.dir} ${new Date(v.t).toISOString().slice(11, 16)}` : null]));
+    const cd = { cisd: c.dir, ...tf, hold: true };
+    if (e && e.dir !== want && e.t > since) return { ok: false, why: `en contra: CISD ${e.dir === 'up' ? 'alcista' : 'bajista'} de ${n}m`, detail: cd };
+    if (!this.need5) return { ok: true, detail: cd };
+    return this.checkOther(sym, side, cd);
+  }
+
+  checkOther(sym, side, cd) {
     const s = this.state.get(sym);
     if (!s || s.lastBar == null) return { ok: false, why: 'sin velas para la tendencia' };
     if (Date.now() - s.lastBar > 3 * FIVE) return { ok: false, why: 'velas de tendencia viejas' };

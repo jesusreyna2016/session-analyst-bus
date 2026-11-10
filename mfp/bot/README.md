@@ -28,7 +28,9 @@ Cada 15 s:
    **Filtro de dirección** (`TREND_FILTERS`, por defecto `cisd`): con velas de 1m de MFP (pedidas cada minuto, de ahí salen
    3m y 5m) busca el último **CISD** en 1m, 3m y 5m (`CISD_TFS`). Con `CISD_MODE=last` manda el CISD más reciente de
    cualquiera de las tres: un CISD alcista habilita los longs y bloquea los shorts hasta que aparezca uno bajista, y al revés.
-   Con `CISD_MODE=all` el último CISD de las tres tiene que coincidir. Si la dirección cambia, la orden en espera se cancela.
+   Con `CISD_MODE=all` el último CISD de las tres tiene que coincidir. El CISD decide cuándo **poner** la orden; una vez puesta,
+   un cambio del CISD de 1m o 3m no la cancela. Solo la cancela un CISD contrario de 5m (`CISD_HOLD_TF`) que cierre después
+   de ponerla, que la zona deje de ser válida o que venza (GTD de 30 min, se renueva).
 
    También están, combinables con `cisd` o entre sí (todos tienen que estar a favor): `ema20_50`, `ema200`, `ema9_21`,
    `struct5`, `struct15` (último CHoCH/MSS, BOS, CISD o IFVG, `src/structure.mjs`) y `vwap` (TWAP de la sesión, porque MFP

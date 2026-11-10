@@ -154,7 +154,8 @@ export class Engine {
   }
 
   // ---------- que ordenes deberian existir ----------
-  desired(openMarkets, slots) {
+  // held: key -> momento en que se puso la orden en espera de esa zona (para no cancelarla por un cambio de 1m)
+  desired(openMarkets, slots, held = new Map()) {
     const out = [];
     const cfg = this.cfg;
     // si no se pudo bajar el plan hace rato, no se opera con zonas viejas (las ordenes en espera se cancelan)
@@ -177,7 +178,7 @@ export class Engine {
         if (this.st.blacklist.includes(key)) continue;
         if (!(z.rr1 >= cfg.minRR)) { this.skip(key, `rr1 ${z.rr1} < ${cfg.minRR}`); continue; }
         if (!(z.distAtr5 <= cfg.maxDistAtr)) continue; // lejos: aun no
-        const tr = this.trend.check(sym, z.side);
+        const tr = held.has(key) ? this.trend.hold(sym, z.side, held.get(key)) : this.trend.check(sym, z.side);
         if (!tr.ok) { this.skip(key, tr.why, { trend: tr.detail }); continue; }
         if (!b.ready) { this.skip(key, `diferencia de precio sin datos (${b.n}/${cfg.basisMinSamples})`); continue; }
         const riskPts = Math.abs(z.entry - z.stop);
@@ -189,8 +190,10 @@ export class Engine {
         const tp = round(z.tp1 + b.value);
         const gap = long ? px - entry : entry - px;
         if (gap < cfg.minGapR * riskPts) { this.skip(key, 'precio de MFP ya en la entrada', { px, entry }); continue; }
-        const cand = { sym, key, zone: z, market: m, long, entry, stop, tp, basis: b.value, basisSpread: b.spread, px, trend: tr.detail };
-        if (!best || z.score > best.zone.score) best = cand;
+        const cand = { sym, key, zone: z, market: m, long, entry, stop, tp, basis: b.value, basisSpread: b.spread, px, trend: tr.detail, heldSince: held.get(key) };
+        // la zona que ya tiene orden en espera se queda (no se cambia por otra del mismo mercado con mejor puntaje)
+        const h = cand.heldSince != null; const hb = best?.heldSince != null;
+        if (!best || (h && !hb) || (h === hb && z.score > best.zone.score)) best = cand;
       }
       if (best) out.push(best);
     }
@@ -223,7 +226,9 @@ export class Engine {
       Math.floor(budget / this.cfg.riskUsd),
       this.cfg.maxEntriesPerDay > 0 ? this.cfg.maxEntriesPerDay - this.st.entriesToday : Infinity,
     );
-    const want = halted ? [] : this.desired(openMarkets, slots);
+    const held = new Map();
+    for (const o of ours) { const rec = this.st.managed[o.client_order_id]; if (rec) held.set(rec.key, rec.heldSince ?? rec.placedAt ?? Date.now()); }
+    const want = halted ? [] : this.desired(openMarkets, slots, held);
     const wantByKey = new Map(want.map((w) => [w.key, w]));
 
     // cancelar lo que sobra o quedo viejo
@@ -277,7 +282,7 @@ export class Engine {
       side: z.side, marketId: m.market_id, size, notional: +notional.toFixed(2), feeRate,
       fut: { entry: z.entry, stop: z.stop, tp1: z.tp1, lo: z.lo, hi: z.hi }, basis: +w.basis.toFixed(4), basisSpread: +w.basisSpread.toFixed(4),
       entry: w.entry, stop: w.stop, tp: w.tp, pxAtPlace: w.px, plannedRiskUsd: +(size * perUnit).toFixed(2),
-      planBuiltAt: this.plan?.builtAt, placedAt: Date.now(), trend: w.trend || null,
+      planBuiltAt: this.plan?.builtAt, placedAt: Date.now(), heldSince: w.heldSince ?? Date.now(), trend: w.trend || null,
     };
     if (this.cfg.dryRun) { this.log('place_dry', rec); return; }
     try {

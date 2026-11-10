@@ -38,6 +38,8 @@ export const cfg = {
   // filtro cisd: temporalidades (minutos) y modo. last = manda el CISD mas reciente de cualquiera; all = todas de acuerdo
   cisdTfs: (env.CISD_TFS ?? '1,3,5').split(',').map(Number).filter((n) => n > 0),
   cisdMode: env.CISD_MODE === 'all' ? 'all' : 'last',
+  // una orden ya puesta solo se cancela por un CISD contrario en esta temporalidad (minutos), no por los cambios de 1m/3m
+  cisdHoldTf: num('CISD_HOLD_TF', 5),
 
   // Diferencia perp - futuro
   basisMinSamples: num('BASIS_MIN_SAMPLES', 3),
