@@ -29,6 +29,7 @@ export class MarketStream {
     const ws = openWs(this.url);
     this.ws = ws;
     ws.on('open', () => {
+      this.fails = 0;
       this.lastMsg = Date.now();
       const byProv = {};
       for (const m of this.markets) (byProv[m.provider] ||= []).push(m.coin);
@@ -65,7 +66,11 @@ export class MarketStream {
       for (const p of this.pending.values()) p.rej(new Error('ws cerrado'));
       this.pending.clear();
       if (this.closed) return;
-      await sleep(3000);
+      // espera creciente (3 s, 6 s, 12 s ... hasta 2 min) para no caer en el limite de conexiones de MFP (429)
+      this.fails = (this.fails || 0) + 1;
+      const wait = Math.min(120000, 3000 * 2 ** (this.fails - 1));
+      if (this.fails > 1) this.log('stream', { msg: 'reconecto', inSec: wait / 1000, tries: this.fails });
+      await sleep(wait);
       this.connect();
     });
     ws.on('error', (e) => this.log('stream', { msg: 'error', error: e.message }));
