@@ -107,6 +107,11 @@ export class Engine {
     const req = r.requirements || {};
     const start = a.starting_balance;
     const dayStart = r.daily_loss_floor + ((req.daily_loss_pct || 0) / 100) * start;
+    if (r.equity == null || !Number.isFinite(Number(r.equity)) || !Number.isFinite(dayStart) || !(start > 0)) {
+      if (!this.accountBad) this.log('account_incomplete', { equity: r.equity ?? null, dayStart, marksComplete: r.marks_complete ?? null });
+      this.accountBad = true;
+      return false;
+    }
     if (this.st.dayStart !== null && Math.abs(dayStart - this.st.dayStart) > 0.01) {
       this.log('new_day', { prevDayStart: this.st.dayStart, dayStart, equity: r.equity });
       this.st.entriesToday = 0;
@@ -114,8 +119,10 @@ export class Engine {
       this.st.blacklist = [];
       this.st.deadZones = [];
     }
+    // MFP a veces devuelve la cuenta sin equity (marks incompletos): arriba se descarta esa lectura
+    this.accountBad = false;
     this.st.dayStart = dayStart;
-    const equity = r.equity;
+    const equity = Number(r.equity);
     const dayLoss = Math.max(0, dayStart - equity);
     // drawdown estatico: piso duro = inicial - MAX_DD; el bot para al 90% (piso propio = inicial - 0.9*MAX_DD)
     const ddFloorHard = start - this.cfg.maxDdUsd;
@@ -127,6 +134,7 @@ export class Engine {
       ddFloorHard, ddFloorBot, marksComplete: r.marks_complete,
     };
     if (a.status !== 'active') throw new Error(`cuenta ${a.status}`);
+    return true;
   }
 
   // ---------- riesgo ----------
@@ -134,6 +142,9 @@ export class Engine {
     const r = this.risk;
     if (this.st.halted) return true;
     if (r.dayRoom <= 0 || r.ddRoom <= 0) {
+      // se confirma con una segunda lectura de la cuenta (otro ciclo) antes de cerrar todo
+      this.haltHits = (this.haltHits || 0) + 1;
+      if (this.haltHits < 2) { this.log('halt_pending', { reason: r.dayRoom <= 0 ? 'freno diario' : 'freno de drawdown', ...r }); return false; }
       this.st.halted = true;
       this.log('halt', { reason: r.dayRoom <= 0 ? 'freno diario (90% del DLL)' : 'freno de drawdown (90%)', ...r });
       if (!this.cfg.dryRun) {
@@ -144,6 +155,7 @@ export class Engine {
       this.saveState();
       return true;
     }
+    this.haltHits = 0;
     return false;
   }
 
@@ -232,7 +244,7 @@ export class Engine {
   // ---------- ciclo ----------
   async tick() {
     await this.refreshPlan();
-    await this.refreshAccount();
+    if (!(await this.refreshAccount())) return; // lectura de cuenta incompleta: no se toca nada este ciclo
     await this.trend.refresh(this.meta);
     if (Date.now() - this.lastReconcile > this.cfg.reconcileSec * 1000) await this.reconcile();
     const halted = await this.checkHalt();
