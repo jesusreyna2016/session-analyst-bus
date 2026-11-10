@@ -214,6 +214,7 @@ export class Engine {
         if (!cfg.statuses.includes(z.status) || z.inside) continue;
         if (this.isDead(sym, z)) continue;
         if (this.st.blacklist.includes(key)) continue;
+        if ((this.cooldown?.get(key) || 0) > Date.now()) continue;
         const blk = this.blockedSide(sym, z.side);
         if (blk) { this.skip(key, `${z.side === 'long' ? 'longs' : 'shorts'} bloqueados por ${this.cfg.slStreak} stops seguidos hasta ${new Date(blk.until).toISOString().slice(11, 16)} UTC`); continue; }
         if (!(z.rr1 >= cfg.minRR)) { this.skip(key, `rr1 ${z.rr1} < ${cfg.minRR}`); continue; }
@@ -332,7 +333,9 @@ export class Engine {
       this.log('place', rec);
     } catch (e) {
       this.log('place_error', { ...rec, status: e.status, code: e.code, error: e.message });
-      if (e.status >= 400 && e.status < 500 && e.status !== 429) this.st.blacklist.push(w.key);
+      // fallas pasajeras de MFP (libro no disponible, limite de pedidos): reintentar en 2 min en vez de descartar la zona
+      if (e.status === 429 || e.code === 'book_unavailable' || e.status >= 500) (this.cooldown ||= new Map()).set(w.key, Date.now() + 120000);
+      else if (e.status >= 400 && e.status < 500) this.st.blacklist.push(w.key);
     }
   }
 
