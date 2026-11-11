@@ -30,8 +30,8 @@ finde, `status` nunca pasa de `warn` salvo que `market.json` lleve > 24 h sin
 reconstruirse.
 
 - **`builtAt`** (snapshot entero): `ageMin = now − builtAt`.
-  - ≤ 20 min → `OK`
-  - > 20 min día hábil → `VIEJO` (el cron de Netlify `sa-bus-snapshot` se cortó;
+  - ≤ 35 min → `OK` (el cron corre cada 15 min y a veces se salta una vuelta)
+  - > 35 min día hábil → `VIEJO` (el cron de Netlify `sa-bus-snapshot` se cortó;
     TODO lo de abajo es sospechoso).
 - **`feed`** (TDL Feed, desde 2026-10-30, un mensaje por vela de 5m): `ageMin = now − receivedAt`.
   < 25 → `fresh` · 25–90 → `stale` · > 90 → `dead` · sin campo → `missing`.
