@@ -397,7 +397,7 @@ indicador, formato mixto) y `receivedAt` (ISO UTC, es el fiable). Ignora cualqui
 Referencia = `now` = hora de la corrida en UTC. En finde/feriado relaja los umbrales (no marques
 viejo lo que solo refleja mercado cerrado).
 
-- **`builtAt`** (snapshot entero): edad = `now − builtAt`. > 20 min en día hábil = el cron de
+- **`builtAt`** (snapshot entero): edad = `now − builtAt`. > 35 min en día hábil (el cron corre cada 15 min y a veces se salta una vuelta) = el cron de
   Netlify se cortó y TODO el plan es sospechoso → `dataHealth.snapshot = "VIEJO"`, dilo en la
   primera línea del `summary`.
 - **`feed`** (de `ind-ingest`): edad = `now − receivedAt`.

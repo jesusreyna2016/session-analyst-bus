@@ -16,7 +16,7 @@ donde rehace una corrida del Session Analyst que no salió.
 Solo el checkout del repo bus. Sin red a tradedadlog.com. Lee:
 
 - `live/market.json` — `{ builtAt, feed.symbols.<SYM>.{orb,feed,regime,trendcl}, news }`.
-  Lo escribe Netlify cada ~5 min; es el espejo de todo lo que recibe la web.
+  Lo escribe Netlify cada ~15 min; es el espejo de todo lo que recibe la web.
 - `live/heartbeat.json` — `{ lastRun, runType, ok, note }`. Última corrida del Session Analyst.
 - `state/sa-state.json` — solo para leer `scorecard`/nada crítico; NO lo reescribas.
 - `method/reachability.md` — regla dura de alcance; el Session Analyst debe aplicarla.
