@@ -2,7 +2,7 @@
  "date": "2026-11-12",
  "session": "london",
  "runType": "pre-london",
- "generatedAt": "2026-11-12T01:09:18-06:00",
+ "generatedAt": "2026-11-12T01:27:00-06:00",
  "schema": "sa-plan-2",
  "cleanest": "GC",
  "focus": {
@@ -28,7 +28,7 @@
  },
  "summary": {
   "es": [
-   "!! datos rezagados: snapshot de 36 min (sobre el umbral de 35) y las 5 fuentes de niveles igual de viejas -- ningun instrumento puede pasar de conviccion baja ni dar GO esta corrida",
+   "re-check 01:27 CT: llego el snapshot nuevo (26 min), se retira la alarma de datos rezagados -- pero las 5 fuentes de niveles siguen apenas sobre 25 min, asi que sigue sin haber GO ni conviccion alta",
    "NQ: WAIT, Asia rompio con fuerza el VWAP y la zona de pullback 28404-28443, el checklist de tendencia GIRO a bajista en 1h/diario (solo el 4h sigue largo) -- primer choque de marcos real en 3 dias, zona de soporte 28150-28199 en juego pero tope B",
    "ES: WAIT, mismo patron que NQ pero mas suave -- el checklist paso de confirmado a neutral (3 cambios de veredicto), precio cerca de su propio VAL 7593-7612",
    "GC: WAIT, el corto nuevo de ayer se reafirma -- barrio el minimo de Asia (3973.5) y el checklist ya confirma bajista en 1h/4h; el rebote 3973.5-3989.6 sigue vivo pero va en contra del checklist, tope B",
@@ -38,7 +38,7 @@
    "ningun instrumento califica para GO: datos rezagados + marcos en conflicto o checklist en contra en los 5 -- noche de observar los niveles clave, no de perseguir el primer rebote o la primera mecha"
   ],
   "en": [
-   "!! stale data: a 36-minute snapshot (above the 35-minute threshold) and all 5 level sources are just as old -- no instrument can clear low conviction or get a GO this run",
+   "re-check 01:27 CT: the new snapshot arrived (26 min), the stale-data alarm is withdrawn -- but all 5 level sources sit just over 25 min, so there's still no GO and no high conviction",
    "NQ: WAIT, Asia broke hard through VWAP and the 28404-28443 pullback zone, the trend checklist FLIPPED bearish on the 1h/daily (only the 4h is still long) -- the first real frame clash in 3 days, the 28150-28199 support zone is in play but capped at B",
    "ES: WAIT, the same pattern as NQ but softer -- the checklist went from confirmed to neutral (3 verdict changes), price sits near its own VAL 7593-7612",
    "GC: WAIT, yesterday's new short reaffirms itself -- it swept Asia's low (3973.5) and the checklist now confirms bearish on the 1h/4h; the 3973.5-3989.6 bounce is still alive but runs against the checklist, capped at B",
@@ -48,24 +48,21 @@
    "no instrument qualifies for GO: stale data plus frame conflict or a checklist running against the setup in all 5 -- tonight is for watching the key levels, not for chasing the first bounce or the first wick"
   ]
  },
- "alarm": {
-  "es": "datos rezagados: snapshot de 36 min (sobre el umbral de 35) con las 5 fuentes de niveles en la misma franja vieja -- trata todo el plan de Londres con cautela extra",
-  "en": "stale data: a 36-minute snapshot (above the 35-minute threshold) with all 5 level sources in the same stale band -- treat the whole London plan with extra caution"
- },
+ "alarm": null,
  "dataHealth": {
-  "snapshot": "VIEJO",
-  "builtAtAgeMin": 36,
+  "snapshot": "OK",
+  "builtAtAgeMin": 26,
   "stale": [
-   "feed@NQ ~36min",
-   "feed@ES ~36min",
-   "feed@GC ~36min",
-   "feed@YM ~36min",
-   "feed@CL ~36min"
+   "feed@NQ ~26min",
+   "feed@ES ~26min",
+   "feed@GC ~26min",
+   "feed@YM ~26min",
+   "feed@CL ~26min"
   ],
   "missing": [],
   "notes": {
-   "es": "el snapshot (builtAt) tiene unos 36 minutos (sobre el umbral de 35 en dia habil) y las 5 fuentes de niveles (feed) estan en la misma franja de 25-90 min, es decir viejas a media fuerza, no muertas -- por la regla dura, ninguna conviccion puede ser alta esta corrida aunque el resto del analisis ya apuntaba a baja de todas formas. trendcl y regime (auxiliares) siguen frescos en los 5 simbolos. live/journal.json sigue sin refrescarse desde 2026-11-08: sin datos de ejecucion nuevos.",
-   "en": "the snapshot (builtAt) is about 36 minutes old (above the 35-minute weekday threshold) and all 5 level sources (feed) sit in the same 25-90 min band, i.e. stale at half weight, not dead -- by the hard rule, no conviction can be high this run even though the rest of the read already pointed to low anyway. trendcl and regime (auxiliary) stay fresh across all 5 symbols. live/journal.json still hasn't refreshed since 2026-11-08: no new execution data."
+   "es": "re-check: llego el snapshot de 07:00Z (26 min, bajo el umbral de 35), asi que el snapshot ya no esta viejo y se retira la alarma de datos; las 5 fuentes de niveles siguen apenas sobre los 25 min (vieja a media fuerza), por lo que la regla dura se mantiene: conviccion baja y sin GO. trendcl y regime siguen frescos. live/journal.json sin refrescar desde 2026-11-08.",
+   "en": "re-check: the 07:00Z snapshot arrived (26 min, under the 35-minute threshold), so the snapshot is no longer stale and the data alarm is withdrawn; all 5 level sources sit just over 25 min (stale at half weight), so the hard rule still holds: low conviction and no GO. trendcl and regime stay fresh. live/journal.json not refreshed since 2026-11-08."
   }
  },
  "calendarContext": {
@@ -227,13 +224,13 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "conflicto de marcos activo: el checklist diario/1h ya es bajista mientras el semanal/4h sigue largo, lo que por regla dura quita el GO aunque el soporte 28150-28199 (perfil VAL + IBL + EMA20 + FVG 5m, confluencia 6) sea real -- falta el cierre confirmando justo en el borde de invalidacion (28114.75/28144.75) para operar la ruptura en vez de anticiparla. Snapshot y feed con 36 min de antiguedad, otro motivo para no dar GO.",
-     "en": "an active frame conflict: the daily/1h checklist is already bearish while the weekly/4h stays long, which by hard rule removes the GO even though the 28150-28199 support (profile VAL + IBL + EMA20 + 5m FVG, confluence 6) is real -- it's missing the confirming close right at the invalidation edge (28114.75/28144.75) to trade the break instead of anticipating it. The 36-minute-old snapshot and feed are another reason not to give a GO."
+     "es": "conflicto de marcos activo: el checklist diario/1h ya es bajista mientras el semanal/4h sigue largo, lo que por regla dura quita el GO aunque el soporte 28150-28199 (perfil VAL + IBL + EMA20 + FVG 5m, confluencia 6) sea real -- falta el cierre confirmando justo en el borde de invalidacion (28114.75/28144.75) para operar la ruptura en vez de anticiparla. Feed con 26 min de antiguedad (snapshot ya al dia), otro motivo para no dar GO.",
+     "en": "an active frame conflict: the daily/1h checklist is already bearish while the weekly/4h stays long, which by hard rule removes the GO even though the 28150-28199 support (profile VAL + IBL + EMA20 + 5m FVG, confluence 6) is real -- it's missing the confirming close right at the invalidation edge (28114.75/28144.75) to trade the break instead of anticipating it. The 26-minute-old feed (snapshot now current) is another reason not to give a GO."
     }
    },
    "context": {
-    "es": "precio 28195.50, dentro del soporte VAL/IBL 28150-28199 tras romper con fuerza el VWAP (28237) y la zona de pullback 28404-28443 que el plan de Asia marcaba como la referencia mas limpia. El checklist de tendencia giro de +1/+1 (confirmado largo) a -1/-1 en diario/1h, solo el 4h sigue en +1 -- primera vez en 3 sesiones que los marcos chocan. El soporte ya lleva 8-11 toques segun el touchlog (VAL 8x, IBL 10x, low de sesion 11x) con reclamo cada vez: fragil pero aguantando. move24h ya es SHORT (-0.29%), no LONG como ayer.",
-    "en": "price 28195.50, inside the 28150-28199 VAL/IBL support after breaking hard through VWAP (28237) and the 28404-28443 pullback zone that Asia's plan flagged as the cleanest reference. The trend checklist flipped from +1/+1 (confirmed long) to -1/-1 on the daily/1h, only the 4h is still +1 -- the first time in 3 sessions the frames clash. The support has already taken 8-11 touches per the touchlog (VAL 8x, IBL 10x, session low 11x) with a reclaim each time: fragile but holding. move24h is now SHORT (-0.29%), not LONG like yesterday."
+    "es": "precio 28201, dentro del soporte VAL/IBL 28150-28199 tras romper con fuerza el VWAP (28237) y la zona de pullback 28404-28443 que el plan de Asia marcaba como la referencia mas limpia. El checklist de tendencia giro de +1/+1 (confirmado largo) a -1/-1 en diario/1h, solo el 4h sigue en +1 -- primera vez en 3 sesiones que los marcos chocan. El soporte ya lleva 8-11 toques segun el touchlog (VAL 8x, IBL 10x, low de sesion 11x) con reclamo cada vez: fragil pero aguantando. move24h ya es SHORT (-0.29%), no LONG como ayer. Re-check 01:27: sin cambios materiales, sigue dentro del soporte.",
+    "en": "price 28201, inside the 28150-28199 VAL/IBL support after breaking hard through VWAP (28237) and the 28404-28443 pullback zone that Asia's plan flagged as the cleanest reference. The trend checklist flipped from +1/+1 (confirmed long) to -1/-1 on the daily/1h, only the 4h is still +1 -- the first time in 3 sessions the frames clash. The support has already taken 8-11 touches per the touchlog (VAL 8x, IBL 10x, session low 11x) with a reclaim each time: fragile but holding. move24h is now SHORT (-0.29%), not LONG like yesterday. Re-check 01:27: no material change, still inside the support."
    },
    "scenarioA": {
     "text": {
@@ -606,13 +603,13 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "el soporte VAL/IBL 7593-7612 (confluencia 5) es tactico pero el checklist quedo neutral, sin favorecer ni castigar ninguna direccion -- sin lectura limpia no hay GO; la resistencia VWAP/POC 7612-7649 es ademas continuacion, tope B siempre. Snapshot y feed con 36 min de antiguedad.",
-     "en": "the 7593-7612 VAL/IBL support (confluence 5) is tactical but the checklist went neutral, neither favoring nor penalizing either direction -- with no clean read there's no GO; the 7612-7649 VWAP/POC resistance is also continuation, always capped at B. The 36-minute-old snapshot and feed add to this."
+     "es": "el soporte VAL/IBL 7593-7612 (confluencia 5) es tactico pero el checklist quedo neutral, sin favorecer ni castigar ninguna direccion -- sin lectura limpia no hay GO; la resistencia VWAP/POC 7612-7649 es ademas continuacion, tope B siempre. Feed con 26 min de antiguedad (snapshot ya al dia).",
+     "en": "the 7593-7612 VAL/IBL support (confluence 5) is tactical but the checklist went neutral, neither favoring nor penalizing either direction -- with no clean read there's no GO; the 7612-7649 VWAP/POC resistance is also continuation, always capped at B. The 26-minute-old feed (snapshot now current) adds to this."
     }
    },
    "context": {
-    "es": "precio 7606.75, dentro del soporte VAL/IBL 7593-7612 tras romper la zona de pullback 7628-7637 y la VWAP en Asia, mismo patron que NQ. El checklist de tendencia paso de confirmado (+1/+1) a neutral (0/0) con 3 cambios de veredicto -- mas indecision que ruptura real. Sin lectura de alta conviccion para ES hoy: todas las predicciones quedan cerca de 0.5.",
-    "en": "price 7606.75, inside the 7593-7612 VAL/IBL support after breaking the 7628-7637 pullback zone and VWAP during Asia, the same pattern as NQ. The trend checklist went from confirmed (+1/+1) to neutral (0/0) with 3 verdict changes -- more indecision than a real break. No high-conviction read for ES today: every prediction stays close to 0.5."
+    "es": "precio 7606.5, dentro del soporte VAL/IBL 7593-7612 tras romper la zona de pullback 7628-7637 y la VWAP en Asia, mismo patron que NQ. El checklist de tendencia paso de confirmado (+1/+1) a neutral (0/0) con 3 cambios de veredicto -- mas indecision que ruptura real. Sin lectura de alta conviccion para ES hoy: todas las predicciones quedan cerca de 0.5. Re-check 01:27: sin cambios materiales.",
+    "en": "price 7606.5, inside the 7593-7612 VAL/IBL support after breaking the 7628-7637 pullback zone and VWAP during Asia, the same pattern as NQ. The trend checklist went from confirmed (+1/+1) to neutral (0/0) with 3 verdict changes -- more indecision than a real break. No high-conviction read for ES today: every prediction stays close to 0.5. Re-check 01:27: no material change."
    },
    "scenarioA": {
     "text": {
@@ -975,13 +972,13 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "el rebote en 3973.5-3989.6 (FVG 4h + viejo PDL, confluencia 6) ya empezo a reaccionar (3973.5 a 3983.2) pero va en contra del checklist confirmado bajista, tope B por regla dura; sin cierre sobre 3989.6 no se anticipa el reclamo. Snapshot y feed con 36 min de antiguedad.",
-     "en": "the 3973.5-3989.6 bounce (4h FVG + old PDL, confluence 6) has already started to react (3973.5 to 3983.2) but it goes against the confirmed-bearish checklist, capped at B by hard rule; without a close above 3989.6 don't anticipate the reclaim. The 36-minute-old snapshot and feed add to this."
+     "es": "el rebote en 3973.5-3989.6 (FVG 4h + viejo PDL, confluencia 6) ya empezo a reaccionar (3973.5 a 3983.2) pero va en contra del checklist confirmado bajista, tope B por regla dura; sin cierre sobre 3989.6 no se anticipa el reclamo. Feed con 26 min de antiguedad (snapshot ya al dia).",
+     "en": "the 3973.5-3989.6 bounce (4h FVG + old PDL, confluence 6) has already started to react (3973.5 to 3983.2) but it goes against the confirmed-bearish checklist, capped at B by hard rule; without a close above 3989.6 don't anticipate the reclaim. The 26-minute-old feed (snapshot now current) adds to this."
     }
    },
    "context": {
-    "es": "precio 3983.2, dentro del rebote 3973.5-3989.6 tras barrer el minimo del dia (3973.5) en Asia. El checklist de tendencia ya confirma corto en 1h/4h (antes solo en 1h) -- mas autoridad que ayer. El dolar fuerte y los rendimientos altos de ayer siguen pesando mas que cualquier cosa tecnica.",
-    "en": "price 3983.2, inside the 3973.5-3989.6 bounce after sweeping the day's low (3973.5) during Asia. The trend checklist now confirms short on the 1h/4h (only the 1h before) -- more authority than yesterday. Yesterday's strong dollar and higher yields still weigh more than anything technical."
+    "es": "precio 3971.1, ya bajo el piso del rebote 3973.5-3989.6 tras barrer el minimo del dia (3973.5) en Asia. El checklist de tendencia ya confirma corto en 1h/4h (antes solo en 1h) -- mas autoridad que ayer. El dolar fuerte y los rendimientos altos de ayer siguen pesando mas que cualquier cosa tecnica. Re-check 01:27: el rebote se devolvio y ya perfora el piso de la zona (3973.5) sin cerrar bajo 3970.9 (FVG 4h, la invalidacion de la zona) -- el largo pierde fuerza; un cierre 5m bajo 3970.9 lo anula y deja el corto de continuacion hacia 3953.",
+    "en": "price 3971.1, now just under the floor of the 3973.5-3989.6 bounce after sweeping the day's low (3973.5) during Asia. The trend checklist now confirms short on the 1h/4h (only the 1h before) -- more authority than yesterday. Yesterday's strong dollar and higher yields still weigh more than anything technical. Re-check 01:27: the bounce faded and is now piercing the zone floor (3973.5) without closing below 3970.9 (4h FVG, the zone invalidation) -- the long is losing steam; a 5m close below 3970.9 voids it and leaves the continuation short toward 3953."
    },
    "scenarioA": {
     "text": {
@@ -1312,13 +1309,13 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "Asia ya probo el techo decisivo 52688 (mecha a 52696) sin cierre sostenido y se devolvio a su propia golden zone 52505-52627; ambas zonas de la tabla van en contra o a favor segun el checklist pero ninguna pasa de B -- sin gatillo cerrado no hay nada que operar. Snapshot y feed con 36 min de antiguedad.",
-     "en": "Asia already tested the 52688 decisive ceiling (a wick to 52696) without a sustained close and gave it back into its own 52505-52627 golden zone; both zones in the table run with or against the checklist but neither clears B -- without a closed trigger there's nothing to trade. The 36-minute-old snapshot and feed add to this."
+     "es": "Asia ya probo el techo decisivo 52688 (mecha a 52696) sin cierre sostenido y se devolvio a su propia golden zone 52505-52627; ambas zonas de la tabla van en contra o a favor segun el checklist pero ninguna pasa de B -- sin gatillo cerrado no hay nada que operar. Feed con 26 min de antiguedad (snapshot ya al dia).",
+     "en": "Asia already tested the 52688 decisive ceiling (a wick to 52696) without a sustained close and gave it back into its own 52505-52627 golden zone; both zones in the table run with or against the checklist but neither clears B -- without a closed trigger there's nothing to trade. The 26-minute-old feed (snapshot now current) adds to this."
     }
    },
    "context": {
-    "es": "precio 52590, de vuelta dentro de la golden zone 52505-52627 tras barrer el techo decisivo 52688 (hasta 52696) sin cierre sostenido en Asia. El checklist sigue confirmando largo (v=+1, diario +1, h1 +1, h4 neutral). El movimiento de 24h es LARGO pero debil (+0.33%). Sin lectura de alta conviccion limpia para YM hoy mas alla de vigilar el nivel 52688.",
-    "en": "price 52590, back inside the 52505-52627 golden zone after sweeping the 52688 decisive ceiling (to 52696) without a sustained close during Asia. The checklist keeps confirming long (v=+1, daily +1, h1 +1, h4 neutral). The 24h move is LONG but weak (+0.33%). No clean high-conviction read for YM today beyond watching the 52688 level."
+    "es": "precio 52580, de vuelta dentro de la golden zone 52505-52627 tras barrer el techo decisivo 52688 (hasta 52696) sin cierre sostenido en Asia. El checklist sigue confirmando largo (v=+1, diario +1, h1 +1, h4 neutral). El movimiento de 24h es LARGO pero debil (+0.33%). Sin lectura de alta conviccion limpia para YM hoy mas alla de vigilar el nivel 52688. Re-check 01:27: sin cambios materiales, dentro de la golden zone.",
+    "en": "price 52580, back inside the 52505-52627 golden zone after sweeping the 52688 decisive ceiling (to 52696) without a sustained close during Asia. The checklist keeps confirming long (v=+1, daily +1, h1 +1, h4 neutral). The 24h move is LONG but weak (+0.33%). No clean high-conviction read for YM today beyond watching the 52688 level. Re-check 01:27: no material change, inside the golden zone."
    },
    "scenarioA": {
     "text": {
@@ -1659,13 +1656,13 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "el checklist ya confirma el corto (v=-1, antes neutral) pero CL sigue sin su propio catalizador esta sesion -- el EIA real es hoy 11:00 CT, dentro de NY, no en Londres. La unica referencia tactica (retest VAL/EMA 86.14-86.44, confluencia 4) es continuacion, tope B siempre. Snapshot y feed con 36 min de antiguedad.",
-     "en": "the checklist now confirms the short (v=-1, neutral before) but CL still lacks its own catalyst this session -- the real EIA print is today 11:00 CT, inside NY, not in London. The only tactical reference (a VAL/EMA retest 86.14-86.44, confluence 4) is continuation, always capped at B. The 36-minute-old snapshot and feed add to this."
+     "es": "el checklist ya confirma el corto (v=-1, antes neutral) pero CL sigue sin su propio catalizador esta sesion -- el EIA real es hoy 11:00 CT, dentro de NY, no en Londres. La unica referencia tactica (retest VAL/EMA 86.14-86.44, confluencia 4) es continuacion, tope B siempre. Feed con 26 min de antiguedad (snapshot ya al dia).",
+     "en": "the checklist now confirms the short (v=-1, neutral before) but CL still lacks its own catalyst this session -- the real EIA print is today 11:00 CT, inside NY, not in London. The only tactical reference (a VAL/EMA retest 86.14-86.44, confluence 4) is continuation, always capped at B. The 26-minute-old feed (snapshot now current) adds to this."
     }
    },
    "context": {
-    "es": "precio 86.18, justo sobre el EMA20/50 (85.77-85.86) tras barrer un minimo nuevo (85.20) y reclamar con fuerza en Asia. El checklist de tendencia paso de neutral (v=0) a confirmar corto (v=-1, d=-1, h1=-1) -- primera confirmacion real del ciclo de 9 dias. Sin lectura de alta conviccion limpia mas alla de vigilar el EIA de hoy 11:00 CT.",
-    "en": "price 86.18, just above the EMA20/50 (85.77-85.86) after sweeping a new low (85.20) and reclaiming hard during Asia. The trend checklist went from neutral (v=0) to confirming short (v=-1, d=-1, h1=-1) -- the 9-day cycle's first real confirmation. No clean high-conviction read beyond watching today's 11:00 CT EIA print."
+    "es": "precio 86.47, justo sobre el EMA20/50 (85.77-85.86) tras barrer un minimo nuevo (85.20) y reclamar con fuerza en Asia. El checklist de tendencia paso de neutral (v=0) a confirmar corto (v=-1, d=-1, h1=-1) -- primera confirmacion real del ciclo de 9 dias. Sin lectura de alta conviccion limpia mas alla de vigilar el EIA de hoy 11:00 CT. Re-check 01:27: subio hasta la parte alta del retest 86.14-86.44 y lo supera por poco -- la mecha que pide el gatillo del corto se esta dando; falta el cierre 5m de vuelta bajo 86.14, y 86.57 (stop) queda a 10 ticks.",
+    "en": "price 86.47, just above the EMA20/50 (85.77-85.86) after sweeping a new low (85.20) and reclaiming hard during Asia. The trend checklist went from neutral (v=0) to confirming short (v=-1, d=-1, h1=-1) -- the 9-day cycle's first real confirmation. No clean high-conviction read beyond watching today's 11:00 CT EIA print. Re-check 01:27: it rallied into the top of the 86.14-86.44 retest and is slightly through it -- the wick the short trigger asks for is happening; the 5m close back below 86.14 is still missing, and 86.57 (the stop) is 10 ticks away."
    },
    "scenarioA": {
     "text": {
