@@ -1,13 +1,13 @@
 {
   "schema": "intraday-1",
-  "builtAt": "2026-11-12T00:30:28.351Z",
+  "builtAt": "2026-11-12T00:45:20.836Z",
   "everyMin": 15,
   "weightsVersion": "v1",
   "symbols": {
     "NQ": {
       "sym": "NQ",
-      "price": 28245.25,
-      "atr5": 47,
+      "price": 28227.25,
+      "atr5": 43.5,
       "atrD": 819,
       "verdict": "ESPERAR",
       "feedAgeMin": 0,
@@ -25,30 +25,34 @@
         ]
       },
       "regime": "BEAR",
-      "chop": 61.9,
-      "stretch": 0.48,
+      "chop": 62.3,
+      "stretch": 0.09,
       "rangePct": 23,
-      "focus": "long:28126.00",
+      "focus": "long:28125.00",
       "zones": [
         {
-          "id": "long:28126.00",
+          "id": "long:28125.00",
           "side": "long",
-          "lo": 28116.5,
-          "hi": 28135.25,
-          "mid": 28126,
-          "entry": 28130.5,
-          "stop": 28095.25,
-          "tp1": 28215.5,
-          "tp2": 28272.5,
-          "rr1": 2.41,
-          "riskPts": 35.25,
-          "distPts": 109.97,
-          "distAtr5": 2.3,
+          "lo": 28115.5,
+          "hi": 28135,
+          "mid": 28125.25,
+          "entry": 28130.25,
+          "stop": 28097.75,
+          "tp1": 28166,
+          "tp2": 28231.5,
+          "rr1": 1.1,
+          "riskPts": 32.5,
+          "distPts": 92.25,
+          "distAtr5": 2.1,
           "inside": false,
-          "score": 7.39,
+          "score": 6.47,
           "grade": "A",
           "aligned": false,
           "confluence": [
+            {
+              "es": "Hueco alcista en 5m (FVG)",
+              "en": "Bullish gap on 5m (FVG)"
+            },
             {
               "es": "Media de 50 en 1 hora",
               "en": "50 average on 1 hour"
@@ -79,6 +83,7 @@
             }
           ],
           "keys": [
+            "f5m",
             "ema50h",
             "f15m",
             "f1h",
@@ -88,15 +93,20 @@
             "f4h"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 28116.5–28135.25 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
-            "en": "Wait for price to touch or slightly pass 28116.5–28135.25 and for a 5-min candle to close back above. If it does not close above, stay out."
+            "es": "Espera que el precio toque o pase un poco 28115.5–28135 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
+            "en": "Wait for price to touch or slightly pass 28115.5–28135 and for a 5-min candle to close back above. If it does not close above, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra debajo de 28095.25",
-            "en": "The idea fails if a 5-min candle closes below 28095.25"
+            "es": "La idea falla si una vela de 5 min cierra debajo de 28097.75",
+            "en": "The idea fails if a 5-min candle closes below 28097.75"
           },
-          "why": [],
-          "createdAt": "2026-11-12T00:30:28.351Z",
+          "why": [
+            {
+              "es": "poco espacio hasta el objetivo (1.1R)",
+              "en": "little room to the target (1.1R)"
+            }
+          ],
+          "createdAt": "2026-11-12T00:45:20.836Z",
           "status": "tocada",
           "touchedAt": "2026-11-11T23:10:00.000Z",
           "lodAt0": 28131.75,
@@ -110,28 +120,86 @@
           }
         },
         {
-          "id": "long:28216.00",
-          "side": "long",
-          "lo": 28166,
-          "hi": 28265,
-          "mid": 28215.5,
-          "entry": 28240.25,
-          "stop": 28152,
-          "tp1": 28363.75,
-          "tp2": 28412.5,
-          "rr1": 1.4,
-          "riskPts": 88.25,
-          "distPts": 0,
-          "distAtr5": 0,
-          "inside": true,
-          "score": 5.97,
+          "id": "short:28308.00",
+          "side": "short",
+          "lo": 28296.75,
+          "hi": 28319.75,
+          "mid": 28308.25,
+          "entry": 28302.5,
+          "stop": 28335.25,
+          "tp1": 28231.5,
+          "tp2": 28166,
+          "rr1": 2.17,
+          "riskPts": 32.75,
+          "distPts": 69.5,
+          "distAtr5": 1.6,
+          "inside": false,
+          "score": 6.26,
           "grade": "A",
           "aligned": false,
           "confluence": [
             {
-              "es": "Mínimo reciente en 5 min",
-              "en": "Recent 5-min low"
+              "es": "Hueco bajista en 15m (FVG), borde",
+              "en": "Bearish gap on 15m (FVG), edge"
             },
+            {
+              "es": "Apertura del día",
+              "en": "Day open"
+            },
+            {
+              "es": "Máximo de la noche",
+              "en": "Overnight high"
+            },
+            {
+              "es": "Máximo de Asia",
+              "en": "Asia high"
+            },
+            {
+              "es": "Hueco bajista en 1h (FVG), borde",
+              "en": "Bearish gap on 1h (FVG), edge"
+            }
+          ],
+          "keys": [
+            "f15m",
+            "do",
+            "onh",
+            "asH",
+            "f1h"
+          ],
+          "trigger": {
+            "es": "Espera que el precio toque o pase un poco 28296.75–28319.75 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 28296.75–28319.75 and for a 5-min candle to close back below. If it does not close below, stay out."
+          },
+          "invalid": {
+            "es": "La idea falla si una vela de 5 min cierra arriba de 28335.25",
+            "en": "The idea fails if a 5-min candle closes above 28335.25"
+          },
+          "why": [],
+          "createdAt": "2026-11-12T00:00:31.755Z",
+          "status": "invalidada",
+          "touchedAt": "2026-11-11T08:15:00.000Z",
+          "lodAt0": 28131.75,
+          "hodAt0": 28319.75
+        },
+        {
+          "id": "long:28232.00",
+          "side": "long",
+          "lo": 28190.5,
+          "hi": 28272.5,
+          "mid": 28231.5,
+          "entry": 28252,
+          "stop": 28177.5,
+          "tp1": 28361.75,
+          "tp2": 28403.75,
+          "rr1": 1.47,
+          "riskPts": 74.5,
+          "distPts": 0,
+          "distAtr5": 0,
+          "inside": true,
+          "score": 6.01,
+          "grade": "A",
+          "aligned": false,
+          "confluence": [
             {
               "es": "Parte baja del volumen de hoy",
               "en": "Bottom of today's volume area"
@@ -141,12 +209,12 @@
               "en": "Bottom of the volume area (VAL)"
             },
             {
-              "es": "Banda baja del VWAP",
-              "en": "Lower VWAP band"
-            },
-            {
               "es": "Apertura real del día",
               "en": "True day open"
+            },
+            {
+              "es": "Banda baja del VWAP",
+              "en": "Lower VWAP band"
             },
             {
               "es": "Mínimo de la primera hora",
@@ -187,14 +255,21 @@
             {
               "es": "Máximo reciente en 5 min",
               "en": "Recent 5-min high"
+            },
+            {
+              "es": "Parte alta del volumen de hoy",
+              "en": "Top of today's volume area"
+            },
+            {
+              "es": "Mitad del rango de ayer",
+              "en": "Middle of yesterday's range"
             }
           ],
           "keys": [
-            "sl5",
             "dval",
             "val",
-            "vwapDn",
             "tdo",
+            "vwapDn",
             "ibl",
             "sl1h",
             "dpoc",
@@ -203,20 +278,22 @@
             "vwap",
             "pml",
             "vwapUp",
-            "sh5"
+            "sh5",
+            "dvah",
+            "pdMid"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 28166–28265 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
-            "en": "Wait for price to touch or slightly pass 28166–28265 and for a 5-min candle to close back above. If it does not close above, stay out."
+            "es": "Espera que el precio toque o pase un poco 28190.5–28272.5 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
+            "en": "Wait for price to touch or slightly pass 28190.5–28272.5 and for a 5-min candle to close back above. If it does not close above, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra debajo de 28152",
-            "en": "The idea fails if a 5-min candle closes below 28152"
+            "es": "La idea falla si una vela de 5 min cierra debajo de 28177.5",
+            "en": "The idea fails if a 5-min candle closes below 28177.5"
           },
           "why": [],
-          "createdAt": "2026-11-12T00:30:28.351Z",
+          "createdAt": "2026-11-12T00:45:20.836Z",
           "status": "invalidada",
-          "touchedAt": "2026-11-12T00:30:28.351Z",
+          "touchedAt": "2026-11-12T00:45:20.836Z",
           "lodAt0": 28131.75,
           "hodAt0": 28319.75,
           "live": {
@@ -228,22 +305,22 @@
           }
         },
         {
-          "id": "short:28413.00",
+          "id": "short:28404.00",
           "side": "short",
           "lo": 28381.75,
-          "hi": 28443.5,
-          "mid": 28412.5,
-          "entry": 28397,
-          "stop": 28457.5,
+          "hi": 28426,
+          "mid": 28403.75,
+          "entry": 28392.75,
+          "stop": 28439,
           "tp1": 28308.25,
-          "tp2": 28272.5,
-          "rr1": 1.47,
-          "riskPts": 60.5,
-          "distPts": 136.38,
-          "distAtr5": 2.9,
+          "tp2": 28231.5,
+          "rr1": 1.83,
+          "riskPts": 46.25,
+          "distPts": 154.38,
+          "distAtr5": 3.5,
           "inside": false,
-          "score": 5.52,
-          "grade": "A",
+          "score": 4.09,
+          "grade": "B",
           "aligned": false,
           "confluence": [
             {
@@ -261,10 +338,6 @@
             {
               "es": "Máximo de la primera hora",
               "en": "First-hour high"
-            },
-            {
-              "es": "Hueco invertido bajista en 1h (iFVG)",
-              "en": "Inverted bearish gap on 1h (iFVG)"
             }
           ],
           "keys": [
@@ -274,15 +347,15 @@
             "ibh"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 28381.75–28443.5 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 28381.75–28443.5 and for a 5-min candle to close back below. If it does not close below, stay out."
+            "es": "Espera que el precio toque o pase un poco 28381.75–28426 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 28381.75–28426 and for a 5-min candle to close back below. If it does not close below, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 28457.5",
-            "en": "The idea fails if a 5-min candle closes above 28457.5"
+            "es": "La idea falla si una vela de 5 min cierra arriba de 28439",
+            "en": "The idea fails if a 5-min candle closes above 28439"
           },
           "why": [],
-          "createdAt": "2026-11-12T00:30:28.351Z",
+          "createdAt": "2026-11-12T00:45:20.836Z",
           "status": "invalidada",
           "touchedAt": "2026-11-11T15:05:00.000Z",
           "lodAt0": 28131.75,
@@ -297,100 +370,24 @@
           "armedAt": "2026-11-11T15:10:00.000Z"
         },
         {
-          "id": "short:28308.00",
+          "id": "short:28362.00",
           "side": "short",
-          "lo": 28296.75,
-          "hi": 28319.75,
-          "mid": 28308.25,
-          "entry": 28302.5,
-          "stop": 28337.75,
-          "tp1": 28272.5,
-          "tp2": 28215.5,
-          "rr1": 0.85,
-          "riskPts": 35.25,
-          "distPts": 51.5,
-          "distAtr5": 1.1,
-          "inside": false,
-          "score": 5.38,
-          "grade": "A",
-          "aligned": false,
-          "confluence": [
-            {
-              "es": "Hueco bajista en 5m (FVG), borde",
-              "en": "Bearish gap on 5m (FVG), edge"
-            },
-            {
-              "es": "Hueco bajista en 15m (FVG), borde",
-              "en": "Bearish gap on 15m (FVG), edge"
-            },
-            {
-              "es": "Apertura del día",
-              "en": "Day open"
-            },
-            {
-              "es": "Máximo de la noche",
-              "en": "Overnight high"
-            },
-            {
-              "es": "Máximo de Asia",
-              "en": "Asia high"
-            },
-            {
-              "es": "Hueco bajista en 1h (FVG), borde",
-              "en": "Bearish gap on 1h (FVG), edge"
-            }
-          ],
-          "keys": [
-            "f5m",
-            "f15m",
-            "do",
-            "onh",
-            "asH",
-            "f1h"
-          ],
-          "trigger": {
-            "es": "Espera que el precio toque o pase un poco 28296.75–28319.75 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 28296.75–28319.75 and for a 5-min candle to close back below. If it does not close below, stay out."
-          },
-          "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 28337.75",
-            "en": "The idea fails if a 5-min candle closes above 28337.75"
-          },
-          "why": [
-            {
-              "es": "poco espacio hasta el objetivo (0.85R)",
-              "en": "little room to the target (0.85R)"
-            }
-          ],
-          "createdAt": "2026-11-12T00:00:31.755Z",
-          "status": "invalidada",
-          "touchedAt": "2026-11-11T08:15:00.000Z",
-          "lodAt0": 28131.75,
-          "hodAt0": 28319.75
-        },
-        {
-          "id": "short:28364.00",
-          "side": "short",
-          "lo": 28354.25,
-          "hi": 28373.25,
-          "mid": 28363.75,
-          "entry": 28359,
-          "stop": 28394.25,
+          "lo": 28353,
+          "hi": 28370.5,
+          "mid": 28361.75,
+          "entry": 28357.5,
+          "stop": 28390.25,
           "tp1": 28308.25,
-          "tp2": 28272.5,
-          "rr1": 1.44,
-          "riskPts": 35.25,
-          "distPts": 109.1,
-          "distAtr5": 2.3,
+          "tp2": 28231.5,
+          "rr1": 1.5,
+          "riskPts": 32.75,
+          "distPts": 125.8,
+          "distAtr5": 2.9,
           "inside": false,
-          "score": 3.85,
+          "score": 3.64,
           "grade": "B",
           "aligned": false,
           "confluence": [
-            {
-              "es": "Hueco bajista en 5m (FVG), mitad",
-              "en": "Bearish gap on 5m (FVG), middle"
-            },
             {
               "es": "Hueco bajista en 15m (FVG), mitad",
               "en": "Bearish gap on 15m (FVG), middle"
@@ -405,21 +402,20 @@
             }
           ],
           "keys": [
-            "f5m",
             "f15m",
             "poc",
             "ema200"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 28354.25–28373.25 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 28354.25–28373.25 and for a 5-min candle to close back below. If it does not close below, stay out."
+            "es": "Espera que el precio toque o pase un poco 28353–28370.5 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 28353–28370.5 and for a 5-min candle to close back below. If it does not close below, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 28394.25",
-            "en": "The idea fails if a 5-min candle closes above 28394.25"
+            "es": "La idea falla si una vela de 5 min cierra arriba de 28390.25",
+            "en": "The idea fails if a 5-min candle closes above 28390.25"
           },
           "why": [],
-          "createdAt": "2026-11-12T00:30:28.351Z",
+          "createdAt": "2026-11-12T00:45:20.836Z",
           "status": "invalidada",
           "touchedAt": "2026-11-11T15:05:00.000Z",
           "lodAt0": 28131.75,
@@ -436,12 +432,12 @@
       ],
       "warnings": [
         {
-          "es": "Mercado lateral y sucio (61.9): solo zonas A+ en los extremos, o no operes",
-          "en": "Choppy, messy market (61.9): only A+ zones at the extremes, or do not trade"
+          "es": "Mercado lateral y sucio (62.3): solo zonas A+ en los extremos, o no operes",
+          "en": "Choppy, messy market (62.3): only A+ zones at the extremes, or do not trade"
         },
         {
-          "es": "Barrida reciente (IBL:up) hace 3 velas: el precio sacó stops y regresó",
-          "en": "Recent sweep (IBL:up) 3 candles ago: price took out stops and came back"
+          "es": "Barrida reciente (LOL:up) hace 0 velas: el precio sacó stops y regresó",
+          "en": "Recent sweep (LOL:up) 0 candles ago: price took out stops and came back"
         }
       ],
       "saPlan": {
@@ -454,8 +450,8 @@
     },
     "ES": {
       "sym": "ES",
-      "price": 7612,
-      "atr5": 6.25,
+      "price": 7609,
+      "atr5": 5.75,
       "atrD": 130.25,
       "verdict": "OPERABLE",
       "feedAgeMin": 0,
@@ -471,28 +467,28 @@
         ]
       },
       "regime": "BEAR",
-      "chop": 55.9,
-      "stretch": 0.07,
+      "chop": 55.4,
+      "stretch": 0.42,
       "rangePct": 21,
-      "focus": "long:7606.00",
+      "focus": "long:7602.00",
       "zones": [
         {
-          "id": "long:7606.00",
+          "id": "long:7602.00",
           "side": "long",
           "lo": 7600.5,
-          "hi": 7611.5,
-          "mid": 7606,
-          "entry": 7608.75,
-          "stop": 7598.75,
-          "tp1": 7622.5,
-          "tp2": 7630.75,
-          "rr1": 1.38,
-          "riskPts": 10,
-          "distPts": 0.5,
-          "distAtr5": 0.1,
+          "hi": 7603.25,
+          "mid": 7602,
+          "entry": 7602.5,
+          "stop": 7598.25,
+          "tp1": 7611.5,
+          "tp2": 7621,
+          "rr1": 2.12,
+          "riskPts": 4.25,
+          "distPts": 5.75,
+          "distAtr5": 1,
           "inside": false,
-          "score": 7.82,
-          "grade": "A+",
+          "score": 6.77,
+          "grade": "A",
           "aligned": true,
           "confluence": [
             {
@@ -514,7 +510,151 @@
             {
               "es": "Parte baja del volumen de hoy",
               "en": "Bottom of today's volume area"
+            }
+          ],
+          "keys": [
+            "onl",
+            "asL",
+            "sh4h",
+            "sl5",
+            "dval"
+          ],
+          "trigger": {
+            "es": "Espera que el precio toque o pase un poco 7600.5–7603.25 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
+            "en": "Wait for price to touch or slightly pass 7600.5–7603.25 and for a 5-min candle to close back above. If it does not close above, stay out."
+          },
+          "invalid": {
+            "es": "La idea falla si una vela de 5 min cierra debajo de 7598.25",
+            "en": "The idea fails if a 5-min candle closes below 7598.25"
+          },
+          "why": [
+            {
+              "es": "a favor de la dirección del mercado",
+              "en": "with the market direction"
+            }
+          ],
+          "createdAt": "2026-11-12T00:45:20.836Z",
+          "status": "funciono",
+          "touchedAt": null,
+          "lodAt0": 7600.5,
+          "hodAt0": 7627.75,
+          "live": {
+            "src": "tradingview",
+            "status": "funciono",
+            "at": "2026-11-11T23:30:00.000Z",
+            "entry": 7607.5,
+            "size": "3 MES"
+          }
+        },
+        {
+          "id": "short:7631.00",
+          "side": "short",
+          "lo": 7624.75,
+          "hi": 7636.75,
+          "mid": 7630.75,
+          "entry": 7627.75,
+          "stop": 7638.5,
+          "tp1": 7611.5,
+          "tp2": 7602,
+          "rr1": 1.51,
+          "riskPts": 10.75,
+          "distPts": 15.75,
+          "distAtr5": 2.7,
+          "inside": false,
+          "score": 6.65,
+          "grade": "B",
+          "aligned": false,
+          "confluence": [
+            {
+              "es": "Máximo de la primera hora",
+              "en": "First-hour high"
             },
+            {
+              "es": "Hueco invertido bajista en 4h (iFVG)",
+              "en": "Inverted bearish gap on 4h (iFVG)"
+            },
+            {
+              "es": "Apertura del mes",
+              "en": "Month open"
+            },
+            {
+              "es": "Máximo de la noche",
+              "en": "Overnight high"
+            },
+            {
+              "es": "Máximo de Asia",
+              "en": "Asia high"
+            },
+            {
+              "es": "Hueco bajista en 15m (FVG), borde",
+              "en": "Bearish gap on 15m (FVG), edge"
+            },
+            {
+              "es": "Hueco bajista en 1h (FVG)",
+              "en": "Bearish gap on 1h (FVG)"
+            },
+            {
+              "es": "Hueco invertido bajista en 5m (iFVG)",
+              "en": "Inverted bearish gap on 5m (iFVG)"
+            },
+            {
+              "es": "Hueco bajista en 15m (FVG), mitad",
+              "en": "Bearish gap on 15m (FVG), middle"
+            },
+            {
+              "es": "Hueco invertido bajista en 1h (iFVG)",
+              "en": "Inverted bearish gap on 1h (iFVG)"
+            }
+          ],
+          "keys": [
+            "ibh",
+            "f4h",
+            "mOpen",
+            "onh",
+            "asH",
+            "f15m",
+            "f1h",
+            "f5m"
+          ],
+          "trigger": {
+            "es": "Espera que el precio toque o pase un poco 7624.75–7636.75 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 7624.75–7636.75 and for a 5-min candle to close back below. If it does not close below, stay out."
+          },
+          "invalid": {
+            "es": "La idea falla si una vela de 5 min cierra arriba de 7638.5",
+            "en": "The idea fails if a 5-min candle closes above 7638.5"
+          },
+          "why": [
+            {
+              "es": "contra la dirección del mercado",
+              "en": "against the market direction"
+            }
+          ],
+          "createdAt": "2026-11-11T23:15:22.424Z",
+          "status": "funciono",
+          "touchedAt": "2026-11-11T16:00:00.000Z",
+          "lodAt0": 7600.5,
+          "hodAt0": 7627.75
+        },
+        {
+          "id": "long:7612.00",
+          "side": "long",
+          "lo": 7606.25,
+          "hi": 7616.75,
+          "mid": 7611.5,
+          "entry": 7614.25,
+          "stop": 7604.5,
+          "tp1": 7630.75,
+          "tp2": 7640.5,
+          "rr1": 1.69,
+          "riskPts": 9.75,
+          "distPts": 0,
+          "distAtr5": 0,
+          "inside": true,
+          "score": 6.49,
+          "grade": "A",
+          "aligned": true,
+          "confluence": [
             {
               "es": "Parte baja del volumen (VAL)",
               "en": "Bottom of the volume area (VAL)"
@@ -538,28 +678,43 @@
             {
               "es": "VWAP (precio promedio del día)",
               "en": "VWAP (day average price)"
+            },
+            {
+              "es": "Máximo reciente en 5 min",
+              "en": "Recent 5-min high"
+            },
+            {
+              "es": "Banda alta del VWAP",
+              "en": "Upper VWAP band"
+            },
+            {
+              "es": "Parte alta del volumen de hoy",
+              "en": "Top of today's volume area"
+            },
+            {
+              "es": "Apertura del día",
+              "en": "Day open"
             }
           ],
           "keys": [
-            "onl",
-            "asL",
-            "sh4h",
-            "sl5",
-            "dval",
             "val",
             "vwapDn",
             "f5m",
             "pdMid",
             "dpoc",
-            "vwap"
+            "vwap",
+            "sh5",
+            "vwapUp",
+            "dvah",
+            "do"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 7600.5–7611.5 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
-            "en": "Wait for price to touch or slightly pass 7600.5–7611.5 and for a 5-min candle to close back above. If it does not close above, stay out."
+            "es": "Espera que el precio toque o pase un poco 7606.25–7616.75 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
+            "en": "Wait for price to touch or slightly pass 7606.25–7616.75 and for a 5-min candle to close back above. If it does not close above, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra debajo de 7598.75",
-            "en": "The idea fails if a 5-min candle closes below 7598.75"
+            "es": "La idea falla si una vela de 5 min cierra debajo de 7604.5",
+            "en": "The idea fails if a 5-min candle closes below 7604.5"
           },
           "why": [
             {
@@ -567,11 +722,18 @@
               "en": "with the market direction"
             }
           ],
-          "createdAt": "2026-11-12T00:15:17.937Z",
+          "createdAt": "2026-11-12T00:45:20.836Z",
           "status": "invalidada",
-          "touchedAt": "2026-11-12T00:15:17.937Z",
+          "touchedAt": "2026-11-12T00:45:20.836Z",
           "lodAt0": 7600.5,
-          "hodAt0": 7627.75
+          "hodAt0": 7627.75,
+          "live": {
+            "src": "tradingview",
+            "status": "invalidada",
+            "at": "2026-11-12T00:10:00.000Z",
+            "entry": 7617.75,
+            "size": "2 MES"
+          }
         },
         {
           "id": "long:7581.00",
@@ -585,8 +747,8 @@
           "tp2": 7593.25,
           "rr1": 0.96,
           "riskPts": 6.5,
-          "distPts": 28,
-          "distAtr5": 4.5,
+          "distPts": 25,
+          "distAtr5": 4.3,
           "inside": false,
           "score": 6.33,
           "grade": "A",
@@ -637,150 +799,6 @@
           "status": "funciono",
           "touchedAt": "2026-11-11T07:15:00.000Z",
           "lodAt0": 7600.5,
-          "hodAt0": 7627.75,
-          "live": {
-            "src": "tradingview",
-            "status": "funciono",
-            "at": "2026-11-11T07:25:00.000Z",
-            "entry": 7582.5,
-            "size": "5 MES"
-          },
-          "armedAt": "2026-11-11T07:20:00.000Z"
-        },
-        {
-          "id": "short:7631.00",
-          "side": "short",
-          "lo": 7624.75,
-          "hi": 7636.75,
-          "mid": 7630.75,
-          "entry": 7627.75,
-          "stop": 7638.75,
-          "tp1": 7616,
-          "tp2": 7606,
-          "rr1": 1.07,
-          "riskPts": 11,
-          "distPts": 12.75,
-          "distAtr5": 2,
-          "inside": false,
-          "score": 5.56,
-          "grade": "B",
-          "aligned": false,
-          "confluence": [
-            {
-              "es": "Hueco invertido bajista en 4h (iFVG)",
-              "en": "Inverted bearish gap on 4h (iFVG)"
-            },
-            {
-              "es": "Apertura del mes",
-              "en": "Month open"
-            },
-            {
-              "es": "Máximo de la noche",
-              "en": "Overnight high"
-            },
-            {
-              "es": "Máximo de Asia",
-              "en": "Asia high"
-            },
-            {
-              "es": "Hueco bajista en 15m (FVG), borde",
-              "en": "Bearish gap on 15m (FVG), edge"
-            },
-            {
-              "es": "Hueco bajista en 1h (FVG)",
-              "en": "Bearish gap on 1h (FVG)"
-            },
-            {
-              "es": "Hueco invertido bajista en 5m (iFVG)",
-              "en": "Inverted bearish gap on 5m (iFVG)"
-            },
-            {
-              "es": "Hueco bajista en 15m (FVG), mitad",
-              "en": "Bearish gap on 15m (FVG), middle"
-            },
-            {
-              "es": "Hueco invertido bajista en 1h (iFVG)",
-              "en": "Inverted bearish gap on 1h (iFVG)"
-            }
-          ],
-          "keys": [
-            "f4h",
-            "mOpen",
-            "onh",
-            "asH",
-            "f15m",
-            "f1h",
-            "f5m"
-          ],
-          "trigger": {
-            "es": "Espera que el precio toque o pase un poco 7624.75–7636.75 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 7624.75–7636.75 and for a 5-min candle to close back below. If it does not close below, stay out."
-          },
-          "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 7638.75",
-            "en": "The idea fails if a 5-min candle closes above 7638.75"
-          },
-          "why": [
-            {
-              "es": "contra la dirección del mercado",
-              "en": "against the market direction"
-            },
-            {
-              "es": "poco espacio hasta el objetivo (1.07R)",
-              "en": "little room to the target (1.07R)"
-            }
-          ],
-          "createdAt": "2026-11-11T23:15:22.424Z",
-          "status": "funciono",
-          "touchedAt": "2026-11-11T16:00:00.000Z",
-          "lodAt0": 7600.5,
-          "hodAt0": 7627.75
-        },
-        {
-          "id": "long:7548.00",
-          "side": "long",
-          "lo": 7546.25,
-          "hi": 7548.75,
-          "mid": 7547.5,
-          "entry": 7548.25,
-          "stop": 7543.5,
-          "tp1": 7558.25,
-          "tp2": 7568.5,
-          "rr1": 2.11,
-          "riskPts": 4.75,
-          "distPts": 63.25,
-          "distAtr5": 10.1,
-          "inside": false,
-          "score": 4,
-          "grade": "B",
-          "aligned": true,
-          "confluence": [
-            {
-              "es": "Mínimo de ayer",
-              "en": "Yesterday's low"
-            }
-          ],
-          "keys": [
-            "pdl"
-          ],
-          "trigger": {
-            "es": "Espera que el precio toque o pase un poco 7546.25–7548.75 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
-            "en": "Wait for price to touch or slightly pass 7546.25–7548.75 and for a 5-min candle to close back above. If it does not close above, stay out."
-          },
-          "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra debajo de 7543.5",
-            "en": "The idea fails if a 5-min candle closes below 7543.5"
-          },
-          "why": [
-            {
-              "es": "a favor de la dirección del mercado",
-              "en": "with the market direction"
-            }
-          ],
-          "createdAt": "2026-11-12T00:30:28.351Z",
-          "status": "nueva",
-          "touchedAt": null,
-          "lodAt0": 7600.5,
           "hodAt0": 7627.75
         }
       ],
@@ -795,7 +813,7 @@
     },
     "GC": {
       "sym": "GC",
-      "price": 3987.9,
+      "price": 3990.6,
       "atr5": 4.7,
       "atrD": 90.3,
       "verdict": "OPERABLE",
@@ -813,34 +831,30 @@
         ]
       },
       "regime": "BEAR",
-      "chop": 54.9,
-      "stretch": 0.4,
+      "chop": 50.4,
+      "stretch": 0.89,
       "rangePct": 30,
-      "focus": "short:3995.60",
+      "focus": "short:3998.80",
       "zones": [
         {
-          "id": "short:3995.60",
+          "id": "short:3998.80",
           "side": "short",
-          "lo": 3991,
-          "hi": 4000.5,
-          "mid": 3995.8,
-          "entry": 3993.4,
-          "stop": 4001.9,
-          "tp1": 3984.4,
-          "tp2": 3972.1,
-          "rr1": 1.06,
-          "riskPts": 8.5,
-          "distPts": 3.1,
+          "lo": 3993.8,
+          "hi": 4003.4,
+          "mid": 3998.6,
+          "entry": 3996.2,
+          "stop": 4004.8,
+          "tp1": 3988.8,
+          "tp2": 3982.2,
+          "rr1": 0.86,
+          "riskPts": 8.6,
+          "distPts": 3.2,
           "distAtr5": 0.7,
           "inside": false,
-          "score": 8.13,
+          "score": 8.23,
           "grade": "A+",
           "aligned": true,
           "confluence": [
-            {
-              "es": "Banda alta del VWAP",
-              "en": "Upper VWAP band"
-            },
             {
               "es": "Parte alta del volumen de hoy",
               "en": "Top of today's volume area"
@@ -876,10 +890,17 @@
             {
               "es": "Cierre de ayer",
               "en": "Yesterday's close"
+            },
+            {
+              "es": "Hueco invertido bajista en 15m (iFVG)",
+              "en": "Inverted bearish gap on 15m (iFVG)"
+            },
+            {
+              "es": "Hueco bajista en 5m (FVG)",
+              "en": "Bearish gap on 5m (FVG)"
             }
           ],
           "keys": [
-            "vwapUp",
             "dvah",
             "do",
             "f5m",
@@ -888,15 +909,16 @@
             "asH",
             "sh5",
             "f4h",
-            "pdc"
+            "pdc",
+            "f15m"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 3991–4000.5 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 3991–4000.5 and for a 5-min candle to close back below. If it does not close below, stay out."
+            "es": "Espera que el precio toque o pase un poco 3993.8–4003.4 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 3993.8–4003.4 and for a 5-min candle to close back below. If it does not close below, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 4001.9",
-            "en": "The idea fails if a 5-min candle closes above 4001.9"
+            "es": "La idea falla si una vela de 5 min cierra arriba de 4004.8",
+            "en": "The idea fails if a 5-min candle closes above 4004.8"
           },
           "why": [
             {
@@ -904,11 +926,11 @@
               "en": "with the market direction"
             },
             {
-              "es": "poco espacio hasta el objetivo (1.06R)",
-              "en": "little room to the target (1.06R)"
+              "es": "poco espacio hasta el objetivo (0.86R)",
+              "en": "little room to the target (0.86R)"
             }
           ],
-          "createdAt": "2026-11-12T00:30:28.351Z",
+          "createdAt": "2026-11-12T00:45:20.836Z",
           "status": "funciono",
           "touchedAt": null,
           "lodAt0": 3973.5,
@@ -922,32 +944,24 @@
           }
         },
         {
-          "id": "short:4005.20",
+          "id": "short:4006.80",
           "side": "short",
-          "lo": 4000.9,
-          "hi": 4009.1,
-          "mid": 4005,
-          "entry": 4002.9,
-          "stop": 4010.5,
-          "tp1": 3995.8,
-          "tp2": 3984.4,
-          "rr1": 0.93,
-          "riskPts": 7.6,
-          "distPts": 13,
-          "distAtr5": 2.8,
+          "lo": 4002.6,
+          "hi": 4011.3,
+          "mid": 4006.9,
+          "entry": 4004.8,
+          "stop": 4012.7,
+          "tp1": 3988.8,
+          "tp2": 3982.2,
+          "rr1": 2.03,
+          "riskPts": 7.9,
+          "distPts": 12,
+          "distAtr5": 2.6,
           "inside": false,
-          "score": 6.25,
-          "grade": "A",
+          "score": 7.01,
+          "grade": "A+",
           "aligned": true,
           "confluence": [
-            {
-              "es": "Hueco invertido bajista en 15m (iFVG)",
-              "en": "Inverted bearish gap on 15m (iFVG)"
-            },
-            {
-              "es": "Hueco bajista en 5m (FVG)",
-              "en": "Bearish gap on 5m (FVG)"
-            },
             {
               "es": "Hueco bajista en 15m (FVG)",
               "en": "Bearish gap on 15m (FVG)"
@@ -959,33 +973,33 @@
             {
               "es": "Hueco bajista en 4h (FVG), mitad",
               "en": "Bearish gap on 4h (FVG), middle"
+            },
+            {
+              "es": "Mínimo de la primera hora",
+              "en": "First-hour low"
             }
           ],
           "keys": [
             "f15m",
-            "f5m",
             "f1h",
-            "f4h"
+            "f4h",
+            "ibl"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 4000.9–4009.1 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 4000.9–4009.1 and for a 5-min candle to close back below. If it does not close below, stay out."
+            "es": "Espera que el precio toque o pase un poco 4002.6–4011.3 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 4002.6–4011.3 and for a 5-min candle to close back below. If it does not close below, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 4010.5",
-            "en": "The idea fails if a 5-min candle closes above 4010.5"
+            "es": "La idea falla si una vela de 5 min cierra arriba de 4012.7",
+            "en": "The idea fails if a 5-min candle closes above 4012.7"
           },
           "why": [
             {
               "es": "a favor de la dirección del mercado",
               "en": "with the market direction"
-            },
-            {
-              "es": "poco espacio hasta el objetivo (0.93R)",
-              "en": "little room to the target (0.93R)"
             }
           ],
-          "createdAt": "2026-11-12T00:30:28.351Z",
+          "createdAt": "2026-11-12T00:45:20.836Z",
           "status": "invalidada",
           "touchedAt": null,
           "lodAt0": 3973.5,
@@ -999,36 +1013,24 @@
           }
         },
         {
-          "id": "short:3984.40",
+          "id": "short:3988.80",
           "side": "short",
-          "lo": 3979.3,
-          "hi": 3989.6,
-          "mid": 3984.4,
-          "entry": 3981.9,
-          "stop": 3991,
-          "tp1": 3972.1,
-          "tp2": 3953.9,
+          "lo": 3986.4,
+          "hi": 3991.2,
+          "mid": 3988.8,
+          "entry": 3987.6,
+          "stop": 3992.6,
+          "tp1": 3982.2,
+          "tp2": 3972.1,
           "rr1": 1.08,
-          "riskPts": 9.1,
+          "riskPts": 5,
           "distPts": 0,
           "distAtr5": 0,
           "inside": true,
-          "score": 6.04,
+          "score": 5.38,
           "grade": "A",
           "aligned": true,
           "confluence": [
-            {
-              "es": "Parte baja del volumen de hoy",
-              "en": "Bottom of today's volume area"
-            },
-            {
-              "es": "Hueco alcista en 5m (FVG)",
-              "en": "Bullish gap on 5m (FVG)"
-            },
-            {
-              "es": "Banda baja del VWAP",
-              "en": "Lower VWAP band"
-            },
             {
               "es": "VWAP (precio promedio del día)",
               "en": "VWAP (day average price)"
@@ -1040,23 +1042,25 @@
             {
               "es": "Mínimo de ayer",
               "en": "Yesterday's low"
+            },
+            {
+              "es": "Banda alta del VWAP",
+              "en": "Upper VWAP band"
             }
           ],
           "keys": [
-            "dval",
-            "f5m",
-            "vwapDn",
             "vwap",
             "dpoc",
-            "pdl"
+            "pdl",
+            "vwapUp"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 3979.3–3989.6 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 3979.3–3989.6 and for a 5-min candle to close back below. If it does not close below, stay out."
+            "es": "Espera que el precio toque o pase un poco 3986.4–3991.2 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 3986.4–3991.2 and for a 5-min candle to close back below. If it does not close below, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 3991",
-            "en": "The idea fails if a 5-min candle closes above 3991"
+            "es": "La idea falla si una vela de 5 min cierra arriba de 3992.6",
+            "en": "The idea fails if a 5-min candle closes above 3992.6"
           },
           "why": [
             {
@@ -1068,17 +1072,17 @@
               "en": "little room to the target (1.08R)"
             }
           ],
-          "createdAt": "2026-11-12T00:30:28.351Z",
+          "createdAt": "2026-11-12T00:45:20.836Z",
           "status": "funciono",
-          "touchedAt": "2026-11-12T00:30:28.351Z",
+          "touchedAt": "2026-11-12T00:45:20.836Z",
           "lodAt0": 3973.5,
           "hodAt0": 4000.2,
           "live": {
             "src": "tradingview",
             "status": "funciono",
             "at": "2026-11-12T00:05:00.000Z",
-            "entry": 3983.1,
-            "size": "4 MGC"
+            "entry": 3983.6,
+            "size": "3 MGC"
           }
         },
         {
@@ -1089,12 +1093,12 @@
           "mid": 3972.1,
           "entry": 3973.9,
           "stop": 3967.3,
-          "tp1": 3984.4,
-          "tp2": 3995.8,
-          "rr1": 1.59,
+          "tp1": 3982.2,
+          "tp2": 3988.8,
+          "rr1": 1.26,
           "riskPts": 6.6,
-          "distPts": 12.3,
-          "distAtr5": 2.6,
+          "distPts": 15,
+          "distAtr5": 3.2,
           "inside": false,
           "score": 5.19,
           "grade": "B",
@@ -1154,7 +1158,12 @@
           "hodAt0": 4000.2
         }
       ],
-      "warnings": [],
+      "warnings": [
+        {
+          "es": "Barrida reciente (PDL:dn) hace 1 velas: el precio sacó stops y regresó",
+          "en": "Recent sweep (PDL:dn) 1 candles ago: price took out stops and came back"
+        }
+      ],
       "saPlan": {
         "biasDay": "SHORT",
         "biasSession": "SHORT",
@@ -1165,8 +1174,8 @@
     },
     "ETHUSDT": {
       "sym": "ETHUSDT",
-      "price": 2062.56,
-      "atr5": 6.01,
+      "price": 2063.6,
+      "atr5": 5.65,
       "atrD": 97.82,
       "verdict": "OPERABLE",
       "feedAgeMin": 0,
@@ -1183,8 +1192,8 @@
         ]
       },
       "regime": "BEAR",
-      "chop": 42.3,
-      "stretch": 0.63,
+      "chop": 56.9,
+      "stretch": 0.7,
       "rangePct": 14,
       "focus": "short:2066.08",
       "zones": [
@@ -1195,11 +1204,11 @@
           "hi": 2070.78,
           "mid": 2066.1,
           "entry": 2063.75,
-          "stop": 2072.58,
+          "stop": 2072.48,
           "tp1": 2056.08,
           "tp2": 2045.57,
-          "rr1": 0.87,
-          "riskPts": 8.83,
+          "rr1": 0.88,
+          "riskPts": 8.73,
           "distPts": 0,
           "distAtr5": 0,
           "inside": true,
@@ -1210,10 +1219,6 @@
             {
               "es": "Hueco invertido bajista en 15m (iFVG)",
               "en": "Inverted bearish gap on 15m (iFVG)"
-            },
-            {
-              "es": "Máximo reciente en 5 min",
-              "en": "Recent 5-min high"
             },
             {
               "es": "Banda alta del VWAP",
@@ -1230,6 +1235,10 @@
             {
               "es": "Máximo de Asia",
               "en": "Asia high"
+            },
+            {
+              "es": "Máximo reciente en 5 min",
+              "en": "Recent 5-min high"
             },
             {
               "es": "Hueco bajista en 15m (FVG)",
@@ -1266,11 +1275,11 @@
           ],
           "keys": [
             "f15m",
-            "sh5",
             "vwapUp",
             "tdo",
             "onh",
             "asH",
+            "sh5",
             "f1h",
             "dvah",
             "f5m",
@@ -1284,8 +1293,8 @@
             "en": "Wait for price to touch or slightly pass 2061.41–2070.78 and for a 5-min candle to close back below. If it does not close below, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 2072.58",
-            "en": "The idea fails if a 5-min candle closes above 2072.58"
+            "es": "La idea falla si una vela de 5 min cierra arriba de 2072.48",
+            "en": "The idea fails if a 5-min candle closes above 2072.48"
           },
           "why": [
             {
@@ -1293,8 +1302,8 @@
               "en": "with the market direction"
             },
             {
-              "es": "poco espacio hasta el objetivo (0.87R)",
-              "en": "little room to the target (0.87R)"
+              "es": "poco espacio hasta el objetivo (0.88R)",
+              "en": "little room to the target (0.88R)"
             }
           ],
           "createdAt": "2026-11-12T00:15:17.937Z",
@@ -1310,13 +1319,13 @@
           "hi": 2113.35,
           "mid": 2111.22,
           "entry": 2110.16,
-          "stop": 2115.15,
+          "stop": 2115.05,
           "tp1": 2103.78,
-          "tp2": 2082.84,
-          "rr1": 1.28,
-          "riskPts": 4.99,
-          "distPts": 46.53,
-          "distAtr5": 7.7,
+          "tp2": 2083.53,
+          "rr1": 1.3,
+          "riskPts": 4.89,
+          "distPts": 45.49,
+          "distAtr5": 8.1,
           "inside": false,
           "score": 6.75,
           "grade": "A",
@@ -1340,8 +1349,8 @@
             "en": "Wait for price to touch or slightly pass 2109.09–2113.35 and for a 5-min candle to close back below. If it does not close below, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 2115.15",
-            "en": "The idea fails if a 5-min candle closes above 2115.15"
+            "es": "La idea falla si una vela de 5 min cierra arriba de 2115.05",
+            "en": "The idea fails if a 5-min candle closes above 2115.05"
           },
           "why": [
             {
@@ -1350,7 +1359,7 @@
             }
           ],
           "createdAt": "2026-11-12T00:30:28.351Z",
-          "status": "nueva",
+          "status": "activa",
           "touchedAt": null,
           "lodAt0": 2051.79,
           "hodAt0": 2065.21
@@ -1358,17 +1367,17 @@
         {
           "id": "short:2103.80",
           "side": "short",
-          "lo": 2102.58,
-          "hi": 2104.98,
+          "lo": 2102.65,
+          "hi": 2104.91,
           "mid": 2103.78,
-          "entry": 2103.18,
-          "stop": 2107.69,
-          "tp1": 2089.65,
-          "tp2": 2082.84,
+          "entry": 2103.22,
+          "stop": 2107.46,
+          "tp1": 2090.5,
+          "tp2": 2083.53,
           "rr1": 3,
-          "riskPts": 4.51,
-          "distPts": 40.02,
-          "distAtr5": 6.7,
+          "riskPts": 4.24,
+          "distPts": 39.05,
+          "distAtr5": 6.9,
           "inside": false,
           "score": 5.9,
           "grade": "A",
@@ -1388,12 +1397,12 @@
             "sh1h"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 2102.58–2104.98 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 2102.58–2104.98 and for a 5-min candle to close back below. If it does not close below, stay out."
+            "es": "Espera que el precio toque o pase un poco 2102.65–2104.91 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 2102.65–2104.91 and for a 5-min candle to close back below. If it does not close below, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 2107.69",
-            "en": "The idea fails if a 5-min candle closes above 2107.69"
+            "es": "La idea falla si una vela de 5 min cierra arriba de 2107.46",
+            "en": "The idea fails if a 5-min candle closes above 2107.46"
           },
           "why": [
             {
@@ -1414,13 +1423,13 @@
           "hi": 2061.79,
           "mid": 2056.08,
           "entry": 2058.94,
-          "stop": 2048.57,
-          "tp1": 2082.84,
-          "tp2": 2103.78,
-          "rr1": 2.3,
-          "riskPts": 10.37,
-          "distPts": 0.77,
-          "distAtr5": 0.1,
+          "stop": 2048.67,
+          "tp1": 2076.44,
+          "tp2": 2083.53,
+          "rr1": 1.7,
+          "riskPts": 10.27,
+          "distPts": 1.81,
+          "distAtr5": 0.3,
           "inside": false,
           "score": 4.67,
           "grade": "B",
@@ -1435,12 +1444,16 @@
               "en": "Inverted bullish gap on 15m (iFVG)"
             },
             {
-              "es": "Parte baja del volumen de hoy",
-              "en": "Bottom of today's volume area"
+              "es": "Mínimo reciente en 5 min",
+              "en": "Recent 5-min low"
             },
             {
               "es": "Hueco alcista en 5m (FVG)",
               "en": "Bullish gap on 5m (FVG)"
+            },
+            {
+              "es": "Parte baja del volumen de hoy",
+              "en": "Bottom of today's volume area"
             },
             {
               "es": "Banda baja del VWAP",
@@ -1474,8 +1487,9 @@
           "keys": [
             "gz",
             "f15m",
-            "dval",
+            "sl5",
             "f5m",
+            "dval",
             "vwapDn",
             "do",
             "pdc",
@@ -1489,8 +1503,8 @@
             "en": "Wait for price to touch or slightly pass 2050.37–2061.79 and for a 5-min candle to close back above. If it does not close above, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra debajo de 2048.57",
-            "en": "The idea fails if a 5-min candle closes below 2048.57"
+            "es": "La idea falla si una vela de 5 min cierra debajo de 2048.67",
+            "en": "The idea fails if a 5-min candle closes below 2048.67"
           },
           "why": [
             {
@@ -1499,17 +1513,18 @@
             }
           ],
           "createdAt": "2026-11-12T00:30:28.351Z",
-          "status": "tocada",
+          "status": "armada",
           "touchedAt": "2026-11-12T00:25:00.000Z",
           "lodAt0": 2051.79,
           "hodAt0": 2065.21,
           "live": {
             "src": "tradingview",
-            "status": "tocada",
-            "at": "2026-11-12T00:25:00.000Z",
+            "status": "armada",
+            "at": "2026-11-12T00:35:00.000Z",
             "entry": 2058.93,
-            "size": "14.48 ETH"
-          }
+            "size": "14.56 ETH"
+          },
+          "armedAt": "2026-11-12T00:35:00.000Z"
         },
         {
           "id": "long:2033.80",
@@ -1518,15 +1533,15 @@
           "hi": 2035.83,
           "mid": 2033.82,
           "entry": 2034.82,
-          "stop": 2030,
+          "stop": 2030.11,
           "tp1": 2045.57,
           "tp2": 2056.08,
-          "rr1": 2.23,
-          "riskPts": 4.82,
-          "distPts": 26.73,
-          "distAtr5": 4.4,
+          "rr1": 2.28,
+          "riskPts": 4.71,
+          "distPts": 27.77,
+          "distAtr5": 4.9,
           "inside": false,
-          "score": 4.36,
+          "score": 4.24,
           "grade": "B",
           "aligned": false,
           "confluence": [
@@ -1545,26 +1560,21 @@
             {
               "es": "Mínimo de Asia",
               "en": "Asia low"
-            },
-            {
-              "es": "Mínimo reciente en 5 min",
-              "en": "Recent 5-min low"
             }
           ],
           "keys": [
             "f1h",
             "pdl",
             "onl",
-            "asL",
-            "sl5"
+            "asL"
           ],
           "trigger": {
             "es": "Espera que el precio toque o pase un poco 2031.8–2035.83 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
             "en": "Wait for price to touch or slightly pass 2031.8–2035.83 and for a 5-min candle to close back above. If it does not close above, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra debajo de 2030",
-            "en": "The idea fails if a 5-min candle closes below 2030"
+            "es": "La idea falla si una vela de 5 min cierra debajo de 2030.11",
+            "en": "The idea fails if a 5-min candle closes below 2030.11"
           },
           "why": [
             {
@@ -1581,8 +1591,8 @@
       ],
       "warnings": [
         {
-          "es": "Barrida reciente (PWL:dn) hace 4 velas: el precio sacó stops y regresó",
-          "en": "Recent sweep (PWL:dn) 4 candles ago: price took out stops and came back"
+          "es": "Barrida reciente (PWL:up) hace 1 velas: el precio sacó stops y regresó",
+          "en": "Recent sweep (PWL:up) 1 candles ago: price took out stops and came back"
         }
       ],
       "saPlan": {
@@ -1595,8 +1605,8 @@
     },
     "BTCUSDT": {
       "sym": "BTCUSDT",
-      "price": 74104.5,
-      "atr5": 133.71,
+      "price": 74118.01,
+      "atr5": 129.28,
       "atrD": 2245.01,
       "verdict": "OPERABLE",
       "feedAgeMin": 0,
@@ -1613,89 +1623,37 @@
         ]
       },
       "regime": "BEAR",
-      "chop": 40.2,
-      "stretch": 0.68,
+      "chop": 57.7,
+      "stretch": 0.63,
       "rangePct": 14,
-      "focus": "short:75718.80",
+      "focus": "short:74243.60",
       "zones": [
         {
-          "id": "short:75718.80",
+          "id": "short:74243.60",
           "side": "short",
-          "lo": 75599.2,
-          "hi": 75838,
-          "mid": 75718.6,
-          "entry": 75658.9,
-          "stop": 75878.1,
-          "tp1": 75001.3,
-          "tp2": 74831.4,
-          "rr1": 3,
-          "riskPts": 219.2,
-          "distPts": 1494.72,
-          "distAtr5": 11.2,
-          "inside": false,
-          "score": 7.97,
-          "grade": "A+",
-          "aligned": true,
-          "confluence": [
-            {
-              "es": "Hueco bajista en 4h (FVG)",
-              "en": "Bearish gap on 4h (FVG)"
-            },
-            {
-              "es": "Hueco bajista en 1h (FVG)",
-              "en": "Bearish gap on 1h (FVG)"
-            }
-          ],
-          "keys": [
-            "f4h",
-            "f1h"
-          ],
-          "trigger": {
-            "es": "Espera que el precio toque o pase un poco 75599.2–75838 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 75599.2–75838 and for a 5-min candle to close back below. If it does not close below, stay out."
-          },
-          "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 75878.1",
-            "en": "The idea fails if a 5-min candle closes above 75878.1"
-          },
-          "why": [
-            {
-              "es": "a favor de la dirección del mercado",
-              "en": "with the market direction"
-            }
-          ],
-          "createdAt": "2026-11-11T23:30:29.357Z",
-          "status": "activa",
-          "touchedAt": null,
-          "lodAt0": 73209.12,
-          "hodAt0": 74811.45
-        },
-        {
-          "id": "short:74252.80",
-          "side": "short",
-          "lo": 74122.1,
+          "lo": 74103.4,
           "hi": 74383.4,
-          "mid": 74252.8,
-          "entry": 74187.4,
-          "stop": 74423.5,
-          "tp1": 73947.6,
+          "mid": 74243.4,
+          "entry": 74173.4,
+          "stop": 74422.2,
+          "tp1": 73932.5,
           "tp2": 73686.6,
-          "rr1": 1.02,
-          "riskPts": 236.1,
-          "distPts": 17.62,
-          "distAtr5": 0.1,
-          "inside": false,
-          "score": 7.29,
+          "rr1": 0.97,
+          "riskPts": 248.8,
+          "distPts": 0,
+          "distAtr5": 0,
+          "inside": true,
+          "score": 7.34,
           "grade": "A+",
           "aligned": true,
           "confluence": [
+            {
+              "es": "Banda alta del VWAP",
+              "en": "Upper VWAP band"
+            },
             {
               "es": "Media de 200 en 5 min",
               "en": "200 average on 5 min"
-            },
-            {
-              "es": "Máximo reciente en 5 min",
-              "en": "Recent 5-min high"
             },
             {
               "es": "Parte alta del volumen de hoy",
@@ -1708,6 +1666,10 @@
             {
               "es": "Máximo de Asia",
               "en": "Asia high"
+            },
+            {
+              "es": "Máximo reciente en 5 min",
+              "en": "Recent 5-min high"
             },
             {
               "es": "Hueco bajista en 15m (FVG)",
@@ -1727,23 +1689,24 @@
             }
           ],
           "keys": [
+            "vwapUp",
             "ema200",
-            "sh5",
             "dvah",
             "onh",
             "asH",
+            "sh5",
             "f15m",
             "f1h",
             "loH",
             "sh1h"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 74122.1–74383.4 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 74122.1–74383.4 and for a 5-min candle to close back below. If it does not close below, stay out."
+            "es": "Espera que el precio toque o pase un poco 74103.4–74383.4 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 74103.4–74383.4 and for a 5-min candle to close back below. If it does not close below, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 74423.5",
-            "en": "The idea fails if a 5-min candle closes above 74423.5"
+            "es": "La idea falla si una vela de 5 min cierra arriba de 74422.2",
+            "en": "The idea fails if a 5-min candle closes above 74422.2"
           },
           "why": [
             {
@@ -1751,11 +1714,80 @@
               "en": "with the market direction"
             },
             {
-              "es": "poco espacio hasta el objetivo (1.02R)",
-              "en": "little room to the target (1.02R)"
+              "es": "poco espacio hasta el objetivo (0.97R)",
+              "en": "little room to the target (0.97R)"
             }
           ],
-          "createdAt": "2026-11-12T00:30:28.351Z",
+          "createdAt": "2026-11-12T00:45:20.836Z",
+          "status": "invalidada",
+          "touchedAt": "2026-11-12T00:45:20.836Z",
+          "lodAt0": 73852.94,
+          "hodAt0": 74169.44,
+          "live": {
+            "src": "tradingview",
+            "status": "invalidada",
+            "at": "2026-11-11T19:25:00.000Z",
+            "entry": 74075.46,
+            "size": "0.6631 BTC"
+          }
+        },
+        {
+          "id": "short:74334.00",
+          "side": "short",
+          "lo": 74199.4,
+          "hi": 74468.6,
+          "mid": 74334,
+          "entry": 74266.7,
+          "stop": 74507.3,
+          "tp1": 73932.5,
+          "tp2": 73686.6,
+          "rr1": 1.39,
+          "riskPts": 240.6,
+          "distPts": 81.35,
+          "distAtr5": 0.6,
+          "inside": false,
+          "score": 5.88,
+          "grade": "A",
+          "aligned": true,
+          "confluence": [
+            {
+              "es": "Zona cara (golden zone)",
+              "en": "Premium zone (golden zone)"
+            },
+            {
+              "es": "Parte alta del volumen (VAH)",
+              "en": "Top of the volume area (VAH)"
+            },
+            {
+              "es": "Media de 50 en 1 hora",
+              "en": "50 average on 1 hour"
+            },
+            {
+              "es": "Hueco bajista en 5m (FVG)",
+              "en": "Bearish gap on 5m (FVG)"
+            }
+          ],
+          "keys": [
+            "gz",
+            "vah",
+            "ema50h",
+            "f5m"
+          ],
+          "trigger": {
+            "es": "Espera que el precio toque o pase un poco 74199.4–74468.6 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 74199.4–74468.6 and for a 5-min candle to close back below. If it does not close below, stay out."
+          },
+          "invalid": {
+            "es": "La idea falla si una vela de 5 min cierra arriba de 74507.3",
+            "en": "The idea fails if a 5-min candle closes above 74507.3"
+          },
+          "why": [
+            {
+              "es": "a favor de la dirección del mercado",
+              "en": "with the market direction"
+            }
+          ],
+          "createdAt": "2026-11-12T00:45:20.836Z",
           "status": "invalidada",
           "touchedAt": null,
           "lodAt0": 73852.94,
@@ -1771,17 +1803,17 @@
         {
           "id": "short:74831.60",
           "side": "short",
-          "lo": 74804.7,
-          "hi": 74858.2,
+          "lo": 74805.6,
+          "hi": 74857.3,
           "mid": 74831.4,
-          "entry": 74818.1,
-          "stop": 74918.4,
-          "tp1": 74517.2,
+          "entry": 74818.5,
+          "stop": 74915.5,
+          "tp1": 74527.5,
           "tp2": 74334,
           "rr1": 3,
-          "riskPts": 100.3,
-          "distPts": 700.2,
-          "distAtr5": 5.2,
+          "riskPts": 97,
+          "distPts": 687.58,
+          "distAtr5": 5.3,
           "inside": false,
           "score": 5.55,
           "grade": "A",
@@ -1801,12 +1833,12 @@
             "wo"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 74804.7–74858.2 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
-            "en": "Wait for price to touch or slightly pass 74804.7–74858.2 and for a 5-min candle to close back below. If it does not close below, stay out."
+            "es": "Espera que el precio toque o pase un poco 74805.6–74857.3 y que una vela de 5 min cierre de vuelta abajo. Si no cierra abajo, no entras.",
+            "en": "Wait for price to touch or slightly pass 74805.6–74857.3 and for a 5-min candle to close back below. If it does not close below, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra arriba de 74918.4",
-            "en": "The idea fails if a 5-min candle closes above 74918.4"
+            "es": "La idea falla si una vela de 5 min cierra arriba de 74915.5",
+            "en": "The idea fails if a 5-min candle closes above 74915.5"
           },
           "why": [
             {
@@ -1818,29 +1850,22 @@
           "status": "funciono",
           "touchedAt": null,
           "lodAt0": 73852.94,
-          "hodAt0": 74169.44,
-          "live": {
-            "src": "tradingview",
-            "status": "funciono",
-            "at": "2026-11-11T17:20:00.000Z",
-            "entry": 74788.38,
-            "size": "0.7862 BTC"
-          }
+          "hodAt0": 74169.44
         },
         {
           "id": "long:73495.20",
           "side": "long",
-          "lo": 73468.3,
-          "hi": 73521.7,
+          "lo": 73469.1,
+          "hi": 73520.9,
           "mid": 73495,
-          "entry": 73508.4,
-          "stop": 73408.1,
+          "entry": 73507.9,
+          "stop": 73410.9,
           "tp1": 73686.6,
-          "tp2": 73947.6,
-          "rr1": 1.78,
-          "riskPts": 100.3,
-          "distPts": 582.76,
-          "distAtr5": 4.4,
+          "tp2": 73932.5,
+          "rr1": 1.84,
+          "riskPts": 97,
+          "distPts": 597.15,
+          "distAtr5": 4.6,
           "inside": false,
           "score": 3.65,
           "grade": "B",
@@ -1870,12 +1895,12 @@
             "pwl"
           ],
           "trigger": {
-            "es": "Espera que el precio toque o pase un poco 73468.3–73521.7 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
-            "en": "Wait for price to touch or slightly pass 73468.3–73521.7 and for a 5-min candle to close back above. If it does not close above, stay out."
+            "es": "Espera que el precio toque o pase un poco 73469.1–73520.9 y que una vela de 5 min cierre de vuelta arriba. Si no cierra arriba, no entras.",
+            "en": "Wait for price to touch or slightly pass 73469.1–73520.9 and for a 5-min candle to close back above. If it does not close above, stay out."
           },
           "invalid": {
-            "es": "La idea falla si una vela de 5 min cierra debajo de 73408.1",
-            "en": "The idea fails if a 5-min candle closes below 73408.1"
+            "es": "La idea falla si una vela de 5 min cierra debajo de 73410.9",
+            "en": "The idea fails if a 5-min candle closes below 73410.9"
           },
           "why": [
             {
