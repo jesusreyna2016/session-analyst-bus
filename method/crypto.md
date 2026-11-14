@@ -10,7 +10,7 @@ horario de verano, **18:00 CT con horario de invierno desde el 1 nov**):
 | RUN_TYPE | Cuándo | Qué hace |
 |---|---|---|
 | `crypto-close` | 00:15 UTC diario (cron en UTC, sigue al cierre aunque cambie la hora de Chicago) | **Corrida pesada.** Recién cerrada la vela diaria: califica el día cripto que terminó (sus dos corridas), arma el plan completo del día nuevo con los niveles nuevos (PDH/PDL y perfil del día anterior recién cerrados). La del **domingo** (la que abre la semana cripto, lunes 00:15 UTC) hace además la revisión semanal (sección 8). |
-| `crypto-ny` | 08:45 CT diario | **Update ligero** del plan de `crypto-close`, igual que `asia-2` en futuros: lunes a viernes, después de la apertura de NY (08:30 CT) y de los datos de las 07:30 CT; sábado y domingo es el refresco de la mañana. NO re-deriva ni califica (sección 7). |
+| `crypto-ny` | 08:45 CT diario | **Update ligero** del plan de `crypto-close`: lunes a viernes, después de la apertura de NY (08:30 CT) y de los datos de las 07:30 CT; sábado y domingo es el refresco de la mañana. NO re-deriva ni califica (sección 7). |
 
 `<fecha>` = el día cripto del plan = fecha UTC en que corre (`date -u +%F`); las dos corridas de un
 día comparten fecha. NO toca nada de las corridas de futuros: no escribe `plans/latest.json`,

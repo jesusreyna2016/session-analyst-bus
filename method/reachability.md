@@ -1,6 +1,6 @@
 # Regla dura · Factibilidad / alcance de sesión
 
-**Fuente de verdad operativa** junto a `method/instructions.md`. El agente DEBE aplicar esto en cada corrida (pre-asia, asia-2, pre-london, pre-ny).
+**Fuente de verdad operativa** junto a `method/instructions.md`. El agente DEBE aplicar esto en cada corrida (pre-asia, pre-london, pre-ny).
 
 ## 6.1bis Factibilidad de zona (alcance de sesión) — REGLA DURA
 
@@ -31,7 +31,7 @@ una caja inalcanzable.
 | `0.55–0.90` | **ESTIRADA** | Solo `zones[0]` si no hay otra TÁCTICA; `verdict` ≤ WAIT; digiere "borde lejos" |
 | `> 0.90` o `budgetUnknown` | **WATCH** (inalcanzable hoy) | **Prohibido** como única/primary play. Va a `watchLevels[]` o `zones[]` con `"role":"watch"` |
 
-### Obligaciones por corrida (pre-asia, asia-2, pre-london, pre-ny)
+### Obligaciones por corrida (pre-asia, pre-london, pre-ny)
 1. Rankea candidatas A+/B por confluencia **y** por `reachRatio` (lexicográfico: primero
    TÁCTICA, luego confluencia).
 2. `zones[0]` **debe** ser TÁCTICA si existe al menos una zona mapeada TÁCTICA a favor del
@@ -45,7 +45,7 @@ una caja inalcanzable.
    - Ofrece **1 plan táctico alternativo** cerca de precio (`command.nearName` / `nearTk`,
      VAL/VAH/POC/VWAP/EMA50/swing) aunque sea B (confluence ≥ 4): ese es `zones[0]` con
      `role:"tactical"` y RR honesto; si el RR sale FLOJO/STOP_ANCHO, WAIT + reason claro.
-4. En updates (asia-2 / pre-london / pre-ny): **recomputa alcance**. Si la A+ strategic
+4. En updates (pre-london / pre-ny): **recomputa alcance**. Si la A+ strategic
    sigue WATCH y el precio está en un borde táctico nuevo, **promueve** el táctico a
    `zones[0]` sin esperar a pre-asia.
 5. Overlay / `tvPayload`: el payload que va a TV es el de `zones[0]` táctico (o el watch
@@ -76,7 +76,7 @@ impide que una A+ inalcanzable se vista de plan del día.
 
 ## Update forzado (latencia / día agotado)
 
-Además del rankeo de zonas, en **asia-2 / pre-london / pre-ny** (y cualquier re-disparo):
+Además del rankeo de zonas, en **pre-london / pre-ny** (y cualquier re-disparo):
 
 1. Si `zones[0]` ya no es TÁCTICA vs precio vivo (con el piso de sesión de `budget`; un día
    AGOTADO por sí solo no la saca) → reescribe el plan: o bien nueva zona táctica cerca de

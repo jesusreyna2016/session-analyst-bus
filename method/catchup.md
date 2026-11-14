@@ -12,8 +12,8 @@ con `RUN_TYPE=<el que faltó>`. Mismas reglas, mismos archivos, mismo commit.
    `live/journal.json`. Si `market.json.builtAt` tiene > 6 h en día hábil, marca el plan
    "datos rezagados" y sigue.
 5. Haz el análisis de ese `RUN_TYPE` EXACTAMENTE como lo define el método (pre-asia = pesada,
-   con cierre y calificación del día; pre-london / pre-ny = updates enfocados; asia-2 = update
-   ligero). Todo lo obligatorio por instrumento: `verdict`, `thesisAlign`, `prevDay`, `gap`,
+   con cierre y calificación del día; pre-london / pre-ny = updates enfocados; asia-2 está desactivada,
+   no la corras). Todo lo obligatorio por instrumento: `verdict`, `thesisAlign`, `prevDay`, `gap`,
    `smt`, `counterCase`, `predictions`; `alarm` solo si aplica.
 6. Escribe (JSON válido, sin comentarios):
    - `plans/latest.json` y `plans/<HOY>-<RUN_TYPE>.json`
