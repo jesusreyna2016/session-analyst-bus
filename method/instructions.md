@@ -1770,10 +1770,13 @@ iguales en los dos idiomas (VAH, POC, ONH); solo cambian los descriptivos ("low 
 "session low").
 
 `alertLevels`: lista plana derivada de todos los instrumentos, ordenada por cercanía al precio
-actual de cada símbolo. `kind` ∈ `zoneA` (zonas A+ de la tabla) · `invalidation` (el nivel de
+actual de cada símbolo. `kind` ∈ `zoneA` (zonas de la tabla, A+ o B) · `invalidation` (el nivel de
 cada `invalidation`) · `gapEdge` (borde de un gap sin rellenar). Es lo que un aviso (widget del
 Command Center o alerta de TradingView sembrada) usa para tocar el hombro cuando el precio
-llega. No metas zonas B ni tierra de nadie.
+llega. Desde el 2026-11-14 (decisión de Jesus) `zoneA` vale para zonas A+ y B: el nombre es
+histórico y no se cambia, porque el Command Center lo lee; el grado lo dice el `label` ("A+ ..."
+solo si la zona es A+ del método). Su `band` tiene que ser el `range` de una zona de `zones[]`
+de este plan: nada de tierra de nadie ni zonas viejas de otra sesión.
 
 `counterCase` y `predictions` van por instrumento (obligatorios, sección 3). `predictions` es
 la lista de afirmaciones falsables que la corrida `pre-asia` siguiente califica (sección 6).
@@ -1935,7 +1938,7 @@ lo que leen `grade_plans.py` y `update_scorecard.py`. El recorte es automático:
   el cambio viene 0.0/nulo, y ES por proxy NQ/YM). Fuera del domingo `pre-asia` es `null`. Peso BAJO
   (IG sintético): informa el lado del gap, nunca es gatillo de GO por sí solo.
 - **`alertLevels` siempre** (aunque no haya ningún GO): al menos las invalidaciones y los
-  bordes de gap. Ordenada por cercanía. Solo A+, invalidaciones y `gapEdge`.
+  bordes de gap. Ordenada por cercanía. Solo zonas de la tabla (A+ o B), invalidaciones y `gapEdge`.
 - **Zonas al cambiar de sesión.** En `pre-london`/`pre-ny` la tabla `zones[]` se
   reconstruye para la sesión que entra (re-score). Prohibido publicar el mismo
   `range`/`type` que Asia (o que Londres) sin re-evaluación explícita.

@@ -256,10 +256,12 @@ def lint_futures(plan):
             verdicts.append(ok)
             check_risk(sym, zl, z, ok)
             check_play_numbers(sym, zl, z)
-            if not ok and z.get("range") in zoneA.get(sym, []):
-                # section 7 says zoneA is for A+ only, but plans list the best B zone there too:
-                # soft until the method decides (the Command Center alerts read it)
-                warn(sym, zl, f"alertLevels kind zoneA on a zone that is not A+ ({cap_reason(z)})")
+        # section 7 (2026-11-14): kind zoneA is the alert of any zone of the table, A+ or B,
+        # but it must point at a zone of this plan (never tierra de nadie or a stale zone)
+        ranges = [z.get("range") for z in zones]
+        for band in zoneA.get(sym, []):
+            if band not in ranges:
+                warn(sym, "-", f"alertLevels zoneA band {band} matches no zone of the plan (section 7)")
         # conviction "alta" (8e): the focus zone (zones[0]) is A+ of the method, no frame conflict,
         # whipsaw < 0.6
         z0 = zones[0] if zones else None
