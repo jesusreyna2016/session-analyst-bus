@@ -389,19 +389,25 @@ parte de la regla se omite.
   `eq`, `zone` (toque de nivel A FAVOR del veredicto en esa vela), `ag` (toque EN CONTRA),
   `next` (próximo nivel a favor), `flips` (cambios de veredicto hoy; ≥ 3 = día de rango),
   `px`, `ev` (`hb` heartbeat · `verdict` cambio de veredicto).
-  **Base medida** (prueba del propio indicador, 5m ~77 días y 15m ~227 días): los toques de
-  nivel A FAVOR del veredicto ganaron 59% / 56%, EN CONTRA 52% (moneda al aire), sin veredicto
-  57% / 55%. El valor NO es predecir la dirección de la hora; es **evitar zonas en contra**.
-  **Cómo se usa** (solo si `trendcl` está fresca y `v` ≠ 0): una zona cuya `dir` va CONTRA `v`
-  resta −1 de confluencia, no puede ser A+ (tope B) y no puede ser base de GO; dilo en
-  `verdict.reason` ("va contra el Trend Checklist"). Una zona A FAVOR suma +1. Con `v` = 0 o
-  `flips` ≥ 3, no suma ni resta (es día sin dirección, niveles en ambos sentidos). `flip` y
-  `edge` se pueden citar como invalidación del escenario cuando coinciden con ella. Marca cada
+  **Base medida**: la prueba del indicador de octubre daba toques A FAVOR 59% / 56% y EN CONTRA
+  52%. Repetida el 2026-11-14 con control (`reviews/2026-11-14-trendcl-edge.md`, 5 símbolos,
+  21 ago a 13 nov) no se sostiene: 5m a favor 56% vs en contra 57%, 15m 56% vs 53%, y niveles
+  desplazados al azar dan lo mismo. **Regla retirada el 2026-11-14**: ir a favor o en contra de
+  `v` ya no suma, no resta, no pone tope B y no impide GO.
+  **Cómo se usa** (solo si `trendcl` está fresca y `v` ≠ 0): es contexto, no filtro. Única
+  excepción, y es AVISO, no castigo: una zona EN CONTRA de `v` que se jugaría en la sesión de NY
+  (09:30-17:00 ET) lleva en `verdict.reason` o en las notas "aviso: toque en contra del Trend
+  Checklist en NY" (hipótesis `tcl-ny-contra-15m`). No baja el grado, no quita confluencia y no
+  cambia GO / WAIT / AVOID. Medido: en NY, 15m, toques en contra 43% (n=379, -0.14R) frente a
+  60% a favor, y el control no lo tiene; es un corte buscado a posteriori, por eso hipótesis
+  hasta n ≥ 150 en vivo. `flip` y `edge` se pueden citar como invalidación del escenario cuando
+  coinciden con ella. Marca cada
   zona con `tcl: "favor" | "contra" | null` (null = sin dato o `v` = 0). El campo va **SIEMPRE**,
   en todas las zonas de los 5 instrumentos, también cuando vale null: si falta, el weekly no puede
   medir la regla (la pre-ny del 2026-10-26 lo omitió en todas).
-  **Medición**: el `weekly` compara el hit-rate de las zonas `tcl:"contra"` vs `"favor"`; si
-  con `n ≥ 20` por grupo la diferencia es < 3 pp, propone quitar la regla.
+  **Medición**: el `weekly` sigue comparando el hit-rate de las zonas `tcl:"contra"` vs
+  `"favor"` (solo informativo), y aparte las de NY en contra para la hipótesis
+  `tcl-ny-contra-15m`.
 
 ### 2b · TDL Feed (fuente `feed`, desde 2026-10-30) · la fuente de niveles y contexto
 
@@ -1024,8 +1030,8 @@ VWAP, PD Mid, **ONH/ONL** (rango overnight), **IBH/IBL** (Initial Balance del RT
   Medido: zonas de continuación tocadas 54 % con estiramiento > 5 (n=37) vs 66 % con < 2 (n=32); la
   muestra es corta y la diferencia ~1 error estándar, por eso es aviso y no castigo. Hipótesis
   `stretch5-pullback-no-llega`.
-- ±1 **Trend Checklist** (`trendcl.v`, sección 2): +1 a favor, −1 en contra (y en contra =
-  tope B, nunca GO)
+- **Trend Checklist** (`trendcl.v`, sección 2): ya no suma ni resta (retirado el 2026-11-14;
+  solo el aviso de NY en contra)
 - +1 **Market Regime** (`regime`, sección 2): borde de caja de chop, breakout A o fake
   reciente a favor de la zona (máx +1)
 

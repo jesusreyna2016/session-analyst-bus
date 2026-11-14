@@ -191,7 +191,7 @@ de la sección 4 (+ las reglas de `trendcl` y `regime` de la sección 2), verdic
 predicciones falsables.
 
 `verdict.signal`: **GO** solo con una zona A+ (confluencia ≥ 6) a favor del sesgo, fuentes
-frescas, sin `riskWindow` en curso y sin ir contra el Trend Checklist; **WAIT** si hay B o el
+frescas y sin `riskWindow` en curso (ir contra el Trend Checklist ya no lo impide, 2026-11-14); **WAIT** si hay B o el
 precio está lejos; **AVOID** si está en tierra de nadie o en chop sin borde a tiro.
 
 ## 6 · Salidas

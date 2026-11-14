@@ -9,7 +9,7 @@ Exit 1 = one line per violation: "ERROR <instrument>/<zone>: <rule>". Fix the pl
 
 Only rules the method states without ambiguity are ERROR:
 - instructions.md 8e / 8f (A+ del metodo, caps per zone type, conviction "alta" / "baja"),
-  section 9 (GO conditions), section 2 (tcl "contra" = cap B, never GO), section 4
+  section 9 (GO conditions), section 2 (tcl "contra" = cap B only for plans before 2026-11-14), section 4
   (zone fields, risk flags, rr >= 1.5 for GO), reachability.md (no GO on a WATCH / STRETCHED zone).
 - crypto.md sections 1, 3, 5, 6 (same 8e hierarchy, grade field, stop / tp1 / tp2 on GO zones).
 Soft issues (numbers that look off, text the script can only parse loosely) are WARN.
@@ -90,7 +90,8 @@ def expected_vs24h(zdir, m24):
 
 def method_aplus(z):
     """A+ del metodo (8e, cambio 2026-11-14): reversion or continuation against the 24h move,
-    never golden_zone / sweeps / liq_reclaim, and never against the Trend Checklist (section 2)."""
+    never golden_zone / sweeps / liq_reclaim. Against the Trend Checklist capped it only before
+    2026-11-14 (rule retired after the controlled re-test)."""
     t = z.get("type")
     if z.get("vs24h") != "against":
         return False, f"vs24h={z.get('vs24h')}"
@@ -101,7 +102,7 @@ def method_aplus(z):
             return (z.get("tcl") != "contra"), ""
     if t not in REVERSION | CONTINUATION:
         return False, f"type {t} is capped at B"
-    if z.get("tcl") == "contra":
+    if z.get("tcl") == "contra" and ctx["old"]:
         return False, "tcl contra (cap B)"
     return True, ""
 
@@ -118,8 +119,8 @@ def cap_reason(z):
         return f"continuation {z.get('vs24h')} the 24h move is capped at B, never GO (8e)"
     if t in REVERSION and z.get("vs24h") in ("with", "flat"):
         return f"reversion {z.get('vs24h')} the 24h move is capped at B (8e)"
-    if z.get("tcl") == "contra":
-        return "zone against the Trend Checklist is capped at B, never GO (section 2)"
+    if z.get("tcl") == "contra" and ctx["old"]:
+        return "zone against the Trend Checklist is capped at B, never GO (section 2, before 2026-11-14)"
     if z.get("vs24h") != "against":
         return f"A+ needs vs24h against (has {z.get('vs24h')})"
     return f"type {t} is not A+ of the method (8e)"
