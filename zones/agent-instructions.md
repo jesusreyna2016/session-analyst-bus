@@ -20,6 +20,13 @@ Todo vive en `session-analyst-bus/zones/` (ver `README.md`). Los datos los escri
    volumen (VWAP y perfil aproximados), sin regimen, velas cerradas. Su E[R] "real" entra al cierre de la vela
    del gatillo y sale en TP1 o al cierre que invalida; "limite" entra con orden limite en la entrada de la zona.
    Sirve para encontrar hipotesis y para probar pesos al momento; el vivo es el que confirma.
+
+   **Entrada ejecutable en el vivo** (seccion "Vivo: entrada ejecutable (orden limite)" de `report.md`,
+   clave `liveEntries` de `report.json`): las zonas del vivo repasadas sobre las velas de 5 min del bus. El
+   acierto y el E[R] de "Setups armados" son teoricos (suponen entrar en la zona siempre); esta seccion dice si
+   se gana con una orden que se puede poner: limite en la entrada de la zona (regla `rl` del historico), con su
+   % de llenado, frente a entrar al cierre de la vela del gatillo. "bracket" = stop y TP1 como ordenes reales. Es
+   la cifra que decide si las zonas ganan dinero; comparala con "historico limite E[R] (armadas)" por grado.
 4. Escribe en `state.json` -> `insights` (lista, maximo 5, en espanol simple, para que Mi Mesa los muestre):
    cada uno `{ "es": "...", "en": "...", "n": <muestra>, "kind": "fuerte|debil|ejecucion|experimento" }`.
    Solo hallazgos con n >= 20 en el segmento (o marcados "temprano" si 10-19). Ejemplos del tono:
@@ -87,4 +94,6 @@ rebase aplica limpio. Verifica con `git log origin/main -3 --oneline` que tu com
 ## Respuesta final
 
 5-8 lineas: setups nuevos desde ayer, acierto y E[R] por calificacion, el hallazgo mas util, el estado del
-experimento en sombra (o "sin experimento"), y si el push quedo confirmado.
+experimento en sombra (o "sin experimento"), y si el push quedo confirmado. Una de las lineas es la entrada
+ejecutable: "Limite en vivo: llenado X%, acierto Y% (IC), E[R] Z (n N); gatillo E[R] W; historico limite V",
+con la cifra de A si tiene n >= 20 (si no, la de todas las armadas, marcada "temprano").

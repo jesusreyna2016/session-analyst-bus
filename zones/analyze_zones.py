@@ -236,6 +236,100 @@ def excursion_of(setups):
     }
 
 
+# ------------------------------------------------------------------ entrada ejecutable en vivo (velas de 5 min del bus)
+def load_bars(syms):
+    """bars/<dia>.json -> {sym: {t_ms: (o, h, l, c)}} (t = apertura de la vela de 5 min, como el 't' de los eventos)."""
+    out = {s: {} for s in syms}
+    for path in sorted(glob.glob(os.path.join(HERE, '..', 'bars', '*.json'))):
+        d = load_json(path, {})
+        for s in syms:
+            for b in (d.get('symbols') or {}).get(s) or []:
+                if len(b) >= 5 and b[0] % 300 == 0:
+                    out[s][b[0] * 1000] = (b[1], b[2], b[3], b[4])
+    return out
+
+
+def live_entries(evs, zones):
+    """Mide en el vivo la orden limite en la entrada de la zona, con la regla de rl de backtest.mjs:
+    la limite queda puesta desde la vela del toque hasta la vela que resuelve la zona; R = (salida - entrada) / riesgo,
+    salida en TP1 si funciono o al cierre de la vela que invalida. Dos variantes de llenado: 'atraviesa' (el precio
+    pasa mas alla de la entrada: lo ejecutable, la cola no importa) y 'toca' (llega a la entrada: la regla del historico).
+    Ademas 'bracket': stop y TP1 como ordenes reales tras el llenado (mecha al stop = -1R; stop y TP1 en la misma vela
+    = stop; en la vela del llenado solo cuenta el stop). Y la entrada al cierre de la vela del gatillo (rx)."""
+    first = defaultdict(dict)
+    for e in evs:
+        k = (e['day'], e.get('sym'), e.get('id'))
+        t = e.get('t')
+        if t and (e.get('ev') not in first[k] or t < first[k][e.get('ev')]):
+            first[k][e.get('ev')] = t
+    bars = load_bars({z['sym'] for z in zones if z['sym']})
+    rows, skipped = [], defaultdict(int)
+    for z in zones:
+        if not z['touched'] or not z['result']:
+            continue
+        k = (z['day'], z['sym'], z['id'])
+        ev = first[k]
+        t_touch = min([ev[x] for x in ('tocada', 'armada') if x in ev] or [0])
+        t_res = ev.get('funciono') if z['result'] == 'win' else ev.get('invalidada')
+        entry, stop, tp1 = z.get('entry'), z.get('stop'), z.get('tp1')
+        side = 1 if z['side'] == 'long' else -1
+        if not t_touch or not t_res or None in (entry, stop, tp1) or abs(entry - stop) <= 0:
+            skipped['sin datos del evento'] += 1
+            continue
+        bs = bars.get(z['sym']) or {}
+        win = [(t, bs[t]) for t in range(t_touch, t_res + 1, 300000) if t in bs]
+        if not win or t_res not in bs:
+            skipped['sin velas en el bus'] += 1
+            continue
+        risk = abs(entry - stop)
+        tick = max(abs(entry) * 1e-6, 1e-9)
+        win_px = tp1
+        res_close = bs[t_res][3]
+        exit_px = win_px if z['result'] == 'win' else res_close
+        r_close = lambda fill, rk: round(side * (exit_px - fill) / rk, 2)
+        through = next((i for i, (t, b) in enumerate(win) if (b[2] < entry - tick if side == 1 else b[1] > entry + tick)), None)
+        touch = next((i for i, (t, b) in enumerate(win) if (b[2] <= entry if side == 1 else b[1] >= entry)), None)
+        bracket = None
+        if through is not None:
+            for j, (t, b) in enumerate(win[through:]):
+                hit_stop = b[2] <= stop if side == 1 else b[1] >= stop
+                hit_tp = (b[1] >= tp1 if side == 1 else b[2] <= tp1) and j > 0
+                if hit_stop:
+                    bracket = -1.0
+                    break
+                if hit_tp:
+                    bracket = round(abs(tp1 - entry) / risk, 2)
+                    break
+            if bracket is None:  # TP1 solo en la vela del llenado: sale como la zona, al cierre que la resuelve
+                bracket = r_close(entry, risk)
+        trig = None
+        if z['armed'] and ev.get('armada') in bs:
+            fill = bs[ev['armada']][3]
+            if abs(fill - stop) > 0 and (fill - stop) * side > 0:
+                trig = r_close(fill, abs(fill - stop))
+        rows.append({'grade': z.get('grade'), 'armed': z['armed'],
+                     'rl': r_close(entry, risk) if through is not None else None,
+                     'rlTouch': r_close(entry, risk) if touch is not None else None,
+                     'rb': bracket if through is not None else None, 'rx': trig})
+
+    def ent(rs, key):
+        filled = [dict(R=r[key], win=r[key] > 0) for r in rs if r[key] is not None]
+        st = stats(filled)
+        st['eligible'] = len(rs)
+        st['fillRate'] = round(len(filled) / len(rs), 3) if rs else None
+        return st
+
+    def block(rs):
+        armed = [r for r in rs if r['armed']]
+        return {'limite, armadas (atraviesa)': ent(armed, 'rl'),
+                'limite, armadas (toca, regla del historico)': ent(armed, 'rlTouch'),
+                'limite, armadas, bracket stop/TP1': ent(armed, 'rb'),
+                'limite, todas las tocadas (atraviesa)': ent(rs, 'rl'),
+                'gatillo (cierre de la vela de 5 min)': ent(armed, 'rx')}
+    return {'all': block(rows), 'byGrade': {g: block([r for r in rows if r['grade'] == g]) for g in GRADES},
+            'measured': len(rows), 'skipped': dict(skipped)}
+
+
 # ------------------------------------------------------------------ historico (backtest)
 def chicago_day(ms):
     try:
@@ -285,6 +379,7 @@ def backtest_section():
     entries_note = {'pullbackFillRate': round(pb_n / len(armed_res), 3) if armed_res else None, 'armedResolved': len(armed_res)}
     entries_by_grade = {g: {'gatillo': entry_stats([z for z in resolved_touched if z.get('grade') == g], 'rx'),
                             'limite': entry_stats([z for z in resolved_touched if z.get('grade') == g], 'rl')} for g in GRADES}
+    entries_by_grade_armed = {g: entry_stats([z for z in resolved_touched if z['armed'] and z.get('grade') == g], 'rl') for g in GRADES}
     meta = load_json(os.path.join(HERE, 'backtest', 'summary.json'), {})
     days = sorted({z['day'] for z in zones})
     return {
@@ -295,6 +390,7 @@ def backtest_section():
         'segments': segments(setups), 'confluence': key_lift(setups), 'excursion': excursion_of(setups),
         'trigger': {'armadas': stats(setups), 'tocadasSinGatillo': stats(touched_only)},
         'entries': entries, 'entriesByGrade': entries_by_grade, 'entriesNote': entries_note,
+        'entriesByGradeArmedLimit': entries_by_grade_armed,
     }
 
 
@@ -378,6 +474,7 @@ def main():
         'trades': tr, 'tradesByZoneGrade': by_grade_user, 'execution': execution,
         'setups': [flat(z) for z in setups[-400:]],
         'backtest': backtest_section(),
+        'liveEntries': live_entries(evs, zones),
     }
     with open(os.path.join(HERE, 'report.json'), 'w') as fh:
         json.dump(report, fh, indent=1, ensure_ascii=False)
@@ -456,6 +553,29 @@ def write_md(r):
         L.append(f"| {g} | {s['n']} | {pct(s['wr'])} | {s['eR'] if s['eR'] is not None else '–'} |")
     x = r['execution']
     L.append(f"\nEjecucion ({x['n']} trades con zona resuelta): la zona gano y tu perdiste {x['zonaGanoTuPerdiste']} veces; la zona perdio y tu ganaste {x['zonaPerdioTuGanaste']}. Tu R menos el R de la zona, en promedio: {x['tuRvsZonaR']}.")
+    le = r.get('liveEntries')
+    if le:
+        L.append("\n## Vivo: entrada ejecutable (orden limite)\n")
+        L.append(f"Las zonas del vivo repasadas sobre las velas de 5 min del bus ({le['measured']} tocadas y resueltas medidas"
+                 + (', sin medir: ' + ', '.join(f'{k} {v}' for k, v in le['skipped'].items()) if le['skipped'] else '') + "). "
+                 "Limite en la entrada de la zona, puesta desde la vela del toque hasta la que resuelve la zona; sale en TP1 o al "
+                 "cierre que invalida (regla `rl` del historico). 'atraviesa' = el precio paso mas alla de la entrada; 'toca' = llego "
+                 "a ella. 'bracket' = stop y TP1 como ordenes reales (mecha al stop = -1R, stop y TP1 en la misma vela = stop). "
+                 "Llenado = de las zonas elegibles, en cuantas se lleno la orden; acierto y E[R] solo de las llenadas.\n")
+        L.append("| | elegibles | llenado | n | acierto | E[R] | PF |\n|---|---|---|---|---|---|---|")
+        def lrow(name, s):
+            base = row(name, s)
+            cells = base.split(' | ', 1)
+            return f"{cells[0]} | {s.get('eligible', 0)} | {pct(s.get('fillRate'))} | {cells[1]}"
+        for k, s in le['all'].items():
+            L.append(lrow(k, s))
+        L.append("\n| grado | elegibles | limite llenado | limite n | limite acierto (IC 95%) | limite E[R] | bracket E[R] | gatillo n | gatillo E[R] | historico limite E[R] (armadas) |\n|---|---|---|---|---|---|---|---|---|---|")
+        bta = ((r.get('backtest') or {}).get('entriesByGradeArmedLimit')) or {}
+        for g, d in le['byGrade'].items():
+            a, b, x = d['limite, armadas (atraviesa)'], d['limite, armadas, bracket stop/TP1'], d['gatillo (cierre de la vela de 5 min)']
+            ci = f"{pct(a['wrLo'])}–{pct(a['wrHi'])}" if a.get('wrLo') is not None else '–'
+            h = bta.get(g) or {}
+            L.append(f"| {g} | {a['eligible']} | {pct(a['fillRate'])} | {a['n']}{'' if a['enough'] else ' ·'} | {pct(a['wr'])} ({ci}) | {a['eR'] if a['eR'] is not None else '–'} | {b['eR'] if b['eR'] is not None else '–'} | {x['n']} | {x['eR'] if x['eR'] is not None else '–'} | {h.get('eR', '–')} (n {h.get('n', 0)}) |")
     bt = r.get('backtest')
     if bt:
         bc = bt['counts']
