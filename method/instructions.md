@@ -1497,6 +1497,9 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
 
 ### Calibración · sub-objetos de `scorecard` (solo `pre-asia` los toca)
 
+Claves de sesión en todos los sub-objetos: `asia`, `london`, `ny` (nunca `londres`;
+`update_scorecard.py` fusiona en `london` cualquier clave vieja que aparezca).
+
 - **`sourceReliability`**: `{ "<SYM>|<sesion>|<fuente>": { calls, hits, rate, n } }`. Cada
   review, por instrumento/sesión, +1 `calls` a cada fuente que traiga dirección (`orb`, `regime`) y +1 `hits` si su
   dirección/bias coincidió con la dirección NETA realizada de esa sesión. `rate = hits/max(1,

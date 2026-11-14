@@ -264,6 +264,50 @@ def context_score(sc, end):
     sc["strengths"] = sorted(strong, key=lambda r: -r["pct"])
 
 
+SESSION_ALIAS = {"londres": "london"}
+
+
+def normalize_sessions(sc):
+    """Hand-kept cells keyed "<SYM>|<session>[|...]": merge the old "londres" spelling into
+    "london" (counts summed, rate recomputed). Idempotent; returns how many keys were merged."""
+    merged = 0
+
+    def add(dst, src):
+        for k, v in src.items():
+            if isinstance(v, dict):
+                add(dst.setdefault(k, {}), v)
+            elif isinstance(v, (int, float)) and not isinstance(v, bool) and k != "rate":
+                dst[k] = dst.get(k, 0) + v
+            elif k not in dst:
+                dst[k] = v
+
+    def fix_rates(o, num, den):
+        if isinstance(o, dict):
+            for v in o.values():
+                fix_rates(v, num, den)
+            if num in o and den in o:
+                o["rate"] = round(o[num] / max(1, o[den]), 4)
+
+    for name, pairs in (("missedOps", [("wouldvePaid", "waitAvoid")]),
+                        ("sourceReliability", [("hits", "calls")]),
+                        ("verdictScore", [("hits", "n"), ("saves", "n")])):
+        obj = sc.get(name)
+        if not isinstance(obj, dict):
+            continue
+        for key in [k for k in obj if "|londres" in k]:
+            new = key.replace("|londres", "|london")
+            add(obj.setdefault(new, {}), obj.pop(key))
+            merged += 1
+            for num, den in pairs:
+                if name == "verdictScore":
+                    for side in obj[new].values():
+                        if isinstance(side, dict) and num in side and den in side:
+                            side["rate"] = round(side[num] / max(1, side[den]), 4)
+                else:
+                    fix_rates(obj[new], num, den)
+    return merged
+
+
 def zone_edge(sc, end):
     acc = {}
     for f in sorted(os.listdir("grades")) if os.path.isdir("grades") else []:
@@ -280,7 +324,7 @@ def zone_edge(sc, end):
                         continue
                     v = z.get("vs24h") or "n/a"
                     for key in ("%s|%s" % (z.get("family"), v), "%s|%s" % (z.get("type"), v),
-                                "%s|%s" % (z.get("family"), run.get("session"))):
+                                "%s|%s" % (z.get("family"), SESSION_ALIAS.get(run.get("session"), run.get("session")))):
                         t = acc.setdefault(key, [0, 0, 0.0])
                         t[0] += 1
                         t[1] += z["outcome"] == "worked"
@@ -315,6 +359,8 @@ def main():
     state = load(STATE)
     sc = state.setdefault("scorecard", {})
     errs = []
+    if not check_only:
+        normalize_sessions(sc)
 
     try:
         by_day = sorted(load("live/journal.json").get("byDay") or [], key=lambda d: d.get("date", ""))
