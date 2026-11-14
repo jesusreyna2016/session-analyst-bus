@@ -1,7 +1,7 @@
 {
   "schema": "trader-profile-1",
   "note": "Shared profile of the trader, read by every agent (Session Analyst, Scalp CC, Plan Coach, Watchdog). Behavioral and rule data only: no balances, no P&L, no personal life, and no broker, firm or account details. Humans own `core`; the weekly run may only rewrite `observed`.",
-  "updatedAt": "2026-11-07T16:11:00Z",
+  "updatedAt": "2026-11-14T16:11:00Z",
   "core": {
     "instruments": [
       "NQ / NDX (Nasdaq 100)",
@@ -66,18 +66,18 @@
   },
   "exitBaseline": {
     "source": "scalp-cc-bus outcomes, all kinds and TFs",
-    "asOf": "2026-11-07",
+    "asOf": "2026-11-14",
     "NQ": {
-      "n": 9620,
-      "hit1R": 0.331,
-      "stoppedOut": 0.476,
-      "slWasGreenHalfRFirst": 0.32,
-      "slWasGreen1RFirst": 0.123,
-      "reachedTP2": 0.05
+      "n": 10950,
+      "hit1R": 0.336,
+      "stoppedOut": 0.474,
+      "slWasGreenHalfRFirst": 0.318,
+      "slWasGreen1RFirst": 0.124,
+      "reachedTP2": 0.053
     },
     "readout": {
-      "es": "Solo ~33.1% de las entradas llega a 1R y apenas ~5.0% llega a TP2: el home run sigue siendo raro. ~32.0% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta, prácticamente igual que la lectura anterior.",
-      "en": "Only ~33.1% of entries reach 1R and barely ~5.0% reach TP2: the home run is still rare. ~32.0% of stops were +0.5R green first before getting hit: the early partial is still the missing lever, essentially unchanged from the prior read."
+      "es": "Solo ~33.6% de las entradas llega a 1R y apenas ~5.3% llega a TP2: el home run sigue siendo raro. ~31.8% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta, prácticamente igual que la lectura anterior.",
+      "en": "Only ~33.6% of entries reach 1R and barely ~5.3% reach TP2: the home run is still rare. ~31.8% of stops were +0.5R green first before getting hit: the early partial is still the missing lever, essentially unchanged from the prior read."
     }
   },
   "dailyRules": {
@@ -94,15 +94,15 @@
     }
   },
   "observed": {
-    "updatedBy": "weekly 2026-11-07",
-    "window": "2026-11-02..2026-11-06 (5 dias calendario, pero solo 3 con dato real en live/journal.json -- lunes, martes y miercoles; jueves y viernes sin entrada, justo el dia del crash electoral y el del rebote mas violento del ciclo, journal.updatedAt sigue en 2026-11-04T15:21Z, 2 dias sin refrescar)",
-    "disciplinedPct": 0,
-    "againstBiasRate": 0.42,
+    "updatedBy": "weekly 2026-11-14",
+    "window": "2026-11-09..2026-11-13 (5 dias calendario, 0 con dato real en live/journal.json: el journal no ha agregado un solo byDay nuevo desde 2026-11-07, updatedAt sigue en 2026-11-08T03:19:02Z, 6+ dias calendario sin refrescar)",
+    "disciplinedPct": null,
+    "againstBiasRate": null,
     "outsideEdgeRate": null,
     "trend": {
-      "es": "Semana de un solo catalizador (eleccion de medio termino en EEUU) con cobertura de journal otra vez parcial (3/5 dias), y justo los 2 dias que faltan son los mas caros del ciclo (crash del jueves, rebote del viernes). De los 3 dias con dato, 0/3 disciplinados (peor que 2/3 la semana pasada), contra-sesgo 42% (10/24 graded, peor que 33% la semana pasada y que el 32% del rollup de 45 dias), sin ningun trade clasificado con edge (0/0). Overtrade 2/3 (peor que 1/3) y revenge 2/3 (igual). Peor racha de perdidas: 8 (lunes), muy por encima de las 3 de la semana pasada. Calidad de salida: 0 parciales en las 36 posiciones con dato esta semana (9a+ semana seguida sin cobrar un parcial), fullStopRate 58% (21/36, peor que el 54% del rollup de 45 dias) -- la fuga homerun-exit sigue sin alivio y la disciplina de fondo empeoro con fuerza.",
-      "en": "A week with a single catalyst (the US midterm election) with journal coverage partial again (3/5 days), and the 2 missing days are exactly the most expensive of the cycle (Thursday's crash, Friday's violent bounce). Of the 3 days with data, 0/3 disciplined (worse than 2/3 last week), against-bias 42% (10/24 graded, worse than 33% last week and the 45-day rollup's 32%), with no trades classified with an edge (0/0). Overtrade on 2/3 (worse than 1/3) and revenge on 2/3 (same). Worst losing streak: 8 (Monday), well above last week's 3. Exit quality: 0 partials across the week's 36 positions with data (9th+ week in a row without a single partial booked), fullStopRate 58% (21/36, worse than the 45-day rollup's 54%) -- the homerun-exit leak remains unrelieved and underlying discipline worsened sharply."
+      "es": "Semana completamente ciega para ejecucion real: 0 de 5 dias con dato en live/journal.json (peor que el 3/5 parcial de la semana pasada), el journal lleva mas de 6 dias calendario sin agregar un solo byDay nuevo (el ultimo sigue siendo 2026-11-07). No hay disciplina, contra-sesgo, outsideEdgeRate ni calidad de salida que medir de esta semana especifica. El rollup de 45 dias (que no cambio porque no hay entrada nueva) sigue leyendo disciplinado 4%, contra-sesgo 32%, fuera de edge 27%, 28/45 dias de sobre-operar y 19/45 de revenge, partialRate 1%, fullStopRate 54% -- son los mismos numeros de hace una semana, no una lectura fresca. Si el journal no se reconecta, la siguiente semana tambien quedara sin dato.",
+      "en": "A week completely blind for real execution: 0 of 5 days with data in live/journal.json (worse than last week's partial 3/5), the journal has gone over 6 calendar days without adding a single new byDay (the latest is still 2026-11-07). There is no discipline, against-bias, outside-edge or exit-quality reading for this specific week. The 45-day rollup (unchanged since there is no new entry) still reads 4% disciplined, 32% against-bias, 27% outside-edge, 28/45 overtrade days and 19/45 revenge days, 1% partial rate, 54% full-stop rate -- the same numbers as a week ago, not a fresh read. If the journal does not reconnect, next week will also go without data."
     },
-    "exitQuality": { "partialRate": 0.0, "scratchRate": 0.0, "fullStopRate": 0.58 }
+    "exitQuality": null
   }
 }
