@@ -88,6 +88,7 @@ JSON válido, sin comentarios. Reescríbelo entero cada corrida:
     // ... NQ ES GC YM CL
   },
   "scalp": { "ingestMin": <int|null>, "snapshotMin": <int|null>, "state": "ok|atascado|silencioso|missing" },
+  "pushes": { "counts": { "present": <int>, "missing": <int>, "...": "..." }, "missing": [ "<routine> <fecha>" ], "duplicated": [ "..." ] },
   "issues": [ "feed@GC dead (142 min)", "webhook silencioso (68 min)" ],
   "note": { "es": "<1 frase>", "en": "<1 sentence>" }
 }
@@ -165,6 +166,33 @@ Si NO salió y hoy le toca (tabla, y no es feriado de mercado cerrado):
 Máximo UN catch-up por corrida del watchdog. Nunca rehagas una corrida que sí salió (aunque
 saliera con asterisco o `ok:false`): eso lo juzga Jesus, no tú.
 
+## Pushes de las rutinas · ¿cada rutina subió su commit?
+
+Una rutina puede correr entera y no subir nada (caso real: el agente de zonas perdió su trabajo
+del 8 al 13 nov por un 403 de git y nadie se enteró). Antes de escribir `health.json`, tras el
+`git pull`:
+
+```
+python3 method/check_pushes.py > /tmp/pushes.json
+```
+
+Mira `git log origin/main` de las últimas 26 h y, por cada corrida esperada (pre-asia dom-vie,
+pre-london y pre-ny lun-vie, crypto-close, crypto-ny, weekly del sábado, el propio watchdog y el
+agente de zonas de las 20:33 CT), dice si está `present`, `duplicated`, `missing` (ya pasó su
+hora + gracia sin commit) o `pending` (aún dentro de la gracia; tu propia corrida sale así).
+El calendario y las ventanas viven en el script (`ROUTINES`): si se añade o cambia una rutina,
+se cambia ahí, no aquí. `zone-watch` no entra: solo commitea cuando algo cambia.
+
+- En `health.json` escribe `pushes` = `{ counts, missing, duplicated }`: `counts` tal cual, y en
+  `missing` / `duplicated` las líneas de `issues` / `info` del script sin el prefijo.
+- Cada línea de `issues` del script (`"push missing: <routine> <fecha>"`) va tal cual a `issues`
+  y sube `status` a `warn` (nunca a `down` por sí sola).
+- Un duplicado (`info`) es solo dato: no es issue ni cambia `status`. Si hay alguno, cítalo en
+  `note`. Los re-disparos del scheduler (`re-check`, `re-disparo`, `catch-up`) salen marcados.
+- Si el script falla (trae `error`), issue `"check_pushes falló: <error corto>"`, `warn`.
+- Un `missing` de la corrida que vigila esta franja (tabla de Auto-reparación) lo resuelve la
+  Auto-reparación como siempre; el issue `push missing` queda igual en `issues`.
+
 ## Notificaciones al celular (`PushNotification`)
 
 Manda **una sola** notificación por corrida, y SOLO si pasa algo de esto (si no, ninguna):
@@ -173,6 +201,10 @@ Manda **una sola** notificación por corrida, y SOLO si pasa algo de esto (si no
 - Hiciste un catch-up (salga bien o mal): `"SA <runtype> no salió, la rehice (<n> min tarde)"`
   o `"SA <runtype> falló y el catch-up también: <causa corta>"`.
 - `scalp.state` = `atascado`, o `silencioso` dos checks seguidos (ver sección Scalp CC).
+- Falta el push de una rutina de plan (`pre-asia`, `pre-london`, `pre-ny`, `crypto-close`,
+  `crypto-ny`) **y** su plan tampoco está en `plans/`: es la lista `notify` del script. Ejemplo:
+  `"pre-ny 2026-11-13 no subió y no hay plan, revisa la rutina (sources / git)"`. Un push que falta
+  con el plan presente, o de otra rutina (watchdog, weekly, zonas), queda en `issues` sin avisar.
 - Una fuente lleva `dead`/`frozen` ≥ 2 checks hábiles seguidos (compáralo con el
   `live/health.json` anterior, que lees ANTES de reescribirlo): `"<fuente>@<SYM> lleva <n> h
   caída, reinicia su alerta en TradingView"`.
