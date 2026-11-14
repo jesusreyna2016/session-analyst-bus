@@ -798,20 +798,25 @@ Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
      medido: `biasSession` sale de la estructura (VWAP, day open, rango de Asia, IB) y lleva
      convicción "baja" salvo la combinación de abajo.
    - **Zonas** (sección 4, encima del score):
-     · **A+ del método** = reversión (`fade_vah` `fade_val` `poc_reversion` `bounce_val`
-       `bounce_vah` `ib_fade` `golden_zone`) con `vs24h` = `"against"`. Suma **+2** de
-       confluencia. Es la única familia que puede ser base de GO por sí sola.
-     · Reversión con `vs24h` `"with"` o `"flat"`: tope **B**.
-     · Continuación (`pullback_cont` `retest_break` `poc_breakout` `ib_break`
-       `asia_range_break`): tope **B** siempre, nunca GO. Con `vs24h` = `"with"` resta **−2**
-       (es la combinación que más pierde). `retest_break` en contra de las 24 h es la
-       excepción a vigilar (+0.39R, n=12): B, se mide.
+     · **A+ del método** = con `vs24h` = `"against"`: reversión (`fade_vah` `fade_val`
+       `poc_reversion` `bounce_val` `bounce_vah` `ib_fade`) **o** continuación (`pullback_cont`
+       `retest_break` `poc_breakout` `ib_break` `asia_range_break`). Suma **+2** de
+       confluencia. Son las únicas zonas que pueden ser base de GO, y solo con las condiciones
+       de siempre (convicción "alta", sección 9).
+     · **Cambio 2026-11-14 (aprobado por Jesus, a prueba):** (a) la continuación `against` sube
+       de tope B a poder ser A+ (`zoneEdge` `continuation|against` +0.27R, n=32, pasó el umbral
+       de revisión de abajo); hipótesis `trial-cont-against-aplus`. (b) `golden_zone` deja de ser
+       A+ en cualquier caso: tope **B** (`golden_zone|against` 0/6, −1R); hipótesis
+       `trial-golden-zone-tope-b`. El weekly revierte cada uno si se cumple su `refuteWhen`.
+     · Reversión con `vs24h` `"with"` o `"flat"`, y `golden_zone` siempre: tope **B**.
+     · Continuación con `vs24h` `"with"` o `"flat"`: tope **B**, nunca GO. Con `"with"` resta
+       **−2** (es la combinación que más pierde).
      · Sweeps (`sweep_*`, `liq_reclaim`): tope B hasta que `scorecard.zoneEdge` muestre
        `avgR > 0` con n ≥ 15.
      · Orden de la tabla: primero las A+ del método, luego el resto por score.
    - **Convicción: solo dos niveles, "alta" o "baja"** ("media" queda retirada; donde otra
      regla diga "tope media", léelo como "baja"). **"alta"** exige TODO: la zona del `focus` es
-     A+ del método (reversión + `vs24h` against), sin `frameConflict.on`, sin shock activo,
+     A+ del método (reversión o continuación con `vs24h` against, sin `golden_zone`), sin `frameConflict.on`, sin shock activo,
      `whipsawRisk` < 0.6 y niveles frescos. Todo lo demás es "baja".
    - **GO** = convicción "alta" + el resto de la sección 9 (precio en o llegando a la zona,
      permiso de sesión, sin estiramiento, `risk.rr` ≥ 1.5, gatillo esperable, fuera de manos
@@ -827,8 +832,8 @@ Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
    apilados = −0.85R (n=21); PDH/PDL, perfil u overnight dentro de la zona cambian de signo entre
    mitades (sin señal). Lo único estable es la familia × `vs24h` de la regla 8e.
    - Sigue calculando y publicando `confluence` (describe la zona, alimenta la tabla y el
-     weekly), pero **la clasificación A+ / B / tierra de nadie sale de la 8e**: A+ = reversión con
-     `vs24h` against; B = el resto que esté en un nivel mapeado; tierra de nadie = sin nivel
+     weekly), pero **la clasificación A+ / B / tierra de nadie sale de la 8e**: A+ = A+ del método
+     (definición de la 8e); B = el resto que esté en un nivel mapeado; tierra de nadie = sin nivel
      mapeado. Un score alto NO sube una zona de B a A+ ni sirve de base de GO, y el listón
      "confluence ≥ 7" de la sección 9 queda sustituido por "A+ del método".
    - Los FVG no se suman: un FVG en la zona cuenta UNA vez como gatillo/contexto (campo `fvg`),
@@ -970,7 +975,7 @@ VWAP, PD Mid, **ONH/ONL** (rango overnight), **IBH/IBL** (Initial Balance del RT
 **apertura mensual** y **H/L del mes previo** (`command.raw` referencia extra).
 
 **Score de confluencia** (el EDGE COMPLETO de Jesus, suma; una A+ toca varios a la vez):
-- +2 / −2 según `vs24h` (regla 8e: +2 reversión `against`, −2 continuación `with`); el viejo
+- +2 / −2 según `vs24h` (regla 8e: +2 A+ del método, −2 continuación `with`); el viejo
   "+2 a favor del sesgo de sesión y de `command`" quedó retirado
 - +1 nivel de perfil en la zona: VAH / POC / VAL **del día anterior** (`orb.levels`, v10; el
   del día en curso no cuenta, ver sección 2)
@@ -1020,7 +1025,8 @@ De los tres factores nuevos (SMT + prior día anterior + borde de gap) cuenta **
 para no inflar la clasificación.
 
 **Clasificación** (regla 8f: el score describe, no clasifica):
-- **A+** = A+ del método: reversión con `vs24h` against en un nivel mapeado. Única base de GO.
+- **A+** = A+ del método (regla 8e: reversión o continuación con `vs24h` against, nunca
+  `golden_zone`) en un nivel mapeado. Única base de GO.
 - **B** = el resto que esté en un nivel mapeado → WAIT, pide confirmación extra.
 - **Tierra de nadie** = sin nivel mapeado: NO es zona. Nunca va a la tabla, nunca es GO. Si el precio
   está aquí sin una A+/B a tiro → `verdict` = WAIT/AVOID y se dice fuerte ("no hay borde").
@@ -1268,7 +1274,7 @@ El plan no es para "un trader", es para Jesus. Con el perfil:
 ## 6 · Cierre y calificación del día (solo `pre-asia`)
 
 Antes del plan de Asia, califica el día que cerró. Lo realizado sale de: los planes en
-`plans` de ayer + el estado final del feed (hod/lod, rangeToday, niveles tageados,
+`plans/<fecha_ayer>-*.json` + el estado final del feed (hod/lod, rangeToday, niveles tageados,
 `hitTarget`/`hitInval`, `resBroken`/`supBroken`) + lo que `pre-london`/`pre-ny` ya dejaron
 en `reviews` de ayer (cierres parciales de Asia y Londres). Complétalo con NY y post-cierre.
 
@@ -1458,11 +1464,12 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
      si menos); consérvala 2 corridas con `status:"confirmada"` y luego púdala.
   4. `refutada` → una línea en `models` ("descartada el <fecha>: <claim> no se sostuvo,
      <hits>/<evidenceN>") y púdala.
-  5. `abierta` con `evidenceN` bajo y > 30 días sin ocurrencia → `status:"sin_senal"`, púdala
-     en la siguiente corrida.
+  5. `abierta` con `evidenceN` bajo y > 30 días sin ocurrencia → `status:"sin_senal"`. Una
+     `sin_senal` con más de 7 días (desde `closedAt`) se borra del estado y queda una línea en
+     `state/hypotheses-archive.jsonl`.
   Poda: máx ~20 `abierta`; si sobran, cierra primero las más viejas sin señal. La poda la hace
-  `python3 method/prune_hypotheses.py` al final de pre-asia (regla 5 + este tope), no a mano. `pre-london`/
-  `pre-ny` NO tocan `hypotheses` (solo `pre-asia`).
+  `python3 method/prune_hypotheses.py` al final de pre-asia (regla 5, este tope y el borrado),
+  no a mano. `pre-london`/`pre-ny` NO tocan `hypotheses` (solo `pre-asia`).
 - `narrative`: primero decide si el día CONFIRMÓ / EVOLUCIONÓ / ROMPIÓ la tesis vigente de cada
   instrumento (cruza con las causas de fallo de arriba). Luego reescribe la tesis como
   `Continuidad: <daysHeld> días · <confirmada | evolucionó el <fecha>: <qué cambió> | reiniciada
@@ -1865,8 +1872,12 @@ Lee el objeto, aplica cambios, escríbelo entero. Campos:
   invalidación de la tesis), reescribe `narrative` de ese instrumento aquí mismo (tesis
   nueva, `daysHeld`=1, causa) y anótalo en el `Update` de `dayThesis`.
 
-Poda: `reviews` conserva los últimos ~10 por fecha, `dayThesis` los últimos ~5, `plans`
-los últimos ~12. Borra lo más viejo en el mismo write.
+Poda: `reviews` conserva los últimos ~10 por fecha y `dayThesis` los últimos ~5; borra lo más
+viejo en el mismo write. `state.plans` guarda solo los **3 últimos** planes completos (para el
+chequeo de re-disparo y el delta intradía); el historial completo vive en `plans/*.json`, que es
+lo que leen `grade_plans.py` y `update_scorecard.py`. El recorte es automático: `pre-asia` corre
+`python3 method/prune_hypotheses.py` y `pre-london`/`pre-ny` corren
+`python3 method/prune_hypotheses.py --plans-only` antes del commit.
 
 ---
 
