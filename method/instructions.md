@@ -181,6 +181,14 @@ de sesión ni toca `plans/`. Solo lee los planes + `reviews/` diarios + `state` 
    y vuelve a correrlo; no subas con FAIL.
    La meta-revisión semanal ya NO va aquí:
    la hace la rutina `weekly` del sábado (sección 6.1).
+5a. **Lint del plan (regla dura, antes de subir, también en modo refresco):** corre
+   `python3 method/lint_plan.py plans/<fecha>-<RUN_TYPE>.json` y `python3 method/check_plan.py`.
+   Cada `ERROR <instrumento>/<zona>: <regla>` es un error tuyo frente a las reglas 8e, 8f, 9, la
+   sección 4 o reachability.md: arréglalo en el plan (GO a WAIT, convicción a "baja", quita el
+   "A+" de `focus.setup`, pon `risk.flag` `RR_SOSPECHOSO`, rellena el campo que falta, como `tcl`
+   o `winRate`), copia el arreglo a `plans/latest.json` y vuelve a correrlo hasta `OK lint`. No
+   subas un plan con ERROR. Los `WARN` no bloquean: resúmelos en una frase en
+   `dataHealth.notes` ("lint: 2 avisos, ...").
 5b. Escribe `live/heartbeat.json` = `{ lastRun: <ISO UTC>, runType: <RUN_TYPE>, ok: <true
    salvo que el plan vaya con asterisco>, note: "<1 frase>" }`.
 6. Sube: `git add -A && git commit -m "sa <RUN_TYPE> <fecha>"`, luego bucle

@@ -242,6 +242,12 @@ precio está lejos; **AVOID** si está en tierra de nadie o en chop sin borde a 
 3. `state/crypto-state.json` (sección 4, solo `crypto-close`).
 
 Valida el JSON antes del commit (`python3 -c "import json;json.load(open('plans/crypto-latest.json'))"`).
+Después, **lint (regla dura, `crypto-close` y `crypto-ny`)**: `python3 method/lint_plan.py plans/crypto-latest.json`.
+Cada `ERROR` (grado A+ en un barrido o `golden_zone`, GO sin A+ del método o sin convicción "alta",
+`vs24h` mal calculado, campo o precio que falta en una zona GO) se arregla en el plan (grado a B,
+GO a WAIT, convicción a "baja", rellenar el campo), se copia a `plans/crypto/<fecha>-<slot>.json`
+y se vuelve a correr hasta `OK lint`. No subas un plan con ERROR. Los `WARN` no bloquean: van en
+una línea de `dataHealth.notes`.
 
 ## 7 · `crypto-ny` · update ligero (08:45 CT)
 
