@@ -1,79 +1,73 @@
 {
-  "checkedAt": "2026-11-16T08:37:10Z",
+  "checkedAt": "2026-11-16T15:37:26Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-11-16T08:15:25.672Z", "ageMin": 22, "state": "OK" },
+  "snapshot": { "builtAt": "2026-11-16T15:15:23.842Z", "ageMin": 22, "state": "OK" },
   "webhook": { "lastSeenMin": 22, "state": "lento" },
-  "news": { "ageMin": 47, "count": 20, "state": "ok" },
-  "sa": { "lastRun": "2026-11-16T07:27:42Z", "runType": "pre-london", "lateBy": null },
+  "news": { "ageMin": 33, "count": 20, "state": "ok" },
+  "sa": { "lastRun": "2026-11-16T13:42:00Z", "runType": "pre-ny", "lateBy": null },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 27, "state": "stale" },
-      "feed": { "ageMin": 27, "state": "stale" },
-      "regime": { "ageMin": 27, "state": "fresh" },
+      "orb": { "ageMin": 22, "state": "fresh" },
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
       "trendcl": { "ageMin": 37, "state": "fresh" }
     },
     "ES": {
       "orb": { "ageMin": 22, "state": "fresh" },
       "feed": { "ageMin": 22, "state": "fresh" },
       "regime": { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 33, "state": "fresh" }
+      "trendcl": { "ageMin": 37, "state": "fresh" }
     },
     "GC": {
       "orb": { "ageMin": 22, "state": "fresh" },
-      "feed": { "ageMin": 27, "state": "stale" },
-      "regime": { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 37, "state": "fresh" }
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 27, "state": "fresh" },
+      "trendcl": { "ageMin": 32, "state": "fresh" }
     },
     "YM": {
-      "orb": { "ageMin": 27, "state": "stale" },
+      "orb": { "ageMin": 22, "state": "fresh" },
       "feed": { "ageMin": 22, "state": "fresh" },
-      "regime": { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 37, "state": "fresh" }
+      "regime": { "ageMin": 27, "state": "fresh" },
+      "trendcl": { "ageMin": 26, "state": "fresh" }
     },
     "CL": {
-      "orb": { "ageMin": 27, "state": "stale" },
-      "feed": { "ageMin": 27, "state": "stale" },
-      "regime": { "ageMin": 27, "state": "fresh" },
-      "trendcl": { "ageMin": 37, "state": "fresh" }
+      "orb": { "ageMin": 22, "state": "fresh" },
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 32, "state": "fresh" }
     }
   },
   "scalp": { "ingestMin": 22, "snapshotMin": 36, "state": "ok" },
   "pushes": {
-    "counts": { "missing": 8, "duplicated": 1, "pending": 1 },
+    "counts": { "missing": 9, "present": 2, "pending": 1 },
     "missing": [
       "pre-asia 2026-11-15",
+      "pre-london 2026-11-16",
       "crypto-close 2026-11-16",
       "crypto-ny 2026-11-15",
-      "watchdog 2026-11-15 02:30",
       "watchdog 2026-11-15 09:30",
       "watchdog 2026-11-15 17:30",
       "watchdog 2026-11-15 20:30",
+      "watchdog 2026-11-16 02:30",
       "zones-agent 2026-11-15"
     ],
-    "duplicated": [
-      "pre-london 2026-11-16 (2x, re-check/catch-up)"
-    ]
+    "duplicated": []
   },
   "issues": [
-    "feed@NQ stale (27 min)",
-    "feed@GC stale (27 min)",
-    "feed@CL stale (27 min)",
-    "orb@NQ stale (27 min)",
-    "orb@YM stale (27 min)",
-    "orb@CL stale (27 min)",
     "webhook lento (22 min)",
-    "journal stale (197 h)",
     "push missing: pre-asia 2026-11-15",
+    "push missing: pre-london 2026-11-16",
     "push missing: crypto-close 2026-11-16",
     "push missing: crypto-ny 2026-11-15",
-    "push missing: watchdog 2026-11-15 02:30",
     "push missing: watchdog 2026-11-15 09:30",
     "push missing: watchdog 2026-11-15 17:30",
     "push missing: watchdog 2026-11-15 20:30",
-    "push missing: zones-agent 2026-11-15"
+    "push missing: watchdog 2026-11-16 02:30",
+    "push missing: zones-agent 2026-11-15",
+    "journal stale (204 h)"
   ],
   "note": {
-    "es": "Corrida 02:30 CT lunes (vigila pre-london, cron 01:25 CT): SÍ salió -- commit \"sa pre-london 2026-11-16\" a las 07:15 UTC más un re-check a las 07:27, heartbeat ok:true -- sin catch-up. Snapshot fresco (22 min). orb/feed en stale (27 min) en NQ/YM/CL y feed en GC; pdh/pdl coinciden con feed en los 5 símbolos así que nada frozen, solo cadencia algo larga de cara a Londres. regime y trendcl fresh en todo el complejo. Webhook lento (22 min, normal). Scalp ok (ingest 22m/snapshot 36m). News ok (47 min, 20 eventos, FOMC minutes aún no llega). Journal.json sin actualizar desde 2026-11-08 (197 h, >72 h en día hábil) -- issue pero sin aviso, como manda la regla. check_pushes.py (26h) marca 8 rutinas sin commit visible (pre-asia/crypto-close/crypto-ny con plan presente, 4 watchdogs del 15 nov, zones-agent 15 nov) y pre-london duplicado por el re-check: mismo patrón de squash/force-push ya visto, no es fallo real (confirmado con `git pull` forzado al inicio de esta corrida). Sin notificación: nada cruza los umbrales de aviso.",
-    "en": "02:30 CT Monday run (watches pre-london, cron 01:25 CT): it DID run -- commit \"sa pre-london 2026-11-16\" at 07:15 UTC plus a re-check at 07:27, heartbeat ok:true -- no catch-up needed. Snapshot fresh (22 min). orb/feed are stale (27 min) on NQ/YM/CL and feed on GC; pdh/pdl match feed across all 5 symbols so nothing is frozen, just a somewhat long cadence heading into London. regime and trendcl are fresh across the whole complex. Webhook lento (22 min, normal). Scalp ok (ingest 22m/snapshot 36m). News ok (47 min, 20 events, FOMC minutes still pending). journal.json hasn't updated since 2026-11-08 (197 h, >72h on a business day) -- flagged as an issue but no push per the rule. check_pushes.py (26h window) flags 8 routines with no visible commit (pre-asia/crypto-close/crypto-ny with plan present, 4 watchdog runs from Nov 15, zones-agent Nov 15) and pre-london duplicated by its re-check: same squash/force-push pattern seen before, not a real failure (confirmed by the forced `git pull` at the start of this run). No notification: nothing crosses the alert thresholds."
+    "es": "Lunes 09:30 CT (vigila pre-ny, cron 07:55 CT): SI salio -- commit \"sa pre-ny 2026-11-16\" a las 13:50 UTC, heartbeat ok:true, sin catch-up. Snapshot y las 5 fuentes (orb/feed/regime/trendcl) frescas en los 5 simbolos, pdh/pdl de orb igual a feed en todos asi que nada frozen; webhook algo lento (22 min) y journal sin actualizar 204 h. check_pushes.py marca 9 slots 'missing' entre el 15-16 nov (pre-london, pre-asia, crypto-close/ny, 4 watchdogs y zonas), pero origin/main sufrio una reescritura de historial (ref forzada 1eeeb21->021bf57 al hacer pull) que colapso varios commits con otros mensajes -- los archivos de plan y el health.json anterior muestran que esas corridas si generaron su artefacto a tiempo, asi que esto es casi seguro un falso missing por el squash, no caidas reales; se deja igual en issues/warn por regla mecanica. Sin notificacion: ningun gatillo de la lista se cumplio.",
+    "en": "Monday 09:30 CT (watches pre-ny, cron 07:55 CT): it DID run -- commit \"sa pre-ny 2026-11-16\" at 13:50 UTC, heartbeat ok:true, no catch-up needed. Snapshot and all 5 sources (orb/feed/regime/trendcl) fresh across all 5 symbols, orb pdh/pdl matches feed in all of them so nothing frozen; webhook a bit slow (22 min) and journal unrefreshed for 204 h. check_pushes.py flags 9 slots as 'missing' across Nov 15-16 (pre-london, pre-asia, crypto-close/ny, 4 watchdog runs and zones), but origin/main went through a history rewrite (forced ref update 1eeeb21->021bf57 on pull) that collapsed several commits under other messages -- the plan files and the prior health.json show those runs did produce their artifact on time, so this is almost certainly a false missing from the squash, not a real outage; left in issues/warn per the mechanical rule anyway. No notification: none of the trigger conditions were met."
   }
 }
