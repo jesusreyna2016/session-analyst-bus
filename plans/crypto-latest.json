@@ -1,95 +1,80 @@
 {
   "schema": "crypto-plan-1",
-  "runType": "crypto-close",
-  "builtAt": "2026-11-16T01:32:00Z",
+  "runType": "crypto-ny",
+  "builtAt": "2026-11-16T14:52:55Z",
   "date": "2026-11-16",
-  "slot": "close",
-  "validUntil": "2026-11-16T14:45:00Z",
+  "slot": "ny",
+  "validUntil": "2026-11-17T00:00:00Z",
   "dataHealth": {
-    "snapshotAgeMin": 31,
-    "stale": [
-      "feed@ETHUSDT ~37min",
-      "feed@BTCUSDT ~37min"
-    ],
-    "missing": [
-      "trendcl@ETHUSDT ~92min (muerta)",
-      "trendcl@BTCUSDT ~92min (muerta)"
-    ],
+    "snapshotAgeMin": 8,
+    "stale": [],
+    "missing": [],
     "notes": [
       {
-        "es": "TDL Feed de ETH y BTC viejo (~37 min, por encima del umbral de 25): ningun simbolo puede dar GO esta corrida aunque el score sea A+ (regla dura de frescura, seccion 2); conviccion no pasa de baja. El rango de apertura sigue fresco (~32 min) y el regimen tambien (~42 min, dentro de su umbral de 45). El checklist de tendencia quedo muerto en las dos monedas (~92 min, > 90) pero su ultimo verdict ya era v=0 en ambas: no cambia nada.",
-        "en": "ETH and BTC's TDL Feed is old (~37 min, above the 25-min cutoff): no symbol can go GO this run even with an A+ score (hard freshness rule, section 2); conviction cannot exceed baja. The opening range stays fresh (~32 min) and so does regime (~42 min, within its 45-min cutoff). The trend checklist went dead on both coins (~92 min, > 90) but its last confirmed verdict was already v=0 on both: nothing changes there."
+        "es": "Frescura recuperada en las dos monedas: TDL Feed ~12 min, regimen ~17 min, checklist de tendencia ~27 min (ETH) y ~12 min (BTC), todo dentro de sus umbrales. El perfil v10 sigue congelado (VAH/POC/VAL y PDH/PDL/apertura del dia iguales al close).",
+        "en": "Freshness restored on both coins: TDL Feed ~12 min, regime ~17 min, trend checklist ~27 min (ETH) and ~12 min (BTC), all within their cutoffs. The v10 profile stays frozen (VAH/POC/VAL and PDH/PDL/day open match the close)."
       },
       {
-        "es": "Hueco del CME: cierre del viernes 1,949 en ETH, ahora -7.08% del spot (antes -6.93% en la corrida de ayer, se angosta poco a poco): sigue de iman hacia arriba. La reapertura de futuros CME de las 17:00 CT ya paso (esta corrida es ~1h20 despues): sin ventana de riesgo activa por eso.",
-        "en": "CME gap: Friday close 1,949 on ETH, now -7.08% from spot (was -6.93% in yesterday's run, narrowing slowly): still an upside magnet. The 17:00 CT CME futures reopen already happened (this run is ~1h20 after it): no active risk window from that."
+        "es": "Shock activo (ETH +1.64% y BTC +1.30% en 15 min, hace ~12 min) mas un titular nuevo de hackeo (Lighter, DEX de perpetuos, pausa retiros tras un robo reportado de ~$10M, hace ~33 min): las dos reglas duras topan el veredicto en WAIT esta corrida aunque el score de una zona fuera A+, riskWindow activa hasta las 15:40 UTC.",
+        "en": "An active shock (ETH +1.64% and BTC +1.30% in 15 min, ~12 min ago) plus a fresh hack headline (Lighter, a perps DEX, pauses withdrawals after a reported ~$10M theft, ~33 min ago): both hard rules cap the verdict at WAIT this run even if a zone's score were A+, riskWindow active until 15:40 UTC."
       },
       {
-        "es": "Sin shock activo que toque cripto (el unico activo en live/shock.json es de NQ, -0.62% en 15 min, sym no coincide con ALL/CRYPTO/ETHUSDT/BTCUSDT). Riesgo de fondo bajo a MEDIO: el hackeo de Kava Lend ya salio de su ventana de 24 h (ya no aparece en los titulares); queda el aviso de Coinone (brecha de datos y phishing, no robo de fondos, ~17.3 h, quedan ~6.7 h de su ventana).",
-        "en": "No active shock touching crypto (the only one in live/shock.json is on NQ, -0.62% in 15 min, sym does not match ALL/CRYPTO/ETHUSDT/BTCUSDT). Background risk eased to MEDIUM: the Kava Lend hack left its 24h window (no longer in the headlines); the Coinone warning remains (a data breach and phishing risk, not a loss of funds, ~17.3h, about 6.7h left in its window)."
+        "es": "Hueco del CME: cierre del viernes 1,949 en ETH, ahora -5.15% del spot (antes -7.08%, se angosta rapido con el rebote): sigue de iman hacia arriba, nunca como gatillo.",
+        "en": "CME gap: Friday close 1,949 on ETH, now -5.15% from spot (was -7.08%, narrowing fast with the bounce): still an upside magnet, never a trigger."
+      },
+      {
+        "es": "Lint: 4 WARN de vs24h (las 4 zonas de las dos monedas) porque esta corrida recorre move24h.py (regla 8e) pero deja los rangos y la confluencia de las zonas del close intactos (crypto.md 7): no bloquean, es el comportamiento esperado de un update ligero.",
+        "en": "Lint: 4 vs24h WARNs (the four zones across both coins) because this run re-runs move24h.py (rule 8e) but leaves the close's zone ranges and confluence intact (crypto.md 7): non-blocking, the expected behavior of a light update."
       }
     ]
   },
   "summary": {
-    "es": "Las dos monedas siguen en el centro de su zona de no operar de hoy: ETH entre 1,791.51 y 1,828.09, BTC entre 64,778.90 y 65,680.82, justo donde se juntan VWAP, EMA20/50 de 5m y el POC/IBH de cada una, sin borde cerca. El TDL Feed de las dos quedo viejo (~37 min, por encima del umbral de 25): ningun simbolo puede dar GO esta corrida aunque el score lo permita (regla dura de frescura). Afuera del centro si hay niveles mapeados: ETH venderia A+ por score en el VAH de ayer y el PDH (1,838.50 a 1,848.29, contra el rebote de 24 h, score 7) y compraria B en la zona dorada de descuento (1,742.32 a 1,773.13, a favor del rebote, tope B); BTC venderia B en la barrida del PDH (66,005 a 66,543, es barrida, tope B siempre) y compraria B en su zona dorada (63,470.85 a 63,777, a favor del rebote, tope B). Ayer: predicciones 0/4 (la cascada se revirtio con fuerza, rompiendo los dos techos que apostaba a que aguantarian) y zonas 1/8 (solo la compra B de BTC en la primera extension funciono). Hoy cierra la semana cripto: revision semanal en reviews/crypto/. Miedo extremo (10, sin cambio), fondeo shorts-crowded en las dos, hueco del CME de ETH en 1,949 (-7.08%) como iman arriba, riesgo de fondo bajo a MEDIO (sale el hackeo de Kava Lend de su ventana; queda el aviso de Coinone, brecha de datos, no robo). Semana que entra: resultados de Nvidia el martes por la tarde y minutas de la Fed el miercoles, nada de tamano de swing grande hasta digerirlos. Conviccion baja en las dos: casi todo el contexto de hoy sigue en priores historicamente debiles.",
-    "en": "Both coins are still sitting dead center in today's no-trade zone: ETH between 1,791.51 and 1,828.09, BTC between 64,778.90 and 65,680.82, right where VWAP, the 5m EMA20/50 and each coin's POC/IBH cluster, with no edge nearby. The TDL Feed for both just turned old (~37 min, above the 25-min cutoff): no symbol can go GO this run even if the score would allow it (hard freshness rule). Outside that center there are mapped levels: ETH would sell an A+ by score at yesterday's VAH and the PDH (1,838.50 to 1,848.29, against the 24h bounce, score 7) and buy a B in the discount golden zone (1,742.32 to 1,773.13, with the bounce, capped B); BTC would sell a B at the PDH sweep (66,005 to 66,543, it is a sweep, always capped B) and buy a B in its own golden zone (63,470.85 to 63,777, with the bounce, capped B). Yesterday: predictions 0/4 (the cascade reversed hard, breaking both ceilings it bet would hold) and zones 1/8 (only BTC's B buy at the first extension worked). Today closes the crypto week: weekly review in reviews/crypto/. Extreme fear (10, unchanged), shorts-crowded funding on both, ETH's CME gap at 1,949 (-7.08%) as an upside magnet, background risk eased to MEDIUM (the Kava Lend hack left its window; the Coinone warning, a data breach, not theft, remains). Week ahead: Nvidia earnings Tuesday afternoon and Fed minutes Wednesday, nothing swing-sized until those are digested. Low conviction on both: nearly all of today's context still sits in historically weak priors."
+    "es": "ETH rompio al alza su zona de venta mapeada del close (VAH/PDH, 1,838.50 a 1,848.29, ahora rota) en un rally que coincide con un shock de precio activo (ETH +1.64% y BTC +1.30% en 15 min) y un titular nuevo de hackeo (Lighter, DEX de perpetuos, retiros pausados tras un robo de ~$10M, ~33 min): las dos reglas duras topan el veredicto en WAIT esta corrida sin importar el score, riskWindow hasta las 15:40 UTC. BTC sigue parado en el centro de su zona de no operar (65,388), sus dos zonas de la tabla intactas y lejos. NQ/ES abrieron muy debiles desde el cash de las 08:30 CT (NQ -1.46%, ES -0.57% desde la apertura del dia) mientras cripto se dispara: divergencia marcada, pero el checklist de tendencia (ya fresco, v=-2 en las dos, no bloquea GO desde el 14 nov, solo contexto) sigue confirmando bajista en 1h/4h, asi que el sesgo de sesion no cambia. Interes abierto cayendo en las dos (ETH -1.51%, BTC -1.42% en 24h) mientras el precio sube: huele a cierre de cortos (fondeo shorts-crowded de ETH) mas que a compra nueva, el rally puede perder gasolina. Fondeo de BTC pasa a neutral (normal, tope de OKX); hueco del CME de ETH se angosta a -5.15% conforme el precio se acerca. Miedo extremo sin cambio (10). Conviccion baja en las dos, ya en el piso.",
+    "en": "ETH broke above its mapped close sell zone (VAH/PDH, 1,838.50 to 1,848.29, now broken) in a rally that lines up with an active price shock (ETH +1.64% and BTC +1.30% in 15 min) and a fresh hack headline (Lighter, a perps DEX, withdrawals paused after a ~$10M theft, ~33 min ago): both hard rules cap the verdict at WAIT this run regardless of score, riskWindow until 15:40 UTC. BTC stays parked in the center of its no-trade zone (65,388), its two table zones intact and far away. NQ/ES opened very weak off the 08:30 CT cash open (NQ -1.46%, ES -0.57% off the day open) while crypto rips higher: a sharp divergence, but the trend checklist (now fresh, v=-2 on both, no longer blocks GO since Nov 14, context only) still confirms bearish on 1h/4h, so the session bias does not change. Open interest is falling on both (ETH -1.51%, BTC -1.42% on 24h) while price rallies: smells more like a short squeeze (ETH's shorts-crowded funding) than fresh buying, the rally could lose fuel. BTC funding flips to neutral (normal, OKX's cap); ETH's CME gap narrows to -5.15% as price nears it. Extreme fear unchanged (10). Low conviction on both, already at the floor."
   },
   "focus": {
     "sym": "ETHUSDT",
     "setup": {
-      "es": "Venta A+ por score en el VAH de ayer y el PDH (1,838.50 a 1,848.29): el rechazo reciente del IBH (barrido y cierre de vuelta hace 1 vela de 5m, reclamo confirmado) apunta a esta zona si el rebote sigue. Pero el TDL Feed de ETH tiene ~37 min (viejo): esta corrida no puede darle GO aunque el score sea A+, espera la siguiente actualizacion fresca antes de gatillarla. Mientras tanto nada que operar en el centro (1,791.51 a 1,828.09, donde esta el precio ahora): ninguna de las dos zonas de la tabla esta a tiro inmediato.",
-      "en": "A+ sell by score at yesterday's VAH and the PDH (1,838.50 to 1,848.29): the recent IBH rejection (swept and closed back down 1 5m candle ago, reclaim confirmed) points there if the bounce keeps going. But ETH's TDL Feed is ~37 min old (stale): this run cannot give it GO even with an A+ score, wait for the next fresh update before triggering it. Meanwhile there is nothing to trade in the center (1,791.51 to 1,828.09, where price sits now): neither table zone is in immediate reach."
+      "es": "Sin zona nueva a tiro: la venta A+ por score en VAH/PDH (1,838.50 a 1,848.29) ya se rompio al alza (marcada broken) con el rally de los ultimos 15 min, y la compra B de la zona dorada (1,742.32 a 1,773.13) sigue lejos por debajo. Precio en 1,856.64, en aire libre entre el PDH roto y la primera extension (1,878.71) con el hueco del CME (1,949, -5.15%) de iman mas arriba. Aunque hubiera una zona a tiro, el shock de precio activo y el titular de hackeo de Lighter topan cualquier senal en WAIT esta corrida. Nada que perseguir sin un nivel del plan: esperar la siguiente corrida (crypto-close) para remapear.",
+      "en": "No new zone in reach: the A+-by-score VAH/PDH sell (1,838.50 to 1,848.29) just broke upward (marked broken) on the last 15 minutes' rally, and the golden-zone buy (1,742.32 to 1,773.13) stays far below. Price at 1,856.64, in open air between the broken PDH and the first extension (1,878.71) with the CME gap (1,949, -5.15%) as a magnet further up. Even if a zone were in reach, the active price shock and the Lighter hack headline cap any signal at WAIT this run. Nothing to chase without a plan level: wait for the next run (crypto-close) to remap."
     }
   },
-  "riskWindow": null,
+  "riskWindow": {
+    "from": "2026-11-16T14:52:55Z",
+    "to": "2026-11-16T15:40:22Z",
+    "why": {
+      "es": "Shock de precio activo (ETH +1.64% y BTC +1.30% en 15 min, visto hace ~12 min) mas el titular de hackeo de Lighter (~33 min, retiros pausados tras un robo de ~$10M): ninguna de las dos monedas puede dar GO hasta que pase la ventana de 60 min del shock.",
+      "en": "Active price shock (ETH +1.64% and BTC +1.30% in 15 min, seen ~12 min ago) plus the Lighter hack headline (~33 min old, withdrawals paused after a ~$10M theft): neither coin can go GO until the shock's 60-minute window passes."
+    }
+  },
   "cryptoContext": {
-    "risk": "MEDIO",
+    "risk": "ALTO",
     "deriv": {
-      "es": "Fondeo negativo en las dos, shorts-crowded (ETH -0.001%, BTC -0.0026% cada 8 h): historicamente ETH sube 24 h despues el 66% de las veces (n chico). Interes abierto casi plano en ETH (+0.15% en 24 h) y cayendo en BTC (-3.09%): BTC cerro mas posiciones que abrio, el rebote pierde algo de gasolina ahi. Cuentas cargadas de largos pero bajo el umbral de alerta (ETH 2.72 a 1, BTC 2.74 a 1; el corte de la regla es 3 a 1).",
-      "en": "Negative funding on both, shorts-crowded (ETH -0.001%, BTC -0.0026% every 8h): historically ETH is up 24h later 66% of the time (small n). Open interest is nearly flat on ETH (+0.15% on 24h) and falling on BTC (-3.09%): BTC closed more than it opened, the bounce loses a bit of fuel there. Accounts stay long-skewed but under the alert threshold (ETH 2.72 to 1, BTC 2.74 to 1; the rule's cutoff is 3 to 1)."
+      "es": "Fondeo de ETH sigue shorts-crowded (-0.0052% cada 8h); el de BTC pasa de shorts-crowded a neutral (+0.0051%, tope normal de OKX). Interes abierto cayendo en las dos (ETH -1.51%, BTC -1.42% en 24h) justo cuando el precio sube fuerte: mas cara de cierre de cortos que de compra nueva, el rally puede no tener piernas. Cuentas cargadas de largos pero bajo el umbral de alerta (ETH 2.61 a 1, BTC 2.77 a 1; el corte es 3 a 1).",
+      "en": "ETH funding stays shorts-crowded (-0.0052% every 8h); BTC's flips from shorts-crowded to neutral (+0.0051%, OKX's normal cap). Open interest is falling on both (ETH -1.51%, BTC -1.42% on 24h) right as price rallies hard: more a short-squeeze face than fresh buying, the rally may lack legs. Accounts stay long-skewed but under the alert threshold (ETH 2.61 to 1, BTC 2.77 to 1; the cutoff is 3 to 1)."
     },
-    "dvol": 57.5,
+    "dvol": 57.8,
     "fearGreed": 10,
     "cmeGap": {
       "price": 1949,
-      "gapPct": -7.08
+      "gapPct": -5.15
     },
-    "ethBtc24hPct": 1.32,
+    "ethBtc24hPct": 1,
     "drivers": [
       {
         "theme": "hack",
-        "headline": "Coinone warns of phishing, identity theft after customer data breach",
+        "headline": "Lighter pauses withdrawals after reported $10M account theft",
         "source": "Cointelegraph",
-        "ageH": 17.3,
+        "ageH": 0.55,
         "note": {
-          "es": "Hecho: aviso de un exchange grande sobre una brecha de datos de clientes y riesgo de phishing (no es perdida de fondos), hace ~17.3 h. Quedan ~6.7 h de su ventana de riesgo de 24 h; el hackeo de Kava Lend de ayer ya salio de la suya.",
-          "en": "Fact: a large exchange's warning about a customer data breach and phishing risk (not a loss of funds), ~17.3h ago. About 6.7h left in its 24h risk window; yesterday's Kava Lend hack already left its own."
-        }
-      },
-      {
-        "theme": "etf",
-        "headline": "Bitcoin ETFs Lose $2.1 Billion in November as Outflow Streak Hits Seven Days",
-        "source": "Decrypt",
-        "ageH": 11.4,
-        "note": {
-          "es": "Hecho: la racha de salidas de ETF de bitcoin llega a siete dias, hace ~11.4 h. Acompana el sesgo de fondo cauteloso; no crea setups.",
-          "en": "Fact: the bitcoin ETF outflow streak reaches seven days, ~11.4h ago. Consistent with the cautious background bias; creates no setups."
-        }
-      },
-      {
-        "theme": "fed",
-        "headline": "Fed's Warsh to take stock of AI revolution as US public grows wary",
-        "source": "CNBC",
-        "ageH": 6.0,
-        "note": {
-          "es": "Hecho reciente: comentarios de Warsh (Fed) sobre la sobrevaluacion ligada a IA, hace ~6 h. Explica parte del tono de aversion al riesgo de fondo; no crea setups.",
-          "en": "Recent fact: Fed's Warsh commenting on AI-linked overvaluation, ~6h ago. Explains part of the background risk-off tone; creates no setups."
+          "es": "Hecho: una DEX de perpetuos pausa retiros tras un robo reportado de ~$10M, hace ~33 min. No es un exchange grande como Binance/Coinbase ni es especifico de ETH, pero es un hackeo real y muy fresco: newsRisk ALTA, nada de GO en la primera hora tras el titular (hasta ~15:20 UTC) aunque el precio ya lo haya absorbido.",
+          "en": "Fact: a perps DEX pauses withdrawals after a reported ~$10M theft, ~33 min ago. Not a major exchange like Binance/Coinbase and not ETH-specific, but a real and very fresh hack: newsRisk ALTA, no GO in the first hour after the headline (until ~15:20 UTC) even if price has already absorbed it."
         }
       }
     ],
     "note": {
-      "es": "Miedo extremo sin cambio (10). DVOL 57.5 (-3.86% en 24 h, bajando): volatilidad implicita se enfria, sin necesidad de ensanchar zonas. ETH/BTC +1.32% en 24 h: ETH ya no es el mas debil de los dos. Hueco del CME de ETH en 1,949 (-7.08%, antes -6.93%): sigue de iman arriba, nunca como gatillo. Riesgo de fondo bajo a MEDIO: sale el hackeo de Kava Lend de su ventana, queda solo el aviso de Coinone (brecha de datos, no robo).",
-      "en": "Extreme fear unchanged (10). DVOL 57.5 (-3.86% on 24h, cooling): implied vol eases, no need to widen zones. ETH/BTC +1.32% on 24h: ETH is no longer the weaker of the two. ETH's CME gap at 1,949 (-7.08%, was -6.93%): still an upside magnet, never a trigger. Background risk eased to MEDIUM: the Kava Lend hack left its window, only the Coinone warning (data breach, not theft) remains."
+      "es": "Miedo extremo sin cambio (10). DVOL 57.8 (sin cambio en 24h): volatilidad implicita estable. ETH/BTC +1% en 24h: ETH no es el mas debil. Hueco del CME de ETH en 1,949 ahora -5.15% (antes -7.08%, se angosta rapido): sigue de iman arriba. Riesgo de fondo sube a ALTO por el hackeo fresco de Lighter; el aviso de Coinone y el hackeo de Kava Lend ya salieron de su ventana de 24h.",
+      "en": "Extreme fear unchanged (10). DVOL 57.8 (flat on 24h): implied vol holding steady. ETH/BTC +1% on 24h: ETH is not the weaker one. ETH's CME gap at 1,949 now -5.15% (was -7.08%, narrowing fast): still an upside magnet. Background risk rises to ALTO on the fresh Lighter hack; the Coinone warning and the Kava Lend hack have both left their 24h windows."
     }
   },
   "personal": {
@@ -105,19 +90,19 @@
   },
   "instruments": {
     "ETHUSDT": {
-      "price": 1819.25,
+      "price": 1856.64,
       "biasDay": "SHORT",
       "biasSession": "SHORT",
       "conviction": "baja",
       "move24h": {
-        "dir": "LONG",
-        "pct": 4.2
+        "dir": "SHORT",
+        "pct": -0.21
       },
       "regime": "NEUTRAL",
       "tcl": null,
       "context": {
-        "es": "Rebote de +4.2% en 24 h desde el minimo de ayer, pero el checklist de tendencia se aplano a v=0 hace rato y ahora esta muerto (~92 min, sin verdict fiable); la estructura de 5m marca CHoCH bajista y el 1h/4h del feed siguen bajistas. Precio (1,819.25) justo en el centro de la zona de no operar de hoy (1,791.51 a 1,828.09), donde se juntan el VWAP (1,820.60), el EMA20/50 de 5m (1,823.82/1,824.64) y el IBH (1,817.10, barrido y rechazado hace 1 vela de 5m, reclamo confirmado por el touchlog). Sin borde a tiro: la venta en el VAH/PDH (1,838.50 a 1,848.29) y la compra en la zona dorada (1,742.32 a 1,773.13) estan afuera del centro pero lejos del precio actual. BTC acompana, sin divergencia.",
-        "en": "A +4.2% bounce on 24h from yesterday's low, but the trend checklist flattened to v=0 a while ago and is now dead (~92 min, no reliable verdict); 5m structure shows a bearish CHoCH and the feed's 1h/4h stay bearish. Price (1,819.25) sits right in the center of today's no-trade zone (1,791.51 to 1,828.09), where VWAP (1,820.60), the 5m EMA20/50 (1,823.82/1,824.64) and the IBH (1,817.10, swept and rejected 1 5m candle ago, reclaim confirmed by the touchlog) all cluster. No edge in reach: the VAH/PDH sell (1,838.50 to 1,848.29) and the golden-zone buy (1,742.32 to 1,773.13) sit outside the center but far from current price. BTC is moving with it, no divergence."
+        "es": "Rompio al alza la venta A+ del close (VAH/PDH 1,838.50 a 1,848.29, ahora marcada broken) en un rally de +1.64% en 15 min que coincide con el shock activo; el regimen fresco confirma BREAKOUT_UP grado A (score 3/3). El checklist de tendencia (ya fresco, ~27 min) sigue en v=-2 bajista en 1h/4h, contrario al rally: es un rebote en contra de la tendencia confirmada, no un cambio de sesgo (la regla de ir a favor/en contra de este checklist esta retirada desde el 14 nov, es solo contexto). Precio en 1,856.64, en aire libre hacia la primera extension (1,878.71) y el hueco del CME (1,949, -5.15%) de iman. La compra B de la zona dorada (1,742.32 a 1,773.13) sigue intacta pero aun mas lejos. BTC acompana el rally con fuerza similar, sin divergencia entre las dos monedas; si diverge es de NQ/ES, que abrieron el cash muy debiles.",
+        "en": "It broke above the close's A+ sell (VAH/PDH 1,838.50 to 1,848.29, now marked broken) on a +1.64% 15-min rally that lines up with the active shock; the now-fresh regime confirms a grade-A BREAKOUT_UP (score 3/3). The trend checklist (now fresh, ~27 min) stays at v=-2 bearish on 1h/4h, against the rally: a bounce against the confirmed trend, not a bias change (the rule for going with/against this checklist was retired on Nov 14, it is context only). Price at 1,856.64, in open air toward the first extension (1,878.71) and the CME gap (1,949, -5.15%) magnet. The golden-zone buy (1,742.32 to 1,773.13) stays intact but even further away now. BTC rallies with similar strength, no divergence between the two coins; the divergence is against NQ/ES instead, which opened cash very weak."
       },
       "levels": {
         "vah": 1838.5,
@@ -164,7 +149,8 @@
               "en": "TP1 1,820.95 (the 1h EMA20): bank 2/3 and move to BE only after the partial; TP2 1,794.43 (today's IBL), fixed target."
             }
           },
-          "fvg": []
+          "fvg": [],
+          "broken": true
         },
         {
           "range": [
@@ -219,8 +205,8 @@
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "La venta en VAH/PDH (1,838.50 a 1,848.29) es A+ por score (7, contra el rebote), pero el TDL Feed de ETH esta viejo (~37 min): no puede ser GO esta corrida aunque el score lo permita. La compra en la zona dorada (1,742.32 a 1,773.13) va con el rebote, tope B, y esta lejos del precio. Precio en el centro de la zona de no operar, sin borde a tiro. Conviccion baja: con fondeo shorts-crowded mis zonas funcionan 9/57 (16%), con miedo extremo 24/108 (22%), con el hueco del CME por debajo 3/22 (14%), con titular de hackeo 17/63 (27%) y en ETH especificamente 14/64 (22%): todo el contexto de hoy sigue en priores debiles.",
-          "en": "The VAH/PDH sell (1,838.50 to 1,848.29) is A+ by score (7, against the bounce), but ETH's TDL Feed is old (~37 min): it cannot be GO this run even though the score allows it. The golden-zone buy (1,742.32 to 1,773.13) goes with the bounce, capped B, and sits far from price. Price is in the center of the no-trade zone, no edge in reach. Low conviction: with shorts-crowded funding my zones work 9/57 (16%), with extreme fear 24/108 (22%), with the gap below 3/22 (14%), with a hack headline 17/63 (27%) and on ETH specifically 14/64 (22%): today's whole context still sits in weak priors."
+          "es": "La venta A+ por score en VAH/PDH ya se rompio al alza (broken): sin zona a tiro de ese lado. La compra B de la zona dorada va con el rebote y esta muy lejos. Aunque hubiera una zona viva, el shock de precio activo (ETH +1.64% en 15 min) y el titular de hackeo de Lighter (~33 min) topan el veredicto en WAIT esta corrida (riskWindow hasta las 15:40 UTC). Conviccion baja, ya en el piso: todo el contexto de hoy sigue en priores historicamente debiles.",
+          "en": "The A+-by-score VAH/PDH sell already broke upward (broken): no zone in reach on that side. The golden-zone B buy goes with the bounce and sits far away. Even if a zone were live, the active price shock (ETH +1.64% in 15 min) and the Lighter hack headline (~33 min) cap the verdict at WAIT this run (riskWindow until 15:40 UTC). Low conviction, already at the floor: today's whole context still sits in historically weak priors."
         }
       },
       "counterCase": {
@@ -249,19 +235,19 @@
       ]
     },
     "BTCUSDT": {
-      "price": 65036.01,
+      "price": 65388.12,
       "biasDay": "SHORT",
       "biasSession": "SHORT",
       "conviction": "baja",
       "move24h": {
-        "dir": "LONG",
-        "pct": 3.01
+        "dir": "SHORT",
+        "pct": -1.11
       },
       "regime": "CHOP",
       "tcl": null,
       "context": {
-        "es": "Rebote de +3.0% en 24 h, pero la estructura marca BOS bajista y el checklist de tendencia esta muerto (~92 min, sin verdict fiable); el 1h/4h del feed siguen bajistas. Precio (65,036.01) en el centro de la zona de no operar de hoy (64,778.90 a 65,680.82), junto al EMA20/50 de 5m (65,062.50/65,067.36) y la zona dorada de venta (64,555.87 a 65,249.04). Rechazo reciente del IBH (barrido y cierre de vuelta hace 5 velas de 5m, reclamo confirmado). Sin borde a tiro: la venta en la barrida del PDH (66,005 a 66,543) y la compra en la zona dorada (63,470.85 a 63,777) estan afuera del centro pero lejos del precio. Acompana a ETH, sin divergencia.",
-        "en": "A +3.0% bounce on 24h, but structure shows a bearish BOS and the trend checklist is dead (~92 min, no reliable verdict); the feed's 1h/4h stay bearish. Price (65,036.01) sits in the center of today's no-trade zone (64,778.90 to 65,680.82), next to the 5m EMA20/50 (65,062.50/65,067.36) and the sell golden zone (64,555.87 to 65,249.04). A recent IBH rejection (swept and closed back down 5 5m candles ago, reclaim confirmed). No edge in reach: the PDH-sweep sell (66,005 to 66,543) and the golden-zone buy (63,470.85 to 63,777) sit outside the center but far from price. Moving with ETH, no divergence."
+        "es": "Subio con ETH (+1.30% en 15 min) pero se queda dentro del centro de su zona de no operar de hoy (64,778.90 a 65,680.82); sus dos zonas de la tabla (venta B barrida del PDH 66,005-66,543, compra B zona dorada 63,471-63,777) siguen intactas y lejos del precio, ninguna tocada. El checklist de tendencia (ya fresco, ~12 min) sigue en v=-2 bajista en 1h/4h, contrario al rebote; fondeo pasa de shorts-crowded a neutral (tope normal de OKX), interes abierto cae -1.42% en 24h mientras el precio sube: mas cierre de cortos que compra nueva. NQ/ES abrieron el cash muy debiles (NQ -1.46%, ES -0.57% desde la apertura del dia), marcada divergencia con el rally cripto.",
+        "en": "Rallied with ETH (+1.30% in 15 min) but stays inside the center of today's no-trade zone (64,778.90 to 65,680.82); its two table zones (the PDH-sweep B sell 66,005-66,543, the golden-zone B buy 63,471-63,777) stay intact and far from price, neither touched. The trend checklist (now fresh, ~12 min) stays at v=-2 bearish on 1h/4h, against the bounce; funding flips from shorts-crowded to neutral (OKX's normal cap), open interest falls -1.42% on 24h while price rallies: more short covering than fresh buying. NQ/ES opened cash very weak (NQ -1.46%, ES -0.57% off the day open), a sharp divergence from the crypto rally."
       },
       "levels": {
         "vah": 65675.8,
@@ -377,8 +363,8 @@
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "La venta en la barrida del PDH (66,005 a 66,543, score 8) es una barrida: tope B siempre, nunca GO. La compra en la zona dorada (63,470.85 a 63,777) va con el rebote, tambien tope B. Precio en el centro de la zona de no operar, sin borde a tiro, y el TDL Feed de BTC tambien esta viejo (~37 min, bloquea GO igual que en ETH). Conviccion baja, mismo contexto que ETH (fondeo shorts-crowded 16%, miedo extremo 22%, hueco por debajo 14%, titular de hackeo 27%); BTC especificamente 10/50 (20%).",
-          "en": "The PDH-sweep sell (66,005 to 66,543, score 8) is a sweep: always capped B, never GO. The golden-zone buy (63,470.85 to 63,777) goes with the bounce, also capped B. Price is in the center of the no-trade zone, no edge in reach, and BTC's TDL Feed is also old (~37 min, blocking GO same as ETH). Low conviction, same context as ETH (shorts-crowded funding 16%, extreme fear 22%, gap below 14%, hack headline 27%); BTC specifically 10/50 (20%)."
+          "es": "Precio sigue en el centro de la zona de no operar, sin borde a tiro; las dos zonas de la tabla son tope B (barrida y a favor del rebote) y estan lejos. El shock de precio activo (BTC +1.30% en 15 min) y el titular de hackeo de Lighter topan ademas cualquier senal en WAIT esta corrida (riskWindow hasta las 15:40 UTC). Conviccion baja, mismo contexto que ETH.",
+          "en": "Price is still in the center of the no-trade zone, no edge in reach; both table zones are capped at B (a sweep and one with the bounce) and sit far away. The active price shock (BTC +1.30% in 15 min) and the Lighter hack headline also cap any signal at WAIT this run (riskWindow until 15:40 UTC). Low conviction, same context as ETH."
         }
       },
       "counterCase": {
@@ -414,5 +400,8 @@
       "en": "2026-11-15: predictions 0/4 (the two day-open ceilings it bet would hold both broke on the strong bounce: ETH closed as high as 1,837.71, BTC as high as 65,926.31, well above the cited 1,769.28 and 64,150.01). Zones 1/8: in the close, ETH's B buy at the PDL sweep and the B continuation sell both broke to the wrong side before confirming (price kept falling to 1,714.35 before the bounce), same for BTC's B sell at VWAP/FVG; only BTC's B buy at the first extension (61,800-62,100) worked (r=0.61). The 4 zones of the ny run were never touched again. A day of violent reversal after Saturday's cascade: ETH +4.2% and BTC +3.0% on 24h as of this run, reversing the whole short bias it had held since Friday."
     }
   },
-  "updated": null
+  "updated": {
+    "es": "ETH rompio al alza la venta A+ del close (marcada broken) con un rally de +1.64%/+1.30% (ETH/BTC) en 15 min que coincide con un shock de precio activo y un titular nuevo de hackeo (Lighter, ~$10M, retiros pausados): las dos reglas duras topan el veredicto en WAIT esta corrida, riskWindow hasta las 15:40 UTC. BTC sigue centrado en su zona de no operar, zonas intactas. NQ/ES abrieron el cash muy debiles (divergencia marcada con el rally cripto) pero el checklist de tendencia confirmado (ya fresco) sigue bajista en 1h/4h en las dos monedas, asi que biasSession no cambia. Conviccion baja sin cambio (ya en el piso). Riesgo de fondo sube de MEDIO a ALTO por el hackeo fresco.",
+    "en": "ETH broke above the close's A+ sell (marked broken) on a +1.64%/+1.30% (ETH/BTC) 15-min rally that lines up with an active price shock and a fresh hack headline (Lighter, ~$10M, withdrawals paused): both hard rules cap the verdict at WAIT this run, riskWindow until 15:40 UTC. BTC stays centered in its no-trade zone, zones intact. NQ/ES opened cash very weak (a sharp divergence from the crypto rally) but the confirmed trend checklist (now fresh) stays bearish on 1h/4h on both coins, so biasSession does not change. Low conviction unchanged (already at the floor). Background risk rises from MEDIUM to HIGH on the fresh hack."
+  }
 }
