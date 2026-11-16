@@ -1,69 +1,70 @@
 {
-  "checkedAt": "2026-11-15T23:37:28Z",
+  "checkedAt": "2026-11-16T02:38:50Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-11-15T23:30:32.626Z", "ageMin": 7, "state": "OK" },
-  "webhook": { "lastSeenMin": 7, "state": "ok" },
-  "news": { "ageMin": 7, "count": 22, "state": "ok" },
+  "snapshot": { "builtAt": "2026-11-16T02:15:25.202Z", "ageMin": 22, "state": "OK" },
+  "webhook": { "lastSeenMin": 22, "state": "lento" },
+  "news": { "ageMin": 28, "count": 20, "state": "ok" },
   "sa": { "lastRun": "2026-11-15T22:08:25Z", "runType": "pre-asia", "lateBy": null },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 7, "state": "fresh" },
-      "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 22, "state": "fresh" },
-      "trendcl": { "ageMin": 7, "state": "fresh" }
-    },
-    "ES": {
-      "orb": { "ageMin": 12, "state": "fresh" },
-      "feed": { "ageMin": 12, "state": "fresh" },
-      "regime": { "ageMin": 17, "state": "fresh" },
+      "orb": { "ageMin": 27, "state": "stale" },
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
       "trendcl": { "ageMin": 32, "state": "fresh" }
     },
-    "GC": {
-      "orb": { "ageMin": 7, "state": "fresh" },
-      "feed": { "ageMin": 7, "state": "fresh" },
+    "ES": {
+      "orb": { "ageMin": 22, "state": "fresh" },
+      "feed": { "ageMin": 22, "state": "fresh" },
       "regime": { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 12, "state": "fresh" }
+      "trendcl": { "ageMin": 22, "state": "fresh" }
+    },
+    "GC": {
+      "orb": { "ageMin": 27, "state": "stale" },
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 27, "state": "fresh" }
     },
     "YM": {
-      "orb": { "ageMin": 12, "state": "fresh" },
-      "feed": { "ageMin": 12, "state": "fresh" },
-      "regime": { "ageMin": 17, "state": "fresh" },
-      "trendcl": { "ageMin": 12, "state": "fresh" }
+      "orb": { "ageMin": 22, "state": "fresh" },
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 27, "state": "fresh" },
+      "trendcl": { "ageMin": 27, "state": "fresh" }
     },
     "CL": {
-      "orb": { "ageMin": 12, "state": "fresh" },
-      "feed": { "ageMin": 12, "state": "fresh" },
-      "regime": { "ageMin": 17, "state": "fresh" },
-      "trendcl": { "ageMin": 29, "state": "fresh" }
+      "orb": { "ageMin": 22, "state": "fresh" },
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 37, "state": "fresh" }
     }
   },
-  "scalp": { "ingestMin": 7, "snapshotMin": 37, "state": "ok" },
+  "scalp": { "ingestMin": 22, "snapshotMin": 37, "state": "ok" },
   "pushes": {
-    "counts": { "missing": 7, "duplicated": 1, "pending": 1 },
+    "counts": { "missing": 6, "duplicated": 1, "present": 1, "pending": 2 },
     "missing": [
-      "crypto-close 2026-11-15",
+      "pre-asia 2026-11-15",
       "crypto-ny 2026-11-15",
-      "watchdog 2026-11-14 17:30",
       "watchdog 2026-11-14 20:30",
       "watchdog 2026-11-15 02:30",
       "watchdog 2026-11-15 09:30",
       "zones-agent 2026-11-14"
     ],
     "duplicated": [
-      "pre-asia 2026-11-15 (2x, re-check/catch-up)"
+      "crypto-close 2026-11-16 (2x)"
     ]
   },
   "issues": [
-    "push missing: crypto-close 2026-11-15",
+    "orb@NQ stale (27 min)",
+    "orb@GC stale (27 min)",
+    "webhook lento (22 min)",
+    "push missing: pre-asia 2026-11-15",
     "push missing: crypto-ny 2026-11-15",
-    "push missing: watchdog 2026-11-14 17:30",
     "push missing: watchdog 2026-11-14 20:30",
     "push missing: watchdog 2026-11-15 02:30",
     "push missing: watchdog 2026-11-15 09:30",
     "push missing: zones-agent 2026-11-14"
   ],
   "note": {
-    "es": "Corrida 17:30 CT domingo (vigila pre-asia, dom-vie). Pre-asia 2026-11-16 ya salió (commit 21:33 UTC + re-disparo 22:09 UTC, sin cambios materiales), sin catch-up. Mercado de Asia reabrió: snapshot 7 min, todos los símbolos (NQ/ES/GC/YM/CL) fresh en orb/feed/regime/trendcl, incluido ES cuya dead streak de >53h se resolvió al reabrir. Scalp ok (ingest 7m/snapshot 37m), news 7 min (22 eventos), reach de zonas sin alarma (ratios 0.0). check_pushes.py (26h) marca 7 rutinas sin commit visible (crypto-close/ny 15 nov, 4 watchdogs del 14-15 nov, zones-agent 14 nov) y 1 duplicado (pre-asia 2x): coincide con el mismo squash/force-push de origin/main visto en corridas previas, no es fallo real de las rutinas (sus planes existen en plans/), status queda en warn solo por eso.",
-    "en": "17:30 CT Sunday run (watches pre-asia, Sun-Fri). Pre-asia 2026-11-16 already ran (commit 21:33 UTC + re-fire 22:09 UTC, no material changes), no catch-up needed. Asia session reopened: snapshot 7 min, all symbols (NQ/ES/GC/YM/CL) fresh across orb/feed/regime/trendcl, including ES whose >53h dead streak cleared on reopen. Scalp ok (ingest 7m/snapshot 37m), news 7 min (22 events), zone reach has no alarm (ratios 0.0). check_pushes.py (26h window) flags 7 routines with no visible commit (crypto-close/ny Nov15, 4 watchdog runs from Nov14-15, zones-agent Nov14) and 1 duplicate (pre-asia 2x): matches the same origin/main squash/force-push seen in prior runs, not a real routine failure (their plans exist in plans/), status is warn only because of this."
+    "es": "Corrida 20:30 CT domingo (solo salud, no vigila ninguna corrida del SA). Snapshot fresco (22 min). orb@NQ y orb@GC en stale (27 min, pdh/pdl coinciden con feed así que no están frozen, solo cadencia un poco larga); webhook lento (22 min, dentro de lo normal de Asia). Resto de fuentes (feed/regime/trendcl) fresh en los 5 símbolos. Scalp ok (ingest 22m/snapshot 37m), news ok (28 min, 20 eventos). check_pushes.py (26h) marca 6 rutinas sin commit visible (pre-asia y crypto-ny 15 nov con plan presente, 3 watchdogs del 14-15 nov, zones-agent 14 nov) y 1 duplicado (crypto-close 2x): mismo patrón de squash/force-push visto antes, no es fallo real. Sin catch-up (no le toca a esta franja). Sin notificación: nada cruza los umbrales de aviso.",
+    "en": "20:30 CT Sunday run (health-only, watches no SA run). Snapshot fresh (22 min). orb@NQ and orb@GC are stale (27 min, pdh/pdl match feed so not frozen, just a slightly long cadence); webhook lento (22 min, normal for the Asia session). All other sources (feed/regime/trendcl) are fresh across all 5 symbols. Scalp ok (ingest 22m/snapshot 37m), news ok (28 min, 20 events). check_pushes.py (26h window) flags 6 routines with no visible commit (pre-asia and crypto-ny Nov15 with plan present, 3 watchdog runs Nov14-15, zones-agent Nov14) and 1 duplicate (crypto-close 2x): same squash/force-push pattern seen before, not a real failure. No catch-up (not this slot's job). No notification: nothing crosses the alert thresholds."
   }
 }
