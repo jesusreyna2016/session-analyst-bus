@@ -1,57 +1,57 @@
 {
- "generatedAt": "2026-11-15T02:34:07Z",
+ "generatedAt": "2026-11-16T02:38:37Z",
  "weightsVersion": "v1",
- "shadowVersion": null,
+ "shadowVersion": "s1",
  "counts": {
-  "events": 2217,
-  "zones": 1753,
-  "armed": 172,
-  "resolved": 139,
-  "open": 33,
-  "days": 7,
+  "events": 2415,
+  "zones": 1920,
+  "armed": 185,
+  "resolved": 150,
+  "open": 35,
+  "days": 8,
   "trades": 1362
  },
  "byGrade": {
   "A+": {
-   "n": 11,
-   "wins": 8,
-   "wr": 0.727,
-   "wrLo": 0.434,
-   "wrHi": 0.903,
-   "eR": 0.805,
-   "pf": 3.95,
+   "n": 12,
+   "wins": 9,
+   "wr": 0.75,
+   "wrLo": 0.468,
+   "wrHi": 0.911,
+   "eR": 0.949,
+   "pf": 4.8,
    "enough": false
   },
   "A": {
-   "n": 77,
-   "wins": 53,
-   "wr": 0.688,
-   "wrLo": 0.578,
-   "wrHi": 0.781,
-   "eR": 0.785,
+   "n": 84,
+   "wins": 58,
+   "wr": 0.69,
+   "wrLo": 0.585,
+   "wrHi": 0.779,
+   "eR": 0.779,
    "pf": 3.52,
    "enough": true
   },
   "B": {
-   "n": 51,
-   "wins": 33,
-   "wr": 0.647,
-   "wrLo": 0.51,
-   "wrHi": 0.764,
-   "eR": 0.665,
-   "pf": 2.88,
+   "n": 54,
+   "wins": 35,
+   "wr": 0.648,
+   "wrLo": 0.515,
+   "wrHi": 0.762,
+   "eR": 0.689,
+   "pf": 2.96,
    "enough": true
   }
  },
  "recent": {
-  "since": "2026-11-01",
-  "n": 139,
-  "wins": 94,
-  "wr": 0.676,
-  "wrLo": 0.595,
-  "wrHi": 0.748,
-  "eR": 0.743,
-  "pf": 3.29,
+  "since": "2026-11-02",
+  "n": 150,
+  "wins": 102,
+  "wr": 0.68,
+  "wrLo": 0.602,
+  "wrHi": 0.749,
+  "eR": 0.76,
+  "pf": 3.37,
   "enough": true
  },
  "trades": {
@@ -77,131 +77,139 @@
    "pf": null
   },
   "despues del gatillo": {
-   "n": 8,
+   "n": 10,
    "wr": 0.0,
-   "eR": -1.022,
-   "totalR": -8.18,
+   "eR": -1.03,
+   "totalR": -10.3,
    "pf": 0.0
   }
  },
  "execution": {
-  "zonaGanoTuPerdiste": 19,
+  "zonaGanoTuPerdiste": 18,
   "zonaPerdioTuGanaste": 1,
   "n": 36,
-  "tuRvsZonaR": -1.22
+  "tuRvsZonaR": -1.17
  },
- "experiments": [],
+ "experiments": [
+  {
+   "id": "z-2026-11-16-rrmin",
+   "status": "shadow",
+   "hypothesis": "Las zonas con R a TP1 corto (<1.5R) friegan el E[R] aunque ganan casi igual de seguido que las de R medio (67% vs 68% en vivo, n 75/62): 1.5-2.5R deja +0.88R y <1.5R solo +0.45R. Subir rrMin filtra esos setups chicos antes de calificar.",
+   "verdict": "muestra corta",
+   "startDate": "2026-11-16"
+  }
+ ],
  "insights": [
   {
-   "es": "En vivo, esperar la orden limite en la entrada gana 55% con +0.22R (llenado 70%, n 97); entrar al cierre de la vela del gatillo gana 63% pero deja −0.05R (n 138). El gatillo solo no paga las comisiones.",
-   "en": "Live, waiting for the limit order at the zone entry wins 55% at +0.22R (70% fill, n 97); entering at the trigger candle close wins 63% but nets −0.05R (n 138). The trigger alone doesn't cover costs.",
-   "n": 97,
+   "es": "En vivo, el limite en la entrada de la zona llena 70% de las armadas, gana 55% (46%-64%) y deja +0.24R; entrar al cierre de la vela del gatillo gana 63% pero deja −0.05R (n 149).",
+   "en": "Live, the limit order at the zone entry fills 70% of armed zones, wins 55% (46%-64%) and nets +0.24R; entering at the trigger candle close wins 63% but nets −0.05R (n 149).",
+   "n": 149,
    "kind": "fuerte"
   },
   {
-   "es": "Las zonas armadas (con gatillo de 5 min) ganan 68% con +0.74R por setup; las tocadas que nunca se armaron ganan 64% con +0.58R (n 139 / 148).",
-   "en": "Armed zones (5-min trigger) win 68% at +0.74R per setup; touched zones that never armed win 64% at +0.58R (n 139 / 148).",
-   "n": 139,
+   "es": "Las zonas armadas (con gatillo de 5 min) ganan 68% con +0.76R por setup; las tocadas que nunca se armaron ganan 64% con +0.56R (n 150 / 157).",
+   "en": "Armed zones (5-min trigger) win 68% at +0.76R per setup; touched zones that never armed win 64% at +0.56R (n 150 / 157).",
+   "n": 150,
    "kind": "fuerte"
   },
   {
-   "es": "Las A ganan 69% con +0.79R y las B 65% con +0.67R (n 77 / 51). Las A+ apuntan a 73% con +0.81R pero son pocas (n 11, temprano).",
-   "en": "A zones win 69% at +0.79R and B zones 65% at +0.67R (n 77 / 51). A+ point to 73% at +0.81R but are still few (n 11, early).",
-   "n": 77,
+   "es": "Zonas estiradas (>=2 ATR del VWAP) ganan 75% con +0.95R; con poco estiramiento (<1 ATR) ganan 58% con +0.48R (n 83 / 33).",
+   "en": "Stretched zones (>=2 ATR from VWAP) win 75% at +0.95R; with little stretch (<1 ATR) they win 58% at +0.48R (n 83 / 33).",
+   "n": 83,
    "kind": "fuerte"
   },
   {
-   "es": "Tus trades en zona ganan 11% y dejan −0.88R; fuera de zona 12% y −0.90R (n 56 / 66). La zona gano y tu perdiste 19 de las 20 veces que se pudo comparar (n 36).",
-   "en": "Your trades in a zone win 11% at −0.88R; outside a zone 12% at −0.90R (n 56 / 66). The zone won and you lost 19 of the 20 comparable times (n 36).",
-   "n": 56,
+   "es": "Brecha de ejecucion: en zonas A, la zona acierta 69% pero tus trades ahi solo aciertan 7% (n 27). De 36 trades comparables, la zona gano y tu perdiste 18 veces y solo 1 vez al reves; tu R quedo 1.17 por debajo del de la zona en promedio.",
+   "en": "Execution gap: on A zones, the zone wins 69% but your trades there only win 7% (n 27). Of 36 comparable trades, the zone won and you lost 18 times and only once the other way; your R averaged 1.17 below the zone's.",
+   "n": 27,
    "kind": "ejecucion"
   },
   {
-   "es": "22 de 45 perdedoras llegaron a +1R antes del stop: TP1 o el manejo pueden estar mal calibrados (n 45).",
-   "en": "22 of 45 losers reached +1R before the stop: TP1 or management may be miscalibrated (n 45).",
-   "n": 45,
-   "kind": "debil"
+   "es": "Experimento en sombra desde hoy: rrMin 1.2 -> 1.5 (exige mas R hasta TP1 para no restar puntos). En el historico el E[R] real mejora en total de -0.132 a -0.119, pero no es parejo: B mejora de -0.194 a -0.139 mientras A y A+ empeoran un poco; faltan 30 zonas en vivo con gradeS para decidir.",
+   "en": "Shadow experiment since today: rrMin 1.2 -> 1.5 (requires more R to TP1 to avoid a score penalty). In the backtest, real E[R] improves overall from -0.132 to -0.119, but unevenly: B improves from -0.194 to -0.139 while A and A+ get slightly worse; need 30 live zones with gradeS to decide.",
+   "n": 2719,
+   "kind": "experimento"
   }
  ],
  "backtest": {
   "counts": {
-   "zones": 4778,
-   "armed": 2854,
-   "resolved": 2698,
-   "days": 64,
+   "zones": 4829,
+   "armed": 2880,
+   "resolved": 2719,
+   "days": 66,
    "from": "2026-09-10",
-   "to": "2026-11-13"
+   "to": "2026-11-15"
   },
   "overall": {
-   "n": 2698,
-   "wins": 1698,
-   "wr": 0.629,
-   "wrLo": 0.611,
-   "wrHi": 0.647,
-   "eR": -0.131,
+   "n": 2719,
+   "wins": 1708,
+   "wr": 0.628,
+   "wrLo": 0.61,
+   "wrHi": 0.646,
+   "eR": -0.132,
    "pf": 0.73,
    "enough": true
   },
   "byGrade": {
    "A+": {
-    "n": 402,
-    "wins": 240,
-    "wr": 0.597,
-    "wrLo": 0.548,
-    "wrHi": 0.644,
-    "eR": -0.17,
+    "n": 403,
+    "wins": 241,
+    "wr": 0.598,
+    "wrLo": 0.549,
+    "wrHi": 0.645,
+    "eR": -0.168,
     "pf": 0.67,
     "enough": true
    },
    "A": {
-    "n": 1389,
-    "wins": 892,
-    "wr": 0.642,
-    "wrLo": 0.617,
-    "wrHi": 0.667,
-    "eR": -0.076,
-    "pf": 0.83,
+    "n": 1403,
+    "wins": 896,
+    "wr": 0.639,
+    "wrLo": 0.613,
+    "wrHi": 0.663,
+    "eR": -0.082,
+    "pf": 0.82,
     "enough": true
    },
    "B": {
-    "n": 907,
-    "wins": 566,
-    "wr": 0.624,
-    "wrLo": 0.592,
-    "wrHi": 0.655,
-    "eR": -0.197,
-    "pf": 0.61,
+    "n": 913,
+    "wins": 571,
+    "wr": 0.625,
+    "wrLo": 0.594,
+    "wrHi": 0.656,
+    "eR": -0.194,
+    "pf": 0.62,
     "enough": true
    }
   },
   "noTrigger": {
-   "n": 1842,
-   "wins": 899,
-   "wr": 0.488,
-   "wrLo": 0.465,
+   "n": 1860,
+   "wins": 909,
+   "wr": 0.489,
+   "wrLo": 0.466,
    "wrHi": 0.511,
-   "eR": 0.201,
-   "pf": 1.39,
+   "eR": 0.202,
+   "pf": 1.4,
    "enough": true
   },
   "entries": {
    "gatillo": {
-    "n": 2698,
-    "wins": 1629,
-    "wr": 0.604,
-    "wrLo": 0.585,
-    "wrHi": 0.622,
-    "eR": -0.131,
+    "n": 2719,
+    "wins": 1639,
+    "wr": 0.603,
+    "wrLo": 0.584,
+    "wrHi": 0.621,
+    "eR": -0.132,
     "pf": 0.73,
     "enough": true
    },
    "limite": {
-    "n": 3916,
-    "wins": 1973,
-    "wr": 0.504,
+    "n": 3949,
+    "wins": 1987,
+    "wr": 0.503,
     "wrLo": 0.488,
     "wrHi": 0.519,
-    "eR": 0.024,
+    "eR": 0.023,
     "pf": 1.03,
     "enough": true
    }

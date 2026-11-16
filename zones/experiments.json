@@ -1,4 +1,64 @@
 {
   "_doc": "Experimentos del agente de zonas. status: proposed (hipotesis escrita, sin correr) -> shadow (sus pesos estan en weights.json 'shadow' y el indicador ya los calcula) -> active (Jesus aprobo y paso a 'active') | rejected (no mejoro) | reverted. analyze_zones.py pone 'verdict' cuando hay muestra: >= 30 zonas armadas resueltas en cada politica desde startDate. Para pasar a active: approved=true (lo pone Jesus o el agente cuando Jesus lo dice en el chat). Un solo experimento en shadow a la vez.",
-  "experiments": []
+  "experiments": [
+    {
+      "id": "z-2026-11-16-rrmin",
+      "status": "shadow",
+      "hypothesis": "Las zonas con R a TP1 corto (<1.5R) friegan el E[R] aunque ganan casi igual de seguido que las de R medio (67% vs 68% en vivo, n 75/62): 1.5-2.5R deja +0.88R y <1.5R solo +0.45R. Subir rrMin filtra esos setups chicos antes de calificar.",
+      "changes": {
+        "rrMin": [
+          1.2,
+          1.5
+        ]
+      },
+      "segment": "R hasta TP1 < 1.5 (vivo: n 75, E[R] 0.453 vs n 62, E[R] 0.882 en 1.5-2.5R)",
+      "minGrade": "A",
+      "startDate": "2026-11-16",
+      "shadowVersion": "s1",
+      "approved": false,
+      "backtestCheck": {
+        "note": "BACKTEST_WEIGHTS='{\"rrMin\":1.5}' vs pesos activos (E[R] real, historico 2026-09-10 a 2026-11-16)",
+        "activos": {
+          "todas": -0.132,
+          "A": -0.082,
+          "Aplus": -0.168,
+          "B": -0.194,
+          "limiteArmadas": 0.228
+        },
+        "rrMin1_5": {
+          "todas": -0.119,
+          "A": -0.09,
+          "Aplus": -0.178,
+          "B": -0.139,
+          "limiteArmadas": 0.249
+        },
+        "veredicto": "mejora el total y B; empeora un poco A y A+ (mixto, no parejo)"
+      },
+      "eval": {
+        "asOf": "2026-11-16",
+        "minGrade": "A",
+        "active": {
+          "n": 0,
+          "wins": 0,
+          "wr": null,
+          "wrLo": null,
+          "wrHi": null,
+          "eR": null,
+          "pf": null,
+          "enough": false
+        },
+        "shadow": {
+          "n": 0,
+          "wins": 0,
+          "wr": null,
+          "wrLo": null,
+          "wrHi": null,
+          "eR": null,
+          "pf": null,
+          "enough": false
+        }
+      },
+      "verdict": "muestra corta"
+    }
+  ]
 }
