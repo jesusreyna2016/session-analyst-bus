@@ -6,6 +6,7 @@ the lookback window, reports:
   present    one matching commit near the slot
   duplicated more than one matching commit for the same slot (info only)
   missing    no commit and the slot's grace time already passed
+  unknown    the checkout's history does not reach back to the slot (info only)
   pending    no commit yet, but still inside the grace time
 
 Usage (from the repo root, after `git pull`):
@@ -99,6 +100,29 @@ def git_commits(since, until):
     return commits
 
 
+def oldest_commit():
+    out = subprocess.run(["git", "-C", ROOT, "log", "origin/main", "--format=%aI"],
+                         capture_output=True, text=True).stdout.split()
+    return datetime.fromisoformat(out[-1]).astimezone(UTC) if out else None
+
+
+def ensure_history(since):
+    """The routines clone the bus shallow, and the crons commit every few minutes, so a
+    shallow log can stop hours short of the window and every older run looks missing.
+    Fetch back to `since` when that happens. Returns the oldest commit time now visible."""
+    shallow = subprocess.run(["git", "-C", ROOT, "rev-parse", "--is-shallow-repository"],
+                             capture_output=True, text=True).stdout.strip() == "true"
+    old = oldest_commit()
+    if not shallow or (old and old <= since):
+        return None
+    for args in (["--shallow-since=@%d" % int(since.timestamp())], ["--deepen=3000"]):
+        subprocess.run(["git", "-C", ROOT, "fetch", "-q", *args, "origin", "main"], capture_output=True)
+        old = oldest_commit()
+        if old and old <= since:
+            return None
+    return old
+
+
 def slots(r, start, end):
     """Expected runs of routine r with time in (start, end]."""
     tz = r["tz"]
@@ -129,6 +153,7 @@ def main():
 
     now = parse_now(a.now)
     start = now - timedelta(hours=a.hours)
+    horizon = ensure_history(start - timedelta(hours=2))   # None = the whole window is visible
     try:
         commits = git_commits(start - timedelta(hours=2), now)
     except subprocess.CalledProcessError as e:
@@ -165,6 +190,9 @@ def main():
                     row["refresh"] = refresh
                     info.append(f"push duplicated: {label} ({len(got)}x"
                                 + (", re-check/catch-up" if refresh else "") + ")")
+            elif horizon and at - timedelta(minutes=r["before"]) < horizon:
+                row["state"] = "unknown"      # older than the history this checkout has
+                info.append(f"push unknown (shallow history): {label}")
             elif now > at + timedelta(minutes=grace):
                 row["state"] = "missing"
                 issues.append(f"push missing: {label}")
@@ -185,6 +213,7 @@ def main():
         "checkedAt": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "windowHours": a.hours,
         "commitsScanned": len(commits),
+        "historyFrom": horizon.strftime("%Y-%m-%dT%H:%M:%SZ") if horizon else None,
         "counts": counts,
         "issues": issues,          # push missing: <routine> <date>  -> warn
         "info": info,              # duplicates, never an issue
