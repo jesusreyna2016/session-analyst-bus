@@ -1,8 +1,8 @@
 {
- "checkedAt": "2026-11-17T08:38:36Z",
+ "checkedAt": "2026-11-17T15:39:02Z",
  "status": "warn",
  "snapshot": {
-  "builtAt": "2026-11-17T08:30:32.027Z",
+  "builtAt": "2026-11-17T15:30:34.039Z",
   "ageMin": 8,
   "state": "OK"
  },
@@ -11,45 +11,45 @@
   "state": "ok"
  },
  "news": {
-  "ageMin": 31,
+  "ageMin": 17,
   "count": 20,
   "state": "ok"
  },
  "sa": {
-  "lastRun": "2026-11-17T06:58:00Z",
-  "runType": "pre-london",
+  "lastRun": "2026-11-17T13:58:00Z",
+  "runType": "pre-ny",
   "lateBy": null
  },
  "sources": {
   "NQ": {
    "orb": { "ageMin": 9, "state": "fresh" },
    "feed": { "ageMin": 9, "state": "fresh" },
-   "regime": { "ageMin": 34, "state": "fresh" },
-   "trendcl": { "ageMin": 9, "state": "fresh" }
+   "regime": { "ageMin": 14, "state": "fresh" },
+   "trendcl": { "ageMin": 39, "state": "fresh" }
   },
   "ES": {
    "orb": { "ageMin": 9, "state": "fresh" },
    "feed": { "ageMin": 9, "state": "fresh" },
-   "regime": { "ageMin": 14, "state": "fresh" },
-   "trendcl": { "ageMin": 13, "state": "fresh" }
+   "regime": { "ageMin": 24, "state": "fresh" },
+   "trendcl": { "ageMin": 38, "state": "fresh" }
   },
   "GC": {
-   "orb": { "ageMin": 13, "state": "fresh" },
+   "orb": { "ageMin": 9, "state": "fresh" },
    "feed": { "ageMin": 9, "state": "fresh" },
    "regime": { "ageMin": 34, "state": "fresh" },
-   "trendcl": { "ageMin": 39, "state": "fresh" }
+   "trendcl": { "ageMin": 19, "state": "fresh" }
   },
   "YM": {
    "orb": { "ageMin": 9, "state": "fresh" },
    "feed": { "ageMin": 9, "state": "fresh" },
-   "regime": { "ageMin": 14, "state": "fresh" },
-   "trendcl": { "ageMin": 39, "state": "fresh" }
+   "regime": { "ageMin": 19, "state": "fresh" },
+   "trendcl": { "ageMin": 38, "state": "fresh" }
   },
   "CL": {
    "orb": { "ageMin": 9, "state": "fresh" },
    "feed": { "ageMin": 9, "state": "fresh" },
    "regime": { "ageMin": 14, "state": "fresh" },
-   "trendcl": { "ageMin": 18, "state": "fresh" }
+   "trendcl": { "ageMin": 39, "state": "fresh" }
   }
  },
  "scalp": {
@@ -60,38 +60,41 @@
  "pushes": {
   "counts": {
    "missing": 10,
+   "duplicated": 1,
    "present": 1,
    "pending": 1
   },
   "missing": [
    "pre-asia 2026-11-16",
-   "pre-london 2026-11-16",
+   "pre-london 2026-11-17",
    "pre-ny 2026-11-16",
    "crypto-close 2026-11-17",
    "crypto-ny 2026-11-16",
-   "watchdog 2026-11-16 02:30",
    "watchdog 2026-11-16 09:30",
    "watchdog 2026-11-16 17:30",
    "watchdog 2026-11-16 20:30",
+   "watchdog 2026-11-17 02:30",
    "zones-agent 2026-11-16"
   ],
-  "duplicated": []
+  "duplicated": [
+   "pre-ny 2026-11-17 (2x, re-check/catch-up)"
+  ]
  },
  "issues": [
   "push missing: pre-asia 2026-11-16",
-  "push missing: pre-london 2026-11-16",
+  "push missing: pre-london 2026-11-17",
   "push missing: pre-ny 2026-11-16",
   "push missing: crypto-close 2026-11-17",
   "push missing: crypto-ny 2026-11-16",
-  "push missing: watchdog 2026-11-16 02:30",
   "push missing: watchdog 2026-11-16 09:30",
   "push missing: watchdog 2026-11-16 17:30",
   "push missing: watchdog 2026-11-16 20:30",
+  "push missing: watchdog 2026-11-17 02:30",
   "push missing: zones-agent 2026-11-16",
-  "journal stale (221 h)"
+  "journal stale (228 h)"
  ],
  "note": {
-  "es": "Martes 02:38 CT (franja 02:30, vigila pre-london): pre-london SI salio (commit 07:19 UTC, heartbeat ok), sin catch-up necesario. Snapshot a 8 min, webhook a 9 min (ok), news a 31 min, y orb/feed/regime/trendcl frescos en los 5 simbolos -- orb.pdh/pdl igual a feed.raw en todos, nada frozen ni dead. Scalp ok (ingest 9 min, snapshot 38 min). Zonas: reach maximo 0.036 en los 5 instrumentos, lejos de 0.9, sin unactionable. check_pushes.py marca 10 slots 'missing' (pre-asia/pre-london/pre-ny/crypto-close/crypto-ny y 4 watchdogs + zonas-agent del 16-nov), todos con su plan presente en plans/ -- mismo patron de falso-missing por reescritura de historial visto en corridas anteriores, ninguno entra en la lista notify del script. Journal sin refrescar 221 h (habil). Sin notificacion: ningun gatillo de la lista se cumplio.",
-  "en": "Tuesday 02:38 CT (02:30 slot, watches pre-london): pre-london DID run (commit at 07:19 UTC, heartbeat ok), no catch-up needed. Snapshot 8 min old, webhook 9 min (ok), news 31 min, and orb/feed/regime/trendcl all fresh across the 5 symbols -- orb.pdh/pdl matches feed.raw everywhere, nothing frozen or dead. Scalp ok (ingest 9 min, snapshot 38 min). Zones: reach tops out at 0.036 across the 5 instruments, far from 0.9, nothing unactionable. check_pushes.py flags 10 slots as 'missing' (pre-asia/pre-london/pre-ny/crypto-close/crypto-ny plus 4 watchdogs and zones-agent from Nov 16), all with their plan file present in plans/ -- the same false-missing pattern from the history rewrite seen in prior runs, none hits the script's notify list. Journal unrefreshed for 221 h (a weekday). No notification: none of the trigger conditions were met."
+  "es": "Martes 09:39 CT (franja 09:30, vigila pre-ny): pre-ny SI salio a tiempo (commit 13:42 UTC + re-check 14:03 UTC tras Retail Sales, heartbeat ok), sin catch-up necesario. Snapshot a 8 min, webhook a 9 min (ok), news a 17 min, y orb/feed/regime/trendcl frescos en los 5 simbolos -- orb.pdh/pdl igual a feed.raw en todos, nada frozen ni dead. Scalp ok (ingest 9 min, snapshot 38 min). Zonas: NQ/ES/YM en WAIT 'sin A+ a tiro' tras el barrido post-Retail Sales, GC WAIT con A+ a tiro pendiente de reclamo, CL AVOID por estiramiento 5.82x ATR -- ningun zones[0] viola la regla de alcance. check_pushes.py marca 10 slots 'missing' y 1 'duplicated' (pre-ny re-check, normal) sobre 26h; los 10 missing tienen su plan presente en plans/ -- mismo patron de falso-missing por reescritura de historial de corridas previas, ninguno entra en la lista notify del script. Journal sin refrescar 228 h (habil, ultimo dia 2026-11-07). Sin notificacion: ningun gatillo de la lista se cumplio.",
+  "en": "Tuesday 09:39 CT (09:30 slot, watches pre-ny): pre-ny DID run on time (commit 13:42 UTC + re-check 14:03 UTC after Retail Sales, heartbeat ok), no catch-up needed. Snapshot 8 min old, webhook 9 min (ok), news 17 min, and orb/feed/regime/trendcl all fresh across the 5 symbols -- orb.pdh/pdl matches feed.raw everywhere, nothing frozen or dead. Scalp ok (ingest 9 min, snapshot 38 min). Zones: NQ/ES/YM in WAIT 'no A+ in reach' after the post-Retail-Sales sweep, GC WAIT with an A+ in reach pending reclaim, CL AVOID on a 5.82x ATR stretch -- no zones[0] violates the reach rule. check_pushes.py flags 10 slots as 'missing' and 1 as 'duplicated' (pre-ny re-check, expected) over the 26h window; all 10 missing slots have their plan file present in plans/ -- the same false-missing pattern from prior history rewrites, none hits the script's notify list. Journal unrefreshed for 228 h (a weekday, last day 2026-11-07). No notification: none of the trigger conditions were met."
  }
 }
