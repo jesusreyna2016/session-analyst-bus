@@ -1,0 +1,424 @@
+{
+  "schema": "crypto-plan-1",
+  "runType": "crypto-ny",
+  "builtAt": "2026-11-17T14:54:41Z",
+  "date": "2026-11-17",
+  "slot": "ny",
+  "validUntil": "2026-11-18T00:00:00Z",
+  "dataHealth": {
+    "snapshotAgeMin": 24,
+    "stale": [
+      "feed@BTCUSDT 30min",
+      "regime@BTCUSDT 50min"
+    ],
+    "missing": [],
+    "notes": [
+      {
+        "es": "Snapshot del bus y TDL Feed de ETH ya vienen frescos esta corrida (24 min y 25 min, bajo el corte de 35/25 min): se levanta el tope de conviccion y GO por frescura que aplico en el close. El TDL Feed de BTC sigue un poco viejo (30 min, banda 25-90): se pesa a la mitad, sin bloquear nada mas porque BTC no tiene zona A+ hoy. Regimen de BTC (50 min) tambien viejo pero es fuente auxiliar.",
+        "en": "The bus snapshot and ETH's TDL Feed are fresh this run (24 min and 25 min, under the 35/25-min cutoff): the freshness-driven cap on conviction and GO from the close run lifts. BTC's TDL Feed is still a bit old (30 min, the 25-90 band): weighted at half, nothing else blocks since BTC has no A+ zone today anyway. BTC's regime read (50 min) is also old but it is an auxiliary source."
+      },
+      {
+        "es": "Hueco del CME de ETH sigue fuera de ventana (martes): no aplica como iman hasta la proxima corrida viernes noche a lunes.",
+        "en": "ETH's CME gap stays out of window (Tuesday): it doesn't apply as a magnet until the next Friday-night-to-Monday run."
+      },
+      {
+        "es": "El hackeo de Lighter de anoche se aclaro: un titular nuevo (12:00 UTC) dice que en realidad fue la fuga de la clave de API de UN trader, no un hackeo del protocolo; ya devolvio cerca de $5M y reabrio retiros. Su ventana de riesgo de 24h (desde el primer titular, anoche) tambien vencio, justo al filo de esta corrida. El Retail Sales de EE.UU. (13:30 UTC) ya paso dentro de la ventana del close, con reaccion leve y algo negativa en los indices (NQ -0.20% en 15 min), nada fuera de lo normal; su ventana de riesgo tambien vencio (13:15 a 14:00 UTC). Sin ventana de riesgo activa esta corrida.",
+        "en": "Last night's Lighter hack got clarified: a new headline (12:00 UTC) says it was actually one trader's API key leak, not a protocol-wide hack; it already returned about $5M and reopened withdrawals. Its 24h risk window (from the first headline, last night) also expired, right at the edge of this run. US Retail Sales (13:30 UTC) already happened inside the close's window, with a mild, slightly negative reaction in the indices (NQ -0.20% on 15 min), nothing out of the ordinary; its risk window also expired (13:15 to 14:00 UTC). No active risk window this run."
+      },
+      {
+        "es": "WARN de lint esperado (no se corrige): move24h de ETH y BTC giro a SHORT desde el close (antes LONG/-0.30 debil); el vs24h de cada zona queda congelado del close (regla de la seccion 7, no se re-puntua), asi que ahora lee distinto del move24h nuevo. Es una lectura vieja, no un error del plan.",
+        "en": "Expected lint WARN (not fixed): ETH's and BTC's move24h flipped to SHORT since the close (previously LONG / weak -0.30); each zone's vs24h stays frozen from the close (section 7 rule, no re-scoring), so it now reads differently from the fresh move24h. It's a stale read, not a plan error."
+      }
+    ]
+  },
+  "summary": {
+    "es": "ETH subio a 1,822.02 (desde 1,814.04 en el close) y BTC a 64,924.25 (desde 64,602.09): las dos siguen dentro de su zona de no operar de hoy. En ETH, la venta A+ por score en VAH (1,829.19 a 1,843.51) ya disparo en la noche: mecha hasta 1,843.49 y cierre de vuelta debajo, precio ahora cerca de su primer objetivo (1,820.61); la compra B dorada (1,803.87 a 1,807.59) nunca se quedo adentro, se cruzo en una barrida mas profunda hasta 1,785.81 y ahora queda mas lejos. En BTC, la venta B en VAH (65,011.94 a 65,312.85) tambien disparo (mecha a 65,200 y reclamo) y la compra B dorada (64,288.32 a 64,589.23) se salto sin quedarse adentro, el reclamo real paso mas abajo en una barrida del IBL (64,079.83). Snapshot y TDL Feed de ETH ya frescos esta corrida (el de BTC sigue algo viejo, 30 min): se levanta el tope de conviccion y GO del close por frescura, pero sin zona nueva a tiro no hay GO en ninguna de las dos. El hackeo de Lighter se aclaro (fuga de la clave de API de un trader, ~$5M, retiros reabiertos) y su ventana de riesgo ya vencio; el Retail Sales de EE.UU. ya paso con reaccion leve. Sin ventana de riesgo activa esta corrida. NQ/ES abrieron la caja de NY algo menos debiles que durante la noche (-1.01%/-1.30% en 24h, antes -2.48%/-1.86%) pero siguen divergiendo de cripto, casi plano. Fondeo ahora shorts-crowded en las dos monedas (antes BTC neutral); miedo extremo sin cambio (12). Riesgo de fondo bajado de ALTO a MEDIO. Conviccion baja en las dos, mismos priores de contexto historicamente debiles de siempre.",
+    "en": "ETH climbed to 1,822.02 (from 1,814.04 at the close) and BTC to 64,924.25 (from 64,602.09): both stay inside today's no-trade zone. On ETH, the score A+ VAH sell (1,829.19 to 1,843.51) already fired overnight: a wick to 1,843.49 and a close back below, price now close to its first target (1,820.61); the golden B buy (1,803.87 to 1,807.59) never held inside, it got crossed in a deeper sweep down to 1,785.81 and is now farther away. On BTC, the B VAH sell (65,011.94 to 65,312.85) also fired (a wick to 65,200 and a reclaim) and the golden B buy (64,288.32 to 64,589.23) got swept through without holding inside, the real reclaim happened lower in an IBL sweep (64,079.83). ETH's snapshot and TDL Feed are now fresh this run (BTC's is still a bit old, 30 min): the freshness-driven cap on conviction and GO from the close lifts, but with no fresh zone at reach there is no GO on either coin. The Lighter hack got clarified (one trader's API key leak, ~$5M, withdrawals reopened) and its risk window has expired; US Retail Sales already passed with a mild reaction. No active risk window this run. NQ/ES opened the NY cash session a bit less weak than overnight (-1.01%/-1.30% on 24h, previously -2.48%/-1.86%) but still diverge from crypto, which stays nearly flat. Funding is now shorts-crowded on both coins (BTC was neutral before); extreme fear unchanged (12). Background risk down from ALTO to MEDIO. Low conviction on both, the same historically weak context priors as always."
+  },
+  "focus": {
+    "sym": "ETHUSDT",
+    "setup": {
+      "es": "La venta A+ de VAH ya disparo esta noche (mecha a 1,843.49 dentro de 1,829.19-1,843.51 y cierre de vuelta bajo 1,829.19): si se tomo, va camino a su primer objetivo (1,820.61). Desde aqui, con el precio en 1,822.02, no queda una zona fresca a tiro para una entrada nueva: la compra B dorada (1,803.87 a 1,807.59) esta ahora ~18 pts abajo, mas lejos que en el close (~6 pts). Esperar un nuevo toque de cualquiera de las dos zonas mapeadas antes de operar; nada de perseguir el movimiento a mitad de camino.",
+      "en": "The A+ VAH sell already fired overnight (a wick to 1,843.49 inside 1,829.19-1,843.51 and a close back below 1,829.19): if it was taken, it is on its way to the first target (1,820.61). From here, with price at 1,822.02, there is no fresh zone at reach for a new entry: the golden B buy (1,803.87 to 1,807.59) is now ~18 pts below, farther than at the close (~6 pts). Wait for a fresh touch of either mapped zone before trading; no chasing the move midway."
+    }
+  },
+  "riskWindow": null,
+  "cryptoContext": {
+    "risk": "MEDIO",
+    "deriv": {
+      "es": "Fondeo ahora shorts-crowded en las dos monedas (ETH -0.0046% cada 8h, BTC -0.0019%, antes neutral): cambio desde el close. Interes abierto sigue cayendo pero mas despacio (ETH -0.11%, BTC -0.52% en 24h, antes -2.06%/-5.1%): el cierre de posiciones se esta frenando. Cuentas largas sin cambios relevantes, bajo el umbral de alerta (ETH 2.88 a 1, BTC 2.55 a 1; el corte es 3 a 1).",
+      "en": "Funding is now shorts-crowded on both coins (ETH -0.0046% every 8h, BTC -0.0019%, previously neutral): a change from the close. Open interest keeps falling but slower (ETH -0.11%, BTC -0.52% on 24h, previously -2.06%/-5.1%): the position-closing is easing up. Long-skewed accounts are little changed, still under the alert threshold (ETH 2.88 to 1, BTC 2.55 to 1; the cutoff is 3 to 1)."
+    },
+    "dvol": 58.36,
+    "fearGreed": 12,
+    "cmeGap": null,
+    "ethBtc24hPct": -0.04,
+    "drivers": [
+      {
+        "theme": "hack",
+        "headline": "Lighter reopens withdrawals after trader’s API key leak, returns about $5 million in USDC",
+        "source": "The Block",
+        "ageH": 2.8,
+        "note": {
+          "es": "Se aclaro: fue la fuga de la clave de API de UN trader, no un hackeo del protocolo; ya devolvio cerca de $5M y reabrio retiros a las 12:00 UTC. Su ventana de riesgo de 24h (desde el primer titular, anoche) ya vencio: deja de pesar en el riesgo de hoy.",
+          "en": "Clarified: it was one trader's API key leak, not a protocol-wide hack; it already returned about $5M and reopened withdrawals at 12:00 UTC. Its 24h risk window (from the first headline, last night) has expired: it stops weighing on today's risk."
+        }
+      },
+      {
+        "theme": "regulation",
+        "headline": "Morning Minute: The CFTC Officially Greenlights Perps in the US, Starting with Backpack",
+        "source": "Decrypt",
+        "ageH": 1.8,
+        "note": {
+          "es": "Hecho reciente (~1.8h): confirma la aprobacion regulatoria de perpetuos en EE.UU. que ya se vio en el close. Contexto de fondo favorable a largo plazo, no crea setups de hoy.",
+          "en": "Recent fact (~1.8h ago): confirms the US perps regulatory approval already seen at the close. Favorable long-term background context, creates no setups today."
+        }
+      },
+      {
+        "theme": "etf",
+        "headline": "BlackRock’s Bitcoin ETF snaps $2.35B outflow streak amid extreme fear",
+        "source": "Cointelegraph",
+        "ageH": 3.5,
+        "note": {
+          "es": "Hecho reciente (~3.5h): el ETF de Bitcoin de BlackRock corto una racha de $2.35B en salidas, en medio de miedo extremo. Flujo de fondo favorable para BTC, no crea setups de hoy.",
+          "en": "Recent fact (~3.5h ago): BlackRock's Bitcoin ETF snapped a $2.35B outflow streak, amid extreme fear. A favorable background flow for BTC, creates no setups today."
+        }
+      }
+    ],
+    "note": {
+      "es": "Miedo extremo sin cambio (12). DVOL 58.36, practicamente igual que en el close: ni caro ni barato. ETH/BTC -0.04% en 24h: casi igual de fuertes, sin cambio. Hueco del CME de ETH sigue fuera de ventana (martes). Riesgo de fondo bajado de ALTO a MEDIO: el hackeo de Lighter se aclaro y su ventana vencio, el Retail Sales ya paso con reaccion leve; queda el fondo de miedo extremo y fondeo shorts-crowded en las dos monedas.",
+      "en": "Extreme fear unchanged (12). DVOL 58.36, practically the same as at the close: neither expensive nor cheap. ETH/BTC -0.04% on 24h: still about even strength, unchanged. ETH's CME gap stays out of window (Tuesday). Background risk down from ALTO to MEDIO: the Lighter hack got clarified and its window expired, Retail Sales already passed with a mild reaction; what remains is the extreme-fear backdrop and shorts-crowded funding on both coins."
+    }
+  },
+  "personal": {
+    "patternId": "size-escalation",
+    "note": {
+      "es": "Casi todo bloqueado hoy por datos viejos: si alguna zona se activa mas tarde con feed fresco, tamano chico desde la primera entrada, nunca el record de antes.",
+      "en": "Almost everything is blocked today by old data: if a zone triggers later with a fresh feed, keep size small from the first entry, never the old record size."
+    },
+    "capLine": {
+      "es": "Stop puesto en el libro al entrar . tamano definido por el riesgo antes de entrar . no anadir a una posicion perdedora",
+      "en": "Resting stop in the book at entry . size set by risk before entry . no adding to a losing position"
+    }
+  },
+  "instruments": {
+    "ETHUSDT": {
+      "price": 1822.02,
+      "biasDay": "SHORT",
+      "biasSession": "SHORT",
+      "conviction": "baja",
+      "move24h": {
+        "dir": "SHORT",
+        "pct": -1.31
+      },
+      "regime": "CHOP",
+      "tcl": null,
+      "context": {
+        "es": "Precio en 1,822.02, subio desde el close (1,814.04) y quedo pegado al borde superior de su zona de no operar de hoy (1,803.95 a 1,822.98), entre VAL (1,803.87) y POC (1,823.06) de ayer. La venta A+ de VAH ya disparo en la noche: mecha hasta 1,843.49 (dentro de 1,829.19 a 1,843.51, el registro de toques en VAH marca reclamo) y cierre de vuelta debajo, ahora cerca de su primer objetivo (1,820.61); el minimo del dia (1,785.81) paso por debajo de VAL y del PDL (1,787.11) en una barrida con reclamo, cruzando tambien la compra B dorada sin quedarse adentro, que ahora esta ~18 pts mas lejos del precio que en el close. El regimen (fresco, 45 min) bajo a rango con una ruptura falsa reciente en Londres, mas debil que la lectura bajista del close; el checklist de tendencia sigue sin dato util. Movimiento de 24h paso a SHORT -1.31% (antes LONG +0.24%): el rebote del fin de semana se esta deshaciendo. NQ/ES abrieron la caja de NY algo menos debiles que durante la noche (-1.01%/-1.30% en 24h, antes -2.48%/-1.86%), con NQ marcando un cambio de caracter bajista y ES uno alcista: mixto, sin pista clara para ETH; la divergencia con cripto, casi plano, se achico un poco pero sigue ahi.",
+        "en": "Price at 1,822.02, up from the close (1,814.04) and stuck against the upper edge of today's no-trade zone (1,803.95 to 1,822.98), between yesterday's VAL (1,803.87) and POC (1,823.06). The A+ VAH sell already fired overnight: a wick to 1,843.49 (inside 1,829.19 to 1,843.51, VAH's touch record shows a reclaim) and a close back below, now close to its first target (1,820.61); today's low (1,785.81) passed below VAL and the PDL (1,787.11) in a sweep with a reclaim, also crossing the golden B buy without holding inside it, which is now ~18 pts farther from price than at the close. The regime read (fresh, 45 min) dropped to ranging with a recent false breakout in London, weaker than the close's bearish read; the trend checklist still carries no useful data. The 24h move flipped to SHORT -1.31% (previously LONG +0.24%): the weekend bounce is unwinding. NQ/ES opened the NY cash session a bit less weak than overnight (-1.01%/-1.30% on 24h, previously -2.48%/-1.86%), with NQ showing a bearish character change and ES a bullish one: mixed, no clear cue for ETH; the divergence from crypto, which stays nearly flat, narrowed a bit but is still there."
+      },
+      "levels": {
+        "vah": 1830.13,
+        "poc": 1823.06,
+        "val": 1803.87,
+        "pdh": 1866.89,
+        "pdl": 1787.11,
+        "dayOpen": 1820.68,
+        "vwap": 1816.36,
+        "pwh": 2160.5,
+        "pwl": 1711.08
+      },
+      "zones": [
+        {
+          "range": [
+            1829.19,
+            1843.51
+          ],
+          "dir": "SHORT",
+          "type": "fade_vah",
+          "confluence": 6,
+          "grade": "A+",
+          "tcl": null,
+          "vs24h": "against",
+          "why": {
+            "es": "VAH de ayer (1,830.13) + EMA50 de 1h (1,830.16) + iFVG de 15m (1,829.19 a 1,843.51, coincide con el rango exacto) + zona dorada corta superpuesta (1,836.41 a 1,849.82), contra el movimiento casi plano de 24h: A+ del metodo por vs24h against, confluencia 6. Pero el snapshot y el TDL Feed vienen viejos esta corrida (42 min): no hay GO posible, regla dura de frescura, no del score.",
+            "en": "Yesterday's VAH (1,830.13) + the 1h EMA50 (1,830.16) + a 15m iFVG (1,829.19 to 1,843.51, matches the range exactly) + the overlapping short golden zone (1,836.41 to 1,849.82), against the nearly flat 24h move: A+ of the method by vs24h against, confluence 6. But the snapshot and TDL Feed are old this run (42 min): no GO is possible, hard freshness rule, not the score."
+          },
+          "play": {
+            "trigger": {
+              "es": "Mecha dentro de 1,829.19 a 1,843.51 (VAH/EMA50 1h/iFVG 15m) y cierre de 5m de vuelta bajo 1,829.19; nunca venta al toque. Un cierre de 15m sobre 1,847.00 mata la zona.",
+              "en": "A wick into 1,829.19 to 1,843.51 (VAH/1h EMA50/15m iFVG) and a 5m close back below 1,829.19; never sell on the touch. A 15m close above 1,847.00 kills the zone."
+            },
+            "stop": 1847.0,
+            "tp1": 1820.61,
+            "tp2": 1803.87,
+            "maxNotionalUsd": 50000,
+            "qtyNote": {
+              "es": "Riesgo $50 / ~12 pts de stop (entrada ~1,835) = ~4.2 ETH (~$7,700 nocional).",
+              "en": "$50 risk / ~12 pts stop (entry ~1,835) = ~4.2 ETH (~$7,700 notional)."
+            },
+            "scale": {
+              "es": "TP1 1,820.61 (EMA20 de 1h): cobra 2/3 y BE solo despues del parcial; TP2 1,803.87 (VAL de ayer), objetivo fijo.",
+              "en": "TP1 1,820.61 (the 1h EMA20): bank 2/3 and move to BE only after the partial; TP2 1,803.87 (yesterday's VAL), fixed target."
+            },
+            "status": {
+              "es": "Ya disparo: mecha hasta 1,843.49 (dentro del rango, el registro de toques en VAH marca reclamo) y cierre de vuelta bajo 1,829.19; precio ahora en 1,822.02, cerca de su primer objetivo (1,820.61).",
+              "en": "Already fired: a wick to 1,843.49 (inside the range, VAH's touch record shows a reclaim) and a close back below 1,829.19; price is now at 1,822.02, close to its first target (1,820.61)."
+            }
+          },
+          "fvg": [
+            {
+              "tf": "15m",
+              "dir": "ibear",
+              "range": [
+                1829.19,
+                1843.51
+              ],
+              "weight": 1,
+              "role": {
+                "es": "gatillo + confluencia",
+                "en": "trigger + confluence"
+              }
+            }
+          ]
+        },
+        {
+          "range": [
+            1803.87,
+            1807.59
+          ],
+          "dir": "LONG",
+          "type": "golden_zone",
+          "confluence": 0,
+          "grade": "B",
+          "tcl": null,
+          "vs24h": "with",
+          "why": {
+            "es": "VAL de ayer (1,803.87) + borde de descuento (1,807.05) en la punta baja de la zona dorada larga (1,804.18 a 1,817.59): a favor del movimiento casi plano de 24h, resta 2 por ir con el, y golden_zone nunca es A+ (regla del 14 nov): tope B. Precio actual (ultima lectura, hace 42 min) a solo ~6 pts arriba, dentro del mismo bolsillo angosto de hoy.",
+            "en": "Yesterday's VAL (1,803.87) + the discount edge (1,807.05) at the low tip of the long golden zone (1,804.18 to 1,817.59): with the nearly flat 24h move, minus 2 for going with it, and golden_zone is never A+ (the Nov 14 rule): capped B. Current price (last read, 42 min ago) sits only ~6 pts above, inside today's same tight pocket."
+          },
+          "play": {
+            "trigger": {
+              "es": "Mecha dentro de 1,803.87 a 1,807.59 (VAL/descuento/zona dorada) y cierre de 5m de vuelta sobre 1,805.50; nunca compra al toque. Un cierre de 15m bajo 1,800.00 mata la zona.",
+              "en": "A wick into 1,803.87 to 1,807.59 (VAL/discount/golden zone) and a 5m close back above 1,805.50; never buy on the touch. A 15m close below 1,800.00 kills the zone."
+            },
+            "stop": 1800.0,
+            "tp1": 1816.36,
+            "tp2": 1823.06,
+            "maxNotionalUsd": 50000,
+            "qtyNote": {
+              "es": "Riesgo $50 / ~5.5 pts de stop (entrada ~1,805.5) = ~9.1 ETH (~$16,430 nocional).",
+              "en": "$50 risk / ~5.5 pts stop (entry ~1,805.5) = ~9.1 ETH (~$16,430 notional)."
+            },
+            "scale": {
+              "es": "TP1 1,816.36 (VWAP): cobra 2/3 y BE solo despues del parcial; TP2 1,823.06 (POC de ayer), objetivo fijo.",
+              "en": "TP1 1,816.36 (VWAP): bank 2/3 and move to BE only after the partial; TP2 1,823.06 (yesterday's POC), fixed target."
+            },
+            "status": {
+              "es": "No se quedo adentro: el minimo del dia (1,785.81) paso por debajo de toda la zona en una barrida de VAL/PDL con reclamo; el reclamo real fue mas abajo, no en este rango. Precio ahora en 1,822.02, ~18 pts mas lejos que en el close (antes ~6 pts).",
+              "en": "Didn't hold inside it: today's low (1,785.81) passed below the whole zone in a VAL/PDL sweep with a reclaim; the real reclaim happened lower, not in this range. Price is now at 1,822.02, ~18 pts farther away than at the close (was ~6 pts)."
+            }
+          },
+          "fvg": []
+        }
+      ],
+      "verdict": {
+        "signal": "WAIT",
+        "reason": {
+          "es": "Snapshot y TDL Feed de ETH ya vienen frescos esta corrida: se levanta el tope de conviccion y GO por frescura del close. Pero sin zona nueva a tiro: la venta A+ de VAH ya disparo (va camino al primer objetivo) y la compra B dorada quedo ~18 pts mas lejos. Nada que operar desde este precio sin esperar un nuevo toque.",
+          "en": "ETH's snapshot and TDL Feed are now fresh this run: the freshness-driven cap on conviction and GO from the close lifts. But there is no fresh zone at reach: the A+ VAH sell already fired (on its way to the first target) and the golden B buy is now ~18 pts farther away. Nothing to trade from this price without waiting for a new touch."
+        }
+      },
+      "counterCase": {
+        "es": "Si pierde la zona dorada (1,803.87) con cierre, abre la primera extension de ayer hacia abajo (1,767.17). Si el rebote del fin de semana retoma fuerza y perfora la venta de VAH con cierre, el proximo nivel es el PDH (1,866.89); el hueco del CME ya no cuenta como objetivo hoy (fuera de ventana).",
+        "en": "If it loses the golden zone (1,803.87) on a close, it opens yesterday's first extension to the downside (1,767.17). If the weekend bounce regains strength and closes through the VAH sell, the next level is the PDH (1,866.89); the CME gap no longer counts as a target today (out of window)."
+      },
+      "predictions": [
+        {
+          "id": "ETH-1",
+          "kind": "level",
+          "text": {
+            "es": "ETH no cierra ninguna vela de 15m por encima de 1,830.13 (VAH de ayer) antes de las 14:45 UTC.",
+            "en": "ETH does not close any 15m candle above 1,830.13 (yesterday's VAH) before 14:45 UTC."
+          },
+          "resolveAt": "2026-11-17T14:45:00Z"
+        },
+        {
+          "id": "ETH-2",
+          "kind": "range",
+          "text": {
+            "es": "ETH se queda dentro de 1,802.26 a 1,830.13 (IBL de hoy a VAH de ayer) en cierres de 15m durante toda esta ventana.",
+            "en": "ETH stays inside 1,802.26 to 1,830.13 (today's IBL to yesterday's VAH) on 15m closes for this whole window."
+          },
+          "resolveAt": "2026-11-17T14:45:00Z"
+        }
+      ]
+    },
+    "BTCUSDT": {
+      "price": 64924.25,
+      "biasDay": "SHORT",
+      "biasSession": "SHORT",
+      "conviction": "baja",
+      "move24h": {
+        "dir": "SHORT",
+        "pct": -0.45
+      },
+      "regime": "BULL",
+      "tcl": {
+        "v": 0,
+        "flip": 64818.22
+      },
+      "context": {
+        "es": "Precio en 64,924.25, subio desde el close (64,602.09) y quedo pegado al borde superior de su zona de no operar de hoy (64,895.88 a 65,124.14), entre POC (64,895.80) y VAH (65,124.22) de ayer. La venta B en VAH tambien disparo en la noche: mecha hasta 65,200.00 (dentro de 65,011.94 a 65,312.85, el registro de toques en VAH marca reclamo) y cierre de vuelta debajo; el minimo del dia (64,079.83) paso por debajo de la compra B dorada en una barrida del IBL con reclamo, sin quedarse adentro de ese rango, que ahora esta por debajo del precio y de la apertura del dia. El regimen (viejo, 50 min, fuente auxiliar) subio a alcista con lectura debil (1/3), consistente con el precio recuperandose hacia el centro del rango; el checklist de tendencia confirmado se enfrio de bajista normal (v=-2) a sin dato (v=0): el marco de 1h quedo neutral y el de 4h sigue bajista, solo contexto, no cambia el sesgo. Movimiento de 24h se suavizo a SHORT -0.45% (antes -0.30%): sigue siendo un dia de digestion. NQ/ES abrieron la caja de NY algo menos debiles que durante la noche (-1.01%/-1.30% en 24h, antes -2.48%/-1.86%) mientras BTC sube: la misma divergencia que ETH, algo mas chica.",
+        "en": "Price at 64,924.25, up from the close (64,602.09) and stuck against the upper edge of today's no-trade zone (64,895.88 to 65,124.14), between yesterday's POC (64,895.80) and VAH (65,124.22). The B VAH sell also fired overnight: a wick to 65,200.00 (inside 65,011.94 to 65,312.85, VAH's touch record shows a reclaim) and a close back below; today's low (64,079.83) passed below the golden B buy in an IBL sweep with a reclaim, without holding inside that range, which is now below both price and the day open. The regime read (old, 50 min, an auxiliary source) turned bullish with a weak reading (1/3), consistent with price recovering toward the center of the range; the confirmed trend checklist cooled from a normal bearish read (v=-2) to no clear signal (v=0): the 1h frame turned neutral while the 4h frame stays bearish, context only, it doesn't change the bias. The 24h move eased to SHORT -0.45% (previously -0.30%): still a digestion day. NQ/ES opened the NY cash session a bit less weak than overnight (-1.01%/-1.30% on 24h, previously -2.48%/-1.86%) while BTC rises: the same divergence as ETH, a bit smaller."
+      },
+      "levels": {
+        "vah": 65124.22,
+        "poc": 64895.8,
+        "val": 64312.07,
+        "pdh": 65696.16,
+        "pdl": 63905.01,
+        "dayOpen": 64882.88,
+        "vwap": 64626.92,
+        "pwh": 75599.22,
+        "pwl": 62006.0
+      },
+      "zones": [
+        {
+          "range": [
+            65011.94,
+            65312.85
+          ],
+          "dir": "SHORT",
+          "type": "fade_vah",
+          "confluence": 2,
+          "grade": "B",
+          "tcl": "favor",
+          "vs24h": "with",
+          "why": {
+            "es": "VAH de ayer (65,124.22) + EMA50 de 1h (65,279.74) + iFVG de 15m (65,100.01 a 65,174.00) dentro de la zona dorada corta (65,011.94 a 65,312.85): a favor del leve retroceso de 24h, resta 2 por ir con el, tope B. El checklist de tendencia (fresco) confirma bajista: esta zona va a favor de esa lectura (solo contexto).",
+            "en": "Yesterday's VAH (65,124.22) + the 1h EMA50 (65,279.74) + a 15m iFVG (65,100.01 to 65,174.00) inside the short golden zone (65,011.94 to 65,312.85): with the mild 24h pullback, minus 2 for going with it, capped B. The trend checklist (fresh) confirms bearish: this zone goes with that read (context only)."
+          },
+          "play": {
+            "trigger": {
+              "es": "Rally dentro de 65,011.94 a 65,312.85 (VAH/EMA50 1h/iFVG) y cierre de 5m de vuelta bajo 65,011.94; nunca venta al toque. Un cierre de 15m sobre 65,355 mata la zona.",
+              "en": "A rally into 65,011.94 to 65,312.85 (VAH/1h EMA50/iFVG) and a 5m close back below 65,011.94; never sell on the touch. A 15m close above 65,355 kills the zone."
+            },
+            "stop": 65355,
+            "tp1": 64626.92,
+            "tp2": 64312.07,
+            "maxNotionalUsd": 50000,
+            "qtyNote": {
+              "es": "Riesgo $50 / ~255 pts de stop (entrada ~65,100) = ~0.196 BTC (~$12,760 nocional).",
+              "en": "$50 risk / ~255 pts stop (entry ~65,100) = ~0.196 BTC (~$12,760 notional)."
+            },
+            "scale": {
+              "es": "TP1 64,626.92 (VWAP): cobra 2/3 y BE solo despues del parcial; TP2 64,312.07 (VAL de ayer), objetivo fijo.",
+              "en": "TP1 64,626.92 (VWAP): bank 2/3 and move to BE only after the partial; TP2 64,312.07 (yesterday's VAL), fixed target."
+            },
+            "status": {
+              "es": "Ya disparo: mecha hasta 65,200.00 (dentro del rango, VAH con 2 toques y reclamo) y cierre de vuelta bajo 65,011.94; precio ahora en 64,924.25, por debajo de la zona.",
+              "en": "Already fired: a wick to 65,200.00 (inside the range, VAH shows 2 touches and a reclaim) and a close back below 65,011.94; price is now at 64,924.25, below the zone."
+            }
+          },
+          "fvg": [
+            {
+              "tf": "15m",
+              "dir": "ibear",
+              "range": [
+                65100.01,
+                65174.0
+              ],
+              "weight": 1,
+              "role": {
+                "es": "confluencia",
+                "en": "confluence"
+              }
+            }
+          ]
+        },
+        {
+          "range": [
+            64288.32,
+            64589.23
+          ],
+          "dir": "LONG",
+          "type": "golden_zone",
+          "confluence": 4,
+          "grade": "B",
+          "tcl": "contra",
+          "vs24h": "against",
+          "why": {
+            "es": "VAL de ayer (64,312.07) dentro de la zona dorada larga (64,288.32 a 64,589.23): contra el leve retroceso de 24h (A+ del metodo por vs24h), pero golden_zone nunca es A+ (regla del 14 nov): tope B. El checklist de tendencia (fresco) confirma bajista: esta zona va en contra de esa lectura, solo aviso, no cambia el grado.",
+            "en": "Yesterday's VAL (64,312.07) inside the long golden zone (64,288.32 to 64,589.23): against the mild 24h pullback (A+ of the method by vs24h), but golden_zone is never A+ (the Nov 14 rule): capped B. The trend checklist (fresh) confirms bearish: this zone goes against that read, just a heads-up, it does not change the grade."
+          },
+          "play": {
+            "trigger": {
+              "es": "Mecha dentro de 64,288.32 a 64,589.23 (VAL/zona dorada) y cierre de 5m de vuelta sobre 64,450; nunca compra al toque. Un cierre de 15m bajo 64,230 mata la zona.",
+              "en": "A wick into 64,288.32 to 64,589.23 (VAL/golden zone) and a 5m close back above 64,450; never buy on the touch. A 15m close below 64,230 kills the zone."
+            },
+            "stop": 64230,
+            "tp1": 64882.88,
+            "tp2": 65124.22,
+            "maxNotionalUsd": 50000,
+            "qtyNote": {
+              "es": "Riesgo $50 / ~210 pts de stop (entrada ~64,440) = ~0.238 BTC (~$15,340 nocional).",
+              "en": "$50 risk / ~210 pts stop (entry ~64,440) = ~0.238 BTC (~$15,340 notional)."
+            },
+            "scale": {
+              "es": "TP1 64,882.88 (apertura del dia): cobra 2/3 y BE solo despues del parcial; TP2 65,124.22 (VAH de ayer), objetivo fijo.",
+              "en": "TP1 64,882.88 (day open): bank 2/3 and move to BE only after the partial; TP2 65,124.22 (yesterday's VAH), fixed target."
+            },
+            "status": {
+              "es": "No se quedo adentro: el minimo del dia (64,079.83) paso por debajo de toda la zona en una barrida del IBL con reclamo; el reclamo real fue mas abajo, no en este rango. Precio ahora en 64,924.25, por encima de la zona y de la apertura del dia.",
+              "en": "Didn't hold inside it: today's low (64,079.83) passed below the whole zone in an IBL sweep with a reclaim; the real reclaim happened lower, not in this range. Price is now at 64,924.25, above the zone and above the day open."
+            }
+          },
+          "fvg": []
+        }
+      ],
+      "verdict": {
+        "signal": "WAIT",
+        "reason": {
+          "es": "Las dos zonas de la tabla son tope B (nunca GO) y las dos ya se cruzaron hoy sin quedar a tiro: la venta disparo y reclamo abajo, la compra se salto en una barrida mas profunda. El TDL Feed de BTC sigue algo viejo (30 min) pero no cambia nada, ninguna zona es A+. Mismo contexto que ETH: sin zona nueva a tiro.",
+          "en": "Both of the table's zones are capped B (never GO) and both already got crossed today without leaving anything at reach: the sell fired and reclaimed down, the buy got swept through in a deeper flush. BTC's TDL Feed is still a bit old (30 min) but it changes nothing, neither zone is A+. Same context as ETH: no fresh zone at reach."
+        }
+      },
+      "counterCase": {
+        "es": "Si pierde la zona dorada larga (64,288.32) con cierre, abre la primera extension de ayer (63,457.22). Si rompe la zona dorada corta (65,312.85) con cierre, el siguiente nivel es el PDH (65,696.16).",
+        "en": "If it loses the long golden zone (64,288.32) on a close, it opens yesterday's first extension (63,457.22). If it breaks the short golden zone (65,312.85) on a close, the next level is the PDH (65,696.16)."
+      },
+      "predictions": [
+        {
+          "id": "BTC-1",
+          "kind": "level",
+          "text": {
+            "es": "BTC no cierra ninguna vela de 15m por encima de 65,124.22 (VAH de ayer) antes de las 14:45 UTC.",
+            "en": "BTC does not close any 15m candle above 65,124.22 (yesterday's VAH) before 14:45 UTC."
+          },
+          "resolveAt": "2026-11-17T14:45:00Z"
+        },
+        {
+          "id": "BTC-2",
+          "kind": "range",
+          "text": {
+            "es": "BTC se queda dentro de 64,100.00 a 65,124.22 (IBL de hoy a VAH de ayer) en cierres de 15m durante toda esta ventana.",
+            "en": "BTC stays inside 64,100.00 to 65,124.22 (today's IBL to yesterday's VAH) on 15m closes for this whole window."
+          },
+          "resolveAt": "2026-11-17T14:45:00Z"
+        }
+      ]
+    }
+  },
+  "graded": {
+    "plan": "2026-11-16",
+    "line": {
+      "es": "2026-11-16: predicciones 1/4 (solo el techo de BTC, 65,675.80 VAH de ayer, aguanto toda la ventana; el techo de ETH se rompio con fuerza a las 14:30 UTC, cierre 1,851.17, y los dos rangos PDL-VAH tambien se rompieron). Zonas 1/8: la venta A+ de ETH en VAH/PDH se rompio al alza en el close antes de confirmar, pero si funciono en el ny (r=0.03, barrida y reclamo); las otras 6 (las dos compras B doradas y las dos ventas B de BTC, en las dos corridas) no se tocaron. Dia de continuacion del rebote del fin de semana, ETH toco maximo 1,863.72 en mecha antes de enfriarse a 1,814, BTC se quedo mas contenido. Snapshot y TDL Feed llegan viejos esta corrida (42 min): conviccion tope baja y nada de GO hoy aunque la venta de ETH en VAH sea A+ por score. Priores que aplican hoy siguen todos muy debajo de 40%: fondeo shorts-crowded 10/65=15%, miedo 25/116=22%, DVOL subiendo y bajando 2/24=8% cada uno (las peores lecturas hasta ahora), hueco por debajo 4/30=13% (ultima vez que aplica, sale de ventana hoy), titular de hackeo 18/71=25%, ETH 15/68=22%, BTC 10/54=19%.",
+      "en": "2026-11-16: predictions 1/4 (only BTC's ceiling, 65,675.80 yesterday's VAH, held the whole window; ETH's ceiling broke hard at 14:30 UTC, closing at 1,851.17, and both PDL-VAH ranges also broke). Zones 1/8: ETH's A+ VAH/PDH sell broke upward in the close before confirming, but it did work in the ny run (r=0.03, sweep and reclaim); the other 6 (the two golden B buys and BTC's two B sells, across both runs) were never touched. A day of continued weekend-bounce follow-through, ETH wicked up to 1,863.72 before cooling to 1,814, BTC stayed more contained. The snapshot and TDL Feed arrive old this run (42 min): conviction capped low and no GO today even though ETH's VAH sell is A+ by score. Today's applicable priors all stay well under 40%: shorts-crowded funding 10/65=15%, fear 25/116=22%, DVOL up and down 2/24=8% each (the worst reads yet), gap below 4/30=13% (last time it applies, drops out of window today), hack headline 18/71=25%, ETH 15/68=22%, BTC 10/54=19%."
+    }
+  },
+  "updated": {
+    "es": "Snapshot y TDL Feed de ETH frescos esta corrida (24 y 25 min, antes 42 viejo): se levanta el tope de conviccion y GO por frescura del close, aunque la conviccion se queda en baja por los priores de contexto de siempre. El TDL Feed de BTC sigue algo viejo (30 min). En las dos monedas, las zonas mapeadas en el close ya se cruzaron: la venta A+ de ETH en VAH disparo (mecha a 1,843.49, reclamo, camino al primer objetivo) y la venta B de BTC en VAH tambien (mecha a 65,200, reclamo); las dos compras B doradas se saltaron en barridas mas profundas (VAL/PDL de ETH hasta 1,785.81, IBL de BTC hasta 64,079.83) sin quedarse dentro del rango, asi que ninguna sigue a tiro. Las dos ventanas de riesgo del close (Retail Sales 13:15-14:00 UTC y el hackeo de Lighter hasta ~14:20 UTC) ya vencieron: riskWindow a null. El hackeo de Lighter se aclaro como la fuga de la clave de API de un trader (no del protocolo), ~$5M devueltos, retiros reabiertos: baja el riesgo de fondo de ALTO a MEDIO. Fondeo ahora shorts-crowded en las dos monedas (antes BTC neutral). En BTC el checklist de tendencia confirmado se enfrio de bajista normal (v=-2) a sin dato (v=0, el marco de 1h quedo neutral y el de 4h sigue bajista): solo contexto, no cambia el sesgo. Sin cambio de sesgo diario o de sesion en ninguna de las dos; sin zona nueva a tiro en esta apertura de NY.",
+    "en": "ETH's snapshot and TDL Feed are fresh this run (24 and 25 min, previously 42 old): the freshness-driven cap on conviction and GO from the close lifts, though conviction stays low on the same old context priors. BTC's TDL Feed is still a bit old (30 min). On both coins, the zones mapped at the close already got crossed: ETH's A+ VAH sell fired (a wick to 1,843.49, a reclaim, on its way to the first target) and BTC's B VAH sell also fired (a wick to 65,200, a reclaim); both golden B buys got swept through in deeper flushes (ETH's VAL/PDL down to 1,785.81, BTC's IBL down to 64,079.83) without holding inside the range, so neither stays at reach. Both of the close's risk windows (Retail Sales 13:15-14:00 UTC and the Lighter hack until ~14:20 UTC) have expired: riskWindow goes to null. The Lighter hack got clarified as one trader's API key leak (not the protocol's), about $5M returned, withdrawals reopened: background risk drops from ALTO to MEDIO. Funding is now shorts-crowded on both coins (BTC was neutral before). On BTC, the confirmed trend checklist cooled from a normal bearish read (v=-2) to no clear signal (v=0, the 1h frame turned neutral while the 4h frame stays bearish): context only, it doesn't change the bias. No change to the daily or session bias on either coin; no fresh zone at reach at this NY open."
+  }
+}
