@@ -1,75 +1,77 @@
 {
-  "checkedAt": "2026-11-18T15:39:37Z",
-  "status": "warn",
+  "checkedAt": "2026-11-18T23:39:51Z",
+  "status": "down",
   "snapshot": {
-    "builtAt": "2026-11-18T15:30:35.602Z",
-    "ageMin": 9,
-    "state": "OK"
+    "builtAt": "2026-11-18T22:45:22.369Z",
+    "ageMin": 54,
+    "state": "VIEJO"
   },
   "webhook": {
-    "lastSeenMin": 9,
-    "state": "ok"
+    "lastSeenMin": 99,
+    "state": "silencioso"
   },
   "news": {
-    "ageMin": 32,
+    "ageMin": 79,
     "count": 20,
     "state": "ok"
   },
   "sa": {
-    "lastRun": "2026-11-18T13:35:00Z",
-    "runType": "pre-ny",
+    "lastRun": "2026-11-18T22:09:00Z",
+    "runType": "pre-asia",
     "lateBy": null
   },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 10, "state": "fresh" },
-      "feed": { "ageMin": 10, "state": "fresh" },
-      "regime": { "ageMin": 35, "state": "fresh" },
-      "trendcl": { "ageMin": 34, "state": "fresh" }
+      "orb": { "ageMin": 99, "state": "dead" },
+      "feed": { "ageMin": 99, "state": "dead" },
+      "regime": { "ageMin": 125, "state": "dead" },
+      "trendcl": { "ageMin": 110, "state": "stale" }
     },
     "ES": {
-      "orb": { "ageMin": 9, "state": "fresh" },
-      "feed": { "ageMin": 10, "state": "fresh" },
-      "regime": { "ageMin": 25, "state": "fresh" },
-      "trendcl": { "ageMin": 23, "state": "fresh" }
+      "orb": { "ageMin": 99, "state": "dead" },
+      "feed": { "ageMin": 99, "state": "dead" },
+      "regime": { "ageMin": 125, "state": "dead" },
+      "trendcl": { "ageMin": 130, "state": "stale" }
     },
     "GC": {
-      "orb": { "ageMin": 10, "state": "fresh" },
-      "feed": { "ageMin": 10, "state": "fresh" },
-      "regime": { "ageMin": 35, "state": "fresh" },
-      "trendcl": { "ageMin": 39, "state": "fresh" }
+      "orb": { "ageMin": 99, "state": "dead" },
+      "feed": { "ageMin": 99, "state": "dead" },
+      "regime": { "ageMin": 125, "state": "dead" },
+      "trendcl": { "ageMin": 160, "state": "dead" }
     },
     "YM": {
-      "orb": { "ageMin": 10, "state": "fresh" },
-      "feed": { "ageMin": 9, "state": "fresh" },
-      "regime": { "ageMin": 35, "state": "fresh" },
-      "trendcl": { "ageMin": 39, "state": "fresh" }
+      "orb": { "ageMin": 99, "state": "dead" },
+      "feed": { "ageMin": 99, "state": "dead" },
+      "regime": { "ageMin": 125, "state": "dead" },
+      "trendcl": { "ageMin": 160, "state": "dead" }
     },
     "CL": {
-      "orb": { "ageMin": 9, "state": "frozen" },
-      "feed": { "ageMin": 9, "state": "fresh" },
-      "regime": { "ageMin": 35, "state": "fresh" },
-      "trendcl": { "ageMin": 24, "state": "fresh" }
+      "orb": { "ageMin": 100, "state": "frozen" },
+      "feed": { "ageMin": 100, "state": "dead" },
+      "regime": { "ageMin": 105, "state": "stale" },
+      "trendcl": { "ageMin": 160, "state": "dead" }
     }
   },
-  "scalp": {
-    "ingestMin": 9,
-    "snapshotMin": 39,
-    "state": "ok"
-  },
+  "scalp": { "ingestMin": 55, "snapshotMin": 69, "state": "ok" },
   "pushes": {
-    "counts": { "present": 10, "missing": 0, "duplicated": 2, "pending": 1 },
+    "counts": { "present": 9, "missing": 0, "duplicated": 2, "pending": 1 },
     "missing": [],
     "duplicated": [
       "pre-asia 2026-11-17 (2x, re-check/catch-up)",
-      "pre-ny 2026-11-17 (2x, re-check/catch-up)"
+      "pre-asia 2026-11-18 (2x, re-check/catch-up)"
     ]
   },
   "issues": [
-    "orb@CL frozen (1130 min)"
+    "snapshot viejo (54 min)",
+    "webhook silencioso (99 min)",
+    "feed@ES/GC/NQ/CL/YM dead (99-100 min)",
+    "orb@ES/GC/NQ/YM dead (99 min)",
+    "orb@CL frozen (streak, pdh/pdl desfasado desde 17-nov)",
+    "regime@ES/GC/NQ/YM dead (125 min)",
+    "trendcl@GC/CL/YM dead (160 min)"
   ],
   "note": {
-    "es": "Miercoles 09:39 CT (franja 09:30, vigila pre-ny). SA pre-ny SI salio a tiempo (commit 13:47Z, heartbeat 13:35Z); salio con ok:false por snapshot viejo en esa corrida (asterisco), pero la regla dice no rehacer lo que si salio, asi que no hay catch-up. Snapshot a 9 min (OK), webhook a 9 min (ok), news a 32 min (ok, 20 eventos). orb de NQ/ES/GC/YM frescos y alineados (pdh/pdl=feed); CL sigue con pdh/pdl desfasados del feed desde ~20:50 UTC del 17-nov (~18.8 h, 4to check consecutivo), asi que esta corrida notifica de nuevo para reiniciar su alerta TradingView. Resto de fuentes (feed/regime/trendcl) frescas en los 5 simbolos. Scalp CC ok (ingest 9 min, snapshot 39 min). Pushes limpios: 10 present, 2 duplicados (re-checks normales de pre-asia/pre-ny del 17-nov), 0 missing, 1 pending (este watchdog). Zonas: zones[0] de los 5 instrumentos TACTICAL y dentro de presupuesto (ratio 0.0-0.42), nada inalcanzable. Journal fresco (~2.6 h, sin huecos, cubre hasta el 17-nov).",
-    "en": "Wednesday 09:39 CT (09:30 slot, watches pre-ny). The pre-ny SA run DID go out on time (commit 13:47Z, heartbeat 13:35Z); it went out with ok:false due to a stale snapshot during that run (asterisk), but the rule says never redo a run that did go out, so no catch-up. Snapshot 9 min old (OK), webhook 9 min (ok), news 32 min old (ok, 20 events). NQ/ES/GC/YM orb are fresh and aligned (pdh/pdl=feed); CL's pdh/pdl are still off from the feed since ~20:50 UTC on the 17th (~18.8h, 4th consecutive check), so this run notifies again to get CL's TradingView alert restarted. The rest of the sources (feed/regime/trendcl) are fresh across all 5 symbols. Scalp CC ok (ingest 9 min, snapshot 39 min). Pushes clean: 10 present, 2 duplicated (normal pre-asia/pre-ny re-checks from the 17th), 0 missing, 1 pending (this watchdog). Zones: all 5 instruments' zones[0] are TACTICAL and within budget (ratio 0.0-0.42), nothing unreachable. Journal fresh (~2.6h, no gaps, covers through the 17th)."
+    "es": "Miercoles 17:39 CT (franja 17:30, vigila pre-asia). La corrida pre-asia SI salio a tiempo (commit 22:09Z, heartbeat 22:09Z, re-disparo sin cambios materiales) antes de que empezara el corte, asi que no hay catch-up. Pero desde ~22:00-22:10 UTC la tuberia de Netlify dejo de refrescar: snapshot a 54 min (VIEJO, umbral 35), webhook silencioso a 99 min (umbral 60), feed muerto en los 5 simbolos (99-100 min), orb muerto en ES/GC/NQ/YM (99 min) y regime muerto en los mismos 4 (125 min); CL sigue con orb frozen (pdh/pdl desfasado del feed desde el 17-nov, racha larga ya reportada) y su regime solo stale (105 min). trendcl tambien degradado (stale en NQ/ES, dead en GC/CL/YM). News ok (79 min, 20 eventos) y scalp CC ok (ingest 55 min, snapshot 69 min): ambos corren por fuera de esta tuberia. Pushes limpios: 9 present, 2 duplicados (re-checks normales de pre-asia), 0 missing, 1 pending (este watchdog). Journal fresco (~21 min). Zonas: YM y CL superan ratio 0.9 pero sus verdicts son AVOID con razon explicita de 'fuera de alcance', asi que no es reach.unactionable. Se notifica por status down: revisar sa-bus-snapshot/session-feed en Netlify.",
+    "en": "Wednesday 17:39 CT (17:30 slot, watches pre-asia). The pre-asia run DID go out on time (commit 22:09Z, heartbeat 22:09Z, re-fire with no material changes) before the outage started, so no catch-up is needed. But since ~22:00-22:10 UTC the Netlify pipeline stopped refreshing: snapshot is 54 min old (VIEJO, threshold 35), webhook silent at 99 min (threshold 60), feed dead across all 5 symbols (99-100 min), orb dead on ES/GC/NQ/YM (99 min) and regime dead on the same 4 (125 min); CL's orb stays frozen (pdh/pdl off from the feed since Nov 17, a long-running streak already reported) and its regime is only stale (105 min). trendcl is degraded too (stale on NQ/ES, dead on GC/CL/YM). News is ok (79 min, 20 events) and Scalp CC is ok (ingest 55 min, snapshot 69 min): both run outside this pipeline. Pushes are clean: 9 present, 2 duplicated (normal pre-asia re-checks), 0 missing, 1 pending (this watchdog). Journal is fresh (~21 min). Zones: YM and CL exceed a 0.9 reach ratio but their verdicts are AVOID with an explicit 'out of reach' reason, so this is not reach.unactionable. Notifying for the down status: check sa-bus-snapshot/session-feed on Netlify."
   }
 }
