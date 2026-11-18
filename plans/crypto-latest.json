@@ -1,42 +1,49 @@
 {
   "schema": "crypto-plan-1",
-  "runType": "crypto-close",
-  "builtAt": "2026-11-18T01:30:00Z",
+  "runType": "crypto-ny",
+  "builtAt": "2026-11-18T14:52:00Z",
   "date": "2026-11-18",
-  "slot": "close",
-  "validUntil": "2026-11-18T14:45:00Z",
+  "slot": "ny",
+  "validUntil": "2026-11-19T00:00:00Z",
   "dataHealth": {
-    "snapshotAgeMin": 10,
+    "snapshotAgeMin": 22,
     "stale": [],
     "missing": [],
     "notes": [
-      "hueco del CME de ETH fuera de ventana (solo aplica viernes a lunes, hoy es miercoles)",
-      "FOMC Meeting Minutes hoy 19:00 UTC / 13:00 CT: ver riskWindow"
+      "hueco del CME de ETH fuera de ventana (cmeCloseDate es martes, no viernes; no aplica de martes a viernes)",
+      "FOMC Meeting Minutes hoy 19:00 UTC / 13:00 CT: riskWindow sigue vigente, aun no llega",
+      "checklist de tendencia confirmo cortos en 1h/4h/diario en ETH y BTC (v -2, antes 0 en el close); el regimen de las dos paso de NEUTRAL a BEAR",
+      "aviso: la demanda de ETH (1,742 a 1,751) y la zona dorada de BTC (64,120 a 64,174), las dos LONG, quedan en contra del checklist de tendencia (v -2) si se juegan en la sesion de NY",
+      "WARN lint (esperado en crypto-ny, crypto.md 7): vs24h de las 4 zonas quedo en flat (congelado del close) pero el move24h recien calculado ya es bajista en las dos monedas; no se re-puntua ni se re-clasifica, solo se deja dicho"
     ]
   },
   "summary": {
     "es": [
-      "Snapshot fresco (~10 min); feed, regimen y checklist de tendencia de ETH y BTC tambien frescos.",
-      "ETH y BTC casi planos en 24h (ETH -0.02%, BTC +0.04%): sin direccion neta no hay zona A+ posible hoy (regla 8e), todo queda en B.",
-      "Los dos siguen dentro de su zona de no-operar ahora mismo, dia de balance: mapa listo, sin gatillo todavia.",
-      "FOMC Meeting Minutes a las 19:00 UTC (13:00 CT), alto impacto USD: nada de GO 15 min antes y 30 min despues.",
-      "Conviccion baja en las dos: fondeo, miedo extremo, DVOL y el simbolo mismo siguen acertando por debajo del 40% acumulado.",
-      "NQ +0.37% en 24h; ETH no esta acompanando ese impulso (plano), sin correlacion clara hoy."
+      "Update de NY (08:45 CT), snapshot fresco (~22 min); feed, regimen y checklist de tendencia de ETH y BTC frescos.",
+      "ETH y BTC cayeron desde el close: ETH de 1,815.10 a 1,794.21, BTC de 64,631.75 a 64,000.01. El movimiento de 24h paso de plano a bajista en las dos (ETH -0.95%, BTC -1.56%): el dia de balance se inclino a bajista.",
+      "El checklist de tendencia confirmo cortos en 1h/4h/diario en las dos monedas (antes sin direccion) y el regimen paso de neutral a bajista; el sesgo de la sesion ahora es corto, alineado con el diario.",
+      "Ninguna venta en el techo se toco esta noche (ETH 1,832.85 a 1,836.00, BTC 65,114.23 a 65,447.00, el maximo de la noche se quedo corto en los dos). La compra dorada de BTC (64,120.35 a 64,174.20) si se jugo: barrida y reclamo seis veces, pero el ultimo reclamo (12:10 UTC) se rindio y el precio paso el stop de esa zona (64,000): zona rota. La demanda de ETH (1,742.32 a 1,751.39) no fue tocada.",
+      "NQ/ES abrieron el cash flojos (NQ +0.17% en 24h, ES -0.6%); ETH y BTC ahora si acompanan la baja, a diferencia de la corrida anterior cuando ETH estaba plano y desacoplado.",
+      "Fondeo invirtio posiciones: ETH paso a shorts-crowded (los cortos pagan), BTC paso a neutral. Cuentas largas de ETH ya pasaron el umbral de alerta (3.17 a 1, el corte es 3 a 1): retail muy cargado de largos, contexto contrario. Miedo extremo se mantiene (11).",
+      "FOMC Meeting Minutes a las 19:00 UTC (13:00 CT) sigue en la ventana de riesgo, todavia no llega: nada de GO de 15 min antes a 30 min despues.",
+      "Conviccion se mantiene baja en las dos: el piso historico (fondeo, miedo extremo, DVOL y el simbolo mismo bajo 40% acumulado) no lo mueve un update ligero."
     ],
     "en": [
-      "Fresh snapshot (~10 min); ETH and BTC feed, regime and trend checklist are fresh too.",
-      "ETH and BTC are nearly flat on 24h (ETH -0.02%, BTC +0.04%): with no net direction there is no possible A+ zone today (rule 8e), everything stays at B.",
-      "Both are still sitting inside their no-trade zone right now, a balance day: the map is ready, no trigger yet.",
-      "FOMC Meeting Minutes at 19:00 UTC (1:00pm CT), high-impact USD: no GO 15 min before and 30 min after.",
-      "Conviction is low on both: funding, extreme fear, DVOL and the symbol itself keep hitting below the 40% accumulated prior.",
-      "NQ is +0.37% on 24h; ETH is not following that move (flat), no clear correlation today."
+      "NY update (8:45am CT), fresh snapshot (~22 min); ETH and BTC feed, regime and trend checklist are fresh too.",
+      "ETH and BTC fell since the close: ETH from 1,815.10 to 1,794.21, BTC from 64,631.75 to 64,000.01. The 24h move went from flat to bearish on both (ETH -0.95%, BTC -1.56%): the balance day tilted bearish.",
+      "The trend checklist confirmed shorts on 1h/4h/daily on both coins (previously no direction) and the regime flipped from neutral to bearish; the session bias is now short, aligned with the daily.",
+      "Neither ceiling short got touched overnight (ETH 1,832.85 to 1,836.00, BTC 65,114.23 to 65,447.00, the overnight high fell short of both). BTC's golden long (64,120.35 to 64,174.20) did get played: swept and reclaimed six times, but the last reclaim (12:10 UTC) gave way and price broke that zone's stop (64,000): zone broken. ETH's demand zone (1,742.32 to 1,751.39) was not touched.",
+      "NQ/ES opened the cash session soft (NQ +0.17% on 24h, ES -0.6%); ETH and BTC are now following the move down, unlike the prior run when ETH was flat and decoupled.",
+      "Funding flipped sides: ETH turned shorts-crowded (shorts are paying), BTC turned neutral. ETH's long-skewed accounts already cleared the alert threshold (3.17 to 1, the cutoff is 3 to 1): retail is heavily long, contrarian context. Extreme fear holds (11).",
+      "FOMC Meeting Minutes at 19:00 UTC (1:00pm CT) is still the risk window ahead, not here yet: no GO from 15 min before to 30 min after.",
+      "Conviction stays low on both: the historical floor (funding, extreme fear, DVOL and the symbol itself hitting below 40% accumulated) is not moved by a light update."
     ]
   },
   "focus": {
     "sym": "ETHUSDT",
     "setup": {
-      "es": "Venta tactica de ETH en el techo 1,832.85 a 1,836.00 (VAH de ayer + maximo overnight/de Asia + maximo de swing de 1h + apertura semanal), puntaje 8, grado B (el movimiento de 24h viene plano, asi que no hay A+ hoy). Espera el rechazo con cierre de 15m de vuelta bajo 1,833 antes de vender; sin ese cierre, queda fuera.",
-      "en": "Tactical ETH short at the 1,832.85 to 1,836.00 ceiling (yesterday's VAH + overnight/Asia high + 1h swing high + the weekly open), score 8, grade B (the 24h move is flat, so there is no A+ today). Wait for the rejection with a 15m close back under 1,833 before selling; without that close, stay out."
+      "es": "Sigue sin gatillo. La venta tactica en el techo 1,832.85 a 1,836.00 (puntaje 8, grado B) quedo mas lejos: el precio cayo a 1,794.21, unos 39 puntos por debajo en vez de los 18 del close. Mismo plan: esperar mecha a 1,836 y cierre de 15m de vuelta bajo 1,833 antes de vender. Si la caida sigue, la demanda de 1,742.32 a 1,751.39 (puntaje 5, grado B, contra el checklist de tendencia) queda a una distancia similar (~43 puntos) y pide barrida con reclamo sobre 1,751.39.",
+      "en": "Still no trigger. The tactical ceiling short at 1,832.85 to 1,836.00 (score 8, grade B) got further away: price fell to 1,794.21, about 39 points below instead of the 18 at the close. Same plan: wait for a wick to 1,836 and a 15m close back under 1,833 before selling. If the slide continues, the 1,742.32 to 1,751.39 demand (score 5, grade B, against the trend checklist) sits a similar distance away (~43 points) and needs a sweep with a reclaim above 1,751.39."
     }
   },
   "riskWindow": {
@@ -50,38 +57,38 @@
   "cryptoContext": {
     "risk": "ALTO",
     "deriv": {
-      "es": "Fondeo de ETH neutral (+0.0039% cada 8h, tope normal de OKX); el de BTC shorts-crowded (-0.0003%, los cortos pagan). Interes abierto subiendo un poco en las dos (ETH +0.53%, BTC +1.17% en 24h) con precio casi plano: nada de gasolina clara en ningun lado. Cuentas largas sin cambios relevantes, bajo el umbral de alerta (ETH 2.87 a 1, BTC 2.74 a 1; el corte es 3 a 1).",
-      "en": "ETH funding is neutral (+0.0039% every 8h, OKX's normal cap); BTC's is shorts-crowded (-0.0003%, shorts are paying). Open interest is edging up on both (ETH +0.53%, BTC +1.17% on 24h) with price nearly flat: no clear fresh fuel on either side. Long-skewed accounts are little changed, still under the alert threshold (ETH 2.87 to 1, BTC 2.74 to 1; the cutoff is 3 to 1)."
+      "es": "Fondeo invirtio posiciones desde el close: ETH ahora shorts-crowded (-0.0026% cada 8h, los cortos pagan; antes neutral), BTC ahora neutral (+0.0024%; antes shorts-crowded). Interes abierto de ETH +0.52% en 24h, el de BTC -0.4% (cierres): ETH trae algo de gasolina nueva en la caida, BTC se ve mas a cierres. Cuentas largas de ETH ya pasaron el umbral de alerta (3.17 a 1, corte en 3 a 1): retail muy cargado de largos, escenario contrario de barrida. BTC sigue debajo (2.97 a 1).",
+      "en": "Funding flipped sides since the close: ETH is now shorts-crowded (-0.0026% every 8h, shorts are paying; was neutral), BTC is now neutral (+0.0024%; was shorts-crowded). ETH open interest is +0.52% on 24h, BTC's is -0.4% (closing): ETH carries some fresh fuel into the drop, BTC looks more like closing out. ETH's long-skewed accounts already cleared the alert threshold (3.17 to 1, cutoff is 3 to 1): retail is heavily long, a contrarian sweep scenario. BTC stays under it (2.97 to 1)."
     },
-    "dvol": 58.01,
+    "dvol": 58.71,
     "fearGreed": 11,
     "cmeGap": null,
-    "ethBtc24hPct": 0.07,
+    "ethBtc24hPct": -0.25,
     "drivers": [
       {
-        "theme": "hack",
-        "headline": "Binance Hack Wallets Move $137 Million in Ethereum After Two Weeks of Silence",
-        "source": "Cointelegraph",
-        "ageH": 7.9,
+        "theme": "etf",
+        "headline": "Bitcoin ETFs lose $240M as CryptoQuant flags bearish market phase",
+        "source": "various",
+        "ageH": 6.6,
         "note": {
-          "es": "Son fondos de un hackeo viejo (de hace semanas) que se mueven ahora, no una brecha nueva: no activa la ventana de riesgo de 24h del metodo (esa es solo para hackeos nuevos). Queda como contexto de fondo, no como veto de la primera hora.",
-          "en": "These are funds from an old hack (weeks ago) moving now, not a fresh breach: it does not trigger the method's 24h risk window (that is only for new hacks). It stays as background context, not a first-hour veto."
+          "es": "Salida de flujo reciente (~6.6h) de los ETF de Bitcoin, hecho de las ultimas 12h: driver de fondo que acompana la caida, no la crea por si solo.",
+          "en": "A recent (~6.6h) outflow from Bitcoin ETFs, a fact from the last 12h: background driver that accompanies the drop, does not create it on its own."
         }
       },
       {
-        "theme": "regulation",
-        "headline": "Trump's CFTC picks face Senate scrutiny as prediction market turf war heats up",
-        "source": "The Block",
-        "ageH": 1.7,
+        "theme": "eth",
+        "headline": "CoinShares sells all treasury ETH, halves SOL holdings for buybacks",
+        "source": "various",
+        "ageH": 1.1,
         "note": {
-          "es": "Hecho reciente (~1.7h): disputa regulatoria sobre mercados de prediccion (Kalshi vs CFTC), no sobre cripto spot. Contexto de fondo, no crea setups de hoy.",
-          "en": "Recent fact (~1.7h ago): a regulatory dispute over prediction markets (Kalshi vs CFTC), not spot crypto. Background context, creates no setups today."
+          "es": "Hecho reciente (~1.1h): una tesoreria corporativa vendio todo su ETH para recompras. Flujo bajista puntual, no un cambio de red; contexto de fondo.",
+          "en": "Recent fact (~1.1h): a corporate treasury sold its entire ETH position for buybacks. A one-off bearish flow, not a network change; background context."
         }
       }
     ],
     "note": {
-      "es": "Miedo extremo (11, bajo desde 12). DVOL 58.01 (dvolRank 37 en ETH, 43 en BTC): ni caro ni barato, sin necesidad de ensanchar zonas. ETH/BTC +0.07% en 24h: practicamente igual de fuertes. El hueco del CME de ETH sigue fuera de ventana (de martes a viernes no aplica). Riesgo de fondo ALTO por el calendario: FOMC Meeting Minutes a las 19:00 UTC, mas el eco de un hackeo viejo que no suma nada nuevo.",
-      "en": "Extreme fear (11, down from 12). DVOL 58.01 (dvolRank 37 on ETH, 43 on BTC): neither expensive nor cheap, no need to widen zones. ETH/BTC +0.07% on 24h: practically even strength. ETH's CME gap stays out of window (does not apply Tuesday through Friday). Background risk is ALTO from the calendar: FOMC Meeting Minutes at 19:00 UTC, plus the echo of an old hack that adds nothing new."
+      "es": "Miedo extremo se mantiene (11). DVOL 58.71 (bajo 0.91 en 24h): ni caro ni barato, sin necesidad de ensanchar zonas. ETH/BTC -0.25% en 24h: ETH un poco mas debil que BTC, un escalon lejos del umbral de -1% que resta conviccion por regla. El hueco del CME de ETH sigue fuera de ventana (de martes a viernes no aplica). Riesgo de fondo ALTO por el calendario: FOMC Meeting Minutes a las 19:00 UTC, todavia no llega.",
+      "en": "Extreme fear holds (11). DVOL 58.71 (down 0.91 on 24h): neither expensive nor cheap, no need to widen zones. ETH/BTC -0.25% on 24h: ETH slightly weaker than BTC, one step short of the -1% threshold that costs conviction by rule. ETH's CME gap stays out of window (does not apply Tuesday through Friday). Background risk is ALTO from the calendar: FOMC Meeting Minutes at 19:00 UTC, not here yet."
     }
   },
   "personal": {
@@ -97,22 +104,22 @@
   },
   "instruments": {
     "ETHUSDT": {
-      "price": 1815.1,
+      "price": 1794.21,
       "biasDay": "SHORT",
-      "biasSession": "NEUTRAL",
+      "biasSession": "SHORT",
       "conviction": "baja",
       "move24h": {
-        "dir": "FLAT",
-        "pct": -0.02
+        "dir": "SHORT",
+        "pct": -0.95
       },
-      "regime": "NEUTRAL",
+      "regime": "BEAR",
       "tcl": {
-        "v": 0,
-        "flip": 1811.18
+        "v": -2,
+        "flip": 1804.68
       },
       "context": {
-        "es": "Precio en 1,815.10, pegado a la EMA de 50 (1,815.15) y dentro de la zona de no-operar entre el VAL del dia en curso y el POC de ayer. Dia de balance: estructura diaria y de 4h bajista alineada, pero el checklist de tendencia de 1h sigue sin direccion confirmada (0). Hace unas 2 horas barrio el maximo de Londres (1,833.94) y cerro de vuelta abajo, rechazo claro del techo. Movimiento de 24h practicamente plano (-0.02%): sin eso no hay zona en contra de las 24h, asi que nada puede ser A+ del metodo hoy.",
-        "en": "Price is at 1,815.10, glued to the 50 EMA (1,815.15) and inside the no-trade zone between today's VAL and yesterday's POC. A balance day: daily and 4h structure are aligned bearish, but the 1h trend checklist still has no confirmed direction (0). About 2 hours ago it swept the London high (1,833.94) and closed back down, a clean rejection of the ceiling. The 24h move is practically flat (-0.02%): with no net move there is no against-the-24h zone, so nothing can be A+ of the method today."
+        "es": "Cayo desde 1,815.10 en el close hasta la franja de 1,788 a 1,794 durante Londres, perdiendo el VAL de ayer (1,792.41) varias veces sin aguantar reclamo firme; la EMA de 20 y de 50 ya quedaron por encima del precio. El checklist de tendencia confirmo cortos en 1h/4h/diario (antes sin direccion, v 0) y el regimen paso de neutral a bajista. Ninguna de las dos zonas del mapa (techo 1,832.85 a 1,836.00, soporte 1,742.32 a 1,751.39) fue tocada desde el close; el maximo de la noche quedo en 1,817.55 y el minimo en 1,787.42, los dos lejos de sus zonas.",
+        "en": "Fell from 1,815.10 at the close into the 1,788 to 1,794 band during London, losing yesterday's VAL (1,792.41) several times without holding a firm reclaim; the 20 and 50 EMAs are now above price. The trend checklist confirmed shorts on 1h/4h/daily (previously no direction, v 0) and the regime flipped from neutral to bearish. Neither zone on the map (ceiling 1,832.85 to 1,836.00, support 1,742.32 to 1,751.39) got touched since the close; the overnight high was 1,817.55 and the low 1,787.42, both far from their zones."
       },
       "levels": {
         "vah": 1832.85,
@@ -135,7 +142,7 @@
           "type": "fade_vah",
           "confluence": 8,
           "grade": "B",
-          "tcl": null,
+          "tcl": "favor",
           "vs24h": "flat",
           "why": {
             "es": "VAH de ayer (1,832.85) junto al maximo overnight y de Asia (1,836.00), el maximo de swing de 1h (1,833.08) y la apertura semanal (1,835.35); zona premium del rango de hoy; FVG bajista de 15 minutos encima (1,829.19 a 1,843.51, peso 2 por ser del marco de la sesion o mayor); barrida del maximo de Londres hace unas 2 horas con cierre de vuelta abajo; encaja con el fade de extremos tipico de Asia. Puntaje 8, pero el movimiento de 24h viene plano asi que queda en B, no A+.",
@@ -165,7 +172,7 @@
           "type": "demand",
           "confluence": 5,
           "grade": "B",
-          "tcl": null,
+          "tcl": "contra",
           "vs24h": "flat",
           "why": {
             "es": "El PDL (1,751.39) justo en el borde de un FVG alcista de 1h (1,742.32 a 1,751.39, peso 2) y del minimo de swing de 1h; fade del extremo bajo tipico de Asia. Puntaje 5, B (el movimiento de 24h viene plano).",
@@ -190,8 +197,8 @@
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "Precio dentro de la zona de no-operar, movimiento de 24h plano (sin A+ posible hoy), fondeo y miedo extremo siguen acertando bajo el 40% acumulado: conviccion baja. La venta en el techo (VAH/maximo overnight, puntaje 8) y la compra en el PDL/FVG de 1h (puntaje 5) quedan como mapa, sin gatillo; ademas FOMC Minutes a las 19:00 UTC manda esperar en esa ventana.",
-          "en": "Price is inside the no-trade zone, the 24h move is flat (no A+ possible today), funding and extreme fear keep hitting below the 40% accumulated prior: conviction is low. The ceiling short (VAH/overnight high, score 8) and the PDL/1h-FVG long (score 5) stay as a map, no trigger yet; also FOMC Minutes at 19:00 UTC calls for waiting through that window."
+          "es": "Precio en tierra de nadie entre las dos zonas del mapa, ahora mas lejos de las dos (unos 39 puntos del techo, 43 del soporte). El movimiento de 24h paso a bajista (-0.95%) y el checklist de tendencia confirmo cortos en 1h/4h/diario (antes sin direccion): el sesgo de sesion ahora es corto. Las zonas siguen con el grado que trajeron del close (B las dos, sin A+ posible esa corrida); conviccion baja por el piso historico de fondeo, miedo extremo y DVOL. Sin gatillo en ninguna; FOMC Minutes a las 19:00 UTC sigue pidiendo esperar esa ventana.",
+          "en": "Price is in no man's land between the two mapped zones, now further from both (about 39 points from the ceiling, 43 from the support). The 24h move turned bearish (-0.95%) and the trend checklist confirmed shorts on 1h/4h/daily (previously no direction): the session bias is now short. The zones keep the grade they carried from the close (both B, no A+ possible that run); conviction stays low from the historical floor of funding, extreme fear and DVOL. No trigger on either; FOMC Minutes at 19:00 UTC still calls for waiting through that window."
         }
       },
       "counterCase": {
@@ -220,22 +227,22 @@
       ]
     },
     "BTCUSDT": {
-      "price": 64631.75,
+      "price": 64000.01,
       "biasDay": "SHORT",
-      "biasSession": "NEUTRAL",
+      "biasSession": "SHORT",
       "conviction": "baja",
       "move24h": {
-        "dir": "FLAT",
-        "pct": 0.04
+        "dir": "SHORT",
+        "pct": -1.56
       },
-      "regime": "NEUTRAL",
+      "regime": "BEAR",
       "tcl": {
-        "v": 0,
-        "flip": 64494.92
+        "v": -2,
+        "flip": 64418.02
       },
       "context": {
-        "es": "Precio en 64,631.75, dentro de la zona de no-operar entre el VAL del dia en curso y el POC de ayer. Dia de balance: estructura diaria y de 4h bajista alineada, checklist de tendencia de 1h sin direccion confirmada (0). Hace unas 2 horas barrio el maximo de Londres (65,184.01) y cerro de vuelta abajo. Movimiento de 24h practicamente plano (+0.04%): sin eso no hay zona en contra de las 24h, nada puede ser A+ del metodo hoy.",
-        "en": "Price is at 64,631.75, inside the no-trade zone between today's VAL and yesterday's POC. A balance day: daily and 4h structure aligned bearish, 1h trend checklist with no confirmed direction (0). About 2 hours ago it swept the London high (65,184.01) and closed back down. The 24h move is practically flat (+0.04%): with no net move there is no against-the-24h zone, nothing can be A+ of the method today."
+        "es": "Cayo desde 64,631.75 en el close hasta la franja de 63,850 a 64,090, perdiendo el VAL de ayer (64,157.45) y el borde de la zona dorada (64,120.35 a 64,174.20) en seis barridas con reclamo breve; el ultimo reclamo (12:10 UTC, 64,176.73) se rindio y el precio rompio el stop de esa zona (64,000), ahora en minimos del dia (63,888.00). El checklist de tendencia confirmo cortos en 1h/4h/diario (antes sin direccion) y el regimen paso de neutral a bajista. La venta en el techo (65,114.23 a 65,447.00) no se toco: el maximo de la noche quedo en 64,889.54.",
+        "en": "Fell from 64,631.75 at the close into the 63,850 to 64,090 band, losing yesterday's VAL (64,157.45) and the edge of the golden zone (64,120.35 to 64,174.20) across six sweep-and-reclaim attempts; the last reclaim (12:10 UTC, 64,176.73) gave way and price broke that zone's stop (64,000), now at the day's low (63,888.00). The trend checklist confirmed shorts on 1h/4h/daily (previously no direction) and the regime flipped from neutral to bearish. The ceiling short (65,114.23 to 65,447.00) was not touched: the overnight high was 64,889.54."
       },
       "levels": {
         "vah": 65114.23,
@@ -258,7 +265,7 @@
           "type": "fade_vah",
           "confluence": 8,
           "grade": "B",
-          "tcl": null,
+          "tcl": "favor",
           "vs24h": "flat",
           "why": {
             "es": "VAH de ayer (65,114.23) junto al maximo overnight y de Asia (65,268.00), la apertura semanal (65,351.05) y el IBH de hoy / maximo de swing de 1h (65,447.00); zona premium del rango de hoy; FVG bajista de 1h encima (65,268.00 a 65,298.00, peso 2); barrida del maximo de Londres hace unas 2 horas con cierre de vuelta abajo; encaja con el fade de extremos tipico de Asia. Puntaje 8, pero el movimiento de 24h viene plano asi que queda en B, no A+.",
@@ -288,7 +295,7 @@
           "type": "golden_zone",
           "confluence": 5,
           "grade": "B",
-          "tcl": null,
+          "tcl": "contra",
           "vs24h": "flat",
           "why": {
             "es": "El VAL de ayer (64,157.45) dentro del borde alto de la zona dorada (hasta 64,142.40) y de un FVG alcista de 1h (64,120.35 a 64,174.20, peso 2); fade del extremo bajo tipico de Asia. Puntaje 5, B (el movimiento de 24h viene plano).",
@@ -307,14 +314,15 @@
               "es": "Riesgo $50 / distancia al stop ~$150 (entrada ~64,150, stop 64,000) = unos 0.33 BTC (~$21,400 nocional).",
               "en": "Risk $50 / distance to stop ~$150 (entry ~64,150, stop 64,000) = about 0.33 BTC (~$21,400 notional)."
             }
-          }
+          },
+          "broken": true
         }
       ],
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "Precio dentro de la zona de no-operar, movimiento de 24h plano (sin A+ posible hoy), fondeo shorts-crowded y miedo extremo siguen acertando bajo el 40% acumulado: conviccion baja. La venta en el techo (VAH/maximo overnight, puntaje 8) y la compra dorada en el VAL/FVG de 1h (puntaje 5) quedan como mapa, sin gatillo; FOMC Minutes a las 19:00 UTC manda esperar en esa ventana.",
-          "en": "Price is inside the no-trade zone, the 24h move is flat (no A+ possible today), shorts-crowded funding and extreme fear keep hitting below the 40% accumulated prior: conviction is low. The ceiling short (VAH/overnight high, score 8) and the golden-zone VAL/1h-FVG long (score 5) stay as a map, no trigger yet; FOMC Minutes at 19:00 UTC calls for waiting through that window."
+          "es": "La compra dorada ya se jugo y se rompio (barrida y reclamo seis veces, stop de 64,000 superado, precio en minimos del dia); queda marcada rota, no se borra. La venta en el techo (65,114 a 65,447) sigue sin tocarse, muy lejos (~1,114 a 1,447 puntos). El movimiento de 24h paso a bajista (-1.56%) y el checklist de tendencia confirmo cortos en 1h/4h/diario: el sesgo de sesion ahora es corto. Conviccion baja por el piso historico; sin zona a tiro, FOMC Minutes a las 19:00 UTC sigue pidiendo esperar esa ventana.",
+          "en": "The golden long already played out and broke (swept and reclaimed six times, the 64,000 stop was taken out, price at the day's low); it stays marked broken, not deleted. The ceiling short (65,114 to 65,447) remains untouched, very far away (~1,114 to 1,447 points). The 24h move turned bearish (-1.56%) and the trend checklist confirmed shorts on 1h/4h/daily: the session bias is now short. Conviction stays low from the historical floor; with no zone in reach, FOMC Minutes at 19:00 UTC still calls for waiting through that window."
         }
       },
       "counterCase": {
@@ -350,5 +358,8 @@
       "en": "2026-11-17: the short bias missed 3 of 4 runs (only hit on BTC's ny, -47.25pts), zones 6/8 touched-and-won (the VAH/IBH shorts worked on both the close and ny for both coins, BTC's golden long worked twice too; only ETH's golden long broke before confirming, both times), text predictions 0/8 (the cited ceilings and ranges broke on both runs and both coins)."
     }
   },
-  "updated": null
+  "updated": {
+    "es": "Lo que aguanto: las dos ventas en el techo (ETH 1,832.85 a 1,836.00, BTC 65,114.23 a 65,447.00) siguen sin tocarse, solo mas lejos; la ventana de riesgo de FOMC (19:00 UTC) sigue igual. Lo que cambio: ETH y BTC pasaron de planos a bajistas en 24h, el checklist de tendencia confirmo cortos en 1h/4h/diario en las dos (antes sin direccion) y el regimen paso a bajista; la compra dorada de BTC se jugo y se rompio (stop de 64,000 superado); el fondeo invirtio posiciones (ETH ahora shorts-crowded, BTC neutral) y las cuentas largas de ETH ya pasaron el umbral de alerta. NQ/ES abrieron el cash flojos y ETH/BTC ahora si acompanan la baja. Conviccion se mantiene baja en las dos.",
+    "en": "What held: both ceiling shorts (ETH 1,832.85 to 1,836.00, BTC 65,114.23 to 65,447.00) remain untouched, just further away; the FOMC risk window (19:00 UTC) is unchanged. What changed: ETH and BTC went from flat to bearish on 24h, the trend checklist confirmed shorts on 1h/4h/daily on both (previously no direction) and the regime flipped bearish; BTC's golden long played out and broke (the 64,000 stop was taken out); funding flipped sides (ETH now shorts-crowded, BTC neutral) and ETH's long-skewed accounts already cleared the alert threshold. NQ/ES opened the cash session soft and ETH/BTC are now following the move down. Conviction stays low on both."
+  }
 }
