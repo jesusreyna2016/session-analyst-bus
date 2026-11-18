@@ -1,64 +1,64 @@
 {
-  "checkedAt": "2026-11-18T08:37:29Z",
+  "checkedAt": "2026-11-18T15:39:37Z",
   "status": "warn",
   "snapshot": {
-    "builtAt": "2026-11-18T08:30:32.779Z",
-    "ageMin": 7,
+    "builtAt": "2026-11-18T15:30:35.602Z",
+    "ageMin": 9,
     "state": "OK"
   },
   "webhook": {
-    "lastSeenMin": 7,
+    "lastSeenMin": 9,
     "state": "ok"
   },
   "news": {
-    "ageMin": 13,
+    "ageMin": 32,
     "count": 20,
     "state": "ok"
   },
   "sa": {
-    "lastRun": "2026-11-18T07:05:00Z",
-    "runType": "pre-london",
+    "lastRun": "2026-11-18T13:35:00Z",
+    "runType": "pre-ny",
     "lateBy": null
   },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 7, "state": "fresh" },
-      "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 7, "state": "fresh" },
-      "trendcl": { "ageMin": 37, "state": "fresh" }
+      "orb": { "ageMin": 10, "state": "fresh" },
+      "feed": { "ageMin": 10, "state": "fresh" },
+      "regime": { "ageMin": 35, "state": "fresh" },
+      "trendcl": { "ageMin": 34, "state": "fresh" }
     },
     "ES": {
-      "orb": { "ageMin": 7, "state": "fresh" },
-      "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 22, "state": "fresh" },
-      "trendcl": { "ageMin": 32, "state": "fresh" }
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 10, "state": "fresh" },
+      "regime": { "ageMin": 25, "state": "fresh" },
+      "trendcl": { "ageMin": 23, "state": "fresh" }
     },
     "GC": {
-      "orb": { "ageMin": 7, "state": "fresh" },
-      "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 37, "state": "fresh" }
+      "orb": { "ageMin": 10, "state": "fresh" },
+      "feed": { "ageMin": 10, "state": "fresh" },
+      "regime": { "ageMin": 35, "state": "fresh" },
+      "trendcl": { "ageMin": 39, "state": "fresh" }
     },
     "YM": {
-      "orb": { "ageMin": 7, "state": "fresh" },
-      "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 7, "state": "fresh" },
-      "trendcl": { "ageMin": 11, "state": "fresh" }
+      "orb": { "ageMin": 10, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
+      "regime": { "ageMin": 35, "state": "fresh" },
+      "trendcl": { "ageMin": 39, "state": "fresh" }
     },
     "CL": {
-      "orb": { "ageMin": 7, "state": "frozen" },
-      "feed": { "ageMin": 7, "state": "fresh" },
-      "regime": { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 37, "state": "fresh" }
+      "orb": { "ageMin": 9, "state": "frozen" },
+      "feed": { "ageMin": 9, "state": "fresh" },
+      "regime": { "ageMin": 35, "state": "fresh" },
+      "trendcl": { "ageMin": 24, "state": "fresh" }
     }
   },
   "scalp": {
-    "ingestMin": 7,
-    "snapshotMin": 37,
+    "ingestMin": 9,
+    "snapshotMin": 39,
     "state": "ok"
   },
   "pushes": {
-    "counts": { "present": 9, "missing": 0, "duplicated": 2, "pending": 1 },
+    "counts": { "present": 10, "missing": 0, "duplicated": 2, "pending": 1 },
     "missing": [],
     "duplicated": [
       "pre-asia 2026-11-17 (2x, re-check/catch-up)",
@@ -66,10 +66,10 @@
     ]
   },
   "issues": [
-    "orb@CL frozen (708 min)"
+    "orb@CL frozen (1130 min)"
   ],
   "note": {
-    "es": "Miercoles 02:37 CT (franja 02:30, vigila pre-london). SA pre-london SI salio a tiempo (commit 07:18Z / heartbeat 07:05Z, ok:true), sin catch-up necesario. Snapshot a 7 min (OK), webhook a 7 min (ok, se recupero del 'lento' del check anterior), news a 13 min (ok, 20 eventos). El orb (TradingView) de NQ/ES/GC se recupero (pdh/pdl ya coinciden con el feed, alguien reinicio esas alertas); CL sigue con pdh/pdl desfasados del feed desde ~20:50 UTC del 17-nov (~11.8 h, 3er check consecutivo), asi que esta corrida notifica para que se reinicie la alerta TradingView de CL. Resto de fuentes (feed/regime/trendcl) frescas en los 5 simbolos. Scalp CC ok (ingest 7 min, snapshot 37 min). Pushes limpios: 9 present, 2 duplicados (re-checks normales de pre-asia/pre-ny del 17-nov), 0 missing, 1 pending (este watchdog). Zonas: zones[0] de los 5 instrumentos dentro de presupuesto (ratio 0.09-0.9; ES al borde en 0.9 pero verdict WAIT, no GO, por jerarquia del metodo, no por alcance). Journal fresco (~1.6 h).",
-    "en": "Wednesday 02:37 CT (02:30 slot, watches pre-london). The pre-london SA run DID go out on time (commit 07:18Z / heartbeat 07:05Z, ok:true), no catch-up needed. Snapshot 7 min old (OK), webhook 7 min (ok, recovered from the prior check's 'lento'), news 13 min old (ok, 20 events). The TradingView orb backbone for NQ/ES/GC recovered (pdh/pdl now match the feed, someone restarted those alerts); CL's pdh/pdl are still off from the feed since ~20:50 UTC on the 17th (~11.8h, 3rd consecutive check), so this run notifies to get CL's TradingView alert restarted. The rest of the sources (feed/regime/trendcl) are fresh across all 5 symbols. Scalp CC ok (ingest 7 min, snapshot 37 min). Pushes clean: 9 present, 2 duplicated (normal pre-asia/pre-ny re-checks from the 17th), 0 missing, 1 pending (this watchdog). Zones: all 5 instruments' zones[0] within reach budget (ratio 0.09-0.9; ES right at the edge at 0.9 but verdict is WAIT, not GO, under the method's hierarchy, not a reach problem). Journal fresh (~1.6h)."
+    "es": "Miercoles 09:39 CT (franja 09:30, vigila pre-ny). SA pre-ny SI salio a tiempo (commit 13:47Z, heartbeat 13:35Z); salio con ok:false por snapshot viejo en esa corrida (asterisco), pero la regla dice no rehacer lo que si salio, asi que no hay catch-up. Snapshot a 9 min (OK), webhook a 9 min (ok), news a 32 min (ok, 20 eventos). orb de NQ/ES/GC/YM frescos y alineados (pdh/pdl=feed); CL sigue con pdh/pdl desfasados del feed desde ~20:50 UTC del 17-nov (~18.8 h, 4to check consecutivo), asi que esta corrida notifica de nuevo para reiniciar su alerta TradingView. Resto de fuentes (feed/regime/trendcl) frescas en los 5 simbolos. Scalp CC ok (ingest 9 min, snapshot 39 min). Pushes limpios: 10 present, 2 duplicados (re-checks normales de pre-asia/pre-ny del 17-nov), 0 missing, 1 pending (este watchdog). Zonas: zones[0] de los 5 instrumentos TACTICAL y dentro de presupuesto (ratio 0.0-0.42), nada inalcanzable. Journal fresco (~2.6 h, sin huecos, cubre hasta el 17-nov).",
+    "en": "Wednesday 09:39 CT (09:30 slot, watches pre-ny). The pre-ny SA run DID go out on time (commit 13:47Z, heartbeat 13:35Z); it went out with ok:false due to a stale snapshot during that run (asterisk), but the rule says never redo a run that did go out, so no catch-up. Snapshot 9 min old (OK), webhook 9 min (ok), news 32 min old (ok, 20 events). NQ/ES/GC/YM orb are fresh and aligned (pdh/pdl=feed); CL's pdh/pdl are still off from the feed since ~20:50 UTC on the 17th (~18.8h, 4th consecutive check), so this run notifies again to get CL's TradingView alert restarted. The rest of the sources (feed/regime/trendcl) are fresh across all 5 symbols. Scalp CC ok (ingest 9 min, snapshot 39 min). Pushes clean: 10 present, 2 duplicated (normal pre-asia/pre-ny re-checks from the 17th), 0 missing, 1 pending (this watchdog). Zones: all 5 instruments' zones[0] are TACTICAL and within budget (ratio 0.0-0.42), nothing unreachable. Journal fresh (~2.6h, no gaps, covers through the 17th)."
   }
 }
