@@ -1,84 +1,80 @@
 {
- "checkedAt": "2026-11-17T23:37:03Z",
- "status": "warn",
- "snapshot": {
-  "builtAt": "2026-11-17T23:30:33.461Z",
-  "ageMin": 6,
-  "state": "OK"
- },
- "webhook": {
-  "lastSeenMin": 12,
-  "state": "ok"
- },
- "news": {
-  "ageMin": 31,
-  "count": 20,
-  "state": "ok"
- },
- "sa": {
-  "lastRun": "2026-11-17T22:06:47Z",
-  "runType": "pre-asia",
-  "lateBy": null
- },
- "sources": {
-  "NQ": {
-   "orb": { "ageMin": 167, "state": "frozen" },
-   "feed": { "ageMin": 12, "state": "fresh" },
-   "regime": { "ageMin": 22, "state": "fresh" },
-   "trendcl": { "ageMin": 7, "state": "fresh" }
+  "checkedAt": "2026-11-18T02:36:57Z",
+  "status": "warn",
+  "snapshot": {
+    "builtAt": "2026-11-18T02:15:25.855Z",
+    "ageMin": 22,
+    "state": "OK"
   },
-  "ES": {
-   "orb": { "ageMin": 212, "state": "frozen" },
-   "feed": { "ageMin": 12, "state": "fresh" },
-   "regime": { "ageMin": 17, "state": "fresh" },
-   "trendcl": { "ageMin": 11, "state": "fresh" }
+  "webhook": {
+    "lastSeenMin": 27,
+    "state": "lento"
   },
-  "GC": {
-   "orb": { "ageMin": 212, "state": "frozen" },
-   "feed": { "ageMin": 12, "state": "fresh" },
-   "regime": { "ageMin": 22, "state": "fresh" },
-   "trendcl": { "ageMin": 17, "state": "fresh" }
+  "news": {
+    "ageMin": 25,
+    "count": 20,
+    "state": "ok"
   },
-  "YM": {
-   "orb": { "ageMin": 12, "state": "fresh" },
-   "feed": { "ageMin": 12, "state": "fresh" },
-   "regime": { "ageMin": 22, "state": "fresh" },
-   "trendcl": { "ageMin": 22, "state": "fresh" }
+  "sa": {
+    "lastRun": "2026-11-17T22:06:47Z",
+    "runType": "pre-asia",
+    "lateBy": null
   },
-  "CL": {
-   "orb": { "ageMin": 167, "state": "frozen" },
-   "feed": { "ageMin": 12, "state": "fresh" },
-   "regime": { "ageMin": 22, "state": "fresh" },
-   "trendcl": { "ageMin": 17, "state": "fresh" }
+  "sources": {
+    "NQ": {
+      "orb": { "ageMin": 347, "state": "frozen" },
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 28, "state": "fresh" }
+    },
+    "ES": {
+      "orb": { "ageMin": 392, "state": "frozen" },
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 32, "state": "fresh" }
+    },
+    "GC": {
+      "orb": { "ageMin": 392, "state": "frozen" },
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 37, "state": "fresh" }
+    },
+    "YM": {
+      "orb": { "ageMin": 27, "state": "stale" },
+      "feed": { "ageMin": 27, "state": "stale" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 27, "state": "fresh" }
+    },
+    "CL": {
+      "orb": { "ageMin": 347, "state": "frozen" },
+      "feed": { "ageMin": 22, "state": "fresh" },
+      "regime": { "ageMin": 32, "state": "fresh" },
+      "trendcl": { "ageMin": 37, "state": "fresh" }
+    }
+  },
+  "scalp": {
+    "ingestMin": 22,
+    "snapshotMin": 36,
+    "state": "ok"
+  },
+  "pushes": {
+    "counts": { "present": 9, "missing": 0, "duplicated": 2, "pending": 1 },
+    "missing": [],
+    "duplicated": [
+      "pre-asia 2026-11-17 (2x, re-check/catch-up)",
+      "pre-ny 2026-11-17 (2x, re-check/catch-up)"
+    ]
+  },
+  "issues": [
+    "orb@ES frozen (392 min)",
+    "orb@GC frozen (392 min)",
+    "orb@NQ frozen (347 min)",
+    "orb@CL frozen (347 min)",
+    "webhook lento (27 min)",
+    "feed@YM stale (27 min)"
+  ],
+  "note": {
+    "es": "Martes 20:36 CT (franja 20:30, solo vigila salud, sin SA que rehacer esta franja). Snapshot a 22 min (OK), news a 25 min (ok, 20 eventos), webhook lento a 27 min (el orb mas reciente es YM). El orb (TradingView) de NQ/CL sigue congelado ~6h (desde 20:50 del 17-nov) y de ES/GC ~6.5h (desde 20:05), con pdh/pdl aun divergiendo del feed.raw: es el 2do check consecutivo asi (el de 17:30 ya lo vio), asi que esta corrida SI notifica para que se reinicien esas alertas en TradingView. TDL Feed/regime/trendcl siguen frescos en los 5 simbolos; YM quedo justo al borde del corte de frescura (27 min, cadencia normal, no es caida). Pushes limpios: 9 present, 2 duplicados (re-checks normales), 0 missing, 1 pending (este watchdog). Journal fresco (~46 min, cubre hasta hoy). Zonas: los 5 instrumentos con zones[0] dentro de presupuesto de alcance (ratio <=0.07), nada inalcanzable. Scalp CC ok (ingest 22 min, snapshot 36 min).",
+    "en": "Tuesday 20:36 CT (20:30 slot, health-only, no SA run to redo this slot). Snapshot 22 min old (OK), news 25 min (ok, 20 events), webhook lento at 27 min (freshest orb is YM). The TradingView orb backbone for NQ/CL is still frozen ~6h (since 20:50 on the 17th) and for ES/GC ~6.5h (since 20:05), pdh/pdl still diverging from feed.raw: this is the 2nd consecutive check catching it (17:30's check already flagged it), so this run DOES notify to get those TradingView alerts restarted. TDL Feed/regime/trendcl stay fresh across all 5 symbols; YM landed right at the freshness cutoff (27 min, normal cadence, not a drop). Pushes clean: 9 present, 2 duplicated (normal re-checks), 0 missing, 1 pending (this watchdog). Journal fresh (~46 min, covers through today). Zones: all 5 instruments' zones[0] within reach budget (ratio <=0.07), nothing unreachable. Scalp CC ok (ingest 22 min, snapshot 36 min)."
   }
- },
- "scalp": {
-  "ingestMin": 9,
-  "snapshotMin": 36,
-  "state": "ok"
- },
- "pushes": {
-  "counts": {
-   "present": 8,
-   "missing": 0,
-   "duplicated": 3,
-   "pending": 1
-  },
-  "missing": [],
-  "duplicated": [
-   "pre-asia 2026-11-16 (2x, re-check/catch-up)",
-   "pre-asia 2026-11-17 (2x, re-check/catch-up)",
-   "pre-ny 2026-11-17 (2x, re-check/catch-up)"
-  ]
- },
- "issues": [
-  "orb@ES frozen (212 min)",
-  "orb@GC frozen (212 min)",
-  "orb@NQ frozen (167 min)",
-  "orb@CL frozen (167 min)"
- ],
- "note": {
-  "es": "Martes 17:37 CT (franja 17:30, vigila pre-asia): pre-asia SI salio a tiempo (commit 21:40 UTC + re-disparo 22:08 UTC, heartbeat ok), sin catch-up necesario. Snapshot a 6 min (OK), webhook a 12 min (ok, lo mas reciente es YM), news a 31 min (ok, 20 eventos). Hallazgo nuevo: el backbone orb (TradingView) se congelo en 4 de 5 simbolos -- ES/GC a 212 min, NQ/CL a 167 min, con pdh/pdl del orb divergiendo claramente del feed.raw (p.ej. NQ pdh 28279 vs 27498) confirmando que son datos viejos, no solo retraso; TDL Feed/regime/trendcl siguen frescos en los 5, asi que el feed de datos en si esta bien, es la alerta ORB de TradingView la que parece haber caducado para esos 4 graficos. Es el primer check en este estado (el health anterior de las 09:30 los tenia frescos), asi que no cumple el umbral de 'dead/frozen >= 2 checks' para notificar; si sigue congelado en el proximo check (20:30 CT) si se avisa. Pushes limpios: 8 present, 3 duplicados (re-checks normales), 0 missing, 1 pending (este mismo watchdog). Journal fresco (actualizado hace ~69 min, cubre hasta hoy). Zonas: los 5 instrumentos en WAIT, ningun zones[0] viola la regla de alcance. Sin notificacion esta corrida.",
-  "en": "Tuesday 17:37 CT (17:30 slot, watches pre-asia): pre-asia DID run on time (commit 21:40 UTC + re-trigger 22:08 UTC, heartbeat ok), no catch-up needed. Snapshot 6 min old (OK), webhook 12 min (ok, most recent is YM), news 31 min (ok, 20 events). New finding: the orb (TradingView) backbone froze on 4 of 5 symbols -- ES/GC at 212 min, NQ/CL at 167 min, with orb pdh/pdl clearly diverging from feed.raw (e.g. NQ pdh 28279 vs 27498) confirming stale data, not just lag; TDL Feed/regime/trendcl stay fresh across all 5, so the data feed itself is fine -- it looks like the TradingView ORB alert expired for those 4 charts. This is the first check catching it (the 09:30 health had them all fresh), so it doesn't yet meet the 'dead/frozen >= 2 checks' bar for a notification; if still frozen on the next check (20:30 CT) it will notify. Pushes clean: 8 present, 3 duplicated (normal re-checks), 0 missing, 1 pending (this watchdog itself). Journal fresh (updated ~69 min ago, covers through today). Zones: all 5 instruments in WAIT, no zones[0] violates the reach rule. No notification this run."
- }
 }
