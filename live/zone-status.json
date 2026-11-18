@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-18T14:30:35Z",
+  "checkedAt": "2026-11-18T14:45:25Z",
   "planDate": "2026-11-18",
   "planGeneratedAt": "2026-11-18T07:35:00-06:00",
   "zones": {
@@ -11,14 +11,18 @@
         27131
       ],
       "dir": "LONG",
-      "status": "pending",
-      "firstTouchedAt": null,
-      "touchSource": null,
-      "nToques": null,
-      "maxWickTicks": null,
-      "reclaim": null,
+      "status": "touched",
+      "firstTouchedAt": "2026-11-18T14:35:00Z",
+      "touchSource": "touchlog",
+      "nToques": 7,
+      "maxWickTicks": 410,
+      "reclaim": false,
       "invalidatedAt": null,
-      "expiredAt": null
+      "expiredAt": null,
+      "note": {
+        "es": "Zona tocada a las 08:35 CT (rango 27091-27131, ONL 7 toques).",
+        "en": "Zone touched at 08:35 CT (range 27091-27131, ONL 7 touches)."
+      }
     },
     "NQ|pullback_cont|27302.75-27351.0": {
       "sym": "NQ",
@@ -49,14 +53,18 @@
         7368.25
       ],
       "dir": "LONG",
-      "status": "pending",
-      "firstTouchedAt": null,
-      "touchSource": null,
-      "nToques": null,
-      "maxWickTicks": null,
-      "reclaim": null,
-      "invalidatedAt": null,
-      "expiredAt": null
+      "status": "invalidated",
+      "firstTouchedAt": "2026-11-18T14:30:00Z",
+      "touchSource": "touchlog",
+      "nToques": 10,
+      "maxWickTicks": 84,
+      "reclaim": true,
+      "invalidatedAt": "2026-11-18T14:40:00Z",
+      "expiredAt": null,
+      "note": {
+        "es": "Invalidada a las 08:40 CT: cierre 5m bajo 7361.5 (7359).",
+        "en": "Invalidated at 08:40 CT: 5m close below 7361.5 (7359)."
+      }
     },
     "ES|fade_vah|7396.0-7403.5": {
       "sym": "ES",
@@ -125,17 +133,17 @@
         50748
       ],
       "dir": "LONG",
-      "status": "touched",
+      "status": "invalidated",
       "firstTouchedAt": "2026-11-18T14:15:00Z",
       "touchSource": "touchlog",
       "nToques": 5,
       "maxWickTicks": 114,
       "reclaim": true,
-      "invalidatedAt": null,
+      "invalidatedAt": "2026-11-18T14:30:00Z",
       "expiredAt": null,
       "note": {
-        "es": "Zona tocada a las 08:15 CT (rango 50700-50748, ASL 5 toques).",
-        "en": "Zone touched at 08:15 CT (range 50700-50748, ASL 5 touches)."
+        "es": "Invalidada a las 08:30 CT: cierre 5m bajo 50727 (50647).",
+        "en": "Invalidated at 08:30 CT: 5m close below 50727 (50647)."
       }
     },
     "CL|pullback_cont|83.66-84.29": {
@@ -161,6 +169,8 @@
     }
   },
   "issues": [
-    "YM|sweep_onl|50700.0-50748.0 tocada a las 08:15 CT"
+    "ES|liq_reclaim|7362.25-7368.25 invalidada a las 08:40 CT, cierre bajo 7361.5",
+    "YM|sweep_onl|50700.0-50748.0 invalidada a las 08:30 CT, cierre bajo 50727",
+    "NQ|poc_reversion|27091.0-27131.0 tocada a las 08:35 CT"
   ]
 }
