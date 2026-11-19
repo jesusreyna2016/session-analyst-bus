@@ -1,71 +1,69 @@
 {
-  "checkedAt": "2026-11-19T15:39:03Z",
-  "status": "warn",
+  "checkedAt": "2026-11-19T23:39:03Z",
+  "status": "ok",
   "snapshot": {
-    "builtAt": "2026-11-19T15:15:22.351Z",
-    "ageMin": 24,
+    "builtAt": "2026-11-19T23:30:31.944Z",
+    "ageMin": 9,
     "state": "OK"
   },
   "webhook": {
-    "lastSeenMin": 29,
-    "state": "lento"
+    "lastSeenMin": 9,
+    "state": "ok"
   },
   "news": {
-    "ageMin": 45,
+    "ageMin": 29,
     "count": 20,
     "state": "ok"
   },
   "sa": {
-    "lastRun": "2026-11-19T13:30:00Z",
-    "runType": "pre-ny",
+    "lastRun": "2026-11-19T22:06:49Z",
+    "runType": "pre-asia",
     "lateBy": null
   },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 29, "state": "stale" },
-      "feed": { "ageMin": 29, "state": "stale" },
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
       "regime": { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 28, "state": "fresh" }
+      "trendcl": { "ageMin": 12, "state": "fresh" }
     },
     "ES": {
-      "orb": { "ageMin": 29, "state": "stale" },
-      "feed": { "ageMin": 29, "state": "stale" },
-      "regime": { "ageMin": 29, "state": "fresh" },
-      "trendcl": { "ageMin": 39, "state": "fresh" }
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
+      "regime": { "ageMin": 34, "state": "fresh" },
+      "trendcl": { "ageMin": 9, "state": "fresh" }
     },
     "GC": {
-      "orb": { "ageMin": 29, "state": "stale" },
-      "feed": { "ageMin": 29, "state": "stale" },
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
       "regime": { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 39, "state": "fresh" }
+      "trendcl": { "ageMin": 26, "state": "fresh" }
     },
     "YM": {
-      "orb": { "ageMin": 29, "state": "stale" },
-      "feed": { "ageMin": 29, "state": "stale" },
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
       "regime": { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 29, "state": "fresh" }
+      "trendcl": { "ageMin": 14, "state": "fresh" }
     },
     "CL": {
-      "orb": { "ageMin": 29, "state": "stale" },
-      "feed": { "ageMin": 29, "state": "stale" },
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
       "regime": { "ageMin": 34, "state": "fresh" },
       "trendcl": { "ageMin": 39, "state": "fresh" }
     }
   },
-  "scalp": { "ingestMin": 25, "snapshotMin": 38, "state": "ok" },
+  "scalp": { "ingestMin": 9, "snapshotMin": 38, "state": "ok" },
   "pushes": {
-    "counts": { "present": 11, "missing": 0, "duplicated": 1, "pending": 1 },
+    "counts": { "present": 9, "missing": 0, "duplicated": 2, "pending": 1 },
     "missing": [],
     "duplicated": [
-      "pre-asia 2026-11-18 (2x, re-check/catch-up)"
+      "pre-asia 2026-11-18 (2x, re-check/catch-up)",
+      "pre-asia 2026-11-19 (2x, re-check/catch-up)"
     ]
   },
-  "issues": [
-    "webhook lento (29 min)",
-    "feed@NQ,ES,GC,YM,CL stale (29 min)"
-  ],
+  "issues": [],
   "note": {
-    "es": "Jueves 09:39 CT (franja 09:30, vigila pre-ny): salio a tiempo (07:45 CT, commit sa pre-ny 2026-11-19), sin catch-up. Snapshot OK (24 min). Aviso: orb/feed de TradingView llevan 29 min sin mensaje nuevo en los 5 simbolos (webhook lento, primer check asi, no racha todavia), probablemente solo una vuelta de vela salteada; regime (29-34 min) y trendcl (28-39 min) frescos en todo, ningun orb frozen (pdh/pdl igual al feed en los 5). News ok (45 min, 20 eventos). Scalp CC ok (ingest 25 min, snapshot 38 min). Pushes limpios: 11 present, 1 duplicado (pre-asia re-check de ayer, ya visto), 0 missing, 1 pending (este watchdog). Journal fresco (24 min), sin huecos (cubre 6 oct-19 nov). Plan pre-ny: GC WAIT, CL WAIT, NQ/ES/YM AVOID, todos con razon explicita, sin zona A+ fuera de alcance marcada. Sin notificacion: es warn por staleness leve de un solo check, no down, no hizo falta catch-up, scalp ok, sin push faltante sin plan, sin racha dead/frozen de 2+ checks.",
-    "en": "Thursday 09:39 CT (09:30 slot, watching pre-ny): it went out on time (07:45 CT, commit sa pre-ny 2026-11-19), no catch-up needed. Snapshot OK (24 min). Heads-up: TradingView orb/feed have gone 29 min without a new message across all 5 symbols (webhook lento, first check like this, no streak yet), likely just a skipped candle cycle; regime (29-34 min) and trendcl (28-39 min) fresh throughout, no orb frozen (pdh/pdl matches the feed on all 5). News ok (45 min, 20 events). Scalp CC ok (ingest 25 min, snapshot 38 min). Pushes clean: 11 present, 1 duplicate (yesterday's pre-asia re-check, already seen), 0 missing, 1 pending (this watchdog). Journal fresh (24 min), no gaps (covers Oct 6-Nov 19). Pre-ny plan: GC WAIT, CL WAIT, NQ/ES/YM AVOID, all with an explicit reason, no out-of-reach A+ zone flagged. No notification: this is a warn from one check's mild staleness, not down, no catch-up needed, scalp ok, no missing push without a plan, no 2+-check dead/frozen streak."
+    "es": "Jueves 17:39 CT (franja 17:30, vigila pre-asia): salio a tiempo (commit sa pre-asia 2026-11-20 a las 15:39 CT, mas un re-check a las 16:08 CT sin cambios materiales), sin catch-up. El heartbeat quedo con ok:false y nota de snapshot viejo (decision del propio Session Analyst, no se toca). Snapshot OK (9 min). Webhook ok (9 min). Feed/orb frescos en los 5 simbolos (9 min), ningun orb frozen (pdh/pdl igual al feed en los 5). Regime fresco (34 min) y trendcl fresco (9-39 min) en todo el complejo. News ok (29 min, 20 eventos). Scalp CC ok (ingest 9 min, snapshot 38 min). Pushes limpios: 9 present, 2 duplicados (pre-asia del 18 y 19, re-checks ya vistos), 0 missing, 1 pending (este watchdog). Journal fresco (30 min), sin huecos. Sin notificacion: todo fresco, sin catch-up, sin racha dead/frozen, scalp ok, sin push faltante sin plan.",
+    "en": "Thursday 17:39 CT (17:30 slot, watching pre-asia): it went out on time (commit sa pre-asia 2026-11-20 at 15:39 CT, plus a 16:08 CT re-check with no material changes), no catch-up needed. The heartbeat came back ok:false with a stale-snapshot note (the Session Analyst's own call, left untouched). Snapshot OK (9 min). Webhook ok (9 min). Feed/orb fresh across all 5 symbols (9 min), no orb frozen (pdh/pdl matches the feed on all 5). Regime fresh (34 min) and trendcl fresh (9-39 min) across the complex. News ok (29 min, 20 events). Scalp CC ok (ingest 9 min, snapshot 38 min). Pushes clean: 9 present, 2 duplicates (pre-asia on the 18th and 19th, re-checks already seen), 0 missing, 1 pending (this watchdog). Journal fresh (30 min), no gaps. No notification: everything fresh, no catch-up needed, no dead/frozen streak, scalp ok, no missing push without a plan."
   }
 }
