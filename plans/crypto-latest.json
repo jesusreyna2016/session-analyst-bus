@@ -1,87 +1,96 @@
 {
   "schema": "crypto-plan-1",
-  "runType": "crypto-close",
-  "builtAt": "2026-11-20T01:32:00Z",
+  "runType": "crypto-ny",
+  "builtAt": "2026-11-20T14:51:00Z",
   "date": "2026-11-20",
-  "slot": "close",
-  "validUntil": "2026-11-20T14:45:00Z",
+  "slot": "ny",
+  "validUntil": "2026-11-21T00:00:00Z",
   "dataHealth": {
-    "snapshotAgeMin": 31,
-    "stale": [
-      "feed@ETHUSDT 31min",
-      "feed@BTCUSDT 31min"
-    ],
+    "snapshotAgeMin": 1,
+    "stale": [],
     "missing": [],
     "notes": [
-      "feed de ETH y BTC paso a vieja (31 min, corte fresca <25 min): pesa a la mitad, ninguna zona se basa solo en ella (el perfil, el regimen y el checklist de tendencia siguen frescos)",
-      "shock de las 00:20 UTC (titular Japon inflacion, sym ALL) ya vencio (ventana hasta 01:20 UTC, esta corrida cierra despues): no se aplica riskWindow",
-      "hueco del CME de ETH no aplica hoy (ultimo cierre es del miercoles 18, la regla solo corre de viernes CT por la noche a lunes; en CT todavia es jueves por la noche)",
-      "sin evento USD de alto impacto en la ventana (Fed Warsh, Retail Sales y FOMC Minutes ya pasaron)"
+      "feed de ETH y BTC volvio a fresca (1 min, bajo el corte de 25 min): ya no pesa a la mitad, se recuperaron del corte de vieja del close.",
+      "sin evento USD de alto impacto en la ventana: lo unico en el reloj son UoM Consumer Sentiment revisado (15:00 UTC) y un discurso de Trump (17:00 UTC), los dos de impacto medio, no CPI/NFP/FOMC/PCE; sin dato de las 07:30 CT hoy (el ultimo Retail Sales en el calendario es del martes 17).",
+      "titular nuevo desde el close: 'Binance hacker moves nearly $600M in ETH, routes funds through THORChain, Chainflip' (Cointelegraph, hace 3.3h). Se lee como lavado de fondos de un hackeo YA conocido, no una brecha nueva de hoy, pero por precaucion se trata como hecho de riesgo cripto (tag hack+eth) y sube cryptoContext.risk a ALTO.",
+      "hueco del CME de ETH sigue sin aplicar: el ultimo cierre es del jueves 19 nov (no viernes), la regla solo corre de viernes CT por la noche a lunes.",
+      "NQ acompaña la caida de ETH/BTC, no diverge: NQ -5.95% en 24h, muy por debajo de su PDL, HTF 1h/4h 'bajista alineado' (selloff de tech/IA tras el debut de Anthropic y la caida de chips en Asia): confirma el sesgo corto, no lo contradice.",
+      "las dos barridas B del close (compra de ETH en el minimo de Asia y reclamo de BTC en el minimo de la semana pasada) quedaron rotas: el precio siguio cayendo y perforo los dos stops. Se marcan broken:true, no se borran."
     ]
   },
   "summary": {
     "es": [
-      "Cierre del dia cripto (00:15 UTC): califique el jueves (grade_plans.py --crypto 2026-11-19) y armo el plan nuevo del viernes UTC.",
-      "ETH y BTC siguen cayendo en 24h (ETH -1.03%, BTC -0.98%), las dos por debajo del VAL de ayer: la zona de no operar quedo arriba del precio en las dos monedas.",
-      "El checklist de tendencia confirma cortos alineados en diario, 4h y 1h en las DOS monedas (antes solo BTC lo tenia completo): primera vez en varios dias que ETH tambien confirma.",
-      "BTC acaba de barrer el minimo de la semana pasada (62,006) y reclamarlo hace 15 minutos, corriendo hasta el bolsillo dorado; ETH barrio el minimo de Asia (1,748.27) hace 145 minutos y sigue pegado a ese nivel, sin zona A+ real: las dos mejores compras son barridas B, el metodo las tapa ahi siempre.",
-      "Miedo extremo (12, subio desde 10): sigue siendo el peor lector historico junto con fondeo neutral de ETH, DVOL subiendo y sin hueco del CME, los cuatro por debajo del 40% acumulado. Las cuentas largas de las dos monedas siguen sobre el corte de riesgo de 3 a 1 (ETH 3.61, BTC 3.41).",
-      "Sin hackeo nuevo (solo ruido regulatorio: SEC, CFTC y el retraso de la ley Clarity) y sin salidas de ETF citables hoy; la actualizacion Glamsterdam de ETH se atrasa a mayo 2027 (contexto de fondo, no mueve el plan).",
-      "Conviccion baja en las dos: fondeo, miedo, DVOL y el hueco siguen todos muy por debajo del 40% de acierto, y el feed esta en el corte de vieja. Sin GO."
+      "Update ligero de NY (08:45 CT): parto del close de hoy (00:15 UTC), NO re-derivo sesgo ni confluencia, NO califico.",
+      "ETH y BTC profundizaron la caida desde el close: ETH paso de 1,751.83 a 1,734.31 (barrio su PDL de 1,736.28) y BTC de 62,149.99 a 61,461.07 (barriendo su PDL de 61,428.26 justo ahora, reclamo en curso). Las dos compras B del close (barrida de Asia en ETH, reclamo del minimo de la semana en BTC) se rompieron: sus stops quedaron atras, se marcan broken.",
+      "El feed volvio a fresca (1 min) tras el corte de vieja del close. El checklist de tendencia sigue confirmando cortos alineados en diario, 4h y 1h en las dos monedas, igual que al cierre.",
+      "Caida de riesgo generalizada: NQ -5.95% en 24h (selloff de tech/IA tras el debut de Anthropic y los chips de Asia), ES -3.99%. ETH acompaña a NQ, no diverge: confirma el sesgo corto.",
+      "Fondeo cambio: BTC paso de shorts-crowded a neutral; las cuentas largas de las dos monedas bajaron del corte de riesgo de 3 a 1 (ETH 2.90, BTC 2.81) pero el interes abierto sigue cayendo en las dos (ETH -7.55%, BTC -2.05% en 24h): son cierres, no cortos nuevos, la caida pierde gasolina, no es para perseguir la ruptura.",
+      "Titular nuevo: un hacker de Binance movio cerca de 600 millones de dolares en ETH por puentes (THORChain, Chainflip), hace 3.3h; se lee como lavado de un hackeo ya conocido, no una brecha de hoy, pero subo cryptoContext.risk a ALTO por precaucion, junto con las salidas de ETF (582 millones de BTC spot, 541 de IBIT) y el miedo extremo (12) que se mantiene.",
+      "Sin GO: las unicas zonas B vivas (ventas de continuacion) quedaron lejos del precio tras la caida. Conviccion sigue baja en las dos."
     ],
     "en": [
-      "Crypto-day close (00:15 UTC): graded Thursday (grade_plans.py --crypto 2026-11-19) and built the new plan for the UTC Friday.",
-      "ETH and BTC keep falling on 24h (ETH -1.03%, BTC -0.98%), both below yesterday's VAL: the no-trade zone sits above price on both coins.",
-      "The trend checklist confirms shorts aligned on daily, 4h and 1h on BOTH coins (before only BTC had the full confirmation): first time in several days ETH also confirms.",
-      "BTC just swept last week's low (62,006) and reclaimed it 15 minutes ago, running up into the golden pocket; ETH swept Asia's low (1,748.27) 145 minutes ago and is still glued to that level, with no real A+ zone: both best buys are B-grade sweeps, the method always caps those there.",
-      "Extreme fear (12, up from 10): still the worst historical reader along with ETH's neutral funding, rising DVOL and the non-applying CME gap, all four under the 40% accumulated rate. Long-skewed accounts on both coins stay over the 3-to-1 risk cutoff (ETH 3.61, BTC 3.41).",
-      "No fresh hack (just regulatory noise: SEC, CFTC and the Clarity Act delay) and no citable ETF outflows today; ETH's Glamsterdam upgrade slips to May 2027 (background context, does not move the plan).",
-      "Conviction stays low on both: funding, fear, DVOL and the gap all keep hitting well under 40%, and the feed itself sits at the stale cutoff. No GO."
+      "Light NY update (08:45 CT): starts from today's close (00:15 UTC), does NOT re-derive bias or confluence, does NOT grade.",
+      "ETH and BTC deepened the drop since the close: ETH went from 1,751.83 to 1,734.31 (swept its PDL at 1,736.28) and BTC from 62,149.99 to 61,461.07 (sweeping its PDL at 61,428.26 right now, reclaim in progress). Both B buys from the close (ETH's Asia-low sweep, BTC's last-week-low reclaim) broke: their stops got left behind, marked broken.",
+      "The feed is fresh again (1 min) after the close's stale cutoff. The trend checklist still confirms shorts aligned on daily, 4h and 1h on both coins, same as the close.",
+      "Broad risk-off: NQ -5.95% on 24h (tech/AI selloff after Anthropic's debut and Asia's chip selloff), ES -3.99%. ETH tracks NQ, no divergence: confirms the short bias.",
+      "Funding shifted: BTC went from shorts-crowded to neutral; long-skewed accounts on both coins dropped under the 3-to-1 risk cutoff (ETH 2.90, BTC 2.81) but open interest keeps falling on both (ETH -7.55%, BTC -2.05% on 24h): those are closes, not fresh shorts, the drop is losing gas, not one to chase.",
+      "New headline: a Binance hacker moved close to $600M in ETH through bridges (THORChain, Chainflip), 3.3h ago; it reads as laundering of an already-known hack, not a fresh breach today, but cryptoContext.risk moves to ALTO out of caution, along with ETF outflows ($582M BTC spot, $541M IBIT) and extreme fear (12) staying put.",
+      "No GO: the only live B zones (continuation sells) ended up far from price after the drop. Conviction stays low on both."
     ]
   },
   "focus": {
     "sym": "ETHUSDT",
     "setup": {
-      "es": "La mejor oportunidad viva es la compra B en la barrida del minimo de Asia y el bolsillo dorado (1,748.27 a 1,753.68): confluencia alta (10) pero el metodo tapa las barridas en B siempre, nunca GO. Conviccion baja y checklist de tendencia confirmando cortos: sin GO.",
-      "en": "The live opportunity is the B buy at the Asia-low sweep and the golden pocket (1,748.27 to 1,753.68): high confluence (10) but the method always caps sweeps at B, never GO. Low conviction and the trend checklist confirming shorts: no GO."
+      "es": "La compra B de la barrida de Asia (1,748.27 a 1,753.68) se rompio: el precio sigio cayendo, barrio el PDL (1,736.28) y paso el stop de 1,746.50. La unica zona B viva que queda es la venta de continuacion en 1,763.50 a 1,768.42, ahora lejos del precio (1,734.31). Sin zona A+ a tiro y sin GO.",
+      "en": "The B buy at the Asia-low sweep (1,748.27 to 1,753.68) broke: price kept falling, swept the PDL (1,736.28) and ran past the 1,746.50 stop. The only live B zone left is the continuation sell at 1,763.50 to 1,768.42, now far from price (1,734.31). No A+ zone in range and no GO."
     }
   },
   "riskWindow": null,
   "cryptoContext": {
-    "risk": "MEDIO",
+    "risk": "ALTO",
     "deriv": {
-      "es": "Fondeo de ETH neutral (+0.0049% cada 8h); el de BTC shorts-crowded (-0.0021%, los cortos pagan). Interes abierto de ETH bajando (-2.61% en 24h, cierres: el rebote reciente pierde gasolina) mientras el de BTC se mantiene casi plano (+0.08%). Las cuentas largas de las dos siguen sobre el corte de riesgo de 3 a 1 (ETH 3.61, BTC 3.41): retail cargado de largos en las dos, riesgo de barrida si el precio sigue cayendo.",
-      "en": "ETH funding neutral (+0.0049% every 8h); BTC's is shorts-crowded (-0.0021%, shorts pay). ETH's open interest is falling (-2.61% on 24h, closings: the recent bounce is losing gas) while BTC's stays nearly flat (+0.08%). Long-skewed accounts on both stay over the 3-to-1 risk cutoff (ETH 3.61, BTC 3.41): retail crowded long on both, sweep risk if price keeps falling."
+      "es": "Fondeo de ETH neutral (+0.0023% cada 8h); el de BTC paso de shorts-crowded a neutral tambien (+0.0047%). Interes abierto cayendo en las dos (ETH -7.55% en 24h, BTC -2.05%, los dos cierres): el rebote y la caida reciente pierden gasolina, no es para perseguir la ruptura. Las cuentas largas bajaron del corte de riesgo de 3 a 1 en las dos (ETH 2.90, BTC 2.81, desde 3.61 y 3.41 al close): el retail se destrabo un poco, pero sigue cargado de largos.",
+      "en": "ETH funding neutral (+0.0023% every 8h); BTC's flipped from shorts-crowded to neutral too (+0.0047%). Open interest is falling on both (ETH -7.55% on 24h, BTC -2.05%, both closes): the recent bounce and drop are losing gas, not one to chase. Long-skewed accounts dropped under the 3-to-1 risk cutoff on both (ETH 2.90, BTC 2.81, down from 3.61 and 3.41 at the close): retail eased a bit but is still long-leaning."
     },
-    "dvol": 61.33,
+    "dvol": 62.63,
     "fearGreed": 12,
     "cmeGap": null,
-    "ethBtc24hPct": 0.3,
+    "ethBtc24hPct": -0.49,
     "drivers": [
       {
-        "theme": "regulation",
-        "headline": "CFTC Chair Selig outlines how Hyperliquid and other onchain venues could enter the US",
-        "source": "The Block",
-        "ageH": 7.2,
+        "theme": "hack",
+        "headline": "Binance hacker moves nearly $600 million in ETH, routes funds through THORChain, Chainflip",
+        "source": "Cointelegraph",
+        "ageH": 3.3,
         "note": {
-          "es": "Hecho reciente (~7.2h): el presidente de la CFTC detalla como plataformas onchain como Hyperliquid podrian operar en EEUU. Contexto regulatorio de fondo, no crea setups de hoy.",
-          "en": "Recent fact (~7.2h ago): the CFTC chair details how onchain venues like Hyperliquid could enter the US. Background regulatory context, creates no setup today."
+          "es": "Hecho reciente (~3.3h): se mueven cerca de 600 millones de dolares en ETH robados por puentes. Se lee como lavado de un hackeo ya conocido (no una brecha nueva de hoy), pero por la regla de titulares de hackeo sube el riesgo de fondo a ALTO durante las 24h siguientes a este titular.",
+          "en": "Recent fact (~3.3h ago): close to $600M in previously-stolen ETH moved through bridges. Reads as laundering of an already-known hack (not a fresh breach today), but by the hack-headline rule it raises background risk to ALTO for the 24h following this headline."
         }
       },
       {
-        "theme": "eth",
-        "headline": "Ethereum's Glamsterdam upgrade could slip to May 2027 over compatibility concerns",
-        "source": "Cointelegraph",
-        "ageH": 6.9,
+        "theme": "etf",
+        "headline": "US spot bitcoin ETFs see $582 million in daily net outflows; BlackRock's IBIT loses record $541M amid Anthropic market debut",
+        "source": "The Block / Cointelegraph",
+        "ageH": 2.3,
         "note": {
-          "es": "Hecho con fecha (~6.9h): la actualizacion Glamsterdam de ETH se atrasaria a mayo 2027. Contexto de fondo de largo plazo, no mueve el plan de hoy.",
-          "en": "Dated fact (~6.9h ago): ETH's Glamsterdam upgrade would slip to May 2027. Long-term background context, does not move today's plan."
+          "es": "Hecho reciente (~2.3h): salidas grandes de los ETF spot de bitcoin, noviembre acumula casi 3,500 millones. Confirma el riesgo-off, no crea setup por si solo.",
+          "en": "Recent fact (~2.3h ago): large outflows from spot bitcoin ETFs, November running near $3.5B total. Confirms risk-off, creates no setup on its own."
+        }
+      },
+      {
+        "theme": "regulation",
+        "headline": "SEC charges eight firms over fake crypto platforms tied to $37M fraud",
+        "source": "Cointelegraph",
+        "ageH": 6.7,
+        "note": {
+          "es": "Hecho reciente (~6.7h): la SEC acusa a ocho firmas por plataformas cripto falsas. Ruido regulatorio de fondo, no mueve el plan de hoy.",
+          "en": "Recent fact (~6.7h ago): the SEC charges eight firms over fake crypto platforms. Background regulatory noise, does not move today's plan."
         }
       }
     ],
     "note": {
-      "es": "Miedo extremo (12, subio desde 10, sin ser una caida de panico). DVOL 61.33 (subio 0.97 en 24h; dvolRank 46 en ETH, 52 en BTC): ni caro ni barato. ETH/BTC +0.30% en 24h: parejo, bajo el umbral de 1%. El hueco del CME de ETH no aplica hoy (ultimo cierre del miercoles; en CT todavia es jueves por la noche, la regla corre de viernes a lunes). Riesgo de fondo MEDIO: sin hackeo nuevo, solo ruido regulatorio (SEC, CFTC, ley Clarity) y el atraso de Glamsterdam; cuentas largas siguen cargadas en las dos monedas.",
-      "en": "Extreme fear (12, up from 10, not a panic drop). DVOL 61.33 (up 0.97 on 24h; dvolRank 46 on ETH, 52 on BTC): neither expensive nor cheap. ETH/BTC +0.30% on 24h: even, under the 1% threshold. ETH's CME gap does not apply today (latest close from Wednesday; in CT it is still Thursday night, the rule runs Friday to Monday). Background risk is MEDIO: no fresh hack, just regulatory noise (SEC, CFTC, Clarity Act) and the Glamsterdam delay; long accounts stay crowded on both coins."
+      "es": "Miedo extremo se mantiene (12, igual que al close). DVOL 62.63 (subio 2.44 en 24h): sigue sin ser barato. ETH/BTC -0.49% en 24h: parejo, bajo el umbral de 1%, sin resta de conviccion. El hueco del CME de ETH sigue sin aplicar (ultimo cierre del jueves, la regla corre de viernes a lunes). Riesgo de fondo sube de MEDIO a ALTO: titular de hackeo (lavado, con cautela), salidas de ETF y el selloff generalizado de tech/IA que arrastra a NQ -5.95% en 24h.",
+      "en": "Extreme fear holds (12, same as the close). DVOL 62.63 (up 2.44 on 24h): still not cheap. ETH/BTC -0.49% on 24h: even, under the 1% threshold, no conviction penalty. ETH's CME gap still does not apply (latest close is Thursday's, the rule runs Friday to Monday). Background risk rises from MEDIO to ALTO: the hack headline (laundering, read with caution), ETF outflows and the broad tech/AI selloff dragging NQ down -5.95% on 24h."
     }
   },
   "personal": {
@@ -97,31 +106,31 @@
   },
   "instruments": {
     "ETHUSDT": {
-      "price": 1751.83,
+      "price": 1734.31,
       "biasDay": "SHORT",
       "biasSession": "SHORT",
       "conviction": "baja",
       "move24h": {
         "dir": "SHORT",
-        "pct": -1.03
+        "pct": -3.04
       },
       "regime": "CHOP",
       "tcl": {
         "v": -2,
-        "flip": 1775.08
+        "flip": 1753.66
       },
       "context": {
-        "es": "Por debajo del VAL de ayer (1,769.79) y de todo el rango de ayer: la zona de no operar (1,769.87 a 1,805.73) quedo por encima del precio. Barrio el minimo de Asia (1,748.27) hace 145 minutos con reclamo y ahora esta pegado a ese nivel, dentro de un bolsillo de FVG de 5 y 15 minutos y justo bajo el bolsillo dorado (1,753.68 a 1,767.33). El regimen es de rango (chop confirmado, piso 1,750.65 techo 1,763.50) y el checklist de tendencia confirma cortos alineados en diario, 4h y 1h, la primera vez en varios dias.",
-        "en": "Below yesterday's VAL (1,769.79) and all of yesterday's range: the no-trade zone (1,769.87 to 1,805.73) sits above price. Swept Asia's low (1,748.27) 145 minutes ago with a reclaim and is now glued to that level, inside a 5m/15m FVG pocket and just under the golden pocket (1,753.68 to 1,767.33). Regime is ranging (confirmed chop, floor 1,750.65 ceiling 1,763.50) and the trend checklist confirms shorts aligned on daily, 4h and 1h, the first time in several days."
+        "es": "Siguio cayendo desde el close: barrio su PDL (1,736.28) hace 11 minutos y ahora cotiza en 1,734.31, por debajo de ese nivel. El regimen sigue de rango (chop confirmado, piso 1,720.26 techo 1,763.33, caja un poco mas ancha que al close) y el checklist de tendencia sigue confirmando cortos alineados en diario, 4h y 1h. La compra B de la barrida de Asia (1,748.27 a 1,753.68) quedo atras y rota: el precio paso su stop de 1,746.50 sin reclamar. La venta de continuacion en 1,763.50 a 1,768.42 sigue viva pero ahora a 29 a 34 puntos de distancia.",
+        "en": "Kept falling since the close: swept its PDL (1,736.28) 11 minutes ago and now trades at 1,734.31, below that level. Regime is still ranging (confirmed chop, floor 1,720.26 ceiling 1,763.33, a slightly wider box than at the close) and the trend checklist still confirms shorts aligned on daily, 4h and 1h. The Asia-low sweep B buy (1,748.27 to 1,753.68) is left behind and broken: price ran past its 1,746.50 stop without reclaiming. The continuation sell at 1,763.50 to 1,768.42 is still live but now 29 to 34 points away."
       },
       "levels": {
-        "vah": 1814.57,
-        "poc": 1805.81,
-        "val": 1769.79,
+        "vah": 1813.42,
+        "poc": 1806.1,
+        "val": 1769.5,
         "pdh": 1817.57,
         "pdl": 1736.28,
         "dayOpen": 1757.31,
-        "vwap": 1757.67,
+        "vwap": 1742.67,
         "pwh": 2160.5,
         "pwl": 1711.08
       },
@@ -154,7 +163,8 @@
               "es": "Unos 9.4 ETH (riesgo $50 entre 5.33 de distancia al stop desde el precio actual), tope de $50,000 de notional.",
               "en": "About 9.4 ETH (risk $50 over 5.33 of stop distance from the current price), $50,000 notional cap."
             }
-          }
+          },
+          "broken": true
         },
         {
           "range": [
@@ -190,8 +200,8 @@
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "La compra en la barrida de Asia tiene confluencia alta (10) pero es tipo barrida: el metodo la tapa en B siempre, nunca GO. La venta de continuacion en el techo del chop apenas tiene 3 puntos y va con las 24 horas. Conviccion baja: fondeo neutral de ETH (17/65, 26%), miedo extremo (34/140, 24%), DVOL subiendo (10/40, 25%) y sin hueco del CME (28/108, 26%) siguen todos bajo 40%, y ETH en si mismo tambien (19/80, 24%). El feed esta en el corte de vieja (31 min). Sin GO.",
-          "en": "The Asia-sweep buy has high confluence (10) but it is a sweep type: the method always caps it at B, never GO. The continuation sell at the chop ceiling only has 3 points and goes with the 24h move. Conviction stays low: ETH's neutral funding (17/65, 26%), extreme fear (34/140, 24%), rising DVOL (10/40, 25%) and the non-applying CME gap (28/108, 26%) all sit under 40%, and ETH itself too (19/80, 24%). The feed itself sits at the stale cutoff (31 min). No GO."
+          "es": "La compra de la barrida de Asia se rompio (paso el stop de 1,746.50 sin reclamar): ya no es una zona viva. Solo queda la venta de continuacion en el techo del chop, con 3 puntos de confluencia y ahora a 29 a 34 puntos de distancia. Conviccion baja: fondeo neutral de ETH, miedo extremo (12), DVOL alto y sin hueco del CME siguen todos siendo lecturas historicas bajo 40%. El checklist de tendencia confirma cortos en los tres marcos, a favor de seguir esperando el gatillo de continuacion y no comprar la barrida rota. Sin GO.",
+          "en": "The Asia-sweep buy broke (ran past the 1,746.50 stop without reclaiming): it is no longer a live zone. Only the continuation sell at the chop ceiling remains, with 3 confluence points and now 29 to 34 points away. Conviction stays low: ETH's neutral funding, extreme fear (12), high DVOL and the non-applying CME gap all remain historical readers under 40%. The trend checklist confirms shorts across all three timeframes, favoring waiting for the continuation trigger rather than buying the broken sweep. No GO."
         }
       },
       "counterCase": {
@@ -220,31 +230,31 @@
       ]
     },
     "BTCUSDT": {
-      "price": 62149.99,
+      "price": 61461.07,
       "biasDay": "SHORT",
       "biasSession": "SHORT",
       "conviction": "baja",
       "move24h": {
         "dir": "SHORT",
-        "pct": -0.98
+        "pct": -3.25
       },
       "regime": "CHOP",
       "tcl": {
         "v": -2,
-        "flip": 62771.28
+        "flip": 62034.46
       },
       "context": {
-        "es": "Por debajo del VAL de ayer (62,474.34): la zona de no operar (62,474.42 a 63,830.25) quedo por encima del precio. Acaba de barrer el minimo de la semana pasada (62,006.00) y reclamarlo hace 15 minutos, corriendo hasta el bolsillo dorado (61,995.90 a 62,441.53), sobre el VWAP y las medias de 20 y 50 en 5 minutos. El regimen es de rango (chop confirmado, piso 61,950 techo 62,255.12) y el checklist de tendencia sigue confirmando cortos alineados en diario, 4h y 1h.",
-        "en": "Below yesterday's VAL (62,474.34): the no-trade zone (62,474.42 to 63,830.25) sits above price. Just swept last week's low (62,006.00) and reclaimed it 15 minutes ago, running up into the golden pocket (61,995.90 to 62,441.53), above VWAP and the 5m 20/50 averages. Regime is ranging (confirmed chop, floor 61,950 ceiling 62,255.12) and the trend checklist keeps confirming shorts aligned on daily, 4h and 1h."
+        "es": "Siguio cayendo desde el close: paso por debajo del reclamo del minimo de la semana pasada, perdio el stop de la zona (61,970) y ahora esta barriendo su propio PDL (61,428.26) justo en este momento, cotizando en 61,461.07 con un reclamo en curso. El regimen sigue de rango (chop confirmado, piso 61,230 techo 62,403.62) y el checklist de tendencia sigue confirmando cortos alineados en diario, 4h y 1h. El reclamo B del minimo de la semana pasada (61,986.73 a 62,120.86) quedo atras y roto. La venta de continuacion en 62,255.12 a 62,300 sigue viva pero ahora a mas de 790 puntos de distancia.",
+        "en": "Kept falling since the close: dropped back below last week's low reclaim, lost the zone's 61,970 stop, and is now sweeping its own PDL (61,428.26) right at this moment, trading at 61,461.07 with a reclaim in progress. Regime is still ranging (confirmed chop, floor 61,230 ceiling 62,403.62) and the trend checklist still confirms shorts aligned on daily, 4h and 1h. The last-week-low B reclaim (61,986.73 to 62,120.86) is left behind and broken. The continuation sell at 62,255.12 to 62,300 is still live but now more than 790 points away."
       },
       "levels": {
-        "vah": 64052.22,
-        "poc": 63830.33,
-        "val": 62474.34,
+        "vah": 64031.28,
+        "poc": 63793.54,
+        "val": 62446.35,
         "pdh": 64080.8,
         "pdl": 61428.26,
         "dayOpen": 61986.73,
-        "vwap": 62082.06,
+        "vwap": 61820.59,
         "pwh": 75599.22,
         "pwl": 62006.0
       },
@@ -277,7 +287,8 @@
               "es": "Unos 0.71 BTC (riesgo $50 entre 70 de distancia al stop desde la entrada del reclamo), tope de $50,000 de notional.",
               "en": "About 0.71 BTC (risk $50 over 70 of stop distance from the reclaim entry), $50,000 notional cap."
             }
-          }
+          },
+          "broken": true
         },
         {
           "range": [
@@ -313,8 +324,8 @@
       "verdict": {
         "signal": "WAIT",
         "reason": {
-          "es": "El reclamo del minimo de la semana pasada ya disparo y corrio hasta el techo de la zona; el tipo de zona (barrida con reclamo) de todas formas queda topado en B siempre, nunca GO, aun con confluencia 12. La venta de continuacion en el maximo del dia apenas tiene 3 puntos y va con las 24 horas. Conviccion baja: mismo contexto de fondo que ETH (miedo, DVOL, fondeo neutral de ETH y sin hueco, todos bajo 40%) y BTC en si mismo tambien (15/66, 23%). El feed esta en el corte de vieja (31 min). Sin GO.",
-          "en": "The reclaim of last week's low already triggered and ran up to the zone's high edge; the zone type (sweep with reclaim) still caps at B regardless, never GO, even at confluence 12. The continuation sell at today's high only has 3 points and goes with the 24h move. Conviction stays low: same background context as ETH (fear, DVOL, ETH's neutral funding and the non-applying gap, all under 40%) and BTC itself too (15/66, 23%). The feed itself sits at the stale cutoff (31 min). No GO."
+          "es": "El reclamo del minimo de la semana pasada se rompio (perdio el stop de 61,970): ya no es una zona viva, el precio esta barriendo su propio PDL ahora mismo. Solo queda la venta de continuacion en el maximo del dia, con 3 puntos de confluencia y ahora a mas de 790 puntos de distancia. Conviccion baja: mismo contexto de fondo que ETH (miedo, DVOL, sin hueco), y BTC en si mismo tambien es lector historico bajo 40%. El checklist de tendencia confirma cortos en los tres marcos. Sin GO.",
+          "en": "The last-week-low reclaim broke (lost the 61,970 stop): it is no longer a live zone, price is sweeping its own PDL right now. Only the continuation sell at today's high remains, with 3 confluence points and now more than 790 points away. Conviction stays low: same background context as ETH (fear, DVOL, no gap), and BTC itself is also a historical reader under 40%. The trend checklist confirms shorts across all three timeframes. No GO."
         }
       },
       "counterCase": {
@@ -349,5 +360,9 @@
       "es": "El jueves (19 nov) siguio bajista en las dos monedas. Predicciones de texto 1/8 (solo el techo de BTC, 64,090.73, aguanto en cierres de 15m en las dos corridas; los otros tres techos/rangos se rompieron). Zonas 2/8 (la compra B dorada de ETH funciono las dos veces, r 0.27 en el close y 0.30 en el ny; el reclamo B de BTC en el balance inicial se rompio en el close y fallo en el ny, r -1.0).",
       "en": "Thursday (Nov 19) stayed bearish-leaning on both coins. Text predictions 1/8 (only BTC's ceiling, 64,090.73, held on 15m closes in both runs; the other three ceilings/ranges broke). Zones 2/8 (ETH's golden B buy worked both times, r 0.27 on the close and 0.30 on the ny; BTC's B reclaim at the initial balance broke on the close and failed on the ny, r -1.0)."
     }
+  },
+  "updated": {
+    "es": "Lo que aguanto: el checklist de tendencia (cortos alineados en diario, 4h y 1h en las dos monedas), el regimen de rango en las dos, y la conviccion baja. Lo que cambio: las dos compras B del close se rompieron (ETH paso su PDL y el stop de 1,746.50; BTC perdio el stop de 61,970 y esta barriendo su propio PDL ahora mismo); el feed volvio a fresca; el fondeo de BTC paso de shorts-crowded a neutral y las cuentas largas bajaron del corte de 3 a 1 en las dos monedas, pero el interes abierto sigue cayendo (son cierres, no cortos nuevos); cryptoContext.risk subio de MEDIO a ALTO por un titular de hackeo (lavado de fondos, con cautela), salidas de ETF y el selloff de tech/IA que arrastra a NQ -5.95% en 24h. El foco sigue en ETH pero la unica zona viva que queda es la venta de continuacion, lejos del precio: sin GO en las dos.",
+    "en": "What held: the trend checklist (shorts aligned on daily, 4h and 1h on both coins), the ranging regime on both, and low conviction. What changed: both B buys from the close broke (ETH ran past its PDL and the 1,746.50 stop; BTC lost the 61,970 stop and is sweeping its own PDL right now); the feed is fresh again; BTC's funding flipped from shorts-crowded to neutral and long-skewed accounts dropped under the 3-to-1 cutoff on both coins, but open interest keeps falling (those are closes, not fresh shorts); cryptoContext.risk rose from MEDIO to ALTO on a hack headline (fund laundering, read with caution), ETF outflows and the tech/AI selloff dragging NQ down -5.95% on 24h. Focus stays on ETH but the only live zone left is the continuation sell, far from price: no GO on either."
   }
 }
