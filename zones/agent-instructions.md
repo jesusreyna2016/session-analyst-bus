@@ -97,3 +97,14 @@ rebase aplica limpio. Verifica con `git log origin/main -3 --oneline` que tu com
 experimento en sombra (o "sin experimento"), y si el push quedo confirmado. Una de las lineas es la entrada
 ejecutable: "Limite en vivo: llenado X%, acierto Y% (IC), E[R] Z (n N); gatillo E[R] W; historico limite V",
 con la cifra de A si tiene n >= 20 (si no, la de todas las armadas, marcada "temprano").
+
+## Salidas: breakeven y parcial (desde 2026-11-21)
+
+`report.md` (seccion de entrada ejecutable en vivo) trae tres variantes del bracket sobre velas reales: stop/TP1 puro,
+`+ BE a +1R` y `parcial 1/2 en +1R + BE` (el plan de salida de Jesus en `state/trader-profile.json` -> `exitPlan`).
+Primera lectura (2026-11-21, n 199 llenadas): E[R] 0.35 / 0.335 / 0.32, PF 1.78 / 1.93 / 1.89. El BE a +1R salvo 18
+perdedoras (+18R) pero mato 10 ganadoras (-21R): con velas reales NO sube el E[R], solo baja la varianza. La cuenta
+de "perdedoras que llegaron a +1R" de la seccion Excursion sobreestima el efecto porque no ve las ganadoras que
+regresan a la entrada antes de TP1. En la revision semanal compara las tres por grado; propone cambiar el manejo
+solo si una le gana a las otras con el IC sin cruzarse y n >= 100.
+

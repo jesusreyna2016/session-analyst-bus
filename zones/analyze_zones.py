@@ -302,6 +302,33 @@ def live_entries(evs, zones):
                     break
             if bracket is None:  # TP1 solo en la vela del llenado: sale como la zona, al cierre que la resuelve
                 bracket = r_close(entry, risk)
+        # mismo bracket, pero con el stop a breakeven en cuanto el precio llega a +1R (desde la vela siguiente
+        # al llenado; vela que toca stop y +1R a la vez = stop; tras activar BE, vela que toca BE y TP1 = BE).
+        bracket_be = bracket_pbe = None
+        if through is not None:
+            one_r = entry + side * risk
+            be_on = False
+            for j, (t, b) in enumerate(win[through:]):
+                cur_stop = entry if be_on else stop
+                hit_stop = b[2] <= cur_stop if side == 1 else b[1] >= cur_stop
+                hit_tp = (b[1] >= tp1 if side == 1 else b[2] <= tp1) and j > 0
+                if hit_stop and (j > 0 or not be_on):
+                    bracket_be = 0.0 if be_on else -1.0
+                    break
+                if hit_tp:
+                    bracket_be = round(abs(tp1 - entry) / risk, 2)
+                    break
+                if j > 0 and (b[1] >= one_r if side == 1 else b[2] <= one_r):
+                    be_on = True
+            if bracket_be is None:
+                bracket_be = 0.0 if be_on and r_close(entry, risk) < 0 else r_close(entry, risk)
+            # tu plan de salida (trader-profile.exitPlan): parcial de 1/2 en +1R si llega antes que TP1, y el
+            # resto con stop a BE hasta TP1. Con TP1 <= 1R es igual al bracket (cobras todo en TP1).
+            rr1 = abs(tp1 - entry) / risk
+            if rr1 <= 1 or not be_on:
+                bracket_pbe = bracket_be if rr1 > 1 else bracket
+            else:
+                bracket_pbe = round(0.5 * 1.0 + 0.5 * max(bracket_be, 0.0), 2)
         trig = None
         if z['armed'] and ev.get('armada') in bs:
             fill = bs[ev['armada']][3]
@@ -310,7 +337,9 @@ def live_entries(evs, zones):
         rows.append({'grade': z.get('grade'), 'armed': z['armed'],
                      'rl': r_close(entry, risk) if through is not None else None,
                      'rlTouch': r_close(entry, risk) if touch is not None else None,
-                     'rb': bracket if through is not None else None, 'rx': trig})
+                     'rb': bracket if through is not None else None,
+                     'rbe': bracket_be if through is not None else None,
+                     'rpbe': bracket_pbe if through is not None else None, 'rx': trig})
 
     def ent(rs, key):
         filled = [dict(R=r[key], win=r[key] > 0) for r in rs if r[key] is not None]
@@ -324,6 +353,8 @@ def live_entries(evs, zones):
         return {'limite, armadas (atraviesa)': ent(armed, 'rl'),
                 'limite, armadas (toca, regla del historico)': ent(armed, 'rlTouch'),
                 'limite, armadas, bracket stop/TP1': ent(armed, 'rb'),
+                'limite, armadas, bracket + BE a +1R': ent(armed, 'rbe'),
+                'limite, armadas, parcial 1/2 en +1R + BE': ent(armed, 'rpbe'),
                 'limite, todas las tocadas (atraviesa)': ent(rs, 'rl'),
                 'gatillo (cierre de la vela de 5 min)': ent(armed, 'rx')}
     return {'all': block(rows), 'byGrade': {g: block([r for r in rows if r['grade'] == g]) for g in GRADES},
@@ -561,6 +592,9 @@ def write_md(r):
                  "Limite en la entrada de la zona, puesta desde la vela del toque hasta la que resuelve la zona; sale en TP1 o al "
                  "cierre que invalida (regla `rl` del historico). 'atraviesa' = el precio paso mas alla de la entrada; 'toca' = llego "
                  "a ella. 'bracket' = stop y TP1 como ordenes reales (mecha al stop = -1R, stop y TP1 en la misma vela = stop). "
+                 "'+ BE a +1R' = el mismo bracket con el stop a la entrada en cuanto el precio toca +1R (desde la vela siguiente "
+                 "al llenado). 'parcial 1/2 en +1R + BE' = el plan de salida de Jesus (trader-profile.exitPlan): cobra la mitad en "
+                 "+1R si llega antes que TP1 y el resto va a BE hasta TP1. "
                  "Llenado = de las zonas elegibles, en cuantas se lleno la orden; acierto y E[R] solo de las llenadas.\n")
         L.append("| | elegibles | llenado | n | acierto | E[R] | PF |\n|---|---|---|---|---|---|---|")
         def lrow(name, s):
