@@ -108,3 +108,11 @@ de "perdedoras que llegaron a +1R" de la seccion Excursion sobreestima el efecto
 regresan a la entrada antes de TP1. En la revision semanal compara las tres por grado; propone cambiar el manejo
 solo si una le gana a las otras con el IC sin cruzarse y n >= 100.
 
+## Tablero "que paga" (desde 2026-11-21)
+
+Al final de cada corrida diaria, antes del commit: si no existe `../scalp-cc-bus`, clonalo
+(`git clone --depth 1 https://github.com/jesusreyna2016/scalp-cc-bus ../scalp-cc-bus`, solo lectura, nunca
+commitees ahi) y corre `python3 method/scoreboard.py`. Escribe `zones/scoreboard.json` (sube con la carpeta zones):
+una fila por setup de los tres sistemas (planes del Session Analyst, zonas de Mi Mesa, Scalp CC) con n, E[R] y si es
+bruto o neto de costes. No lo edites a mano. Si falla, dilo en el resumen y sigue.
+
