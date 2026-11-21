@@ -118,7 +118,7 @@ working dir. Trabajas con archivos, no con HTTP.
   (merge, no reemplazo): actualiza `narrative`, los `models` que cambiaron, `zones`,
   `scorecard`; añade la entrada nueva a `reviews`/`dayThesis`/`plans`; pon `planLatest`.
 - `reviews/<fecha>.md` — solo en `pre-asia`: la calificación del día que cerró; `<fecha>` = `<fecha_ayer>` (= `<hoy>` − 1 día calendario, sección 1). Es la misma fecha con la que se cruza `live/journal.json`.
-- `reviews/<fecha>-semana.md` — solo `RUN_TYPE=weekly` (rutina de sábado): la meta-revisión de la semana (sección 6.1).
+- `reviews/<fecha>-semana.md` — solo `RUN_TYPE=weekly` (rutina de sábado): la meta-revisión de la semana (sección 6.1). **Si el prompt de tu rutina (pre-asia/pre-london/pre-ny) todavía dice "solo domingo pre-asia: `reviews/<HOY>-semana.md`", ignóralo: es una línea vieja; manda este método y esa revisión NO se escribe fuera del `weekly`.**
 - `reviews/weekly-latest.md` — solo `weekly`: copia idéntica de la meta-revisión más reciente en una ruta fija (la lee el Command Center por `raw.githubusercontent`, que no puede listar carpetas).
 - `plans/digest.txt` — resumen de 7-10 líneas (≤60 car/línea) para el móvil (sección 7), en cada corrida.
 - `live/heartbeat.json` — `{ lastRun, runType, ok, note }` al final de CADA corrida, aunque el
@@ -822,6 +822,14 @@ Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
        de revisión de abajo); hipótesis `trial-cont-against-aplus`. (b) `golden_zone` deja de ser
        A+ en cualquier caso: tope **B** (`golden_zone|against` 0/6, −1R); hipótesis
        `trial-golden-zone-tope-b`. El weekly revierte cada uno si se cumple su `refuteWhen`.
+     · **Cambio 2026-11-21 (aprobado por Jesus, a prueba): ES en día de calendario mayor.** Si
+       `calendarContext.tags` del plan incluye `fomc`, `nfp`, `cpi` o `earnings-megacap`, ES lleva
+       `conviction` "baja" (nunca "alta") y por tanto no hay GO en ES ese plan; las zonas siguen en la
+       tabla como B/WAIT con su `play`. Base: `bias|ES|calendar=major` 38 % (n=48) vs 53 % del bus, 3
+       semanas seguidas como blind spot (31 % → 34 % → 38 %), y los GO de ES en esos días 0 de 3 con
+       gatillo (2 stop, 1 abierto). Vive en `state.overrides.convictionCap["ES|calendar=major"]` y `lint_plan.py` lo
+       exige. Hipótesis `trial-es-calendar-major-cap`: el weekly la RETIRA (y lo dice en Cambios
+       aplicados) si `bias|ES|calendar=major` sube a ≥ 50 % con n ≥ 20 sesiones nuevas desde su `since`.
      · Reversión con `vs24h` `"with"` o `"flat"`, y `golden_zone` siempre: tope **B**.
      · Continuación con `vs24h` `"with"` o `"flat"`: tope **B**, nunca GO. Con `"with"` resta
        **−2** (es la combinación que más pierde).
@@ -1648,6 +1656,11 @@ Prosa: la regla de la cabecera vale también aquí, **sin guión largo** en el m
        * ajustar el prior de un arquetipo de `zones` en ±0.05 si el `winRate` agregado del
          nivel `<tipo>` (con `winN ≥ 30`) diverge > 0.10 del prior vigente → escribe
          `overrides.zonePriors["<arquetipo>"]`.
+       * `overrides.convictionCap["<SYM>|<dim>=<valor>"]` (desde 2026-11-21): tope de convicción "baja"
+         en ese contexto. El weekly puede AÑADIR uno si el blind spot `bias|<SYM>|<dim>=<valor>` está
+         ≥ 12 puntos bajo el promedio del bus con n ≥ 40 tres semanas seguidas, y RETIRARLO con la
+         regla de abajo o con su `refuteWhen`. Los planes lo aplican igual que la 8e (`lint_plan.py`
+         hoy solo verifica `calendar=major`; otros contextos los aplica el agente a mano).
        Cada override lleva `{ value, since:"<sábado>", evidence:"<n, %>" }`. Si una condición
        deja de cumplirse 2 semanas seguidas, el weekly RETIRA el override (y lo dice).
      - **Estructurales** (todo lo demás: lógica de `verdict`, umbrales duros, secciones

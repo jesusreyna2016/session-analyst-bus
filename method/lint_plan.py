@@ -50,6 +50,19 @@ out = []
 # Plans dated before it are linted with the old hierarchy so old plans can be re-checked.
 RULE_CHANGE = "2026-11-14"
 ctx = {"old": False}
+# overrides.convictionCap (8e change of 2026-11-21), read from state/sa-state.json.
+CAP_CHANGE = "2026-11-22"
+MAJOR_TAGS = ("fomc", "nfp", "cpi", "earnings-megacap")   # same list as update_scorecard.py
+
+
+def load_caps():
+    import os
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "state", "sa-state.json")
+    try:
+        caps = (json.load(open(path, encoding="utf-8")).get("overrides") or {}).get("convictionCap") or {}
+    except (OSError, ValueError):
+        return {}
+    return {k: v for k, v in caps.items() if not (isinstance(v, dict) and v.get("value") is False)}
 
 
 def err(sym, zone, msg):
@@ -215,6 +228,9 @@ def lint_futures(plan):
     for a in plan.get("alertLevels") or []:
         if isinstance(a, dict) and a.get("kind") == "zoneA" and isinstance(a.get("band"), list):
             zoneA.setdefault(a.get("sym"), []).append(a["band"])
+    caps = load_caps() if str(plan.get("date", "")) >= CAP_CHANGE else {}
+    tags = " ".join((plan.get("calendarContext") or {}).get("tags") or []).lower()
+    major_day = any(t in tags for t in MAJOR_TAGS)
     for sym, ins in (plan.get("instruments") or {}).items():
         if not isinstance(ins, dict):
             err(sym, "-", "instrument is not an object")
@@ -276,6 +292,11 @@ def lint_futures(plan):
                 err(sym, "-", 'conviction "alta" with frameConflict.on (8e)')
             if num(wscore) and wscore >= 0.6:
                 err(sym, "-", f'conviction "alta" with whipsawRisk {wscore} >= 0.6 (8e)')
+        # overrides.convictionCap (8e, 2026-11-21): ES on a major-calendar day is capped at "baja"
+        for key in caps:
+            csym, _, cond = key.partition("|")
+            if csym == sym and cond == "calendar=major" and major_day and conv == "alta":
+                err(sym, "-", f'conviction "alta" but overrides.convictionCap["{key}"] caps it at "baja" (8e 2026-11-21)')
         if sig == "GO":
             if conv != "alta":
                 err(sym, "-", f'GO needs conviction "alta" (has {conv!r}) (8e, section 9)')

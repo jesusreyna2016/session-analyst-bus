@@ -22491,6 +22491,18 @@
    "status": "abierta",
    "lastChecked": "2026-11-20",
    "note": "Caso de hoy: maximo 27609.75 (sobre PDH 27498) rechazado, swing 1h 27424.50 marcado como resistencia; el plan de Asia del 19-nov la usa como invalidacion del corto de pullback. Se resuelve con el cierre de Asia de esa fecha. | 2026-11-19: el swing 27424.50 NO resistio -- cierres 5m ya sobre el nivel a los ~15 min de abrir Asia (23:30 UTC) y se sostuvo la mayor parte de la sesion. 1a ocurrencia en contra (evidenceN=1, hits=0)."
+  },
+  "trial-es-calendar-major-cap": {
+   "claim": "En dias de calendario mayor (fomc/nfp/cpi/earnings-megacap) el sesgo de ES falla mas de lo normal: conviccion tope baja, sin GO en ES.",
+   "sym": "ES",
+   "evidenceN": 48,
+   "hits": 18,
+   "formed": "2026-11-21",
+   "status": "abierta",
+   "lastChecked": "2026-11-21",
+   "confirmWhen": "bias|ES|calendar=major sigue < 45% con n>=20 sesiones nuevas desde 2026-11-21",
+   "refuteWhen": "bias|ES|calendar=major >= 50% con n>=20 sesiones nuevas desde 2026-11-21",
+   "note": "Cambio de regla 8e aprobado por Jesus 2026-11-21 (propuesta 1 del weekly, 3a semana). Vive en overrides.convictionCap y lo exige lint_plan.py. Si se refuta, el weekly retira el override y lo dice en Cambios aplicados."
   }
  },
  "overrides": {
@@ -22524,6 +22536,13 @@
     "since": "2026-09-26",
     "winN": 49,
     "evidence": "winRate agregado 0.3868 (38.7%), winN 49 (>=30), diverge -0.11 vs prior base 0.50 (continuacion, sin override previo)"
+   }
+  },
+  "convictionCap": {
+   "ES|calendar=major": {
+    "value": "baja",
+    "since": "2026-11-21",
+    "evidence": "bias|ES|calendar=major 38% n=48 vs 53% promedio; blind spot 3 semanas seguidas (31%->34%->38%); GO de ES en esos dias 0 de 3 con gatillo (2 stop, 1 abierto). Aplicado por Jesus tras weekly 2026-11-21 (propuesta 1)."
    }
   }
  }
