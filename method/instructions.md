@@ -1669,6 +1669,11 @@ Prosa: la regla de la cabecera vale también aquí, **sin guión largo** en el m
        * ajustar el prior de un arquetipo de `zones` en ±0.05 si el `winRate` agregado del
          nivel `<tipo>` (con `winN ≥ 30`) diverge > 0.10 del prior vigente → escribe
          `overrides.zonePriors["<arquetipo>"]`.
+         El `winRate` agregado por arquetipo puro sale de `python3 method/zone_type_rates.py`
+         (suma las hojas de `state.zones`, live + 0.5·seed; `actionable:true` = cumple la regla).
+       * `predictionSkip`: "deja de cumplirse 2 semanas seguidas" se mide con el `rate` vigente en
+         cada weekly, haya muestra nueva o no (un kind retirado no genera muestra nueva: esperarla
+         lo deja retirado para siempre). Al reactivar un kind, dilo en Cambios aplicados.
        * `overrides.convictionCap["<SYM>|<dim>=<valor>"]` (desde 2026-11-21): tope de convicción "baja"
          en ese contexto. El weekly puede AÑADIR uno si el blind spot `bias|<SYM>|<dim>=<valor>` está
          ≥ 12 puntos bajo el promedio del bus con n ≥ 40 tres semanas seguidas, y RETIRARLO con la

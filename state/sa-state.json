@@ -22507,11 +22507,6 @@
  },
  "overrides": {
   "predictionSkip": {
-   "NQ|direction": {
-    "value": true,
-    "since": "2026-09-12",
-    "evidence": "n=29, rate=0.33 (33%) — weekly 2026-09-12 auto-apply rate<0.40 n≥20"
-   },
    "GC|range": {
     "value": true,
     "since": "2026-09-12",
@@ -22520,10 +22515,16 @@
   },
   "zonePriors": {
    "bounce_val": {
-    "value": 0.68,
-    "since": "2026-09-12",
-    "winN": 136,
-    "evidence": "winRate agregado por arquetipo 0.68, winN 136 (>=30), divergencia +0.13 vs prior reversion 0.55 — aplicado manual por Jesus tras weekly 2026-09-12; edge de bordes del perfil (VAL) confirmado"
+    "value": 0.63,
+    "since": "2026-11-21",
+    "winN": 46,
+    "evidence": "winRate agregado bounce_val 0.52 (winN 46, live+0.5*seed, method/zone_type_rates.py) vs prior 0.68: diverge -0.16 (> 0.10, winN >= 30) -> -0.05 segun 6.1. Antes: 0.68 desde 2026-09-12 (manual por Jesus).",
+    "prev": {
+     "value": 0.68,
+     "since": "2026-09-12",
+     "winN": 136,
+     "evidence": "winRate agregado por arquetipo 0.68, winN 136 (>=30), divergencia +0.13 vs prior reversion 0.55 — aplicado manual por Jesus tras weekly 2026-09-12; edge de bordes del perfil (VAL) confirmado"
+    }
    },
    "golden_zone": {
     "value": 0.32,
@@ -22543,6 +22544,17 @@
     "value": "baja",
     "since": "2026-11-21",
     "evidence": "bias|ES|calendar=major 38% n=48 vs 53% promedio; blind spot 3 semanas seguidas (31%->34%->38%); GO de ES en esos dias 0 de 3 con gatillo (2 stop, 1 abierto). Aplicado por Jesus tras weekly 2026-11-21 (propuesta 1)."
+   }
+  },
+  "_retired": {
+   "predictionSkip|NQ|direction": {
+    "was": {
+     "value": true,
+     "since": "2026-09-12",
+     "evidence": "n=29, rate=0.33 (33%) — weekly 2026-09-12 auto-apply rate<0.40 n≥20"
+    },
+    "retired": "2026-11-21",
+    "why": "predictionScore NQ|direction rate 0.4143 (n=35) >= 0.40 en los weekly del 11-14 y 11-21: la condicion dejo de cumplirse 2 semanas seguidas (6.1). El weekly no lo retiraba porque esperaba muestra nueva, que un kind retirado no genera."
    }
   }
  }
