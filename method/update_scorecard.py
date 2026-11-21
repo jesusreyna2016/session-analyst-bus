@@ -108,8 +108,13 @@ def em_calibration_auto(sc, end):
                 except ValueError:
                     pm = 1.0
                 raw = base / pm if pm else base
+                # daily ATR of that plan (expectedMove.dayBudget = feed.raw.atrD), for errPctAtr
+                try:
+                    atr = float((((plan.get("instruments") or {}).get(sym) or {}).get("expectedMove") or {}).get("dayBudget") or 0)
+                except (TypeError, ValueError):
+                    atr = 0.0
                 if raw > 0:
-                    samples.setdefault("%s|%s" % (sym, sess), []).append((f[:10], raw, real))
+                    samples.setdefault("%s|%s" % (sym, sess), []).append((f[:10], raw, real, atr))
     if not samples:
         return False
     old = {k: v for k, v in (sc.get("emCalibration") or {}).items() if k != "_hand"}
@@ -117,14 +122,17 @@ def em_calibration_auto(sc, end):
            "_note": "auto from grades/ (real-bar session range vs raw plan base), last %d sessions per cell" % EM_WINDOW}
     for key, v in sorted(samples.items()):
         v = sorted(v)[-EM_WINDOW:]
-        ratios = sorted(r / b for _, b, r in v)
+        ratios = sorted(r / b for _, b, r, _ in v)
         tick = EM_TICK.get(key.split("|")[0], 0.01)
-        errs = [(r - b) / tick for _, b, r in v]
+        errs = [(r - b) / tick for _, b, r, _ in v]
+        pct = [abs(r - b) / atr * 100 for _, b, r, atr in v if atr > 0]
         n = len(v)
         cal[key] = {"n": n, "mult": round(min(3.0, max(0.7, ratios[n // 2])), 2),
                     "p25": round(ratios[n // 4], 2), "p75": round(ratios[(3 * n) // 4], 2),
                     "meanErrTk": round(sum(abs(e) for e in errs) / n, 1), "biasTk": round(sum(errs) / n, 1),
-                    "biasTkSign": "+" if sum(errs) > 0 else "-", "src": "auto"}
+                    "biasTkSign": "+" if sum(errs) > 0 else "-",
+                    "errPctAtr": round(sum(pct) / len(pct), 1) if pct else None,
+                    "errPctAtrN": len(pct), "src": "auto"}
     cal["_lastDate"] = end
     sc["emCalibration"] = cal
     return True

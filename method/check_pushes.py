@@ -64,8 +64,11 @@ ROUTINES = [
          grace=90, before=90, after=300, plan=lambda d: f"plans/{d}-pre-london.json"),
     dict(name="pre-ny", pat=r"^sa pre-ny\b", tz=CT, times=["07:55"], days=MON_FRI,
          grace=90, before=90, after=300, plan=lambda d: f"plans/{d}-pre-ny.json"),
-    dict(name="crypto-close", pat=r"^sa crypto-close\b", tz=UTC, times=["00:15"], days=ALL,
-         grace=150, before=60, after=360, plan=lambda d: f"plans/crypto/{d}-close.json"),
+    # cron is 19:15 CT (01:15 UTC in CST, 00:15 UTC in CDT); the plan carries the UTC date,
+    # which is always the CT date + 1 at that hour.
+    dict(name="crypto-close", pat=r"^sa crypto-close\b", tz=CT, times=["19:15"], days=ALL,
+         grace=150, before=60, after=360,
+         plan=lambda d: f"plans/crypto/{d + timedelta(days=1)}-close.json"),
     dict(name="crypto-ny", pat=r"^sa crypto-ny\b", tz=CT, times=["08:45"], days=ALL,
          grace=90, before=60, after=300,
          plan=lambda d: f"plans/crypto/{d}-ny.json"),  # 08:45 CT is the same UTC date
