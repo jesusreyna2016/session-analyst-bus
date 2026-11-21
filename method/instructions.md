@@ -1373,6 +1373,17 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
   claro en ≥1 instrumento Y `againstBias > withBias` (o `disciplined=false` con `overtrade`),
   **abre el review con esa frase**, antes del scorecard de mercado. Cruza `byDay` (por fecha)
   con tus planes de esos días:
+  - **Guarda de datos (desde 2026-11-21, regla dura):** si en un día `graded > 0` pero
+    `withBias + againstBias + validEdge = 0` (todo cae en `outsideEdge`), el clasificador del
+    journal NO está funcionando: no midió sesgo ni zona, solo marcó todo como fuera. Pasa en TODOS
+    los días desde el 2026-11-06 (graded 9-67 por día, 0 clasificados) y contradice
+    `zones/report.md`, donde 145 de 240 trades de Mi Mesa sí caen en zona. En ese caso **no
+    escribas "0 % disciplinado", "100 % fuera de zona" ni "operó tierra de nadie"** y no endurezcas
+    convicción ni recordatorios por eso: escribe "ejecución: el journal no clasificó sesgo/zona
+    (graded <n>, 0 clasificados)" y, para zona vs fuera, cita la sección de trades de
+    `zones/report.md` si existe. `disciplined` depende de esa misma clasificación: tampoco lo
+    uses como veredicto. `overtrade`, `revenge`, `maxLossStreak`, `trades` y `fullStops` sí valen
+    (son conteos). `scorecard.execution.ALL.classified` lo marca (lo escribe `update_scorecard.py`).
   - **Día de ayer, trade a trade hasta donde llegue el digest**: `trades`, `graded`,
     `withBias` vs `againstBias`, `validEdge` vs `outsideEdge`, `maxLossStreak`, y los flags
     `disciplined`/`overtrade`/`revenge`/`roundTrip`. Traduce a una frase de veredicto:
@@ -1624,7 +1635,9 @@ Prosa: la regla de la cabecera vale también aquí, **sin guión largo** en el m
    - **Contexto fuera del gráfico** (una línea): de los `macroContext.drivers` de la semana,
      cuáles explicaron el movimiento y cuáles no (según las reviews diarias, regla 8b), y si
      el `crossAsset.tone` iba con o contra el resultado del día.
-   - **Ejecución de la semana** (de `journal.json`): días disciplinados / 5, `againstBiasRate`
+   - **Ejecución de la semana** (de `journal.json`; si `scorecard.execution.ALL.classified` es
+     `false`, aplica la guarda de datos de la sección 6: ni disciplina ni fuera de zona, solo los
+     conteos y la sección de trades de `zones/report.md`): días disciplinados / 5, `againstBiasRate`
      y `outsideEdgeRate` del rollup con ▲/▼, días de `overtrade`/`revenge`, la racha de
      pérdidas peor. Una frase sobre si la disciplina mejora o empeora y qué fuga manda.
      Si el rollup trae `partialRate`/`scratchRate`, añade la calidad de salida con ▲/▼.
@@ -1868,7 +1881,8 @@ de-identificado). `<n>` = `days` de la ventana. Los `%` se calculan sobre trades
 (validEdge + outsideEdge)`. Usa el agregado (`ALL` si no hay desglose por instrumento);
 redondea al entero. Añade ` · churn` si algún día del tramo trae `overtrade`, `revenge` o
 `roundTrip`. Si no existe `scorecard.execution` (falta `live/journal.json` o va sin datos),
-**omite la línea entera**, no pongas ceros.
+**omite la línea entera**, no pongas ceros. Si `scorecard.execution.ALL.classified` es `false` (guarda de datos de la sección 6), escribe
+`Ejec <n>d: journal sin clasificar<· churn si aplica>` en vez de los porcentajes.
 
 **Marcador `EM+`/`EM-`**: si un instrumento trae `expectedMove.underCal` (no null), pega el
 marcador al final de su token EM en la línea del instrumento (`NQ WAIT · sin sesgo · rebote
