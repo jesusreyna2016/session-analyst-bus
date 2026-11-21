@@ -201,3 +201,12 @@ estan en el plan.
   reinicio (minimo de ciclo nuevo revertido, cierre en el 85% de su rango, COT crowded-short
   extremo de combustible). Sale EVOLUCIONANDO, sin romper la invalidacion dura todavia pero
   pidiendo vigilancia real la semana que entra.
+
+## Correccion 2026-11-21 (posterior al weekly)
+
+La leccion de arriba ("0% disciplinado, 100% fuera de zona") sale de un fallo del journal, no de la
+ejecucion: desde el 2026-11-06 califica trades pero no clasifica sesgo ni zona (withBias, againstBias y
+validEdge en 0 todos los dias) y no manda partials ni fills. En los trades de Mi Mesa (`zones/report.md`)
+145 de 240 si cayeron en zona. Lo que si vale de la semana: overtrade y revenge los 5 dias, racha de 14
+perdidas el miercoles y fullStopRate 44.7%. Desde hoy `scorecard.execution.ALL.classified=false` lo marca
+y el metodo (seccion 6) no lo reporta como conducta.
