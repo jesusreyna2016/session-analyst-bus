@@ -1,7 +1,7 @@
 {
   "schema": "trader-profile-1",
   "note": "Shared profile of the trader, read by every agent (Session Analyst, Scalp CC, Plan Coach, Watchdog). Behavioral and rule data only: no balances, no P&L, no personal life, and no broker, firm or account details. Humans own `core`; the weekly run may only rewrite `observed`.",
-  "updatedAt": "2026-11-21T16:11:00Z",
+  "updatedAt": "2026-11-21T18:50:00Z",
   "core": {
     "instruments": [
       "NQ / NDX (Nasdaq 100)",
@@ -96,17 +96,21 @@
   "observed": {
     "updatedBy": "weekly 2026-11-21",
     "window": "2026-11-16..2026-11-20 (5 dias calendario, 5 con dato real en live/journal.json: el journal se reconecto el lunes 16-nov tras 8 dias calendario ciego, updatedAt ahora en 2026-11-21T03:22:53Z)",
-    "disciplinedPct": 0,
+    "disciplinedPct": null,
     "againstBiasRate": null,
-    "outsideEdgeRate": 1,
+    "outsideEdgeRate": null,
     "trend": {
-      "es": "Primera semana con dato real los 5 dias desde hace mas de un mes (el journal se reconecto el lunes). 217 trades en la semana (promedio 43.4/dia, por encima del 36.8/dia de la ventana de 45 dias), 0 de 5 dias disciplinados (0%), overtrade y revenge los 5 dias (100%), outsideEdgeRate 100% (217/217 fuera de zona del plan). El journal sigue sin etiquetar a favor/en contra del sesgo (withBias/againstBias en 0 los 5 dias, no es un 0% real de contra-sesgo, es dato no clasificado). Racha de perdidas record: 14 seguidas el miercoles 18-nov (antes el peor dato eran 6). fullStopRate de la semana 44.7% (97/217), peor que el 39% de la ventana de 45 dias; partialRate y scratchRate en 0% los 5 dias, sin un solo parcial. Sin dato de posiciones con precio (fills vacios en todo el byDay de la semana): no se puede medir plan-vs-ejecucion en R todavia, solo disciplina/overtrade/calidad de salida agregada.",
-      "en": "First week with real data all 5 days in over a month (the journal reconnected on Monday). 217 trades this week (43.4/day average, above the 45-day window's 36.8/day), 0 of 5 disciplined days (0%), overtrade and revenge on all 5 days (100%), outsideEdgeRate 100% (217/217 outside the plan's zones). The journal still cannot tag with/against bias (withBias/againstBias at 0 all 5 days, not a real 0% against-bias rate, just unclassified data). Record losing streak: 14 in a row on Wednesday 11-18 (prior worst was 6). This week's fullStopRate is 44.7% (97/217), worse than the 45-day window's 39%; partialRate and scratchRate are 0% all 5 days, not a single partial. No priced-position data (fills empty in every byDay this week): plan-vs-execution in R still cannot be measured, only aggregate discipline/overtrade/exit-quality."
+      "es": "Semana 16-20 nov con dato los 5 dias: 217 trades (43.4/dia, por encima de los 36.8/dia de la ventana de 45 dias), overtrade y revenge los 5 dias, racha record de 14 perdidas seguidas el miercoles 18 (antes el peor era 6), fullStopRate 44.7% (97/217) contra 39% de la ventana. Disciplina, fuera de zona y parciales no se pueden medir esta semana: el journal no clasifica sesgo/zona ni manda parciales (ver dataIssue). En los trades de Mi Mesa (zones/report.md) 145 de 240 si cayeron en zona.",
+      "en": "Week of Nov 16-20 with data all 5 days: 217 trades (43.4/day, above the 45-day window's 36.8/day), overtrade and revenge all 5 days, record losing streak of 14 on Wednesday 18 (prior worst was 6), fullStopRate 44.7% (97/217) vs 39% for the window. Discipline, outside-zone and partials cannot be measured this week: the journal does not classify bias/zone or send partials (see dataIssue). In the Mi Mesa trades (zones/report.md) 145 of 240 did land in a zone."
     },
     "exitQuality": {
-      "partialRate": 0,
+      "partialRate": null,
       "scratchRate": 0,
       "fullStopRate": 0.447
+    },
+    "dataIssue": {
+      "es": "Desde el 2026-11-06 el journal califica trades pero no clasifica sesgo ni zona (withBias, againstBias y validEdge en 0 todos los dias) y no manda partials ni fills: disciplina, fuera de zona y parciales NO son medibles. No es un 0% / 100% real.",
+      "en": "Since 2026-11-06 the journal grades trades but does not classify bias or zone (withBias, againstBias and validEdge at 0 every day) and sends no partials or fills: discipline, outside-zone and partials are NOT measurable. It is not a real 0% / 100%."
     }
   }
 }

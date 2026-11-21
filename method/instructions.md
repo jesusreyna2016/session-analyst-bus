@@ -1384,6 +1384,8 @@ Por sesión (Asia, Londres, NY) × instrumento, evalúa:
     `zones/report.md` si existe. `disciplined` depende de esa misma clasificación: tampoco lo
     uses como veredicto. `overtrade`, `revenge`, `maxLossStreak`, `trades` y `fullStops` sí valen
     (son conteos). `scorecard.execution.ALL.classified` lo marca (lo escribe `update_scorecard.py`).
+    `partials: null` en un día = el journal no lo mandó, no es cero: `partialRate` solo se calcula
+    sobre días que lo traen (`update_scorecard.py`); no escribas "sin un solo parcial" por un null.
   - **Día de ayer, trade a trade hasta donde llegue el digest**: `trades`, `graded`,
     `withBias` vs `againstBias`, `validEdge` vs `outsideEdge`, `maxLossStreak`, y los flags
     `disciplined`/`overtrade`/`revenge`/`roundTrip`. Traduce a una frase de veredicto:

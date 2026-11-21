@@ -75,7 +75,10 @@ def execution(by_day, end):
         "validEdge": s("validEdge"), "outsideEdge": s("outsideEdge"),
         "disciplinedPct": round(100 * sum(1 for d in days if d.get("disciplined")) / len(days)),
         "positions": pos,
-        "partialRate": round(s("partials") / pos, 3) if pos else None,
+        # partials null = the journal did not send it (not zero): rate only over days that carry it
+        "partialRate": (lambda ds: round(sum(int(d["partials"]) for d in ds) / sum(int(d.get("positions") or 0) for d in ds), 3)
+                        if ds and sum(int(d.get("positions") or 0) for d in ds) else None)(
+                            [d for d in days if d.get("partials") is not None]),
         "scratchRate": round(s("scratches") / pos, 3) if pos else None,
         "fullStopRate": round(s("fullStops") / pos, 3) if pos else None,
         "overtradeDays": flags["overtrade"], "revengeDays": flags["revenge"], "roundTripDays": flags["roundTrip"],
