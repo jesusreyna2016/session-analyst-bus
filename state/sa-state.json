@@ -22208,9 +22208,10 @@
    "formed": "2026-10-01",
    "confirmWhen": "evidenceN>=5 y hits/evidenceN>=0.7",
    "refuteWhen": "3 ocurrencias seguidas donde el rango realizado queda por debajo de 1.5x el residual",
-   "status": "abierta",
+   "status": "sin_senal",
    "lastChecked": "2026-11-03",
-   "note": "2026-11-02: NQ NY realizo 789.5pts contra una base EM de 250.7 (3.15x), tras un dia ya AGOTADO en sesiones previas. 3a muestra, aun bajo el umbral n>=5 para confirmar. | 2026-11-03: NQ asia tras dia agotado (11-02, rangePct 128%) vino DENTRO de banda (246pts vs 232-385), no 3x residual -> miss."
+   "note": "2026-11-02: NQ NY realizo 789.5pts contra una base EM de 250.7 (3.15x), tras un dia ya AGOTADO en sesiones previas. 3a muestra, aun bajo el umbral n>=5 para confirmar. | 2026-11-03: NQ asia tras dia agotado (11-02, rangePct 128%) vino DENTRO de banda (246pts vs 232-385), no 3x residual -> miss. | 2026-11-21: cerrada por poda (tope de 20 abiertas, la mas vieja sin senal reciente).",
+   "closedAt": "2026-11-21"
   },
   "H-2026-10-02-gira-se-revierte-mismo-dia": {
    "claim": "Un giro de tesis confirmado con estructura real (no mecha, p.ej. IB roto + 2 niveles de invalidacion perdidos) puede deshacerse del todo dentro de la MISMA sesion que sigue, no solo quedar en duda.",
@@ -22536,6 +22537,18 @@
    "confirmWhen": "bias|ES|calendar=major sigue < 45% con n>=20 sesiones nuevas desde 2026-11-21",
    "refuteWhen": "bias|ES|calendar=major >= 50% con n>=20 sesiones nuevas desde 2026-11-21",
    "note": "Cambio de regla 8e aprobado por Jesus 2026-11-21 (propuesta 1 del weekly, 3a semana). Vive en overrides.convictionCap y lo exige lint_plan.py. Si se refuta, el weekly retira el override y lo dice en Cambios aplicados."
+  },
+  "trial-go-gatillo-asia-ny": {
+   "claim": "En Asia y NY, una zona A+ del metodo con gatillo de 5 m paga aunque la conviccion sea baja: GO al gatillo (verdict.mode gatillo).",
+   "sym": "ALL",
+   "evidenceN": 17,
+   "hits": null,
+   "formed": "2026-11-21",
+   "status": "abierta",
+   "lastChecked": "2026-11-21",
+   "confirmWhen": "los GO con verdict.mode gatillo dan avgR >= +0.25 con n >= 15 (python3 method/entry_study.py, trigger_target)",
+   "refuteWhen": "los GO con verdict.mode gatillo dan avgR < 0 con n >= 15, o las A+ con gatillo de Asia+NY caen bajo +0.15R con n >= 60",
+   "note": "Cambio de regla 8e aprobado por Jesus 2026-11-21 (reviews/2026-11-21-estudio-entradas.md). Base desde la 8e: A+ con gatillo +0.50R n35 (Asia +2.14R n5, NY +0.92R n12, Londres -0.23R n18). Lo exige lint_plan.py. Si se refuta, el weekly quita el GO al gatillo de la 8e y lo dice en Cambios aplicados."
   }
  },
  "overrides": {

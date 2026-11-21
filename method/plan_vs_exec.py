@@ -28,7 +28,7 @@ import re
 import sys
 
 ROOTS = [(r"^M?NQ", "NQ"), (r"^M?ES", "ES"), (r"^M?GC", "GC"), (r"^M?YM", "YM"), (r"^M?CL", "CL"),
-         (r"^ETH", "ETHUSDT"), (r"^BTC", "BTCUSDT"), (r"^(NDX|US100|NAS100|USTEC)", "NQ*")]
+         (r"^ETH", "ETHUSDT"), (r"^BTC", "BTCUSDT"), (r"^(NDX|US100|NAS100|USTEC|XYZ100)", "NQ*")]   # XYZ100 = NAS100 of MyFundedPerpetuals (Mi Mesa)
 
 
 def load(p):

@@ -68,7 +68,7 @@ def execution(by_day, end):
     gd = [d for d in days if int(d.get("graded") or 0) > 0]
     cls_days = [d for d in gd if int(d.get("withBias") or 0) + int(d.get("againstBias") or 0) + int(d.get("validEdge") or 0) > 0]
     return {
-        "classified": bool(cls_days) if gd else None,
+        "classified": bool(cls_days),   # false too when nothing was graded (no fichas): nothing to read as conduct
         "classifiedDays": len(cls_days), "gradedDays": len(gd),
         "days": len(days), "n": s("trades"), "graded": s("graded"),
         "withBias": s("withBias"), "againstBias": s("againstBias"),

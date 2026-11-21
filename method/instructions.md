@@ -843,6 +843,18 @@ Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
    - **GO** = convicción "alta" + el resto de la sección 9 (precio en o llegando a la zona,
      permiso de sesión, sin estiramiento, `risk.rr` ≥ 1.5, gatillo esperable, fuera de manos
      fuera). El GO ya NO exige que el sesgo de las fuentes esté alineado.
+   - **GO al gatillo (cambio 2026-11-21, aprobado por Jesus, a prueba).** En **Asia y NY**
+     (`session` "asia" o "ny"), si `zones[0]` es A+ del método y cumple todo lo demás del GO
+     (alcanzable, sin estiramiento, `risk.rr` ≥ 1.5 y flag no malo, sin `frameConflict.on`,
+     `whipsawRisk` < 0.6, fuera de manos fuera, sin shock activo), el `verdict` puede ser GO con
+     convicción "baja". Escribe `verdict.mode: "gatillo"` y abre `verdict.reason` con "GO al
+     gatillo:"; la entrada es SOLO al gatillo de `play.trigger` (cierre de 5 m), nunca orden
+     límite. **Londres no**: ahí GO sigue exigiendo "alta". No aplica si un
+     `overrides.convictionCap` cubre ese símbolo y contexto (p. ej. ES en calendario mayor).
+     Base (`method/entry_study.py`, `reviews/2026-11-21-estudio-entradas.md`): desde la 8e las A+
+     con gatillo dan +0.50R (n=35); por sesión Asia +2.14R (n=5), NY +0.92R (n=12), Londres
+     −0.23R (n=18); con orden límite −0.16R. Hipótesis `trial-go-gatillo-asia-ny`: el weekly la
+     revierte si su `refuteWhen` se cumple. `lint_plan.py` lo verifica.
    - **Revisión**: `scorecard.zoneEdge` (lo arma `update_scorecard.py` desde `grades/`) lleva
      `family|vs24h`, `type|vs24h` y `family|session` con `avgR`. En el weekly, si
      `reversion|against` baja de `avgR` 0 con n ≥ 40, o una celda con tope B pasa a
@@ -879,7 +891,8 @@ Campos de `feed.raw` (precios en el formato del símbolo; vacío = sin dato):
      recorrió >70 % del presupuesto y el precio
      está a mitad de rango (poco jugo, alto riesgo de chop restante). Protege de OPERAR EL CHOP,
      SOBREOPERAR y ANTICIPAR (fugas #1, #4, #7).
-   - **GO** (hay edge a favor): convicción "alta" según la regla 8e Y el precio está EN
+   - **GO** (hay edge a favor): convicción "alta" según la regla 8e (o GO al gatillo de la 8e en
+     Asia/NY con `verdict.mode: "gatillo"`) Y el precio está EN
      (o llegando a) una zona **A+ del método (reglas 8e y 8f)** en un nivel mapeado, con permiso
      de sesión (ventana del `play`), sin estar estirado, con
      `risk.rr` ≥ 1.5 y flag no malo, con un gatillo esperable ahí (FVG/iFVG, reclaim, rechazo,

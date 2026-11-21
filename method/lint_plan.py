@@ -298,7 +298,18 @@ def lint_futures(plan):
             if csym == sym and cond == "calendar=major" and major_day and conv == "alta":
                 err(sym, "-", f'conviction "alta" but overrides.convictionCap["{key}"] caps it at "baja" (8e 2026-11-21)')
         if sig == "GO":
-            if conv != "alta":
+            # GO al gatillo (8e, 2026-11-21): Asia/NY, zones[0] A+ of the method, verdict.mode "gatillo",
+            # not under an overrides.convictionCap; every other GO check below still applies
+            gatillo = verdict.get("mode") == "gatillo"
+            capped = any(k.partition("|")[0] == sym and k.partition("|")[2] == "calendar=major" and major_day for k in caps)
+            if gatillo and str(plan.get("date", "")) >= CAP_CHANGE:
+                if plan.get("session") not in ("asia", "ny"):
+                    err(sym, "-", f'GO al gatillo only in Asia/NY (session {plan.get("session")!r}) (8e 2026-11-21)')
+                if capped:
+                    err(sym, "-", "GO al gatillo under an overrides.convictionCap (8e 2026-11-21)")
+                if not text_es(verdict.get("reason")).lstrip().startswith("GO al gatillo"):
+                    warn(sym, "-", 'verdict.reason should open with "GO al gatillo:" (8e 2026-11-21)')
+            elif conv != "alta":
                 err(sym, "-", f'GO needs conviction "alta" (has {conv!r}) (8e, section 9)')
             if fc.get("on") is True:
                 err(sym, "-", "GO with frameConflict.on: verdict must be WAIT or AVOID (section 9)")

@@ -171,7 +171,8 @@ def main():
                 fam = gp.family(z.get("type"))
                 v = None if d24 is None else "flat" if d24 == "FLAT" else "with" if (z.get("dir") or "").upper() == d24 else "against"
                 rows.append({"date": fecha, "run": run, "sym": sym, "type": z.get("type"), "family": fam,
-                             "vs24h": v, "go": verdict == "GO" and k == 0, **res})
+                             "vs24h": v, "go": verdict == "GO" and k == 0,
+                             "goMode": (inst.get("verdict") or {}).get("mode") if verdict == "GO" and k == 0 else None, **res})
     keys = ["trigger_target", "trigger_plan", "limit_target", "limit_plan"]
 
     def agg(rs):
@@ -187,6 +188,8 @@ def main():
     for r in rows:
         groups["ALL"].append(r)
         groups["GO (zones[0] de un GO)" if r["go"] else "resto"].append(r)
+        if r.get("goMode") == "gatillo":
+            groups["GO al gatillo (8e 2026-11-21)"].append(r)
         groups["%s|%s" % (r["family"], r["vs24h"])].append(r)
         groups["session|%s" % r["run"]].append(r)
     res = {"since": a.since, "zones": len(rows), "groups": {g: agg(rs) for g, rs in sorted(groups.items(), key=lambda kv: -len(kv[1]))}}
