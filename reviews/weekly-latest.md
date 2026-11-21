@@ -1,196 +1,203 @@
-# Meta-revision semanal · 2026-11-09 a 2026-11-13
+# Meta-revision semanal · 2026-11-16 a 2026-11-20
 
-Semana de 4 catalizadores reales en 5 dias, ninguno repetido: lunes NQ/ES giraron de corto a
-largo con cierres de 1h sostenidos sobre su flip de invalidacion (el corto de 8-9 dias murio);
-martes el CPI probo ese giro con una barrida bajo todos los marcos y el giro sobrevivio; miercoles
-cambio el regimen de fondo y la tesis larga de 4 dias de GC se rompio sin que ninguna zona de la
-tabla la capturara (cero de 14 zonas de reversion/continuacion pagaron ese dia); jueves la renuncia
-sin aviso del CEO de Nvidia (~29% de caida en la accion) mas un titular de Trump sobre Iran movieron
-todo el complejo, con un round-trip completo de NQ dentro de la misma sesion de NY; viernes el PPI
-mas frio de lo esperado se vendio y rompio en la primera hora los giros largos de NQ/ES que venian
-de jueves, el peor dia de sesgo de la ventana (2 aciertos de 12 llamadas). La hipotesis de que un
-giro de tesis con `daysHeld<=2` es fragil frente a un shock real quedo confirmada 3/3 esta semana
-(subida a `models.NQ` como `R-NQ-giro-de-un-dia-fragil`). El hallazgo operativo mas caro de la
-semana no es de mercado: `live/journal.json` no trajo UN SOLO dia nuevo (0 de 5), 6 dias calendario
-sin refrescar desde `2026-11-08T03:19Z` -- la semana entera queda ciega para medir ejecucion real.
+Semana de cinco catalizadores reales, uno por dia: lunes risk-off amplio sin evento de
+calendario (VIX +24% en backwardation real, aceptacion del nombramiento de Warsh en la Fed)
+dejo a los 5 instrumentos en corto, con el fade clasico de Asia fallando en los 5; martes GC
+rompio su largo de 4 dias con un reclamo real del PWL, hizo una doble barrida sin autoridad y
+recien en NY reinstalo un corto limpio (dia 1 de ciclo nuevo), mientras un titular de escalada
+en el estrecho de Ormuz le gano una sesion al corto estructural de CL; miercoles las minutas
+halconas del FOMC mas el desplome de NVDA tras resultados dieron el dia mas limpio del mes
+(sesgo acertado en 12 de 15 sesiones, 80%) y, en paralelo, la peor racha de ejecucion
+registrada hasta ahora (14 perdidas seguidas); jueves una cumbre Trump-Putin-Xi dio un salto
+risk-on de hasta 6.9 ATR en NQ que la sesion de NY revirtio por completo, confirmando el corto
+de fondo; viernes (OpEx) fue liquidacion generalizada sin catalizador de calendario claro, con
+GC fallando como refugio (cayo junto a los indices) y CL como unica excepcion, revirtiendo con
+autoridad desde un minimo de ciclo nuevo. El hallazgo operativo mas relevante de la semana: el
+journal se reconecto el lunes tras 8 dias calendario ciego (sin refrescar desde 2026-11-08),
+trayendo dato de disciplina los 5 dias por primera vez en semanas, aunque todavia sin fills con
+precio (no se puede refrescar plan-vs-ejecucion a nivel de posicion).
 
 ## Marcador de la semana por instrumento
 
-(`biasHitPct`/`scenarioAHitPct`/`zoneHitPct` = ventana rodante `hitLog`, 47 dias a 2026-11-13;
-"EM semana" = de las 15 oportunidades sesion x dia de esta semana especifica dentro de banda, de
-`grades/<fecha>.json`; `/\` contra `reviews/2026-11-07-semana.md`.)
+(`biasHitPct`/`scenarioAHitPct`/`zoneHitPct` = ventana rodante `hitLog`, 47 dias a 2026-11-20;
+"EM semana" = de las 15 oportunidades sesion x dia de esta semana especifica, agregadas desde
+`hitLog`; `/\` contra `reviews/2026-11-14-semana.md`.)
 
-- **NQ**: sesgo 50% (n=107) sube vs 47% (n=106) · escenario A 52% (n=86) sube vs 49% (n=88) ·
-  zona 24% (n=62) igual vs 24% (n=58) · EM esta semana 73.3% (11/15) sube fuerte vs 53% (8/15), el
-  mejor EM de los 5 esta semana. El instrumento con el giro mas sostenido (sobrevivio CPI el martes,
-  se rompio otra vez viernes con el PPI).
-- **ES**: sesgo 48% (n=100) sube vs 44% (n=103) · escenario A 46% (n=95) sube vs 45% (n=94) ·
-  zona 30% (n=56) sube vs 26% (n=53) · EM esta semana 53.3% (8/15) sube vs 40% (6/15). Mismo guion
-  que NQ un escalon detras toda la semana.
-- **GC**: sesgo 53% (n=101) sube vs 49% (n=99) · escenario A 49% (n=97) sube vs 46% (n=97) ·
-  zona 28% (n=61) sube vs 27% (n=60) · EM esta semana 46.7% (7/15) sube vs 33% (5/15). El marcador
-  rodante mejora pero esconde el evento real: la tesis larga de 4 dias se rompio el miercoles y dos
-  GO de conviccion alta en rebotes de POC fallaron (jueves y viernes).
-- **YM**: sesgo 50% (n=86) baja vs 51% (n=88) · escenario A 58% (n=104) baja vs 59% (n=100) ·
-  zona 17% (n=59) baja vs 19% (n=54) · EM esta semana 53.3% (8/15) sube fuerte vs 27% (4/15). Sigue
-  siendo el indice mas fragil del complejo para un giro reciente (rompio y devolvio la ruptura en la
-  misma noche del martes).
-- **CL**: sesgo 53% (n=97) baja vs 57% (n=99) · escenario A 54% (n=111) sube vs 52% (n=106) ·
-  zona 21% (n=63) sube vs 20% (n=56) · EM esta semana 40.0% (6/15) sube vs 27% (4/15). El corto de
-  fondo se reafirmo toda la semana con un techo 89.15-89.64 repetido tres dias.
-- **Global**: `predictionScore` ponderado 57.5% (n=2670) practicamente igual vs 57.6% (n=2535).
-  `errPctAtr` (nunca `emErrorTicks` en bruto, promedio ponderado por sesion): NQ 20.8% mejora vs
-  23.4% · ES 19.9% mejora vs 21.5% · GC 30.9% empeora fuerte vs 22.9% (el `mult` de 2.18 no bastó el
-  jueves, EM se fue "over" en Londres) · YM 21.7% mejora vs 23.3% · CL 24.6% empeora leve vs 23.0%.
-  GC es el unico que se calibra peor esta semana a pesar de mejorar su hit-rate rodante.
+- **NQ**: sesgo 55% (n=111) sube vs 50% (n=107) · escenario A 51% (n=88) baja leve vs 52%
+  (n=86) · zona 25% (n=67) sube leve vs 24% (n=62) · EM esta semana 53.3% (8/15) baja fuerte
+  vs 73.3% (11/15) la pasada, el EM mas flojo de los 5 junto con GC. Tendencia bajista
+  confirmada toda la semana, sin giro, cerrando en minimo de ciclo nuevo el viernes.
+- **ES**: sesgo 53% (n=106) sube vs 48% (n=100) · escenario A 46% (n=90) igual vs 46% (n=95) ·
+  zona 28% (n=53) baja vs 30% (n=56) · EM esta semana 60% (9/15) sube vs 53.3% (8/15). Mismo
+  guion que NQ, un escalon detras.
+- **GC**: sesgo 56% (n=104) sube vs 53% (n=101) · escenario A 51% (n=96) sube vs 49% (n=97) ·
+  zona 27% (n=63) baja leve vs 28% (n=61) · EM esta semana 53.3% (8/15) sube vs 46.7% (7/15).
+  El marcador rodante mejora pero el viernes volvio a quedar "sobre banda" dos veces (Asia y
+  NY): sigue siendo el peor calibrado de EM del complejo.
+- **YM**: sesgo 54% (n=91) sube vs 50% (n=86) · escenario A 57% (n=102) baja leve vs 58%
+  (n=104) · zona 19% (n=59) sube vs 17% (n=59) · EM esta semana 60% (9/15) sube fuerte vs
+  53.3% (8/15). Por fin resolvio la caja de 5-6 sesiones el miercoles, hacia abajo, y confirmo
+  el resto de la semana.
+- **CL**: sesgo 52% (n=103) baja leve vs 53% (n=97) · escenario A 54% (n=110) igual vs 54%
+  (n=111) · zona 25% (n=64) sube vs 21% (n=63) · EM esta semana 60% (9/15) sube fuerte vs 40%
+  (6/15). Giro de tesis el lunes (largo a corto) sostenido hasta el viernes, cuando dio la
+  primera vela de reversion alcista limpia desde el reinicio (COT crowded-short extremo de
+  combustible).
+- **Global**: `predictionScore` ponderado 57.5% (n=2721) practicamente igual vs 57.5%
+  (n=2670). Nota de calibracion: `scorecard.emCalibration` ya no trae `errPctAtr` en sus
+  celdas "auto" (solo en el bloque congelado `_hand` de 2026-10-29), asi que esta semana no se
+  puede comparar la calibracion de EM entre instrumentos con esa metrica como exige esta
+  seccion; se deja como propuesta de metodo abajo en vez de forzar la comparacion con
+  `emErrorTicks` en bruto.
 
 ## Donde fallo y lo que mejor paga
 
-Blind spots con mas muestra: `bias|ES|calendar=major` 34% (n=47, vs 48% promedio) -- 2a semana
-seguida en la lista (semana pasada 31%, n=51): ES sigue fallando el sesgo justo en semanas con
-calendario mayor. `bias|CL|conviction=media` 40% (n=35, vs 53% promedio): la conviccion media de CL
-rinde peor que la baja, contraintuitivo. `bias|ES|news=high` 30% (n=33, vs 48% promedio): mismo
-patron que calendar=major, ES sufre con ruido de alto impacto. Como `bias|ES|calendar=major` repite
-2 semanas y no hay clase segura de `overrides` que lo cubra (no es un `kind` de `predictionSkip` ni
-un arquetipo de `zonePriors`), se deja como propuesta estructural abajo, no como cambio aplicado.
-Mejores fortalezas: `bias|CL|conviction=baja` 65% (n=53) y `bias|GC|frame=aligned` 65% (n=51), los
-mas confiables con muestra real del bus.
+Blind spots con mas muestra: `bias|ES|calendar=major` 38% (n=48, vs 53% promedio), 3ra semana
+seguida en la lista (31% n=51 hace 2 semanas, 34% n=47 la pasada, 38% n=48 esta semana): ES
+sigue fallando el sesgo en semanas de calendario mayor, con muestra creciendo cada semana.
+`scenA|ALL|crossAsset=mixed` 40% (n=40, vs 52% promedio): cuando el tono cruzado de activos
+viene mixto, el escenario A falla casi 6 de cada 10 veces en todo el bus. `bias|CL|
+conviction=media` 40% (n=35, vs 52% promedio): mismo blind spot de la semana pasada, sin
+muestra fresca (n igual), sigue sin poder confirmarse una segunda semana con dato nuevo. Como
+`bias|ES|calendar=major` ya lleva 3 semanas y no hay clase segura de `overrides` que lo cubra,
+se mantiene como propuesta estructural abajo, ahora con mas fuerza. Mejores fortalezas: `bias|
+ES|calendar=normal` 66% (n=58) y `bias|ALL|macro=medium` 67% (n=57), las de mayor muestra del
+bus esta semana.
 
 ## Expectativa en R
 
-`python3 method/weekly_r.py`: plan -0.12R (n=41, 20% ganan) -- mejora vs -0.25R (n=24, 17%) la
-semana pasada, aunque sigue en negativo (semana de zonas golpeadas/rotas, no de reversion limpia).
-Ejecucion sin datos: `live/journal.json` no trajo ninguna posicion nueva para 2026-11-09..13,
-sincroniza el journal desde mywhyjournal.com. Sin ejecucion no hay brecha que medir esta semana
-(semana pasada fue +1.91R invertida; sin dato para saber si el patron se repitio). Plan cripto
-+0.03R (n=7, 86% ganan), aparte.
+`python3 method/weekly_r.py`: plan -0.03R (n=33, 30% ganan), mejora por tercera semana
+consecutiva (-0.25R n=24 17% hace 2 semanas, -0.12R n=41 20% la pasada, -0.03R n=33 30% esta
+semana), aunque sigue sin cruzar a positivo. Ejecucion: sin posiciones con precio en el
+journal (`live/journal.json` trae disciplina/overtrade por dia los 5 dias, pero sus `fills`
+siguen vacios, `[]`, en todos los `byDay` de la semana); sincroniza fills desde
+mywhyjournal.com para poder medir la brecha plan-vs-ejecucion en R. Plan cripto +0.09R (n=16,
+69% ganan), aparte, tambien mejora vs +0.03R (n=7, 86% ganan) la semana pasada en expectativa
+aunque baja en tasa de acierto.
 
 ## Plan vs ejecucion
 
-`method/plan_vs_exec.py` no tiene ninguna posicion nueva en la ventana: el acumulado sigue fechado
-al 2026-11-07 (144 posiciones, 0 in-plan en NQ, 59 off-zone NQ 34% ganador +2.17pts, 33 against NQ
-39% ganador +17.46pts). Sin trades nuevos no se puede decir si "en plan" paga mas esta semana
-especificamente; el acumulado sigue sin ningun trade NQ dentro de una zona real del plan.
+`method/plan_vs_exec.py` reporta "no fills yet in live/journal.json": el acumulado de
+posiciones con precio sigue fechado al 2026-11-07 (144 posiciones, scorecard.execution.
+planFit), 2da semana seguida sin poder refrescarlo aunque el journal ya trae dato diario de
+disciplina. Ese acumulado sigue mostrando que operar "against" el plan (33 trades NQ, 39.4%
+acierto, +17.46pts medios) gana mas que operar "off-zone" (59 trades NQ, 33.9%, +2.17pts): el
+patron de que incluso ir en contra del plan paga mejor que jugar tierra de nadie se mantiene
+sin dato nuevo que lo confirme o lo rompa esta semana especificamente.
 
 ## Contexto fuera del grafico
 
-Cuatro motores reales, ninguno repetido: el giro de tesis del lunes (sin catalizador de calendario,
-puro cierre de estructura), el CPI del martes (confirmo el giro con una barrida violenta), la
-renuncia sin aviso del CEO de Nvidia el jueves (VIX +8%, regla dura de EM activada, US10Y +2.1%,
-DXY +0.26%, BTC -3.46%) junto con un titular de Trump sobre Iran que movio el petroleo, y el PPI
-frio pero vendido del viernes (10 anos rompiendo maximo en 5.15%). El tono de riesgo fue
-mayormente en contra del resultado neto de la semana en indices: el jueves el shock empujo a la
-baja pero NY se recupero dentro de la misma sesion (fakeout), y el viernes el dato "bueno" se
-vendio igual, el patron mas dificil de leer con reglas de reaccion estandar.
+Cinco motores reales, casi ninguno repetido: risk-off generico sin calendario el lunes (VIX
++24%, Warsh), la ruptura estructural de GC el martes (sin evento detras) mas el titular de
+Ormuz en CL, el combo FOMC-halcon + NVDA el miercoles (el unico dia con calendario mayor real,
+y el mas limpio de sesgo del mes), la cumbre geopolitica Trump-Putin-Xi el jueves (risk-on
+revertido dentro de la misma sesion) y la liquidacion generalizada sin catalizador de
+calendario el viernes (OpEx). El tono de riesgo fue mayormente CON el resultado neto bajista de
+los indices toda la semana salvo el salto del jueves (que se revirtio en la misma sesion de
+NY) y el viernes en CL (unico instrumento donde el tono termino EN CONTRA del corto de fondo,
+con una reversion alcista real desde el minimo).
 
 ## Ejecucion de la semana
 
-0 de 5 dias con dato en `live/journal.json` (peor que el 0/3 de la semana pasada: esta vez no hubo
-NINGUN dia, ni siquiera parcial). El journal no se ha refrescado desde `2026-11-08T03:19Z`, mas de
-6 dias calendario sin un solo `byDay` nuevo (el ultimo sigue siendo 2026-11-07), ya marcado como
-atraso en `live/health.json`. No hay disciplina, contra-sesgo ni calidad de salida que medir de
-ESTA semana. El rollup de 45 dias (que no cambio porque no hay entrada nueva) sigue leyendo
-disciplinado 4%, contra-sesgo 32%, fuera de edge 27%, 28/45 dias de sobre-operar y 19/45 de
-revenge, `partialRate` 1%, `fullStopRate` 54% -- son los mismos numeros de hace una semana, no una
-lectura fresca. Sin saber si la disciplina mejoro o empeoro esta semana especifica: la fuga que
-manda sigue siendo la misma de siempre (homerun-exit, 0 parciales en todo el rollup) pero no hay
-como confirmarlo con dato de estos 5 dias.
+El journal se reconecto esta semana (`live/journal.json` `updatedAt` 2026-11-21T03:22Z): dato
+real los 5 dias por primera vez en mas de un mes. 217 trades en la semana (25/67/50/34/41 por
+dia, promedio 43.4/dia, por encima del promedio de 36.8/dia de la ventana de 45 dias). 0 de 5
+dias disciplinados (0%, igual que el 0% de la ventana de 45 dias), `overtrade` y `revenge` los
+5 dias (100%). `outsideEdgeRate` 100% (217/217 trades calificados fuera de zona del plan); el
+journal sigue sin poder etiquetar a favor/en contra del sesgo (`withBias`/`againstBias` en 0
+los 5 dias). Racha de perdidas peor: 14 seguidas el miercoles 18-nov, record de la ventana
+medida (antes el peor dato eran 6). `fullStopRate` de la semana 44.7% (97/217), peor que el
+39% de la ventana de 45 dias; `partialRate` y `scratchRate` en 0% los 5 dias (sin un solo
+parcial o scratch, mismo patron cronico de siempre, la fuga homerun-exit sigue intacta). Sin
+dato de `positions`/`wlPtsRatio` por precio para cruzar con el plan (ver seccion anterior).
 
 ## Perfil del trader
 
-`state/trader-profile.json` bloque `observed` reescrito: ventana 2026-11-09..2026-11-13 con 0 de
-5 dias de dato real (journal sin refrescar desde 2026-11-08T03:19Z); `disciplinedPct`,
-`againstBiasRate`, `outsideEdgeRate` y `exitQuality` en null, sin lectura fresca posible.
-`exitBaseline` refrescado desde `../scalp-cc-bus/exit-baseline.json` (asOf 2026-11-14): NQ n=10950
-(antes 9620), hit1R 33.6% (+0.5pp), stoppedOut 47.4% (-0.2pp), reachedTP2 5.3% (+0.3pp), mismo tono
-de siempre, sin cambio real de fondo. La falta de dato de ejecucion esta semana no permite
-confirmar ni contradecir ningun `patterns[]` existente: se deja todo igual, sin propuesta nueva de
-patron.
+`state/trader-profile.json` bloque `observed` reescrito: ventana 2026-11-16..2026-11-20, 5 de
+5 dias con dato real (el journal se reconecto el lunes tras 8 dias calendario ciego).
+`disciplinedPct` 0%, `outsideEdgeRate` 100%, `againstBiasRate` no clasificable (el journal no
+etiqueta sesgo esta ventana, 0 trades con `withBias` o `againstBias` marcado, no es un 0% real
+de contra-sesgo). `exitQuality`: `partialRate` 0%, `scratchRate` 0%, `fullStopRate` 44.7%
+(peor que el 39% de la ventana de 45 dias). `exitBaseline` refrescado desde
+`../scalp-cc-bus/exit-baseline.json` (asOf 2026-11-15, `generatedAt` 2026-11-15T02:29Z): NQ
+n=10956 (antes 10950, +6 muestras), hit1R 33.6% (sin cambio), stoppedOut 47.4% (sin cambio),
+reachedTP2 5.3% (sin cambio), practicamente el mismo tono de siempre, sin cambio real de
+fondo. La ejecucion de esta semana confirma el patron cronico declarado en `patterns[]`
+(`homerun-exit`, 0 parciales) y el de operar fuera de zona, pero no aporta evidencia de precio
+para confirmar o contradecir `size-escalation`/`revenge-after-sl` especificamente: se deja
+`patterns[]` sin tocar.
 
 ## Que se repitio
 
-1. **El journal dejo de sincronizar por completo**, ya 2a semana con cobertura cayendo (3/5 ->
-   0/5): si esto sigue, la medicion de ejecucion real queda ciega indefinidamente, no es ya un
-   problema de muestra chica sino de pipeline roto.
-2. **Un giro de tesis reciente (`daysHeld<=2`) sigue siendo fragil frente a un shock real**:
-   `H-2026-11-05-giro-reciente-se-rompe-con-shock` llego a 3/3 esta semana (NQ formado el 11-12,
-   roto el 11-13 con el PPI) y se subio a `models.NQ` como regla provisional. Es la 2a semana que
-   se propone capar la conviccion de un giro reciente (ver abajo, ahora con mas evidencia).
-3. **Las zonas de reversion A FAVOR de las ultimas 24h siguen fallando mientras las de
-   continuacion EN CONTRA pagan** (regla 8e): 0/4 reversion-con-24h el jueves (bounce_val,
-   golden_zone) vs 2/2 continuacion-contra-24h (retest_break) el mismo dia; ya 2 semanas seguidas
-   con el mismo patron confirmado con mas muestra.
-4. **GC con conviccion "alta" en rebotes de POC fallo 2 veces esta semana** (jueves y viernes,
-   ambos -1R) en un contexto de dolar/rendimientos rompiendo maximos: el oro en tendencia bajista
-   con viento macro en contra no esta dando rebotes operables en Londres.
+1. **`bias|ES|calendar=major` lleva 3 semanas seguidas en la lista de blind spots** (31%
+   n=51, 34% n=47, 38% n=48), sin clase segura de `overrides` que lo cubra todavia: ya
+   justifica definir la clase nueva (ver propuesta abajo).
+2. **Operar fuera de zona sigue pagando peor que incluso ir en contra del plan**
+   (acumulado sin dato nuevo esta semana: "against" NQ 39.4%/+17.46pts vs "off-zone" NQ
+   33.9%/+2.17pts), ya varias semanas con la misma lectura.
+3. **GC sigue siendo el peor calibrado de EM del bus** (sobre banda dos veces el viernes,
+   Asia y NY), consistente con semanas anteriores pese a la correccion automatica del `mult`.
+4. **El journal vuelve a traer dato pero sin fills con precio**: 2da semana seguida sin poder
+   refrescar `plan_vs_exec`/`weekly_r` del lado de ejecucion real en puntos, aunque ya se
+   pueda medir disciplina/overtrade/revenge dia por dia.
 
 ## Cambios de la semana
 
 ### Cambios aplicados
 
-- `overrides.predictionSkip["NQ|scenario"]` **retirado**: `predictionScore["NQ|scenario"].rate`
-  llevaba 2 semanas consecutivas con muestra fresca sobre el umbral de 0.40 (semana pasada
-  rate=0.4085 n=59 primera vez arriba; esta semana rate=0.421 n=62, +3 de muestra fresca, sigue
-  arriba). Antes: skip activo desde 2026-09-12 (evidencia original n=29, rate=0.33). Despues: NQ
-  vuelve a pedir prediccion de `scenario` en cada corrida.
-- Sin cambios en el resto: `overrides.predictionSkip["NQ|direction"]` se mantiene (rate=0.4143,
-  n=35, SIN muestra fresca esta semana, mismo n que la semana pasada: no se puede confirmar la 2a
-  semana consecutiva todavia). `overrides.predictionSkip["GC|range"]` se mantiene (rate=0.3839,
-  n=56, sube de muestra pero sigue bajo 0.40, sin cambio). `overrides.zonePriors` sigue bloqueado,
-  4a semana igual: `state.zones` sigue sin guardar el conteo crudo pre-encogimiento por arquetipo
-  puro, no se puede calcular el `winRate` agregado real por tipo sin ese dato.
+Ninguno esta semana: se revisaron las dos condiciones de `overrides.predictionSkip` activas y
+ninguna cruzo un umbral nuevo.
+
+- `overrides.predictionSkip["NQ|direction"]` se mantiene (rate=0.4143, n=35, SIN muestra
+  fresca, mismo n que hace 2-3 semanas: no se puede confirmar una segunda semana consecutiva
+  sobre 0.40 porque no hay dato nuevo que calificar).
+- `overrides.predictionSkip["GC|range"]` se mantiene (rate=0.3707, n=58, sube de muestra desde
+  56 pero sigue bajo 0.40, sin cambio).
+- `overrides.zonePriors` sigue bloqueado, 5ta semana igual: `state.zones` sigue sin guardar el
+  conteo crudo pre-encogimiento por arquetipo puro, no se puede calcular el `winRate` agregado
+  real por tipo (solo por `tipo|vs24h`) sin ese dato.
 
 ### Propuestas de metodo
 
-1. **Capar la conviccion de un giro de tesis reciente (`daysHeld<=2`) a "media" como maximo hasta
-   que resista una prueba real.** Evidencia ahora en 3/3 (`H-2026-11-05-giro-reciente-se-rompe-con-shock`,
-   confirmada esta semana con el ciclo NQ 11-12/11-13, subida a `models.NQ` como
-   `R-NQ-giro-de-un-dia-fragil`), repetida de las dos semanas anteriores con mas fuerza. Campo:
-   `method/instructions.md` seccion 3 (frameConflict/convictionCalibration) y
-   `state.scorecard.convictionCalibration`. No se aplica todavia (no hay clase segura de
-   `overrides` definida para esto), pero la evidencia ya justifica que Jesus la revise.
-2. **GC necesita un tope de conviccion para rebotes de POC/reversion cuando el fondo macro
-   (dolar + rendimientos) va en contra del largo.** Evidencia: 2/2 GO "alta" fallidos esta semana
-   (jueves rebote POC Londres -1R, viernes rebote POC Londres -1R), ambos con DXY y US10Y
-   rompiendo maximos en la misma ventana. Campo: `method/instructions.md` seccion 4 (score de
-   confluencia / conviccion de zonas) para GC especificamente.
-3. **`bias|ES|calendar=major` repite 2 semanas como blind spot sin clase segura que lo cubra**
-   (34% n=47 esta semana, 31% n=51 la pasada, vs 48% promedio). Como no hay override existente
-   para un tope de conviccion condicionado a `calendar=major` por simbolo, se propone definir esa
-   clase nueva en `state.overrides` (p. ej. `overrides.convictionCap["ES|calendar=major"]`) para
-   que una futura semana pueda auto-aplicarla. Campo: `method/instructions.md` seccion 6.1 (clases
-   auto-aplicables) y `state/sa-state.json` (schema de `overrides`).
+1. **Definir `overrides.convictionCap["ES|calendar=major"]`** (clase nueva, no auto-aplicable
+   todavia). Evidencia: `bias|ES|calendar=major` 38% (n=48) vs 53% promedio, 3ra semana
+   consecutiva en la lista de blind spots con muestra creciendo cada semana (31% n=51, 34%
+   n=47, 38% n=48). Campo: `method/instructions.md` seccion 6.1 (clases auto-aplicables) y
+   `state/sa-state.json` (schema de `overrides`).
+2. **`method/update_scorecard.py` no escribe `errPctAtr` en las celdas "auto" de
+   `scorecard.emCalibration`** (solo existe en el bloque congelado `_hand`, fijo desde
+   2026-10-29). La seccion 6.1 pide comparar la calibracion de EM entre instrumentos con
+   `errPctAtr`, nunca con `emErrorTicks` en ticks crudos, pero ese campo ya no se genera para
+   los datos vivos: esta semana no se pudo hacer esa comparacion. Campo:
+   `method/update_scorecard.py` (la funcion que construye `cal[key]`, linea ~124, necesitaria
+   `atrD` por sesion para calcular `errPctAtr = meanErrTk * tick / atrD * 100`).
 
 ## Leccion de la semana
 
-Cuatro catalizadores distintos en cinco dias (giro sin calendario, CPI, shock de un solo nombre
-mas titular geopolitico, dato macro vendido al reves) dejaron el marcador de prediccion mejor que
-la semana pasada en casi todo el bus, pero el dato mas caro no fue de mercado: el journal de
-ejecucion lleva 6 dias sin refrescar y la semana completa queda sin forma de medir si Jesus
-siguio el plan o la fuga de siempre. Sin ese dato, mejorar el modelo de prediccion no sirve de
-nada si no se puede confirmar que se traduce en mejor ejecucion real.
+Primera semana del mes con dato de ejecucion real los 5 dias (el journal se reconecto el
+lunes) y lo que confirma, sin sorpresa, es el mismo patron cronico: 0% disciplinado, 100%
+fuera de zona, con una racha record de 14 perdidas seguidas justo el dia mas limpio de sesgo
+del mes (80%, FOMC+NVDA); el problema sigue sin ser el metodo (el acumulado muestra que incluso
+operar en contra del plan paga mejor que jugar tierra de nadie), es no usar los niveles que ya
+estan en el plan.
 
 ## Regimen: como entro y como sale cada instrumento
 
-- **NQ**: entro la semana todavia en el corto de 8-9 dias, giro a largo el lunes con cierres de 1h
-  sostenidos sobre el flip, sobrevivio la prueba del CPI el martes, aguanto el shock de Nvidia del
-  jueves (incluso con un round-trip completo dentro de la misma sesion de NY) y se rompio otra vez
-  el viernes con el PPI vendido. Sale la semana en corto, dia 1, con el patron de giro fragil ya
-  confirmado como regla provisional.
-- **ES**: mismo guion que NQ un escalon detras toda la semana, giro a largo el lunes, sobrevivio
-  martes y jueves, se rompio el viernes con la misma causa. Sale en corto, dia 1.
-- **GC**: entro la semana en el dia 4 de un largo de perfil (align), extendio el martes hasta
-  tocar el borde de su propia invalidacion con el CPI, perdio esa invalidacion el miercoles
-  (narrativa rota, la tesis de 5 dias murio) y pasa el resto de la semana confirmando el corto con
-  dolar y rendimientos en contra, fallando dos rebotes de conviccion alta en el camino. Sale
-  confirmada bajista, con la calibracion de EM mas floja de los 5 esta semana.
-- **YM**: entro con el margen mas estrecho de la racha (12pts de sobrevivir su propia
-  invalidacion el lunes), rompio y devolvio la ruptura completa con el CPI el martes (el giro mas
-  fragil del complejo), paso el miercoles en rango bajo (15-25% del ADR) y cerro la semana
-  confirmando el corto reinstalado bajo 52293. Sale en corto, el indice con el regimen mas
-  indeciso de los 5.
-- **CL**: entro con la primera grieta real del corto de 6 dias el lunes, la vio desmentirse el
-  martes con el CPI (corto reafirmado con autoridad), acumulo evidencia de un giro posible el
-  miercoles (barrida+reclamo del PWL) pero cerro la semana con un techo 89.15-89.64 repetido tres
-  dias y la invalidacion todavia intacta. Sale confirmado bajista, el mas estable
-  direccionalmente de los 5 pese a la prueba del miercoles.
+- **NQ**: entro la semana en corto, dia 1 (roto el viernes anterior con el PPI), confirmo
+  tendencia bajista con autoridad lunes a viernes sin ningun giro real, sobrevivio el salto
+  risk-on del jueves sin romper la tesis, y cerro la semana en minimo de ciclo nuevo con cierre
+  en el 20-24% de su rango. Sale en corto, dia 7, estirado.
+- **ES**: mismo guion que NQ un escalon detras toda la semana. Sale en corto, dia 7.
+- **GC**: entro la semana todavia en el largo de 4 dias (roto el lunes en NY), vivio una doble
+  barrida sin autoridad el martes antes de reinstalar un corto limpio esa misma noche (dia 1
+  del ciclo nuevo), y confirmo bajista el resto de la semana con el peor calibrado de EM del
+  bus. Sale en corto, dia 4, confirmado pero con la banda de EM todavia sin ajustar del todo.
+- **YM**: entro la semana todavia sin resolver la caja de 5-6 sesiones, la rompio por fin el
+  miercoles hacia abajo con autoridad (rompiendo el PDL 52081) y confirmo jueves y viernes.
+  Sale en corto, confirmado, el indice que tardo mas en resolver esta racha.
+- **CL**: entro la semana girando de largo a corto el lunes (sin catalizador de calendario,
+  rotura estructural pura), sostuvo el corto toda la semana con un desvio por el titular de
+  Ormuz el martes, y cerro el viernes con la primera vela de reversion alcista real desde el
+  reinicio (minimo de ciclo nuevo revertido, cierre en el 85% de su rango, COT crowded-short
+  extremo de combustible). Sale EVOLUCIONANDO, sin romper la invalidacion dura todavia pero
+  pidiendo vigilancia real la semana que entra.

@@ -1,7 +1,7 @@
 {
   "schema": "trader-profile-1",
   "note": "Shared profile of the trader, read by every agent (Session Analyst, Scalp CC, Plan Coach, Watchdog). Behavioral and rule data only: no balances, no P&L, no personal life, and no broker, firm or account details. Humans own `core`; the weekly run may only rewrite `observed`.",
-  "updatedAt": "2026-11-14T16:11:00Z",
+  "updatedAt": "2026-11-21T16:11:00Z",
   "core": {
     "instruments": [
       "NQ / NDX (Nasdaq 100)",
@@ -66,9 +66,9 @@
   },
   "exitBaseline": {
     "source": "scalp-cc-bus outcomes, all kinds and TFs",
-    "asOf": "2026-11-14",
+    "asOf": "2026-11-15",
     "NQ": {
-      "n": 10950,
+      "n": 10956,
       "hit1R": 0.336,
       "stoppedOut": 0.474,
       "slWasGreenHalfRFirst": 0.318,
@@ -76,8 +76,8 @@
       "reachedTP2": 0.053
     },
     "readout": {
-      "es": "Solo ~33.6% de las entradas llega a 1R y apenas ~5.3% llega a TP2: el home run sigue siendo raro. ~31.8% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta, prácticamente igual que la lectura anterior.",
-      "en": "Only ~33.6% of entries reach 1R and barely ~5.3% reach TP2: the home run is still rare. ~31.8% of stops were +0.5R green first before getting hit: the early partial is still the missing lever, essentially unchanged from the prior read."
+      "es": "Solo ~33.6% de las entradas llega a 1R y apenas ~5.3% llega a TP2: el home run sigue siendo raro. ~31.8% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta, practicamente sin cambio frente a la lectura anterior (solo +6 muestras nuevas).",
+      "en": "Only ~33.6% of entries reach 1R and barely ~5.3% reach TP2: the home run is still rare. ~31.8% of stops were +0.5R green first before getting hit: the early partial is still the missing lever, essentially unchanged from the prior read (only +6 new samples)."
     }
   },
   "dailyRules": {
@@ -94,15 +94,19 @@
     }
   },
   "observed": {
-    "updatedBy": "weekly 2026-11-14",
-    "window": "2026-11-09..2026-11-13 (5 dias calendario, 0 con dato real en live/journal.json: el journal no ha agregado un solo byDay nuevo desde 2026-11-07, updatedAt sigue en 2026-11-08T03:19:02Z, 6+ dias calendario sin refrescar)",
-    "disciplinedPct": null,
+    "updatedBy": "weekly 2026-11-21",
+    "window": "2026-11-16..2026-11-20 (5 dias calendario, 5 con dato real en live/journal.json: el journal se reconecto el lunes 16-nov tras 8 dias calendario ciego, updatedAt ahora en 2026-11-21T03:22:53Z)",
+    "disciplinedPct": 0,
     "againstBiasRate": null,
-    "outsideEdgeRate": null,
+    "outsideEdgeRate": 1,
     "trend": {
-      "es": "Semana completamente ciega para ejecucion real: 0 de 5 dias con dato en live/journal.json (peor que el 3/5 parcial de la semana pasada), el journal lleva mas de 6 dias calendario sin agregar un solo byDay nuevo (el ultimo sigue siendo 2026-11-07). No hay disciplina, contra-sesgo, outsideEdgeRate ni calidad de salida que medir de esta semana especifica. El rollup de 45 dias (que no cambio porque no hay entrada nueva) sigue leyendo disciplinado 4%, contra-sesgo 32%, fuera de edge 27%, 28/45 dias de sobre-operar y 19/45 de revenge, partialRate 1%, fullStopRate 54% -- son los mismos numeros de hace una semana, no una lectura fresca. Si el journal no se reconecta, la siguiente semana tambien quedara sin dato.",
-      "en": "A week completely blind for real execution: 0 of 5 days with data in live/journal.json (worse than last week's partial 3/5), the journal has gone over 6 calendar days without adding a single new byDay (the latest is still 2026-11-07). There is no discipline, against-bias, outside-edge or exit-quality reading for this specific week. The 45-day rollup (unchanged since there is no new entry) still reads 4% disciplined, 32% against-bias, 27% outside-edge, 28/45 overtrade days and 19/45 revenge days, 1% partial rate, 54% full-stop rate -- the same numbers as a week ago, not a fresh read. If the journal does not reconnect, next week will also go without data."
+      "es": "Primera semana con dato real los 5 dias desde hace mas de un mes (el journal se reconecto el lunes). 217 trades en la semana (promedio 43.4/dia, por encima del 36.8/dia de la ventana de 45 dias), 0 de 5 dias disciplinados (0%), overtrade y revenge los 5 dias (100%), outsideEdgeRate 100% (217/217 fuera de zona del plan). El journal sigue sin etiquetar a favor/en contra del sesgo (withBias/againstBias en 0 los 5 dias, no es un 0% real de contra-sesgo, es dato no clasificado). Racha de perdidas record: 14 seguidas el miercoles 18-nov (antes el peor dato eran 6). fullStopRate de la semana 44.7% (97/217), peor que el 39% de la ventana de 45 dias; partialRate y scratchRate en 0% los 5 dias, sin un solo parcial. Sin dato de posiciones con precio (fills vacios en todo el byDay de la semana): no se puede medir plan-vs-ejecucion en R todavia, solo disciplina/overtrade/calidad de salida agregada.",
+      "en": "First week with real data all 5 days in over a month (the journal reconnected on Monday). 217 trades this week (43.4/day average, above the 45-day window's 36.8/day), 0 of 5 disciplined days (0%), overtrade and revenge on all 5 days (100%), outsideEdgeRate 100% (217/217 outside the plan's zones). The journal still cannot tag with/against bias (withBias/againstBias at 0 all 5 days, not a real 0% against-bias rate, just unclassified data). Record losing streak: 14 in a row on Wednesday 11-18 (prior worst was 6). This week's fullStopRate is 44.7% (97/217), worse than the 45-day window's 39%; partialRate and scratchRate are 0% all 5 days, not a single partial. No priced-position data (fills empty in every byDay this week): plan-vs-execution in R still cannot be measured, only aggregate discipline/overtrade/exit-quality."
     },
-    "exitQuality": null
+    "exitQuality": {
+      "partialRate": 0,
+      "scratchRate": 0,
+      "fullStopRate": 0.447
+    }
   }
 }
