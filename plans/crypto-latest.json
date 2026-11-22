@@ -1,98 +1,108 @@
 {
  "schema": "crypto-plan-1",
- "runType": "crypto-close",
- "builtAt": "2026-11-22T01:36:00Z",
+ "runType": "crypto-ny",
+ "builtAt": "2026-11-22T14:52:23Z",
  "date": "2026-11-22",
- "slot": "close",
- "validUntil": "2026-11-22T14:45:00Z",
+ "slot": "ny",
+ "validUntil": "2026-11-23T00:00:00Z",
  "dataHealth": {
-  "snapshotAgeMin": 21,
+  "snapshotAgeMin": 7,
   "stale": [],
   "missing": [],
   "notes": [
-   "Snapshot y feed de ETH y BTC frescos (~21 min); regime (~31 min) y trend checklist (~36 min) tambien dentro de sus umbrales.",
-   "Shock no calendarizado de los ultimos 60 minutos (titular de hackeo a una base de datos del FBI, categoria ALL, visto a las 00:50 UTC): tope WAIT en las dos monedas hasta que venza cerca de las 01:50 UTC, pocos minutos dentro de esta corrida.",
-   "Dos titulares de hackeo dentro de las ultimas 24h (exploit de puente de 1 millon de dolares con Upbit y Bithumb congelando transferencias, hace 6.4h; drenaje de boveda de Chainflip por 4.86 millones, hace 9.85h, tageado geo pero es un exploit por compromiso de llave): riesgo de fondo ALTO durante sus respectivas ventanas de 24h.",
-   "Sin evento USD de alto impacto en la ventana de este plan (hasta la crypto-ny de las 14:45 UTC): newsRisk NINGUNA del calendario.",
-   "Hueco del CME de ETH aplica este fin de semana (cierre del viernes 20 nov, 1,597.50, 5.33% por debajo del precio actual): iman de fondo hacia abajo para la reapertura de hoy domingo 17:00 CT, nunca gatillo.",
-   "El movimiento de 24h se dio vuelta a LONG en las dos monedas (ETH +3.66%, BTC +1.85%) tras el latigazo violento de ayer: luce como rebote de alivio desde minimos extremos, no un cambio de tendencia confirmado (el fondo diario y de 4 horas del checklist sigue bajista, aunque hoy el veredicto resetea a sin direccion por el conflicto con el marco de 1 hora).",
-   "DVOL subio 5.58% en 24h (umbral 5%): ensancho los stops de las zonas de hoy varias veces su ancho natural; ninguna zona de hoy llega al 0.5% de ancho que pediria un GO, aunque ya esta bloqueado por conviccion baja.",
-   "El checklist de tendencia resetea a veredicto 0 (sin direccion confirmada) en las dos monedas por el choque entre el marco de 1 hora y el diario/4 horas: zonas de hoy con tcl null."
+   "Snapshot fresco: feed de ETH y BTC a 0 min, regime a ~10 min, trend checklist a ~1 min (BTC) y ~52 min (ETH, por receivedAt, dentro del umbral de 75 min aunque su ts interno venga retrasado).",
+   "Latigazo completo desde el close: las dos monedas barrieron DEBAJO del stop de su zona LONG B (ETH a 1,648.35, bajo 1,660; BTC a 58,768.51, bajo 58,900) y LUEGO por ENCIMA del stop de su zona SHORT A+ (ETH a 1,732.52, sobre 1,730; BTC a 61,669.99, sobre 60,700): las 4 zonas del close quedan broken:true, ninguna vive.",
+   "El checklist de tendencia confirma veredicto 1 (largo, tamano reducido) en BTC: el marco de 1h y el de 4h ya se alinean al alza (antes chocaban), aunque el fondo diario sigue bajista, choque de marcos real. ETH se queda en veredicto 0 (4h sigue sin confirmar, 1h si): sesion ETH sin cambio, sesion BTC pasa de neutral a LONG.",
+   "Shock nuevo de los ultimos 60 minutos (titular con tag fed+crypto sobre una caida de oro, plata y Bitcoin por miedo a subida de tasas, visto 14:40 UTC): tope WAIT en las dos monedas hasta las 15:40 UTC. El precio contradice el titular, las dos monedas corrieron a maximos nuevos despues de esa hora y solo retroceden moderadamente ahora.",
+   "El shock anterior (hackeo a datos del FBI) ya vencio hace horas, fuera de ventana.",
+   "Los dos titulares de hackeo del close siguen dentro de sus 24h pero con reportes mas nuevos que confirman mas dano: el puente surcoreano (Upbit/Bithumb, token CYBER) tiene un reporte de hace 7.27h; la boveda de Chainflip ahora confirma 12 millones de dolares de perdida (hace 9.19h, el estimado del close era 4.86 millones). Riesgo de fondo sigue ALTO.",
+   "Fondeo de ETH y BTC pasa de shorts-crowded a neutral (los cortos ya cubrieron, el fondeo ya no paga): la excepcion de confluencia por apalancamiento deja de aplicar, sin efecto en las zonas de hoy porque ninguna la uso.",
+   "Hoy domingo, reapertura de futuros CME a las 17:00 CT (23:00 UTC): ventana de volatilidad, nada de GO en la hora alrededor de esa apertura. Sin otra corrida antes de esa hora, queda anotado aqui en vez de en riskWindow (ese campo esta ocupado por el shock de arriba, mas inmediato)."
   ]
  },
  "summary": {
   "es": [
-   "Cierre del dia cripto (00:15 UTC): califico el sabado 21 nov y armo el plan nuevo del domingo 22.",
-   "El sabado fue un latigazo extremo: ETH cayo a 1,538.00 y BTC a 55,130.00 en Asia, y luego remontaron con fuerza en Londres hasta 1,716.58 y 60,996.00. El movimiento de 24h se dio vuelta a LONG en las dos monedas (ETH +3.66%, BTC +1.85%), un rebote de alivio desde minimos extremos, no un cambio de tendencia confirmado.",
-   "Hoy ambas monedas abren casi sin gap y quedan atrapadas en una caja de rango MUY estrecha, pegadas a un cluster de medias de 5 minutos y VWAP: ETH entre 1,682.81 y 1,687.22 (apenas 4 puntos), BTC entre 60,149.36 y 60,352.16.",
-   "El valor de area alto de ayer junto al techo del dia (ETH 1,709.33 a 1,716.58) y el balance inicial de hoy (BTC 60,500 a 60,600) califican A+ del metodo en las dos monedas (en contra del rebote de 24h), pero la conviccion se queda baja: fondeo shorts-crowded, miedo extremo, DVOL subiendo y los titulares de hackeo son todos priores historicamente debiles (todos bajo 26%). Sin GO en ninguna.",
-   "El checklist de tendencia resetea a sin direccion confirmada en las dos monedas (el marco de 1 hora choca con el diario y el de 4 horas, los dos bajistas). El hueco del CME de ETH del viernes (1,597.50, 5.33% por debajo) ya aplica este fin de semana como iman de fondo hacia abajo.",
-   "Dos titulares de hackeo nuevos en las ultimas 24h (puente con Upbit/Bithumb, boveda de Chainflip) suben el riesgo de fondo a ALTO; un shock breve de hackeo a datos del FBI (categoria general) cierra su ventana de riesgo pocos minutos dentro de esta corrida.",
-   "El sabado califico 0/8 en predicciones de texto (el latigazo rompio los cuatro techos y los cuatro rangos citados en las dos corridas) y 1/4 en zonas (la venta de continuacion B de BTC funciono en el close, r 0.15; las otras tres de esa corrida fallaron o se rompieron, y las cuatro de la corrida de NY no se tocaron: detalle en graded.line)."
+   "Update ligero de NY (08:45 CT, domingo, sin apertura de NY hoy): desde el close las dos monedas hicieron un latigazo completo, abajo primero y arriba despues, que rompio las 4 zonas de la mesa.",
+   "ETH barrio 1,648.35 (bajo el stop de su compra B) y despues 1,732.52 (sobre el stop de su venta A+ en el VAH/PDH), y ahora retrocede a 1,715.15, pegado otra vez al mismo VAH/PDH (1,709.33 a 1,716.58) sin un cierre de 15 minutos de vuelta abajo confirmado: toco el PDH 2 veces sin reclamo.",
+   "BTC barrio 58,768.51 (bajo el stop de su compra B) y despues 61,669.99 (sobre el stop de su venta A+ en el techo del balance inicial), y ahora cotiza en 60,985.51, justo bajo su propio PDH (60,996.00) tras barrerlo y cerrar de vuelta abajo hace una vela, 5 minutos: rechazo ya confirmado ahi.",
+   "El checklist de tendencia confirma veredicto largo reducido en BTC (1h y 4h ya alineados al alza, el fondo diario sigue corto): sesion de BTC pasa de neutral a LONG, choque real contra el sesgo de fondo. ETH se queda neutral, su 4h aun no confirma.",
+   "Fondeo de las dos monedas pasa de shorts-crowded a neutral. Miedo extremo se mantiene (11). Los dos titulares de hackeo del close siguen dentro de sus 24h con reportes mas nuevos (Chainflip ya confirma 12 millones, antes 4.86); riesgo de fondo ALTO.",
+   "Shock nuevo (titular fed+cripto de caida de oro, plata y Bitcoin, visto 14:40 UTC) tope WAIT en las dos hasta las 15:40 UTC, aunque el precio ya lo contradice con maximos nuevos. Hoy domingo, la reapertura de futuros CME a las 17:00 CT (23:00 UTC) es ventana de volatilidad sin otra corrida que la marque antes.",
+   "Sin zona viva en la mesa del close en ninguna de las dos monedas (las 4 rotas por el tamano del latigazo): AVOID en las dos, vigilar sin perseguir."
   ],
   "en": [
-   "Crypto day close (00:15 UTC): grading Saturday Nov 21 and building the new plan for Sunday the 22nd.",
-   "Saturday was an extreme whipsaw: ETH fell to 1,538.00 and BTC to 55,130.00 in Asia, then ripped higher in London up to 1,716.58 and 60,996.00. The 24h move flipped to LONG on both coins (ETH +3.66%, BTC +1.85%), a relief bounce off extreme lows, not a confirmed trend change.",
-   "Today both coins open nearly flat and get stuck in a VERY tight range, pinned to a 5m-average/VWAP cluster: ETH between 1,682.81 and 1,687.22 (barely 4 points), BTC between 60,149.36 and 60,352.16.",
-   "Yesterday's value-area-high together with the day's ceiling (ETH 1,709.33 to 1,716.58) and today's initial balance (BTC 60,500 to 60,600) both qualify as method A+ zones (against the 24h bounce), but conviction stays low: shorts-crowded funding, extreme fear, rising DVOL and the hack headlines are all historically weak priors (all under 26%). No GO on either.",
-   "The trend checklist resets to no confirmed direction on both coins (the 1h frame clashes with the daily and 4h frames, both bearish). ETH's Friday CME gap (1,597.50, 5.33% below) now applies this weekend as a downside background magnet.",
-   "Two fresh hack headlines in the last 24h (an Upbit/Bithumb bridge exploit, a Chainflip vault drain) raise background risk to ALTO; a brief FBI-data hack shock (general category) closes its risk window a few minutes into this run.",
-   "Saturday graded 0/8 on text predictions (the whipsaw broke all four cited ceilings and all four ranges in both runs) and 1/4 on zones (BTC's B continuation sell worked on the close, r 0.15; the other three in that run failed or broke, and all four in the NY run went untouched: detail in graded.line)."
+   "Light NY update (08:45 CT, Sunday, no NY open today): since the close both coins did a full round-trip whipsaw, down first then up, that broke all 4 zones on the table.",
+   "ETH swept 1,648.35 (below its B buy's stop) and then 1,732.52 (above its A+ sell's stop at the VAH/PDH), and now pulls back to 1,715.15, pinned again to that same VAH/PDH (1,709.33 to 1,716.58) with no confirmed 15m close back under: it touched PDH twice with no reclaim.",
+   "BTC swept 58,768.51 (below its B buy's stop) and then 61,669.99 (above its A+ sell's stop at the initial-balance ceiling), and now trades at 60,985.51, right under its own PDH (60,996.00) after sweeping it and closing back under one bar (5 minutes) ago: a confirmed rejection right there.",
+   "The trend checklist confirms a reduced-size long verdict on BTC (1h and 4h now aligned bullish, the daily background stays bearish): BTC's session flips from neutral to LONG, a real clash against the background bias. ETH stays neutral, its 4h still unconfirmed.",
+   "Funding on both coins flips from shorts-crowded to neutral. Extreme fear holds (11). Both close hack headlines stay inside their 24h with newer reports (Chainflip now confirms $12M, up from $4.86M); background risk stays ALTO.",
+   "A fresh shock (a fed+crypto headline on gold, silver and Bitcoin dropping, seen 14:40 UTC) caps WAIT on both until 15:40 UTC, though price already contradicts it with fresh highs. Today being Sunday, the CME futures reopen at 17:00 CT (23:00 UTC) is a volatility window with no other run to flag it beforehand.",
+   "No live zone from the close's table on either coin (all 4 broke under the whipsaw's size): AVOID on both, watch without chasing."
   ]
  },
  "focus": {
   "sym": "ETHUSDT",
   "setup": {
-   "es": "El valor de area alto de ayer (1,709.33) junto con el techo del dia (PDH 1,716.58) y un cluster de FVG bajista de 15 minutos, 1 hora y 4 horas forman una zona A+ del metodo (confluencia 8, en contra del rebote de 24h). Pero la conviccion se queda baja por el fondeo shorts-crowded, el miedo extremo, el DVOL subiendo y los titulares de hackeo: sin GO, solo vigilar la barrida y el rechazo.",
-   "en": "Yesterday's value-area-high (1,709.33) together with the day's ceiling (PDH 1,716.58) and an overlapping 15m/1h/4h bearish FVG cluster forms a method A+ zone (confluence 8, against the 24h bounce). But conviction stays low on shorts-crowded funding, extreme fear, rising DVOL and the hack headlines: no GO, just watch for the sweep and rejection."
+   "es": "Sin setup vivo: la venta A+ del close (VAH/PDH, 1,709.33 a 1,716.58) se rompio al cerrar el stop en 1,730 camino a 1,732.52, y la compra B tambien se rompio por abajo (1,648.35, bajo 1,660). El precio (1,715.15) volvio a pegarse al mismo VAH/PDH desde arriba, con PDH tocado 2 veces sin reclamo todavia; BTC ya confirmo el rechazo del mismo tipo en su propio PDH hace una vela. Vigilar un cierre de 15 minutos de vuelta bajo 1,709.33 como aviso de posible repeticion, sin perseguir: el hueco del CME (1,597.50, ahora 7.17% abajo) sigue como iman de fondo, y la reapertura CME de las 17:00 CT es la siguiente ventana de volatilidad real.",
+   "en": "No live setup: the close's A+ sell (VAH/PDH, 1,709.33 to 1,716.58) broke when its 1,730 stop gave way on the run to 1,732.52, and the B buy also broke to the downside (1,648.35, below 1,660). Price (1,715.15) is back pinned to that same VAH/PDH from above, with PDH touched twice and no reclaim yet; BTC already confirmed that same kind of rejection at its own PDH one bar ago. Watch for a 15m close back under 1,709.33 as a heads-up for a possible repeat, without chasing: the CME gap (1,597.50, now 7.17% below) stays as a background magnet, and the 17:00 CT CME reopen is the next real volatility window."
   }
  },
  "riskWindow": {
-  "from": "2026-11-22T01:36:00Z",
-  "to": "2026-11-22T01:50:22Z",
+  "from": "2026-11-22T14:40:19Z",
+  "to": "2026-11-22T15:40:19Z",
   "why": {
-   "es": "Shock no calendarizado de los ultimos 60 minutos (titular de hackeo a una base de datos del FBI, categoria ALL, visto a las 00:50 UTC): tope WAIT en los simbolos que toca hasta que venza, pocos minutos dentro de esta corrida. No es un titular especifico de cripto; no cambia el resto del plan.",
-   "en": "Non-calendar shock from the last 60 minutes (FBI database hack headline, category ALL, seen at 00:50 UTC): caps WAIT on the symbols it touches until it lapses, a few minutes into this run. Not a crypto-specific headline; it does not change the rest of the plan."
+   "es": "Shock no calendarizado de los ultimos 60 minutos (titular con tag fed+cripto sobre oro, plata y Bitcoin cayendo por miedo a subida de tasas, visto a las 14:40 UTC): tope WAIT en las dos monedas hasta que venza a las 15:40 UTC. El precio ya contradice la direccion del titular, las dos monedas hicieron maximos nuevos despues de esa hora y solo retroceden moderadamente ahora: no cambia el resto del plan.",
+   "en": "Non-calendar shock from the last 60 minutes (a fed+crypto tagged headline on gold, silver and Bitcoin dropping on rate-hike fear, seen at 14:40 UTC): caps WAIT on both coins until it lapses at 15:40 UTC. Price already contradicts the headline's direction, both coins made fresh highs after that time and only pull back moderately now: it does not change the rest of the plan."
   }
  },
  "cryptoContext": {
   "risk": "ALTO",
   "deriv": {
-   "es": "Fondeo de ETH y BTC shorts-crowded (los cortos pagan, -0.0018% y -0.0019% cada 8h), pero mucho menos extremo que ayer. Interes abierto sigue cayendo en las dos (ETH -1.34% en 24h, BTC -3.24%): son cierres, el rebote pierde gasolina, no es para perseguir la ruptura. Cuentas largas bajan del corte de riesgo de 3 a 1 en las dos (ETH 2.41, BTC 2.18): el retail se desarmo algo tras el rebote, menos cargado que ayer.",
-   "en": "ETH and BTC funding both shorts-crowded (shorts paying, -0.0018% and -0.0019% every 8h), but much less extreme than yesterday. Open interest keeps falling on both (ETH -1.34% on 24h, BTC -3.24%): those are closes, the bounce is losing gas, not one to chase. Long-skewed accounts drop below the 3-to-1 risk cutoff on both (ETH 2.41, BTC 2.18): retail unwound some length after the bounce, less crowded than yesterday."
+   "es": "Fondeo de ETH y BTC pasa de shorts-crowded a neutral (0.0015% y 0.0021% cada 8h, los cortos ya cubrieron tras el rebote). Interes abierto sigue cayendo pero menos que al close (ETH -0.53%, BTC -0.46%, eran -1.34%/-3.24%): el cierre de posiciones se enfria, aun no son largos nuevos agresivos. Cuentas largas sin cambio relevante, bajo el corte de 3 a 1 en las dos (ETH 2.34, BTC 2.19).",
+   "en": "ETH and BTC funding flips from shorts-crowded to neutral (0.0015% and 0.0021% every 8h, shorts already covered after the bounce). Open interest keeps falling but less than at the close (ETH -0.53%, BTC -0.46%, were -1.34%/-3.24%): position closing is cooling off, still not aggressive fresh longs. Long-skewed accounts barely moved, under the 3-to-1 cutoff on both (ETH 2.34, BTC 2.19)."
   },
-  "dvol": 70.26,
+  "dvol": 69.39,
   "fearGreed": 11,
   "cmeGap": {
    "price": 1597.5,
-   "gapPct": 5.33
+   "gapPct": 7.17
   },
-  "ethBtc24hPct": 1.7,
+  "ethBtc24hPct": 0.44,
   "drivers": [
    {
     "theme": "hack",
-    "headline": "Cyber investigating suspected $1 million bridge exploit as Upbit, Bithumb freeze transfers",
+    "headline": "South Korean exchanges halt CYBER transfers amid suspected bridge exploit",
     "source": "The Block",
-    "ageH": 6.4,
+    "ageH": 7.27,
     "note": {
-     "es": "Hecho reciente (~6.4h): un exploit de puente de cripto de aproximadamente 1 millon de dolares, con los exchanges surcoreanos Upbit y Bithumb congelando transferencias por precaucion. No es un exchange grande comprometido ni una funcion central de ETH, pero por la regla de titulares de hackeo sube el riesgo de fondo a ALTO durante las 24h siguientes a este titular.",
-     "en": "Recent fact (~6.4h ago): a roughly $1M bridge exploit, with South Korean exchanges Upbit and Bithumb freezing transfers as a precaution. Not a major exchange compromise or a core ETH function, but by the hack-headline rule it raises background risk to ALTO for the 24h following this headline."
+     "es": "Reporte mas nuevo (~7.27h) del mismo puente surcoreano citado al close (Upbit/Bithumb, exploit del token CYBER): sigue dentro de las 24h desde el primer titular (~20h), riesgo de fondo ALTO se mantiene.",
+     "en": "Newer report (~7.27h) of the same South Korean bridge cited at the close (Upbit/Bithumb, CYBER token exploit): still inside the 24h from the first headline (~20h ago), background risk ALTO holds."
     }
    },
    {
     "theme": "hack",
-    "headline": "Chainflip's FLIP drops 34% after attacker drains $4.86 million from vault with suspected key compromise",
+    "headline": "Chainflip confirms $12M hack, offers attacker 10% bounty",
     "source": "The Block",
-    "ageH": 9.85,
+    "ageH": 9.19,
     "note": {
-     "es": "Hecho reciente (~9.85h): un atacante drena una boveda del protocolo Chainflip por unos 4.86 millones de dolares con un posible compromiso de llave. Tageado como geo pero es un exploit de protocolo: cuenta igual para el riesgo de fondo ALTO durante sus 24h.",
-     "en": "Recent fact (~9.85h ago): an attacker drains a Chainflip protocol vault for about $4.86M via a suspected key compromise. Tagged geo but it is a protocol exploit: it counts the same way toward the ALTO background risk for its 24h window."
+     "es": "Confirmacion mas nueva (~9.19h) del hackeo de Chainflip citado al close: el dano confirmado sube a 12 millones de dolares (el close citaba un estimado de 4.86 millones hace ~23h). Riesgo de fondo ALTO se mantiene por el hecho mas reciente y mas grande.",
+     "en": "Newer confirmation (~9.19h) of the Chainflip hack cited at the close: confirmed damage rises to $12M (the close cited a $4.86M estimate from ~23h ago). Background risk ALTO holds on the newer, bigger confirmed fact."
+    }
+   },
+   {
+    "theme": "fed",
+    "headline": "Gold, silver and Bitcoin plunge as Fed rate hike fears and tech stock sell-off push investors towards cash",
+    "source": "Hindustan Times",
+    "ageH": 0.17,
+    "note": {
+     "es": "Titular muy reciente (~10 min) que dispara el shock de riskWindow. La direccion que describe ya quedo contradicha por el precio: las dos monedas hicieron maximos nuevos despues de esta hora.",
+     "en": "Very recent headline (~10 min) that triggers the riskWindow shock. The direction it describes is already contradicted by price: both coins made fresh highs after this time."
     }
    }
   ],
   "note": {
-   "es": "Miedo extremo se mantiene (11, casi igual que ayer). DVOL 70.26 (subio 5.58 en 24h): sigue sin ser barato, ensancha stops y objetivos. ETH/BTC +1.7% en 24h: ETH algo mas fuerte que BTC, apoyaria largos de ETH si los hubiera, no resta nada al sesgo corto de hoy. El hueco del CME de ETH (1,597.50, viernes) aplica este fin de semana: iman de fondo hacia abajo para la reapertura de hoy domingo 17:00 CT. Riesgo de fondo ALTO por dos titulares de hackeo nuevos (puente Upbit/Bithumb, boveda de Chainflip) mas un shock breve no cripto (hackeo a datos del FBI) que vence a los pocos minutos de esta corrida.",
-   "en": "Extreme fear holds (11, almost the same as yesterday). DVOL 70.26 (up 5.58 on 24h): still not cheap, widens stops and targets. ETH/BTC +1.7% on 24h: ETH somewhat stronger than BTC, would support ETH longs if there were any, docks nothing from today's short bias. ETH's CME gap (1,597.50, Friday) applies this weekend: a downside background magnet into today's Sunday 17:00 CT reopen. Background risk ALTO from two fresh hack headlines (Upbit/Bithumb bridge, Chainflip vault) plus a brief non-crypto shock (FBI data hack) that lapses a few minutes into this run."
+   "es": "Miedo extremo se mantiene (11, igual que el close). DVOL de ETH 69.39 (rank 68) y de BTC 56.03 (rank 66): siguen sin ser baratos. ETH/BTC +0.44% en 24h, se achico desde el +1.7% del close: ETH pierde algo de fuerza relativa frente a BTC. El hueco del CME de ETH (1,597.50, viernes 20 nov) se ensancha a 7.17% abajo al alejarse el precio: sigue como iman de fondo, nunca gatillo. Riesgo de fondo ALTO por los dos hackeos del close (ahora con reportes mas grandes) mas el shock fed+cripto que vence a las 15:40 UTC. Hoy domingo, la reapertura CME de las 17:00 CT (23:00 UTC) es la siguiente ventana de volatilidad real, sin otra corrida que la marque antes de que llegue.",
+   "en": "Extreme fear holds (11, same as the close). ETH's DVOL 69.39 (rank 68) and BTC's 56.03 (rank 66): still not cheap. ETH/BTC +0.44% on 24h, down from the close's +1.7%: ETH loses some relative strength against BTC. ETH's CME gap (1,597.50, Friday Nov 20) widens to 7.17% below as price pulls away: stays a background magnet, never a trigger. Background risk ALTO from the close's two hacks (now with bigger confirmed reports) plus the fed+crypto shock lapsing at 15:40 UTC. Today being Sunday, the 17:00 CT (23:00 UTC) CME reopen is the next real volatility window, with no other run to flag it before it arrives."
   }
  },
  "personal": {
@@ -108,22 +118,22 @@
  },
  "instruments": {
   "ETHUSDT": {
-   "price": 1686.2,
+   "price": 1715.15,
    "biasDay": "SHORT",
    "biasSession": "NEUTRAL",
    "conviction": "baja",
    "move24h": {
     "dir": "LONG",
-    "pct": 3.66
+    "pct": 1.05
    },
-   "regime": "CHOP",
+   "regime": "NEUTRAL",
    "tcl": {
     "v": 0,
-    "flip": 1672.27
+    "flip": 1687.42
    },
    "context": {
-    "es": "Tras el latigazo de ayer (minimo 1,538.00 en Asia, maximo 1,716.58 en Londres), ETH cerro casi plano y hoy abre pegado al mismo nivel (1,685.62) en una caja de rango MUY estrecha (1,682.81 a 1,687.22, apenas 4 puntos), justo encima de un cluster de medias de 5 minutos de 20 y 50 (1,684.63 y 1,684.64) y el VWAP (1,684.78). El balance inicial de hoy (1,673.80 a 1,697.64) y el maximo overnight (1,687.22) quedan cerca por arriba; el valor de area alto de ayer (1,709.33) y el techo del dia (1,716.58) con un cluster de FVG bajista de 15 minutos, 1 hora y 4 horas quedan unos 23 a 30 puntos mas arriba. El checklist de tendencia resetea a sin direccion confirmada (el marco de 1 hora choca con el diario y el de 4 horas, los dos bajistas). El hueco del CME del viernes (1,597.50, 5.33% por debajo) ya aplica este fin de semana como iman de fondo hacia abajo.",
-    "en": "After yesterday's whipsaw (low of 1,538.00 in Asia, high of 1,716.58 in London), ETH closed almost flat and today opens pinned to the same level (1,685.62) in a VERY tight range (1,682.81 to 1,687.22, barely 4 points), right above a cluster of the 5m 20 and 50 averages (1,684.63 and 1,684.64) and VWAP (1,684.78). Today's initial balance (1,673.80 to 1,697.64) and the overnight high (1,687.22) sit close above; yesterday's value-area-high (1,709.33) and the day's ceiling (1,716.58) with an overlapping 15m/1h/4h bearish FVG cluster sit about 23 to 30 points further up. The trend checklist resets to no confirmed direction (the 1h frame clashes with the daily and 4h frames, both bearish). Friday's CME gap (1,597.50, 5.33% below) now applies this weekend as a downside background magnet."
+    "es": "Latigazo completo desde el close: ETH barrio primero bajo 1,648.35 (bajo el stop de 1,660 de la compra B) y despues sobre 1,732.52 (bajo el stop de 1,730 de la venta A+ en el VAH/PDH), barriendo el IBH con continuacion (sweep IBH:up, hace 11 velas de 5 minutos) en vez de rechazar. Ahora retrocede a 1,715.15, otra vez pegado al mismo VAH de ayer (1,709.33) y PDH (1,716.58): toco el PDH 2 veces sin reclamo (sin cierre de vuelta abajo todavia). Precio ya por encima de las medias de 20 y 50 de 5 minutos (1,706.48 y 1,704.30) y de la EMA 200 (1,688.21), estirado 5.52 ATR del VWAP (1,688.42, hoy subio desde 1,684.78): sin GO por estiramiento aunque hubiera zona viva. El checklist de tendencia se queda en veredicto 0 (el marco de 1 hora sigue a favor pero el de 4 horas todavia no confirma). El hueco del CME (1,597.50, viernes) se ensancha a 7.17% abajo al alejarse el precio.",
+    "en": "Full round-trip whipsaw since the close: ETH first swept under 1,648.35 (below the B buy's 1,660 stop) and then over 1,732.52 (past the A+ sell's 1,730 stop at the VAH/PDH), sweeping the IBH with continuation (sweep IBH:up, 11 5m candles ago) instead of rejecting. It now pulls back to 1,715.15, pinned again to yesterday's same VAH (1,709.33) and PDH (1,716.58): PDH touched twice with no reclaim (no close back under yet). Price already sits above the 5m 20 and 50 averages (1,706.48 and 1,704.30) and the EMA 200 (1,688.21), stretched 5.52 ATR from VWAP (1,688.42, up from 1,684.78 today): no GO on stretch alone even if a zone were live. The trend checklist stays at verdict 0 (the 1h frame still favors long but the 4h still does not confirm). The CME gap (1,597.50, Friday) widens to 7.17% below as price pulls away."
    },
    "levels": {
     "vah": 1710.24,
@@ -132,7 +142,7 @@
     "pdh": 1716.58,
     "pdl": 1538.0,
     "dayOpen": 1685.62,
-    "vwap": 1684.78,
+    "vwap": 1688.42,
     "pwh": 2160.5,
     "pwl": 1711.08
    },
@@ -165,7 +175,8 @@
        "es": "Unos 2.4 ETH (riesgo $50 entre 20.67 de distancia al stop desde la entrada del rechazo en 1,709.33), tope de $50,000 de notional.",
        "en": "About 2.4 ETH (risk $50 over 20.67 of stop distance from the 1,709.33 rejection entry), $50,000 notional cap."
       }
-     }
+     },
+     "broken": true
     },
     {
      "range": [
@@ -195,14 +206,15 @@
        "es": "Unos 2.7 ETH (riesgo $50 entre 18.36 de distancia al stop desde el techo de la zona), tope de $50,000 de notional.",
        "en": "About 2.7 ETH (risk $50 over 18.36 of stop distance from the zone's high edge), $50,000 notional cap."
       }
-     }
+     },
+     "broken": true
     }
    ],
    "verdict": {
-    "signal": "WAIT",
+    "signal": "AVOID",
     "reason": {
-     "es": "El valor de area alto de ayer junto con el techo del dia y el cluster de FVG bajista forman una zona A+ del metodo (confluencia 8, en contra del rebote de 24h), pero la conviccion se queda baja: el fondeo shorts-crowded (21%, 18/85), el miedo extremo (23%, 36/156), el DVOL subiendo (21%, 12/56) y el titular de hackeo (25%, 23/91) son todos priores debiles. Sin GO aunque la zona califique.",
-     "en": "Yesterday's value-area-high together with the day's ceiling and the bearish FVG cluster forms a method A+ zone (confluence 8, against the 24h bounce), but conviction stays low: shorts-crowded funding (21%, 18/85), extreme fear (23%, 36/156), rising DVOL (21%, 12/56) and the hack headline (25%, 23/91) are all weak priors. No GO even though the zone qualifies."
+     "es": "Las dos zonas del close (la venta A+ del VAH/PDH y la compra B del FVG de 4 horas/minimo de Asia) quedaron rotas por el tamano del latigazo nocturno: ninguna vive. El precio volvio al mismo VAH/PDH desde arriba sin reclamo confirmado todavia, mas el tope de WAIT del shock fed+cripto hasta las 15:40 UTC. Sin tabla viva, AVOID.",
+     "en": "Both close zones (the VAH/PDH A+ sell and the 4h FVG/Asia-low B buy) broke under the size of the overnight whipsaw: neither is alive. Price came back to that same VAH/PDH from above with no confirmed reclaim yet, plus the fed+crypto shock's WAIT cap until 15:40 UTC. No live table, AVOID."
     }
    },
    "counterCase": {
@@ -231,22 +243,22 @@
    ]
   },
   "BTCUSDT": {
-   "price": 60207.01,
+   "price": 60985.51,
    "biasDay": "SHORT",
-   "biasSession": "NEUTRAL",
+   "biasSession": "LONG",
    "conviction": "baja",
    "move24h": {
     "dir": "LONG",
-    "pct": 1.85
+    "pct": 0.79
    },
-   "regime": "CHOP",
+   "regime": "NEUTRAL",
    "tcl": {
-    "v": 0,
-    "flip": 59784.43
+    "v": 1,
+    "flip": 60173.76
    },
    "context": {
-    "es": "Tras el latigazo de ayer (minimo 55,130.00 en Asia, maximo 60,996.00 en Londres), BTC cerro casi plano y hoy abre pegado al mismo nivel (60,215.78) en una caja de rango estrecha (60,149.36 a 60,352.16), apenas bajo el VWAP (60,254.99) y las medias de 5 minutos de 20 y 50 (60,247.26 y 60,265.45). El balance inicial de hoy (59,690.00 a 60,545.10) acaba de ser barrido por arriba y rechazado hace unas 3.8 horas (toco 60,545.10 y cerro de vuelta abajo): esa franja, justo arriba del precio, es el proximo borde a vigilar. El techo del dia de ayer (PDH 60,996.00) con un cluster de FVG bajista de 15 minutos, 1 hora y 4 horas queda mas arriba. El checklist de tendencia resetea a sin direccion confirmada (el marco de 1 hora choca con el diario y el de 4 horas, los dos bajistas).",
-    "en": "After yesterday's whipsaw (low of 55,130.00 in Asia, high of 60,996.00 in London), BTC closed almost flat and today opens pinned to the same level (60,215.78) in a tight range (60,149.36 to 60,352.16), just below VWAP (60,254.99) and the 5m 20 and 50 averages (60,247.26 and 60,265.45). Today's initial balance (59,690.00 to 60,545.10) was just swept on the high side and rejected about 3.8 hours ago (touched 60,545.10 and closed back under): that band, right above price, is the next edge to watch. Yesterday's day ceiling (PDH 60,996.00) with an overlapping 15m/1h/4h bearish FVG cluster sits further up. The trend checklist resets to no confirmed direction (the 1h frame clashes with the daily and 4h frames, both bearish)."
+    "es": "Latigazo completo desde el close: BTC barrio primero bajo 58,768.51 (bajo el stop de 58,900 de la compra B) y despues sobre 61,669.99 (sobre el stop de 60,700 de la venta A+ del techo del balance inicial). Ahora cotiza en 60,985.51, justo bajo su propio PDH (60,996.00): lo barrio y cerro de vuelta abajo hace apenas una vela de 5 minutos (sweep PDH:dn, reclaim confirmado), el mismo patron de rechazo que buscaba la venta A+ rota, pero en un nivel mas alto y sin zona mapeada ahi. El checklist de tendencia confirma veredicto 1 (largo, tamano reducido): el marco de 1 hora Y el de 4 horas ya se alinean al alza (antes chocaban), aunque el fondo diario sigue corto; sesion pasa de neutral a LONG, choque real contra el sesgo de fondo. Precio por encima de las medias de 20 y 50 de 5 minutos (60,771.33 y 60,700.99) y estirado 5.45 ATR del VWAP (60,146.78): sin GO por estiramiento aunque hubiera zona viva.",
+    "en": "Full round-trip whipsaw since the close: BTC first swept under 58,768.51 (below the B buy's 58,900 stop) and then over 61,669.99 (past the A+ sell's 60,700 stop at the initial-balance ceiling). It now trades at 60,985.51, right under its own PDH (60,996.00): it swept it and closed back under just one 5m candle ago (sweep PDH:dn, confirmed reclaim), the same kind of rejection the broken A+ sell was looking for, but at a higher level with no mapped zone there. The trend checklist confirms verdict 1 (long, reduced size): the 1h frame AND the 4h frame now both align bullish (they used to clash), though the daily background stays short; session flips from neutral to LONG, a real clash against the background bias. Price sits above the 5m 20 and 50 averages (60,771.33 and 60,700.99) and is stretched 5.45 ATR from VWAP (60,146.78): no GO on stretch alone even if a zone were live."
    },
    "levels": {
     "vah": 59209.49,
@@ -255,7 +267,7 @@
     "pdh": 60996.0,
     "pdl": 55130.0,
     "dayOpen": 60215.78,
-    "vwap": 60254.99,
+    "vwap": 60146.78,
     "pwh": 75599.22,
     "pwl": 62006.0
    },
@@ -288,7 +300,8 @@
        "es": "Unos 0.25 BTC (riesgo $50 entre 200 de distancia al stop desde la entrada del rechazo en 60,500), tope de $50,000 de notional.",
        "en": "About 0.25 BTC (risk $50 over 200 of stop distance from the 60,500 rejection entry), $50,000 notional cap."
       }
-     }
+     },
+     "broken": true
     },
     {
      "range": [
@@ -318,14 +331,15 @@
        "es": "Unos 0.06 BTC (riesgo $50 entre 840 de distancia al stop desde el techo de la zona), tope de $50,000 de notional.",
        "en": "About 0.06 BTC (risk $50 over 840 of stop distance from the zone's high edge), $50,000 notional cap."
       }
-     }
+     },
+     "broken": true
     }
    ],
    "verdict": {
-    "signal": "WAIT",
+    "signal": "AVOID",
     "reason": {
-     "es": "El techo del balance inicial de hoy, ya barrido y rechazado una vez hace unas horas, forma una zona A+ del metodo (confluencia 6, en contra del rebote de 24h), pero la misma conviccion baja aplica: BTC en si mismo es lector historico debil (23%, 17/74), igual que el resto del contexto de hoy. Sin GO.",
-     "en": "Today's initial-balance ceiling, already swept and rejected once a few hours ago, forms a method A+ zone (confluence 6, against the 24h bounce), but the same low conviction applies: BTC itself is a weak historical reader (23%, 17/74), same as the rest of today's context. No GO."
+     "es": "Las dos zonas del close (la venta A+ del techo del balance inicial y la compra B del cluster de FVG de 1/4 horas) quedaron rotas por el tamano del latigazo nocturno: ninguna vive. El rechazo que se buscaba ya ocurrio, pero mas arriba, en el PDH, sin zona mapeada ahi. Mas el tope de WAIT del shock fed+cripto hasta las 15:40 UTC. Sin tabla viva, AVOID.",
+     "en": "Both close zones (the initial-balance ceiling A+ sell and the 1h/4h FVG cluster B buy) broke under the size of the overnight whipsaw: neither is alive. The rejection it was looking for already happened, but higher up, at PDH, with no mapped zone there. Plus the fed+crypto shock's WAIT cap until 15:40 UTC. No live table, AVOID."
     }
    },
    "counterCase": {
@@ -361,5 +375,8 @@
    "en": "Saturday (Nov 21) stayed bearish at the run's close but ended up flipping into a strong bounce (ETH finished +65.91pts, BTC +1,330.00pts in its 15-to-24h window, against the short bias of both runs: bias missed on both coins and both runs). Text predictions 0/8: the four cited ceilings (1,635.67 ETH, 59,635.32 BTC, in both runs) broke hard and so did the four ranges, under the size of the whipsaw. Zones 1/4 on the close (BTC's B continuation sell worked, r 0.15; ETH's A+ POC buy stopped out, ETH's B sell broke and BTC's A+ POC buy broke); the 4 in the NY run went untouched (already resolved or broken before that window)."
   }
  },
- "updated": null
+ "updated": {
+  "es": "Lo que aguanto: la conviccion baja, el hueco del CME como iman de fondo (ahora mas ancho), el miedo extremo (11) y el riesgo de fondo ALTO por los hackeos (con reportes mas grandes ahora). Lo que cambio: un latigazo completo rompio las 4 zonas del close por ambos lados (ETH 1,648.35 a 1,732.52; BTC 58,768.51 a 61,669.99) antes de que empezara esta ventana; el fondeo de las dos paso de shorts-crowded a neutral; el checklist de tendencia confirma largo reducido en BTC (sesion pasa a LONG, choca con el fondo corto) mientras ETH se queda neutral; un shock nuevo (titular fed+cripto) tapa WAIT hasta las 15:40 UTC aunque el precio ya lo contradice; y BTC ya confirmo un rechazo tipo sweep+reclaim en su propio PDH, un nivel mas alto que su zona rota, sin tabla para jugarlo esta corrida. Sin setup vivo en ninguna de las dos: AVOID. La reapertura CME de las 17:00 CT queda anotada para vigilar, sin otra corrida antes de esa hora.",
+  "en": "What held: low conviction, the CME gap as a background magnet (now wider), extreme fear (11) and the ALTO background risk from the hacks (now with bigger reports). What changed: a full round-trip whipsaw broke all 4 close zones from both sides (ETH 1,648.35 to 1,732.52; BTC 58,768.51 to 61,669.99) before this window started; funding on both flipped from shorts-crowded to neutral; the trend checklist confirms a reduced long on BTC (session flips to LONG, clashing with the short background) while ETH stays neutral; a fresh shock (fed+crypto headline) caps WAIT until 15:40 UTC though price already contradicts it; and BTC already confirmed a sweep+reclaim rejection at its own PDH, a higher level than its broken zone, with no table to play it this run. No live setup on either: AVOID. The 17:00 CT CME reopen is flagged to watch, with no other run before it happens."
+ }
 }
