@@ -2,7 +2,7 @@
  "date": "2026-11-24",
  "session": "asia",
  "runType": "pre-asia",
- "generatedAt": "2026-11-23T15:35:00-06:00",
+ "generatedAt": "2026-11-23T16:11:59-06:00",
  "schema": "sa-plan-2",
  "cleanest": "NQ",
  "focus": {
@@ -56,18 +56,12 @@
  },
  "dataHealth": {
   "snapshot": "OK",
-  "builtAtAgeMin": 27,
-  "stale": [
-   "feed@NQ ~27min",
-   "feed@ES ~27min",
-   "feed@GC ~27min",
-   "feed@YM ~27min",
-   "feed@CL ~27min"
-  ],
+  "builtAtAgeMin": 11,
+  "stale": [],
   "missing": [],
   "notes": {
-   "es": "snapshot a 27 min (umbral 35 en dia habil, OK); las 5 fuentes feed estan justo sobre el umbral de 25 min de frescas -- se tratan como vieja, peso a la mitad en lo que aun no se confirme con el siguiente refresco",
-   "en": "snapshot 27 min old (threshold 35 on a business day, OK); all 5 feed sources are just past the 25-min fresh threshold -- treated as stale, half weight until the next refresh confirms"
+   "es": "re-chequeo: snapshot a 11 min, feed ya fresco (antes justo sobre el umbral de 25 min); NQ se alejo de su zona de corto (estirada, antes tactica), GC paso a fuera de alcance esta sesion (watch); ES/YM/CL sin cambio de clase de zona",
+   "en": "re-check: snapshot 11 min old, feed now fresh (was just past the 25-min threshold); NQ moved away from its short zone (now stretched, was tactical), GC moved out of reach this session (watch); ES/YM/CL unchanged zone class"
   }
  },
  "calendarContext": {
@@ -262,8 +256,8 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "conflicto de marcos (1h/diario alcista vs 4h bajista) bloquea el GO aunque la zona de 27137-27225 sea A+ del metodo (en contra de las 24h, FVG 4h peso 2, IBH+maximo); estirado 4.88 ATR al cierre de hoy, no se persigue",
-     "en": "frame conflict (1h/daily bullish vs 4h bearish) blocks the GO even though the 27137-27225 zone is A+ of the method (against the 24h move, 4h FVG weight 2, IBH+day high); stretched 4.88 ATR at today's close, don't chase"
+     "es": "conflicto de marcos (1h/diario alcista vs 4h bajista) bloquea el GO aunque la zona de 27137-27225 sea A+ del metodo (en contra de las 24h, FVG 4h peso 2, IBH+maximo); estirado 4.88 ATR al cierre de hoy, no se persigue; zona ahora estirada (ratio 0.66 tras seguir cayendo), borde lejos",
+     "en": "frame conflict (1h/daily bullish vs 4h bearish) blocks the GO even though the 27137-27225 zone is A+ of the method (against the 24h move, 4h FVG weight 2, IBH+day high); stretched 4.88 ATR at today's close, don't chase; zone now stretched (ratio 0.66 after extending lower), edge far away"
     }
    },
    "context": {
@@ -377,10 +371,10 @@
      "tcl": null,
      "role": "tactical",
      "reach": {
-      "distPts": 222,
+      "distPts": 318.75,
       "budgetPts": 480,
-      "ratio": 0.46,
-      "class": "TACTICAL"
+      "ratio": 0.664,
+      "class": "STRETCHED"
      },
      "fvg": [
       {
@@ -451,30 +445,12 @@
    "keyLevels": [
     {
      "name": {
-      "es": "IBH / maximo del dia",
-      "en": "IBH / day high"
-     },
-     "price": 27137.0,
-     "distPts": 222.0,
-     "distTicks": 888
-    },
-    {
-     "name": {
       "es": "EMA50 1h",
       "en": "1h EMA50"
      },
      "price": 26793.5,
-     "distPts": 121.5,
-     "distTicks": 486
-    },
-    {
-     "name": {
-      "es": "VWAP",
-      "en": "VWAP"
-     },
-     "price": 26586.5,
-     "distPts": 328.5,
-     "distTicks": 1314
+     "distPts": 24.75,
+     "distTicks": 99
     },
     {
      "name": {
@@ -482,8 +458,26 @@
       "en": "PDH (today's)"
      },
      "price": 26603.5,
-     "distPts": 311.5,
-     "distTicks": 1246
+     "distPts": 214.75,
+     "distTicks": 859
+    },
+    {
+     "name": {
+      "es": "VWAP",
+      "en": "VWAP"
+     },
+     "price": 26586.5,
+     "distPts": 231.75,
+     "distTicks": 927
+    },
+    {
+     "name": {
+      "es": "IBH / maximo del dia",
+      "en": "IBH / day high"
+     },
+     "price": 27137.0,
+     "distPts": 318.75,
+     "distTicks": 1275
     }
    ],
    "news": []
@@ -679,9 +673,9 @@
      "tcl": "contra",
      "role": "tactical",
      "reach": {
-      "distPts": 37.25,
+      "distPts": 44.0,
       "budgetPts": 63.65,
-      "ratio": 0.59,
+      "ratio": 0.691,
       "class": "STRETCHED"
      },
      "fvg": [
@@ -757,17 +751,8 @@
       "en": "IBH / day high"
      },
      "price": 7313.25,
-     "distPts": 37.5,
-     "distTicks": 150
-    },
-    {
-     "name": {
-      "es": "EMA20 1h",
-      "en": "1h EMA20"
-     },
-     "price": 7177.0,
-     "distPts": 98.75,
-     "distTicks": 395
+     "distPts": 44.25,
+     "distTicks": 177
     },
     {
      "name": {
@@ -775,8 +760,17 @@
       "en": "VWAP"
      },
      "price": 7219.5,
-     "distPts": 56.25,
-     "distTicks": 225
+     "distPts": 49.5,
+     "distTicks": 198
+    },
+    {
+     "name": {
+      "es": "EMA20 1h",
+      "en": "1h EMA20"
+     },
+     "price": 7177.0,
+     "distPts": 92.0,
+     "distTicks": 368
     }
    ],
    "news": []
@@ -972,9 +966,9 @@
      "tcl": null,
      "role": "tactical",
      "reach": {
-      "distPts": 40,
+      "distPts": 30.0,
       "budgetPts": 324.4,
-      "ratio": 0.12,
+      "ratio": 0.092,
       "class": "TACTICAL"
      },
      "fvg": [
@@ -1050,8 +1044,8 @@
       "en": "IBH"
      },
      "price": 49777.0,
-     "distPts": 17.0,
-     "distTicks": 17
+     "distPts": 7.0,
+     "distTicks": 7
     },
     {
      "name": {
@@ -1059,8 +1053,8 @@
       "en": "day high"
      },
      "price": 49873.0,
-     "distPts": 113.0,
-     "distTicks": 113
+     "distPts": 103.0,
+     "distTicks": 103
     },
     {
      "name": {
@@ -1068,8 +1062,8 @@
       "en": "VWAP"
      },
      "price": 49373.0,
-     "distPts": 387.0,
-     "distTicks": 387
+     "distPts": 397.0,
+     "distTicks": 397
     }
    ],
    "news": []
@@ -1150,8 +1144,8 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "conflicto de marcos bloquea el GO; ademas la resistencia triple 3690.8-3704.2 (ONH=IBH=swing 1h + FVG 1h) es un sweep, tope B por regla aunque vaya en contra de las 24h (8e), y a 0.87 de su presupuesto de Asia (zona estirada); el dolar fuerte pesa en contra del largo de fondo",
-     "en": "frame conflict blocks the GO; also the 3690.8-3704.2 triple resistance (ONH=IBH=1h swing + 1h FVG) is a sweep, capped at B by rule even though it's against the 24h move (8e), and it sits at 0.87 of Asia's budget (a stretched zone); a strong dollar weighs against the underlying long"
+     "es": "conflicto de marcos bloquea el GO; ademas la resistencia triple 3690.8-3704.2 (ONH=IBH=swing 1h + FVG 1h) es un sweep, tope B por regla aunque vaya en contra de las 24h (8e), y a 0.87 de su presupuesto de Asia (zona estirada); el dolar fuerte pesa en contra del largo de fondo; zona de corto 3690.8-3704.2 ahora fuera de alcance esta sesion (watch), sin borde tactico a tiro",
+     "en": "frame conflict blocks the GO; also the 3690.8-3704.2 triple resistance (ONH=IBH=1h swing + 1h FVG) is a sweep, capped at B by rule even though it's against the 24h move (8e), and it sits at 0.87 of Asia's budget (a stretched zone); a strong dollar weighs against the underlying long; the 3690.8-3704.2 short zone is now out of reach this session (watch), no tactical edge on tap"
     }
    },
    "context": {
@@ -1263,12 +1257,12 @@
      "winN": 8,
      "n": 1,
      "tcl": null,
-     "role": "tactical",
+     "role": "watch",
      "reach": {
-      "distPts": 51.3,
+      "distPts": 57.4,
       "budgetPts": 58.78,
-      "ratio": 0.87,
-      "class": "STRETCHED"
+      "ratio": 0.977,
+      "class": "WATCH"
      },
      "fvg": [
       {
@@ -1339,21 +1333,12 @@
    "keyLevels": [
     {
      "name": {
-      "es": "ONH / IBH / swing 1h",
-      "en": "ONH / IBH / 1h swing"
-     },
-     "price": 3690.9,
-     "distPts": 51.4,
-     "distTicks": 514
-    },
-    {
-     "name": {
       "es": "EMA50",
       "en": "EMA50"
      },
      "price": 3649.1,
-     "distPts": 9.6,
-     "distTicks": 96
+     "distPts": 15.7,
+     "distTicks": 157
     },
     {
      "name": {
@@ -1361,8 +1346,17 @@
       "en": "old VAH, now support"
      },
      "price": 3583.4,
-     "distPts": 56.1,
-     "distTicks": 561
+     "distPts": 50.0,
+     "distTicks": 500
+    },
+    {
+     "name": {
+      "es": "ONH / IBH / swing 1h",
+      "en": "ONH / IBH / 1h swing"
+     },
+     "price": 3690.9,
+     "distPts": 57.5,
+     "distTicks": 575
     }
    ],
    "news": []
@@ -1558,9 +1552,9 @@
      "tcl": "contra",
      "role": "watch",
      "reach": {
-      "distPts": 0.0,
+      "distPts": 0.07,
       "budgetPts": 1.556,
-      "ratio": 0.0,
+      "ratio": 0.045,
       "class": "TACTICAL"
      },
      "fvg": [],
@@ -1618,12 +1612,21 @@
    "keyLevels": [
     {
      "name": {
+      "es": "ONL",
+      "en": "ONL"
+     },
+     "price": 80.55,
+     "distPts": 0.12,
+     "distTicks": 12
+    },
+    {
+     "name": {
       "es": "soporte EMA20/IBL",
       "en": "EMA20/IBL support"
      },
      "price": 80.16,
-     "distPts": 0.01,
-     "distTicks": 1
+     "distPts": 0.27,
+     "distTicks": 27
     },
     {
      "name": {
@@ -1631,17 +1634,8 @@
       "en": "today's swing low"
      },
      "price": 79.87,
-     "distPts": 0.28,
-     "distTicks": 28
-    },
-    {
-     "name": {
-      "es": "ONL",
-      "en": "ONL"
-     },
-     "price": 80.55,
-     "distPts": 0.4,
-     "distTicks": 40
+     "distPts": 0.56,
+     "distTicks": 56
     }
    ],
    "news": []
