@@ -1,99 +1,116 @@
 {
  "schema": "crypto-plan-1",
- "runType": "crypto-close",
- "builtAt": "2026-11-24T01:19:00Z",
+ "runType": "crypto-ny",
+ "builtAt": "2026-11-24T14:54:11Z",
  "date": "2026-11-24",
- "slot": "close",
- "validUntil": "2026-11-24T14:45:00Z",
+ "slot": "ny",
+ "validUntil": "2026-11-25T00:00:00Z",
  "dataHealth": {
-  "snapshotAgeMin": 18,
+  "snapshotAgeMin": 1,
   "stale": [],
   "missing": [],
   "notes": [
-   "El hueco del CME de ETH deja de aplicar como iman desde hoy (martes), fuera de la ventana viernes-lunes; vuelve a contar el proximo viernes.",
-   "Sin hackeos nuevos en las ultimas 24 horas: los dos de ayer (Fusionist, Chainflip) ya vencieron su ventana de 24 horas.",
-   "Divergencia marcada: el Nasdaq corre +4.05% en 24 horas (regreso de Jensen Huang a Nvidia) mientras ETH y BTC casi no participan (ETH plano, BTC +0.75%).",
-   "Cuentas largas de ETH ya pasan el corte de riesgo de 3 a 1 (3.12): retail cargado de largos, riesgo de barrida si el precio sigue cayendo."
+   "vs24h de las cuatro zonas del close quedo desactualizado: el movimiento neto de 24 horas paso de plano/+0.75% a bajista fuerte en las dos monedas (ETH -5.05%, BTC -4.38%). El metodo de crypto-ny no re-puntua confluencia ni recalifica zonas (seccion 7), asi que vs24h, grade y confluencia se dejan igual que el close; el lint lo marca como WARN, no ERROR.",
+   "Las cuatro zonas mapeadas en el close quedaron resueltas durante la noche y Asia/Londres: la venta de ETH (1,713.33-1,719.77) disparo y corrio mas alla de tp1 y tp2; el soporte de ETH (1,696.50-1,703.16) y las dos zonas de BTC (venta 61,374.04-61,405.52 y rebote 61,236.98-61,318.51) quedaron invalidadas por su stop. Se marcan broken:true, no se borran (seccion 7).",
+   "biasSession de BTC pasa de NEUTRAL a SHORT: el 1h y el 4h del Trend Checklist dejaron de contradecirse y quedaron alineados a la baja (antes 1h alcista, 4h bajista). biasDay no se recalcula hoy por regla del metodo.",
+   "Dos titulares de shock entraron en la ultima hora (live/shock.json): decomiso del DOJ sobre el hackeo viejo de Binance de Corea del Norte (sym CRYPTO) y Rusia acusando a Estonia (sym ALL). Ventana de riesgo hasta las 15:40 UTC, maximo WAIT en ETH y BTC mientras dure."
   ]
  },
  "summary": {
   "es": [
-   "Snapshot fresco (18 minutos). Ayer (lunes) ETH y BTC rompieron con fuerza su techo mapeado de madrugada (ETH hasta 1,833.80, BTC hasta 64,189.26) pero revirtieron todo el camino por la tarde con un shock de 15 minutos: las dos ventas A+ del dia anterior quedaron rotas sin reclamar y el cierre quedo casi plano en las dos monedas (calificacion de ayer: 2/8 zonas tocadas-ganadoras, 0/8 predicciones de texto).",
-   "Hoy (martes UTC) las dos monedas quedaron en un dia de balance muy angosto, pegadas a un cluster de media de 20, media de 50 y VWAP: ETH con apenas 11.65 puntos de rango (10% de lo normal), BTC con 332.50 puntos (11% de lo normal).",
-   "El movimiento neto de las ultimas 24 horas de ETH quedo PLANO (+0.04%): sin direccion neta el metodo no deja ninguna zona A+ en ETH hoy; sus dos zonas (la barrida reciente justo arriba, 1,713.33 a 1,719.77, y el soporte de 1,696.50 a 1,703.16 abajo) se quedan en B.",
-   "BTC si tiene un movimiento neto modesto a favor (+0.75%) con una zona en contra de confluencia alta (hueco bajista de 15 minutos y techo de la caja de hoy, 61,374.04 a 61,405.52, confluencia 8), pero no cae en un nivel del perfil de ayer (ni VAH, POC o VAL), asi que el metodo igual la tapa en B.",
-   "Sin GO en ninguna de las dos monedas: el contexto de hoy (fondeo de ETH cargado de cortos, miedo extremo, DVOL bajando) sigue dando menos de 2 de cada 10 aciertos en las semanas recientes.",
-   "Riesgo de fondo BAJO: sin hackeos nuevos hoy, dos notas de regulacion de la CFTC (bitcoin y ether cuentan para reservas y gastos operativos de firmas de derivados) y una de ETF (el nuevo ETF 2x de Zcash de Grayscale cayo 13% en su primer dia). Miedo extremo se mantiene (11, igual que ayer)."
+   "Update ligero de NY (08:45 CT / 14:54 UTC). La caja angosta del close se rompio por completo durante la noche y Asia/Londres: en ETH la venta mapeada (1,713.33 a 1,719.77) disparo (barrida a 1,721.88 en Asia) y corrio mas alla de tp1 (1,710.61) y tp2 (1,696.50); el soporte de abajo (1,696.50 a 1,703.16) quedo invalidado cuando el minimo de la noche y Asia llego a 1,669.00, bien por debajo de su stop (1,692.00). ETH cotiza ahora en 1,695.46.",
+   "En BTC las dos zonas mapeadas tambien quedaron invalidadas: la venta del hueco bajista (61,374.04 a 61,405.52, stop 61,410.50) se rompio cuando el maximo de la noche llego a 61,682.01, y el rebote del bolsillo dorado (61,236.98 a 61,318.51, stop 61,196.00) se rompio cuando el minimo de la noche y Asia cayo a 59,390.86. BTC cotiza ahora en 60,473.54.",
+   "El movimiento neto de 24 horas se volvio bajista fuerte en las dos monedas (ETH -5.05%, BTC -4.38%), al reves de lo que tenia el close (ETH plano, BTC +0.75%). En la apertura de NY (08:30 CT) el Nasdaq (NQ) tambien cayo con fuerza desde su apertura (26,888 a 26,369.50) por comentarios halconES de la Fed (John Williams, tasas mas altas 'con el tiempo') y nuevas sanciones a Iran anunciadas por Scott Bessent: la divergencia del close (Nasdaq arriba, cripto plano) desaparecio, ahora las dos monedas acompañan la caida del indice.",
+   "Dos titulares de shock entraron en la ultima hora: el DOJ busca decomisar 1,100 millones de USDC del hackeo viejo de Binance de Corea del Norte (accion legal, no un hackeo nuevo) y Rusia acusa a Estonia de acciones hostiles. Ninguno es especifico de ETH o BTC, pero los dos activan la regla de shock: ventana de riesgo hasta las 15:40 UTC, maximo WAIT.",
+   "Sin zona viva en ninguna de las dos monedas: la venta de ETH ya se consumio y las otras tres zonas quedaron rotas por su stop. Sin GO: hay que esperar que se forme estructura nueva antes de buscar la siguiente entrada. Conviccion se queda baja en las dos (ya estaba en el piso).",
+   "Riesgo de fondo sube a MEDIO: sin hackeo nuevo, pero la ventana de shock esta activa y el DVOL general subio a 67.16 (+3.72 en 24h), revirtiendo la baja que tenia en el close. Salidas de ETF de bitcoin, otros 570 millones de dolares (noviembre ya cerca de 5,000 millones) justo cuando BTC perdio los 60,000. Miedo extremo se mantiene igual (11)."
   ],
   "en": [
-   "Fresh snapshot (18 minutes). Yesterday (Monday) ETH and BTC broke hard through their mapped ceiling overnight (ETH up to 1,833.80, BTC up to 64,189.26) but fully reversed by the afternoon with a 15-minute shock: both of yesterday's A+ sells stayed broken without reclaiming, and the close ended almost flat on both coins (yesterday's grading: 2/8 zones touched-and-won, 0/8 text predictions).",
-   "Today (Tuesday UTC) both coins sit in a very narrow balance day, pinned to a cluster of the 20-EMA, 50-EMA and VWAP: ETH with just 11.65 points of range (10% of normal), BTC with 332.50 points (11% of normal).",
-   "ETH's net 24-hour move came in FLAT (+0.04%): with no net direction, the method allows no A+ zone in ETH today; its two zones (the recent sweep just above, 1,713.33 to 1,719.77, and the support at 1,696.50 to 1,703.16 below) stay at B.",
-   "BTC does have a modest net move in its favor (+0.75%) with a high-confluence zone against it (a 15-minute bearish gap and today's range ceiling, 61,374.04 to 61,405.52, confluence 8), but it doesn't land on a yesterday profile level (no VAH, POC or VAL), so the method caps it at B anyway.",
-   "No GO on either coin: today's context (ETH funding stays shorts-crowded, extreme fear, DVOL falling) keeps landing under 2-in-10 hit rates over recent weeks.",
-   "Background risk stays BAJO: no new hacks today, two CFTC regulation notes (bitcoin and ether now count toward derivatives firms' operating reserves and expenses) and one ETF note (Grayscale's new 2x leveraged Zcash ETF tumbled 13% on its opening day). Extreme fear holds (11, same as yesterday)."
+   "Light NY update (08:45 CT / 14:54 UTC). The close's narrow box broke completely overnight and through Asia/London: in ETH the mapped sell (1,713.33 to 1,719.77) triggered (a sweep to 1,721.88 in Asia) and ran past tp1 (1,710.61) and tp2 (1,696.50); the support below (1,696.50 to 1,703.16) got invalidated when the overnight and Asia low reached 1,669.00, well under its stop (1,692.00). ETH now trades at 1,695.46.",
+   "In BTC both mapped zones also got invalidated: the bearish gap sell (61,374.04 to 61,405.52, stop 61,410.50) broke when the overnight high reached 61,682.01, and the golden pocket bounce (61,236.98 to 61,318.51, stop 61,196.00) broke when the overnight and Asia low fell to 59,390.86. BTC now trades at 60,473.54.",
+   "The net 24-hour move turned strongly bearish on both coins (ETH -5.05%, BTC -4.38%), the reverse of the close (ETH flat, BTC +0.75%). At the NY open (08:30 CT) the Nasdaq (NQ) also sold off hard from its open (26,888 to 26,369.50) on hawkish Fed comments (John Williams, higher rates 'over time') and fresh Iran sanctions announced by Scott Bessent: the close's divergence (Nasdaq up, crypto flat) is gone, both coins now go with the index selloff.",
+   "Two shock headlines landed in the last hour: the DOJ is moving to forfeit $1.1B in USDC from North Korea's old Binance hack (a legal action, not a new breach) and Russia accused Estonia of hostile actions. Neither is ETH or BTC specific, but both trigger the shock rule: a risk window through 15:40 UTC, max WAIT.",
+   "No live zone left on either coin: ETH's sell already played out and the other three zones broke on their stop. No GO: wait for new structure to form before the next entry. Conviction stays low on both (already at the floor).",
+   "Background risk steps up to MEDIUM: no new hack, but the shock window is active and overall DVOL rose to 67.16 (+3.72 on 24h), reversing the close's decline. Bitcoin ETF outflows, another $570 million (November total nearing $5 billion) right as BTC lost the $60K mark. Extreme fear holds unchanged (11)."
   ]
  },
  "focus": {
   "sym": "ETHUSDT",
   "setup": {
-   "es": "Sin GO en ninguna de las dos monedas hoy. En ETH el movimiento neto de 24 horas quedo plano, asi que el metodo no permite ninguna zona A+ (hace falta ir en contra de un movimiento neto real, y aqui no lo hay): el precio esta pegado a una caja muy angosta entre la barrida reciente de 1,713.33 a 1,719.77 arriba y el soporte de 1,696.50 a 1,703.16 abajo, las dos en B. BTC si tiene un movimiento neto a favor modesto (+0.75%) y una zona en contra con confluencia alta (el hueco bajista de 15 minutos y el techo de la caja de hoy, 61,374.04 a 61,405.52), pero no es un nivel del perfil de ayer asi que el metodo igual la tapa en B; ademas el contexto de hoy sigue dando menos de 2 de cada 10 aciertos, asi que la conviccion se queda baja de todas formas. El plan de hoy es vigilar esos bordes nada mas, sin perseguir el rango angosto.",
-   "en": "No GO on either coin today. ETH's net 24-hour move came in flat, so the method allows no A+ zone (it needs a real net move to fade, and there isn't one): price is pinned in a very narrow box between the recent sweep at 1,713.33 to 1,719.77 above and the support at 1,696.50 to 1,703.16 below, both B. BTC does have a modest net move in its favor (+0.75%) and a high-confluence zone against it (the 15-minute bearish gap and today's range ceiling, 61,374.04 to 61,405.52), but it isn't a yesterday profile level so the method caps it at B anyway; on top of that today's context keeps landing under 2-in-10 hit rates, so conviction stays low regardless. Today's plan is just to watch those edges, not to chase the narrow range."
+   "es": "Las dos monedas rompieron la caja angosta del close durante la noche y Asia/Londres. En ETH la venta mapeada (1,713.33 a 1,719.77) ya disparo y corrio mas alla de tp1 y tp2 (gatillo consumido, no hay reentrada ahi), y el soporte de abajo (1,696.50 a 1,703.16) quedo invalidado por su stop cuando el minimo llego a 1,669.00; precio ahora en 1,695.46, justo debajo del viejo soporte. En BTC las dos zonas (venta en 61,374.04-61,405.52 y rebote en 61,236.98-61,318.51) tambien quedaron invalidadas por su stop con un barrido hasta 59,390.86; precio ahora en 60,473.54. El Nasdaq cayo fuerte en la apertura de NY (Fed, sanciones a Iran) y las dos monedas ya acompañan la caida, sin la divergencia del close. Sin zona viva en ninguna de las dos: WAIT en las dos, hay que esperar que se forme estructura nueva (un rango o un reclamo limpio) antes de buscar la siguiente entrada. Ventana de riesgo hasta las 15:40 UTC por dos titulares de shock en la ultima hora.",
+   "en": "Both coins broke the close's narrow box overnight and through Asia/London. In ETH the mapped sell (1,713.33 to 1,719.77) already triggered and ran past tp1 and tp2 (trigger spent, no re-entry there), and the support below (1,696.50 to 1,703.16) got invalidated by its stop when the low reached 1,669.00; price now at 1,695.46, just under the old support. In BTC both zones (sell at 61,374.04-61,405.52 and bounce at 61,236.98-61,318.51) also got invalidated by their stop with a sweep down to 59,390.86; price now at 60,473.54. The Nasdaq sold off hard at the NY open (Fed, Iran sanctions) and both coins now go with the selloff, with the close's divergence gone. No live zone on either coin: WAIT on both, wait for new structure (a range or a clean reclaim) before looking for the next entry. Risk window through 15:40 UTC from two shock headlines in the last hour."
   }
  },
- "riskWindow": null,
+ "riskWindow": {
+  "from": "2026-11-24T14:54:11Z",
+  "to": "2026-11-24T15:40:24Z",
+  "why": {
+   "es": "Dos titulares entraron en la ultima hora que activan la regla de shock (crypto.md seccion 1b): el decomiso del DOJ sobre el hackeo viejo de Binance de Corea del Norte (sym CRYPTO) y Rusia acusando a Estonia de acciones hostiles 'al borde de una guerra abierta' (sym ALL). Maximo WAIT en ETH y BTC mientras dure la ventana.",
+   "en": "Two headlines landed in the last hour that trigger the shock rule (crypto.md section 1b): the DOJ's forfeiture action on North Korea's old Binance hack (sym CRYPTO) and Russia accusing Estonia of hostile actions 'on the verge of unleashing open war' (sym ALL). Max WAIT on ETH and BTC while the window lasts."
+  }
+ },
  "cryptoContext": {
-  "risk": "BAJO",
+  "risk": "MEDIO",
   "deriv": {
-   "es": "Fondeo de ETH sigue shorts-crowded (los cortos pagan, -0.0051% cada 8h) pero el interes abierto baja un poco (-1.82% en 24h): el rebote reciente pierde gasolina, son mas cierres que entradas nuevas. Fondeo de BTC neutral (0.0057%) con el interes abierto bajando mas fuerte (-4.84% en 24h), mismo patron de cierres. Cuentas largas de ETH ya pasan el corte de riesgo de 3 a 1 (3.12, retail cargado de largos); las de BTC se quedan justo debajo (2.76).",
-   "en": "ETH funding stays shorts-crowded (shorts paying, -0.0051% every 8h) but open interest ticks down a touch (-1.82% on 24h): the recent bounce is losing gas, more closes than new entries. BTC funding is neutral (0.0057%) with open interest falling harder (-4.84% on 24h), same closing pattern. ETH's long-skewed accounts already clear the 3-to-1 risk cutoff (3.12, retail crowded into longs); BTC's stay just under (2.76)."
+   "es": "Fondeo de ETH sigue shorts-crowded pero mas suave (-0.0014% cada 8h, antes -0.0051%) con el interes abierto bajando mas fuerte (-3.38% en 24h, antes -1.82%): mas cierres, el rebote de ayer perdio toda la gasolina. Fondeo de BTC neutral (0.0037%, antes 0.0057%) con el interes abierto tambien bajando (-3.00% en 24h, antes -4.84%). Cuentas largas de ETH bajaron del corte de riesgo de 3 a 1 (2.92, antes 3.12); las de BTC tambien bajaron (2.52, antes 2.76).",
+   "en": "ETH funding stays shorts-crowded but softer (-0.0014% every 8h, was -0.0051%) with open interest falling harder (-3.38% on 24h, was -1.82%): more closes, yesterday's bounce lost all its gas. BTC funding is neutral (0.0037%, was 0.0057%) with open interest also falling (-3.00% on 24h, was -4.84%). ETH's long-skewed accounts dropped back under the 3-to-1 risk cutoff (2.92, was 3.12); BTC's also eased (2.52, was 2.76)."
   },
-  "dvol": 65.5,
+  "dvol": 67.16,
   "fearGreed": 11,
   "cmeGap": null,
-  "ethBtc24hPct": -0.84,
+  "ethBtc24hPct": 0.45,
   "drivers": [
    {
-    "theme": "regulation",
-    "headline": "CFTC staff say bitcoin, ether can count toward derivatives firms' operating expenses",
-    "source": "The Block",
-    "ageH": 0.76,
-    "note": {
-     "es": "La CFTC dice que bitcoin y ether ya cuentan para los gastos operativos de las firmas de derivados (hace menos de una hora); un paso regulatorio a favor, no una señal de entrada.",
-     "en": "The CFTC says bitcoin and ether now count toward derivatives firms' operating expenses (less than an hour ago); a favorable regulatory step, not an entry signal."
-    }
-   },
-   {
-    "theme": "regulation",
-    "headline": "CFTC staff say exchanges can count Bitcoin toward operating reserves",
-    "source": "Cointelegraph",
-    "ageH": 1.59,
-    "note": {
-     "es": "Misma linea regulatoria de la CFTC, esta vez sobre reservas operativas de los exchanges (hace unas 1.6 horas).",
-     "en": "Same CFTC regulatory thread, this time about exchanges' operating reserves (about 1.6 hours ago)."
-    }
-   },
-   {
     "theme": "etf",
-    "headline": "Grayscale's new 2x leveraged Zcash ETF takes 13% opening day tumble",
+    "headline": "Bitcoin ETFs see another $570 million in net outflows as November total nears $5 billion and BTC dips below $60K",
     "source": "The Block",
-    "ageH": 3.06,
+    "ageH": 0.22,
     "note": {
-     "es": "El nuevo ETF apalancado 2x de Zcash de Grayscale cayo 13% en su primer dia (hace unas 3 horas): ruido de producto, no mueve el sesgo de ETH o BTC.",
-     "en": "Grayscale's new 2x leveraged Zcash ETF tumbled 13% on its opening day (about 3 hours ago): product noise, doesn't move ETH or BTC bias."
+     "es": "Salida neta de 570 millones de dolares en ETFs de bitcoin (el total de noviembre ya cerca de 5,000 millones), justo cuando BTC perdio los 60,000: presion de salida real, no solo precio.",
+     "en": "Net outflow of $570 million from bitcoin ETFs (November total already near $5 billion), right as BTC lost the $60K mark: real outflow pressure, not just price."
+    }
+   },
+   {
+    "theme": "hack",
+    "headline": "Justice Department Moves to Forfeit $1.1B in USDC From North Korea's Binance Hack",
+    "source": "Decrypt",
+    "ageH": 0.54,
+    "note": {
+     "es": "El Departamento de Justicia de EEUU busca decomisar 1,100 millones de USDC del hackeo de Binance de Corea del Norte (accion legal sobre un hackeo viejo, no un hackeo nuevo): no eleva el riesgo de fondo por si solo, pero activa la regla de shock por la etiqueta hack (ver riskWindow).",
+     "en": "The US Justice Department is moving to forfeit $1.1B in USDC from North Korea's Binance hack (a legal action on an old hack, not a new breach): doesn't raise background risk by itself, but triggers the shock rule on the hack tag (see riskWindow)."
+    }
+   },
+   {
+    "theme": "fed",
+    "headline": "Fed's John Williams indicates higher interest rates likely 'over time' to address inflation",
+    "source": "CNBC",
+    "ageH": 1.2,
+    "note": {
+     "es": "John Williams (Fed) dijo que tasas mas altas son probables 'con el tiempo' para atacar la inflacion: comentario halcon que empujo el riesgo tradicional a la baja esta mañana.",
+     "en": "Fed's John Williams said higher rates are likely 'over time' to address inflation: a hawkish comment that pushed traditional risk assets down this morning."
+    }
+   },
+   {
+    "theme": "geo",
+    "headline": "Stock Market Today: Dow Jones, S&P 500, Nasdaq 100 Futures Fall After Scott Bessent Unveils Fresh Iran Sanctions",
+    "source": "Benzinga",
+    "ageH": 1.39,
+    "note": {
+     "es": "Nuevas sanciones a Iran anunciadas por Scott Bessent presionaron los futuros de EEUU a la baja esta mañana, junto con el retroceso de Nvidia: parte del contexto de riesgo-off que ahora si arrastra a cripto.",
+     "en": "Fresh Iran sanctions announced by Scott Bessent pressured US futures lower this morning, along with the Nvidia pullback: part of the risk-off backdrop that is now dragging crypto down too."
     }
    }
   ],
   "note": {
-   "es": "Miedo extremo se mantiene igual que ayer (11, sin caida nueva). DVOL general 65.5, bajando un poco en 24 horas (-3.85): el mercado de opciones enfria. ETH/BTC -0.84% en 24h, ETH un poco mas debil que BTC pero sin cruzar el umbral de divergencia real. Sin titulares de hackeo nuevos hoy (los de Fusionist y Chainflip de ayer ya vencieron sus 24 horas); si hay dos notas de regulacion de la CFTC y una de ETF (ver drivers). Contexto macro aparte: Nvidia subio con fuerza tras la reincorporacion de Jensen Huang como CEO, arrastrando al Nasdaq +4.05% en 24 horas, pero ETH y BTC casi no participaron (ETH plano, BTC solo +0.75%): divergencia marcada entre el riesgo tradicional y cripto hoy.",
-   "en": "Extreme fear holds same as yesterday (11, no new drop). Overall DVOL 65.5, down a touch on 24h (-3.85): the options market is cooling. ETH/BTC -0.84% on 24h, ETH a touch weaker than BTC but not crossing the real-divergence threshold. No new hack headlines today (yesterday's Fusionist and Chainflip stories already lapsed their 24h window); there are two CFTC regulation notes and one ETF note (see drivers). Separate macro context: Nvidia rallied hard after Jensen Huang's reinstatement as CEO, pulling the Nasdaq +4.05% on 24h, but ETH and BTC barely participated (ETH flat, BTC only +0.75%): a marked divergence between traditional risk and crypto today."
+   "es": "Miedo extremo se mantiene igual (11, sin caida nueva). DVOL general 67.16, subiendo en 24 horas (+3.72): revierte la baja que tenia en el close, el mercado de opciones vuelve a pagar movimiento. El hueco del CME de ETH sigue sin aplicar como iman (martes, fuera de la ventana viernes-lunes). Contexto macro: comentarios halconES de la Fed (Williams) y nuevas sanciones a Iran (Bessent) empujaron al Nasdaq a la baja en la apertura de NY, y esta vez ETH y BTC acompañan la caida en vez de divergir como en el close.",
+   "en": "Extreme fear holds unchanged (11, no new drop). Overall DVOL 67.16, up on 24h (+3.72): reverses the close's decline, the options market is pricing in movement again. ETH's CME gap still doesn't apply as a magnet (Tuesday, outside the Friday-Monday window). Macro context: hawkish Fed comments (Williams) and fresh Iran sanctions (Bessent) pushed the Nasdaq down at the NY open, and this time ETH and BTC go with the selloff instead of diverging like at the close."
   }
  },
  "personal": {
-  "patternId": "overtrade-chop",
+  "patternId": "se-me-escapa",
   "note": {
-   "es": "Las dos monedas quedaron pegadas a una caja muy angosta hoy: si encadenas giros en este rango, es la fuga de siempre. Menos tamaño, no menos operaciones.",
-   "en": "Both coins are pinned to a very narrow box today: chaining flips in this range is the same old leak. Less size, not fewer trades."
+   "es": "Las dos monedas ya rompieron fuerte durante la noche y la venta de ETH corrio mas alla de sus objetivos: si sientes que 'se te escapa' y entras a perseguir la extension sin un retest limpio, es la señal de parar, no de sumar. Espera que se forme estructura nueva.",
+   "en": "Both coins already broke hard overnight and ETH's sell ran past its targets: if you feel it's 'getting away from you' and chase the extension without a clean retest, that is the stop signal, not an add. Wait for new structure to form."
   },
   "capLine": {
    "es": "Stop puesto en el libro al entrar, tamaño definido por el riesgo antes de entrar, no añadir a una posición perdedora",
@@ -102,22 +119,22 @@
  },
  "instruments": {
   "ETHUSDT": {
-   "price": 1711.06,
+   "price": 1695.46,
    "biasDay": "SHORT",
    "biasSession": "SHORT",
    "conviction": "baja",
    "move24h": {
-    "dir": "FLAT",
-    "pct": 0.04
+    "dir": "SHORT",
+    "pct": -5.05
    },
-   "regime": "BEAR",
+   "regime": "CHOP",
    "tcl": {
     "v": -1,
-    "flip": 1730.09
+    "flip": 1703.99
    },
    "context": {
-    "es": "ETH cotiza en 1,711.06, practicamente en la apertura del dia (1,710.61) y pegado a la media de 20 (1,710.79) y al VWAP (1,708.98), en un rango hoy de apenas 11.65 puntos (10% del normal, dia de balance declarado). El movimiento neto de las ultimas 24 horas quedo plano (+0.04%): ayer corrio hasta 1,845 y revirtio todo el camino de vuelta, asi que no hay una direccion neta que operar en contra hoy, el metodo tapa cualquier zona en B. La estructura de fondo sigue bajista (diaria y semanal alineadas, 1 hora tambien bajista, 4 horas sin direccion confirmada), con una barrida reciente justo arriba del precio (el maximo de la noche y de Londres, 1,719.77) que ya cerro de vuelta abajo. Por debajo, el minimo de ayer (1,696.50) junto con el valor de area bajo de ayer (1,703.16) y los minimos de la noche y de Asia (1,702.26) forman el unico soporte real cerca. BTC lidera y ETH va rezagado hoy en fuerza relativa, y el Nasdaq subio con fuerza (+4.05% en 24 horas) mientras ETH se queda plano: divergencia marcada.",
-    "en": "ETH trades at 1,711.06, practically at today's open (1,710.61) and pinned to the 20-EMA (1,710.79) and VWAP (1,708.98), in a range today of just 11.65 points (10% of normal, a declared balance day). The net 24-hour move came in flat (+0.04%): yesterday it ran up to 1,845 and fully reversed back down, so there's no net direction to fade today, the method caps any zone at B. The background structure stays bearish (daily and weekly aligned, 1h also bearish, 4h with no confirmed direction), with a recent sweep just above price (the overnight and London high, 1,719.77) that already closed back down. Below, yesterday's low (1,696.50) together with yesterday's value-area low (1,703.16) and the overnight and Asia lows (1,702.26) form the only real support nearby. BTC is leading and ETH is lagging today on relative strength, and the Nasdaq rallied hard (+4.05% on 24h) while ETH stays flat: a marked divergence."
+    "es": "ETH cotiza en 1,695.46, justo debajo del minimo de ayer (1,696.50) y de su VWAP del dia (1,695.98): la caja angosta del close se rompio por completo durante la noche y Asia. La venta mapeada (1,713.33 a 1,719.77) si disparo (barrida a 1,721.88 en Asia, maximo del dia, por debajo de su stop 1,724.00) y ya corrio mas alla de tp1 (1,710.61) y tp2 (1,696.50); el soporte mapeado (1,696.50 a 1,703.16) quedo roto, con el minimo de la noche y Asia llegando a 1,669.00, muy por debajo de su stop (1,692.00), antes de recuperar hasta el nivel actual. El movimiento neto de 24 horas paso de plano a bajista fuerte (-5.05%). En la apertura de NY (08:30 CT) el Nasdaq tambien cayo con fuerza desde su apertura (26,888 a 26,369.50) por los comentarios halconES de la Fed y las nuevas sanciones a Iran: ETH ahora si acompaña la caida, ya no hay divergencia con el indice como en el close. Fondeo de ETH sigue shorts-crowded pero mas suave (-0.0014% cada 8h) con el interes abierto bajando mas fuerte (-3.38% en 24h, mas cierres). Dos titulares de shock entraron en la ultima hora (decomiso del DOJ sobre un hackeo viejo, Rusia acusando a Estonia): ninguno es especifico de ETH, pero activan la ventana de riesgo hasta las 15:40 UTC. Sin zona viva en ETH por ahora: la venta ya se consumio y el soporte quedo roto, hay que esperar que se forme estructura nueva.",
+    "en": "ETH trades at 1,695.46, just under yesterday's low (1,696.50) and its own VWAP for the day (1,695.98): the close's narrow box broke completely overnight and through Asia. The mapped sell (1,713.33 to 1,719.77) did trigger (a sweep to 1,721.88 in Asia, today's high, under its stop 1,724.00) and already ran past tp1 (1,710.61) and tp2 (1,696.50); the mapped support (1,696.50 to 1,703.16) broke, with the overnight and Asia low reaching 1,669.00, well under its stop (1,692.00), before recovering to the current level. The net 24-hour move turned from flat to strongly bearish (-5.05%). At the NY open (08:30 CT) the Nasdaq also sold off hard from its open (26,888 to 26,369.50) on hawkish Fed comments and fresh Iran sanctions: ETH now goes with the selloff, the close's divergence from the index is gone. ETH funding stays shorts-crowded but softer (-0.0014% every 8h) with open interest falling harder (-3.38% on 24h, more closes). Two shock headlines landed in the last hour (the DOJ's old-hack forfeiture, Russia accusing Estonia): neither is ETH specific, but they trigger the risk window through 15:40 UTC. No live zone left in ETH for now: the sell already played out and the support broke, wait for new structure to form."
    },
    "levels": {
     "vah": 1781.49,
@@ -126,7 +143,7 @@
     "pdh": 1845.07,
     "pdl": 1696.5,
     "dayOpen": 1710.61,
-    "vwap": 1708.98,
+    "vwap": 1695.98,
     "pwh": 1866.89,
     "pwl": 1538.0
    },
@@ -148,8 +165,8 @@
      },
      "play": {
       "trigger": {
-       "es": "Repeticion de la barrida en 1,719.77 (maximo de la noche y de Londres) con cierre de 5 minutos de vuelta bajo 1,713.33 (nivel ya reclamado hoy).",
-       "en": "A repeat sweep of 1,719.77 (overnight and London high) with a 5m close back under 1,713.33 (level already reclaimed today)."
+       "es": "Repeticion de la barrida en 1,719.77 (maximo de la noche y de Londres) con cierre de 5 minutos de vuelta bajo 1,713.33 (nivel ya reclamado hoy). Gatillo ya dado durante la madrugada (barrida a 1,721.88 en la sesion de Asia, reclamo bajo 1,713.33): tp1 (1,710.61) y tp2 (1,696.50) ya quedaron atras, precio ahora en 1,695.46.",
+       "en": "A repeat sweep of 1,719.77 (overnight and London high) with a 5m close back under 1,713.33 (level already reclaimed today). Trigger already given overnight (a sweep to 1,721.88 in the Asia session, reclaim under 1,713.33): tp1 (1,710.61) and tp2 (1,696.50) are already behind, price now at 1,695.46."
       },
       "stop": 1724.0,
       "tp1": 1710.61,
@@ -179,8 +196,8 @@
      },
      "play": {
       "trigger": {
-       "es": "Reclamo nuevo en el cluster 1,696.50 a 1,703.16 (minimo de ayer, valor de area bajo de ayer, minimos de la noche y de Asia), con cierre de 5 minutos de vuelta arriba de 1,696.50.",
-       "en": "A fresh reclaim at the 1,696.50 to 1,703.16 cluster (yesterday's low, yesterday's value-area low, the overnight and Asia lows), with a 5m close back above 1,696.50."
+       "es": "Reclamo nuevo en el cluster 1,696.50 a 1,703.16 (minimo de ayer, valor de area bajo de ayer, minimos de la noche y de Asia), con cierre de 5 minutos de vuelta arriba de 1,696.50. Invalidada: el minimo de la noche y de Asia llego a 1,669.00, bien por debajo del stop (1,692.00); la zona quedo rota antes de la apertura de Londres.",
+       "en": "A fresh reclaim at the 1,696.50 to 1,703.16 cluster (yesterday's low, yesterday's value-area low, the overnight and Asia lows), with a 5m close back above 1,696.50. Invalidated: the overnight and Asia low reached 1,669.00, well under the stop (1,692.00); the zone broke before the London open."
       },
       "stop": 1692.0,
       "tp1": 1710.61,
@@ -218,7 +235,8 @@
         "en": "confluence"
        }
       }
-     ]
+     ],
+     "broken": true
     }
    ],
    "verdict": {
@@ -254,22 +272,22 @@
    ]
   },
   "BTCUSDT": {
-   "price": 61333.77,
+   "price": 60473.54,
    "biasDay": "LONG",
-   "biasSession": "NEUTRAL",
+   "biasSession": "SHORT",
    "conviction": "baja",
    "move24h": {
-    "dir": "LONG",
-    "pct": 0.75
+    "dir": "SHORT",
+    "pct": -4.38
    },
    "regime": "CHOP",
    "tcl": {
-    "v": 0,
-    "flip": 61497.15
+    "v": -2,
+    "flip": 60614.29
    },
    "context": {
-    "es": "BTC cotiza en 61,333.77, apenas por encima de su valor de area de ayer (POC 61,280.34) y pegado a la media de 20 (61,272.31) y de 50 (61,318.51), en una caja de rango que hoy va de 61,041.54 a 61,374.04 (apenas 332.50 puntos, 11% del normal). El movimiento neto de las ultimas 24 horas quedo LONG pero modesto (+0.75%): ayer corrio hasta 64,603 y revirtio casi todo el camino de vuelta. El fondo semanal sigue alcista pero el checklist de tendencia diario no confirma direccion (veredicto en cero) y el 1h y 4h se contradicen (1 hora alcista, 4 horas bajista): marco de sesion sin resolver. Justo arriba del precio hay un hueco de precio bajista de 15 minutos que coincide con el techo de la caja (61,374.04 a 61,405.52); por debajo, el precio ya esta dentro del bolsillo dorado de largos (61,288.46 a 61,996.94). BTC lidera y ETH va rezagado hoy, y el Nasdaq subio con fuerza (+4.05% en 24 horas) mientras BTC solo sube 0.75%: divergencia marcada tambien aqui.",
-    "en": "BTC trades at 61,333.77, just above yesterday's value area (POC 61,280.34) and pinned to the 20-EMA (61,272.31) and 50-EMA (61,318.51), inside a range box today running from 61,041.54 to 61,374.04 (just 332.50 points, 11% of normal). The net 24-hour move came in LONG but modest (+0.75%): yesterday it ran up to 64,603 and reversed almost all the way back. The weekly background stays bullish but the daily trend checklist confirms no direction (verdict at zero) and the 1h and 4h contradict each other (1h bullish, 4h bearish): an unresolved session frame. Just above price sits a 15-minute bearish price gap that lines up with the box ceiling (61,374.04 to 61,405.52); below, price already sits inside the long golden pocket (61,288.46 to 61,996.94). BTC is leading and ETH is lagging today, and the Nasdaq rallied hard (+4.05% on 24h) while BTC is only up 0.75%: a marked divergence here too."
+    "es": "BTC cotiza en 60,473.54, muy por debajo del piso de la caja del close (61,041.54) y de su VWAP del dia, que tambien bajo (60,312.05 desde 61,236.98). Las dos zonas mapeadas del close quedaron rotas durante la noche: la venta en el hueco bajista y techo de la caja (61,374.04 a 61,405.52, stop 61,410.50) se invalido cuando el maximo de la noche llego a 61,682.01, y el rebote del bolsillo dorado largo (61,236.98 a 61,318.51, stop 61,196.00) tambien se rompio cuando el minimo de la noche y Asia cayo a 59,390.86, antes de recuperar hasta el nivel actual. El movimiento neto de 24 horas paso de LONG modesto a bajista fuerte (-4.38%). El checklist de tendencia ya no se contradice: el 1 hora y el 4 horas quedaron alineados a la baja (antes 1h alcista, 4h bajista), asi que el marco de sesion pasa de NEUTRAL a SHORT; el fondo diario (LONG) no se recalcula hoy por regla del metodo, aunque ya no refleja el precio actual. En la apertura de NY el Nasdaq cayo con fuerza (comentarios halconES de la Fed, nuevas sanciones a Iran, retroceso de Nvidia) y BTC acompaño la caida esta vez, sin divergencia. Fondeo de BTC sigue neutral (0.0037% cada 8h) con el interes abierto bajando (-3.00% en 24h). Salidas de ETF de bitcoin, otros 570 millones de dolares (noviembre ya cerca de 5,000 millones), justo cuando BTC perdio los 60,000, dato de hace 13 minutos. Los mismos dos titulares de shock que en ETH activan la ventana de riesgo hasta las 15:40 UTC. Sin zona viva en BTC: las dos quedaron invalidadas, hay que esperar que se forme estructura nueva antes de buscar otra entrada.",
+    "en": "BTC trades at 60,473.54, well under the close's box floor (61,041.54) and its own VWAP for the day, which also dropped (60,312.05 from 61,236.98). Both zones mapped at the close broke overnight: the sell at the bearish gap and box ceiling (61,374.04 to 61,405.52, stop 61,410.50) invalidated when the overnight high reached 61,682.01, and the long golden pocket bounce (61,236.98 to 61,318.51, stop 61,196.00) also broke when the overnight and Asia low fell to 59,390.86, before recovering to the current level. The net 24-hour move turned from a modest LONG to strongly bearish (-4.38%). The trend checklist no longer contradicts itself: the 1h and 4h both aligned bearish (previously 1h bullish, 4h bearish), so the session frame moves from NEUTRAL to SHORT; the daily background (LONG) is not recalculated today per the method's rule, even though it no longer reflects current price. At the NY open the Nasdaq sold off hard (hawkish Fed comments, fresh Iran sanctions, Nvidia pullback) and BTC went with the selloff this time, no divergence. BTC funding stays neutral (0.0037% every 8h) with open interest falling (-3.00% on 24h). Bitcoin ETF outflows, another $570 million (November total already near $5 billion), right as BTC lost the $60K mark, a fact from 13 minutes ago. The same two shock headlines as in ETH trigger the risk window through 15:40 UTC. No live zone in BTC: both broke, wait for new structure to form before looking for another entry."
    },
    "levels": {
     "vah": 62996.79,
@@ -278,7 +296,7 @@
     "pdh": 64603.12,
     "pdl": 60386.0,
     "dayOpen": 61270.92,
-    "vwap": 61236.98,
+    "vwap": 60312.05,
     "pwh": 65696.16,
     "pwl": 55130.0
    },
@@ -300,8 +318,8 @@
      },
      "play": {
       "trigger": {
-       "es": "Toque del hueco bajista de 15 minutos y techo de la caja de hoy (61,374.04 a 61,405.52, tambien maximo de 5 minutos), con cierre de 5 minutos de vuelta bajo 61,374.04.",
-       "en": "A touch of the 15-minute bearish gap and today's box ceiling (61,374.04 to 61,405.52, also the 5-minute swing high), with a 5m close back under 61,374.04."
+       "es": "Toque del hueco bajista de 15 minutos y techo de la caja de hoy (61,374.04 a 61,405.52, tambien maximo de 5 minutos), con cierre de 5 minutos de vuelta bajo 61,374.04. Invalidada: el maximo de la noche llego a 61,682.01, por encima del stop (61,410.50); la zona quedo rota antes de Londres y el precio ahora cotiza muy por debajo, en 60,473.54.",
+       "en": "A touch of the 15-minute bearish gap and today's box ceiling (61,374.04 to 61,405.52, also the 5-minute swing high), with a 5m close back under 61,374.04. Invalidated: the overnight high reached 61,682.01, above the stop (61,410.50); the zone broke before London and price now trades well below, at 60,473.54."
       },
       "stop": 61410.5,
       "tp1": 61318.51,
@@ -326,7 +344,8 @@
         "en": "trigger + confluence"
        }
       }
-     ]
+     ],
+     "broken": true
     },
     {
      "range": [
@@ -345,8 +364,8 @@
      },
      "play": {
       "trigger": {
-       "es": "Rebote confirmado en el cluster de VWAP y la media de 50 (61,236.98 a 61,318.51), con cierre de 5 minutos de vuelta arriba de 61,236.98.",
-       "en": "A confirmed bounce at the VWAP and 50-EMA cluster (61,236.98 to 61,318.51), with a 5m close back above 61,236.98."
+       "es": "Rebote confirmado en el cluster de VWAP y la media de 50 (61,236.98 a 61,318.51), con cierre de 5 minutos de vuelta arriba de 61,236.98. Invalidada: el minimo de la noche y de Asia llego a 59,390.86, muy por debajo del stop (61,196.00); la zona quedo rota durante la sesion asiatica.",
+       "en": "A confirmed bounce at the VWAP and 50-EMA cluster (61,236.98 to 61,318.51), with a 5m close back above 61,236.98. Invalidated: the overnight and Asia low reached 59,390.86, well under the stop (61,196.00); the zone broke during the Asia session."
       },
       "stop": 61196.0,
       "tp1": 61374.04,
@@ -357,7 +376,8 @@
        "en": "The $50,000 notional cap works out to about 0.82 BTC; with the stop about $41 from entry that risks about $33, under the $50 per-trade limit."
       }
      },
-     "fvg": []
+     "fvg": [],
+     "broken": true
     }
    ],
    "verdict": {
@@ -399,5 +419,9 @@
    "es": "Ayer (23 nov) ETH y BTC rompieron con fuerza el techo mapeado sin volver (la venta A+ de las dos corridas quedo rota en las dos monedas) con interes abierto de ETH subiendo con fuerza; el sesgo automatico acerto en el close (+82.95 puntos ETH, +2,267.31 BTC) pero fallo en el ny cuando el shock de media tarde corto la extension (-63.71 ETH, -1,495.28 BTC). Predicciones de texto 0/8: los cuatro techos citados se rompieron en cierres de 15 minutos y los cuatro rangos tambien, primero por abajo de madrugada y despues por arriba por la tarde, mismo patron en las dos monedas. Zonas 2/8 tocadas-ganadoras: en el close las dos ventas A+ se rompieron sin reclamar y las dos compras B de continuacion fallaron al stop; en el ny las dos ventas A+ volvieron a romperse pero las dos compras B de continuacion si funcionaron esta vez (r 0.26 ETH, r 0.21 BTC).",
    "en": "Yesterday (Nov 23) ETH and BTC broke hard through the mapped ceiling without coming back (both runs' A+ sell stayed broken on both coins) with ETH open interest climbing hard; the automatic bias hit on the close (+82.95 points ETH, +2,267.31 BTC) but missed on the ny when the mid-afternoon shock cut the extension short (-63.71 ETH, -1,495.28 BTC). Text predictions 0/8: the four cited ceilings broke on 15-minute closes and the four ranges too, first to the downside overnight and then to the upside in the afternoon, same pattern on both coins. Zones 2/8 touched-and-won: on the close both A+ sells broke without reclaiming and both B continuation buys stopped out; on the ny both A+ sells broke again but both B continuation buys did work this time (r 0.26 ETH, r 0.21 BTC)."
   }
+ },
+ "updated": {
+  "es": "La noche y la sesion de Asia/Londres rompieron toda la estructura angosta del close: en ETH la venta mapeada disparo y corrio mas alla de sus dos objetivos (gatillo consumido), mientras el soporte de abajo quedo roto por su stop; en BTC las dos zonas (venta y rebote) quedaron invalidadas por su stop cuando el precio hizo un barrido mucho mas amplio de lo mapeado. El movimiento neto de 24 horas se volvio bajista fuerte en las dos monedas (ETH -5.05%, BTC -4.38%), al reves de lo que tenia el close (ETH plano, BTC +0.75%). En la apertura de NY (08:30 CT) el Nasdaq cayo con fuerza por comentarios halconES de la Fed (John Williams) y nuevas sanciones a Iran anunciadas por Bessent: la divergencia del close (Nasdaq arriba, cripto plano) desaparecio, ahora las dos monedas acompañan la caida del indice. Dos titulares de shock en la ultima hora (decomiso del DOJ sobre el hackeo viejo de Binance de Corea del Norte, Rusia acusando a Estonia) ponen una ventana de riesgo hasta las 15:40 UTC, maximo WAIT mientras dure. Conviccion se queda baja en las dos monedas (ya estaba en el piso); sin zona viva en ninguna de las dos, el plan es esperar que se forme estructura nueva antes de buscar una entrada.",
+  "en": "Overnight and the Asia/London session broke all of the close's narrow structure: in ETH the mapped sell triggered and ran past both targets (trigger spent), while the support below broke on its stop; in BTC both zones (sell and bounce) got invalidated on their stop when price made a much wider sweep than mapped. The net 24-hour move turned strongly bearish on both coins (ETH -5.05%, BTC -4.38%), the reverse of the close (ETH flat, BTC +0.75%). At the NY open (08:30 CT) the Nasdaq sold off hard on hawkish Fed comments (John Williams) and fresh Iran sanctions announced by Bessent: the close's divergence (Nasdaq up, crypto flat) is gone, both coins now go with the index selloff. Two shock headlines in the last hour (the DOJ's forfeiture action on North Korea's old Binance hack, Russia accusing Estonia) set a risk window through 15:40 UTC, max WAIT while it lasts. Conviction stays low on both coins (already at the floor); with no live zone on either, the plan is to wait for new structure to form before looking for an entry."
  }
 }
