@@ -1,72 +1,66 @@
 {
-  "checkedAt": "2026-11-24T15:40:27Z",
-  "status": "down",
+  "checkedAt": "2026-11-24T23:38:16Z",
+  "status": "ok",
   "snapshot": {
-    "builtAt": "2026-11-24T15:00:41.113Z",
-    "ageMin": 39,
-    "state": "VIEJO"
+    "builtAt": "2026-11-24T23:30:32.740Z",
+    "ageMin": 8,
+    "state": "OK"
   },
   "webhook": {
-    "lastSeenMin": 39,
-    "state": "lento"
+    "lastSeenMin": 8,
+    "state": "ok"
   },
   "news": {
-    "ageMin": 59,
+    "ageMin": 38,
     "count": 12,
     "state": "ok"
   },
   "sa": {
-    "lastRun": "2026-11-24T14:01:03Z",
-    "runType": "pre-ny",
-    "lateBy": 6
+    "lastRun": "2026-11-24T21:48:58Z",
+    "runType": "pre-asia",
+    "lateBy": -16
   },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 40, "state": "stale" },
-      "feed": { "ageMin": 40, "state": "stale" },
-      "regime": { "ageMin": 45, "state": "stale" },
-      "trendcl": { "ageMin": 40, "state": "fresh" }
+      "orb": { "ageMin": 8, "state": "fresh" },
+      "feed": { "ageMin": 8, "state": "fresh" },
+      "regime": { "ageMin": 18, "state": "fresh" },
+      "trendcl": { "ageMin": 19, "state": "fresh" }
     },
     "ES": {
-      "orb": { "ageMin": 40, "state": "stale" },
-      "feed": { "ageMin": 40, "state": "stale" },
-      "regime": { "ageMin": 45, "state": "stale" },
-      "trendcl": { "ageMin": 40, "state": "fresh" }
+      "orb": { "ageMin": 8, "state": "fresh" },
+      "feed": { "ageMin": 8, "state": "fresh" },
+      "regime": { "ageMin": 18, "state": "fresh" },
+      "trendcl": { "ageMin": 23, "state": "fresh" }
     },
     "GC": {
-      "orb": { "ageMin": 40, "state": "stale" },
-      "feed": { "ageMin": 40, "state": "stale" },
-      "regime": { "ageMin": 65, "state": "stale" },
-      "trendcl": { "ageMin": 40, "state": "fresh" }
+      "orb": { "ageMin": 8, "state": "fresh" },
+      "feed": { "ageMin": 8, "state": "fresh" },
+      "regime": { "ageMin": 33, "state": "fresh" },
+      "trendcl": { "ageMin": 18, "state": "fresh" }
     },
     "YM": {
-      "orb": { "ageMin": 39, "state": "stale" },
-      "feed": { "ageMin": 40, "state": "stale" },
-      "regime": { "ageMin": 45, "state": "stale" },
-      "trendcl": { "ageMin": 39, "state": "fresh" }
+      "orb": { "ageMin": 8, "state": "fresh" },
+      "feed": { "ageMin": 8, "state": "fresh" },
+      "regime": { "ageMin": 33, "state": "fresh" },
+      "trendcl": { "ageMin": 8, "state": "fresh" }
     },
     "CL": {
-      "orb": { "ageMin": 39, "state": "stale" },
-      "feed": { "ageMin": 39, "state": "stale" },
-      "regime": { "ageMin": 65, "state": "stale" },
-      "trendcl": { "ageMin": 40, "state": "fresh" }
+      "orb": { "ageMin": 13, "state": "fresh" },
+      "feed": { "ageMin": 8, "state": "fresh" },
+      "regime": { "ageMin": 33, "state": "fresh" },
+      "trendcl": { "ageMin": 38, "state": "fresh" }
     }
   },
-  "scalp": { "ingestMin": 39, "snapshotMin": 69, "state": "ok" },
+  "scalp": { "ingestMin": 8, "snapshotMin": 37, "state": "ok" },
   "pushes": {
-    "counts": { "present": 10, "duplicated": 2, "pending": 1 },
+    "counts": { "present": 9, "duplicated": 2, "pending": 1 },
     "missing": [],
     "duplicated": ["pre-asia 2026-11-23 (2x)", "pre-ny 2026-11-24 (2x)"]
   },
-  "issues": [
-    "snapshot VIEJO (39 min)",
-    "webhook lento (39 min)",
-    "feed/orb stale en NQ/ES/GC/YM/CL (39-40 min)",
-    "regime@GC stale (65 min)",
-    "regime@CL stale (65 min)"
-  ],
+  "issues": [],
   "note": {
-    "es": "Martes 09:40 CT (franja 09:30, vigila pre-ny): ya habia salido (2 commits 'sa pre-ny 2026-11-24' a las 07:47:24Z y 08:04:42Z CT, heartbeat lastRun 14:01:03Z/08:01:03 CT, ok:true, fue un re-disparo normal por datos viejos), sin catch-up, lateBy ~6 min. Snapshot VIEJO: builtAt 15:00:41Z, 39 min sin refrescar (el cron sa-bus-snapshot de Netlify corre cada 15 min y parece haberse saltado 2 vueltas seguidas, 15:15 y 15:30). Por eso todo lo de abajo arrastra edad: webhook lento (39 min, ultimo orb recibido a las 15:00), feed/orb de los 5 simbolos (NQ/ES/GC/YM/CL) en stale (39-40 min, mismo corte de edad), PDH/PDL de orb = feed.raw en los 5 (nada frozen); regime en NQ/ES/YM fresh/borde (45 min) y en GC/CL stale (65 min); trendcl fresh en los 5 (39-40 min). News ok (59 min, 12 eventos). Scalp ok (ingest 39 min, snapshot 69 min, no atascado). Journal fresco (actualizado hace ~27.7 h, cubre hasta el viernes 20-nov, sin hueco habil). Pushes via check_pushes.py: 10 present, 1 pending (este watchdog), 2 duplicados (pre-asia 2026-11-23 y pre-ny 2026-11-24, ya vistos/normales), 0 missing. Zonas: zones[0] de los 5 simbolos con reach ratio <=0.595 (todas TACTICAL, a tiro), nada inalcanzable. Se manda notificacion por status down (snapshot viejo).",
-    "en": "Tuesday 09:40 CT (09:30 slot, watches pre-ny): it had already run (2 commits 'sa pre-ny 2026-11-24' at 07:47:24Z and 08:04:42Z CT, heartbeat lastRun 14:01:03Z/08:01:03 CT, ok:true, a normal re-fire due to stale data), no catch-up needed, lateBy ~6 min. Snapshot VIEJO: builtAt 15:00:41Z, 39 min without refreshing (the Netlify sa-bus-snapshot cron runs every 15 min and appears to have skipped 2 cycles in a row, 15:15 and 15:30). That drags the age of everything below it: webhook lento (39 min, last orb received at 15:00), feed/orb across all 5 symbols (NQ/ES/GC/YM/CL) stale (39-40 min, same age cut), orb PDH/PDL = feed.raw across all 5 (nothing frozen); regime on NQ/ES/YM fresh/borderline (45 min) and on GC/CL stale (65 min); trendcl fresh across all 5 (39-40 min). News ok (59 min, 12 events). Scalp ok (ingest 39 min, snapshot 69 min, not stuck). Journal fresh (updated ~27.7 h ago, covers through Friday Nov 20, no weekday gap). Pushes via check_pushes.py: 10 present, 1 pending (this watchdog), 2 duplicates (pre-asia 2026-11-23 and pre-ny 2026-11-24, already seen/normal), 0 missing. Zones: zones[0] across all 5 symbols has reach ratio <=0.595 (all TACTICAL, in reach), nothing unreachable. Sending a notification for status down (stale snapshot)."
+    "es": "Martes 17:38 CT (franja 17:30, vigila pre-asia): salio a tiempo (commit 'sa pre-asia 2026-11-25' a las 15:50:06 CT, heartbeat lastRun 21:48:58Z/15:48:58 CT, ok:true, plan de Asia 2026-11-25 generado), sin catch-up. Snapshot OK (builtAt 23:30:32Z, 8 min). Webhook ok (8 min). Los 5 simbolos (NQ/ES/GC/YM/CL) con orb/feed/regime/trendcl fresh (8-38 min), PDH/PDL de orb = feed.raw en los 5 (nada frozen). News ok (38 min, 12 eventos). Scalp ok (ingest 8 min, snapshot 37 min, no atascado). Journal fresco (actualizado hace ~35.7 h, cubre hasta el viernes 20-nov). Pushes via check_pushes.py: 9 present, 1 pending (este watchdog), 2 duplicados ya vistos (pre-asia 2026-11-23 y pre-ny 2026-11-24, normales), 0 missing. Zonas: zones[0] de los 5 simbolos con reach ratio <=0.38 (todas TACTICAL, a tiro), nada inalcanzable. Todo fresco, sin notificacion.",
+    "en": "Tuesday 17:38 CT (17:30 slot, watches pre-asia): it ran on time (commit 'sa pre-asia 2026-11-25' at 15:50:06 CT, heartbeat lastRun 21:48:58Z/15:48:58 CT, ok:true, Asia plan for 2026-11-25 generated), no catch-up needed. Snapshot OK (builtAt 23:30:32Z, 8 min). Webhook ok (8 min). All 5 symbols (NQ/ES/GC/YM/CL) have orb/feed/regime/trendcl fresh (8-38 min), orb PDH/PDL = feed.raw across all 5 (nothing frozen). News ok (38 min, 12 events). Scalp ok (ingest 8 min, snapshot 37 min, not stuck). Journal fresh (updated ~35.7 h ago, covers through Friday Nov 20). Pushes via check_pushes.py: 9 present, 1 pending (this watchdog), 2 duplicates already seen (pre-asia 2026-11-23 and pre-ny 2026-11-24, normal), 0 missing. Zones: zones[0] across all 5 symbols has reach ratio <=0.38 (all TACTICAL, in reach), nothing unreachable. All fresh, no notification sent."
   }
 }
