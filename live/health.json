@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-11-25T02:39:29Z",
-  "status": "warn",
+  "checkedAt": "2026-11-25T08:38:59Z",
+  "status": "ok",
   "snapshot": {
-    "builtAt": "2026-11-25T02:15:25.770Z",
-    "ageMin": 24,
+    "builtAt": "2026-11-25T08:30:34.782Z",
+    "ageMin": 8,
     "state": "OK"
   },
   "webhook": {
-    "lastSeenMin": 24,
-    "state": "lento"
+    "lastSeenMin": 9,
+    "state": "ok"
   },
   "news": {
     "ageMin": 38,
@@ -16,53 +16,51 @@
     "state": "ok"
   },
   "sa": {
-    "lastRun": "2026-11-24T21:48:58Z",
-    "runType": "pre-asia",
+    "lastRun": "2026-11-25T06:58:30Z",
+    "runType": "pre-london",
     "lateBy": null
   },
   "sources": {
     "NQ": {
-      "orb": { "ageMin": 24, "state": "fresh" },
-      "feed": { "ageMin": 24, "state": "fresh" },
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
       "regime": { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 38, "state": "fresh" }
+      "trendcl": { "ageMin": 39, "state": "fresh" }
     },
     "ES": {
-      "orb": { "ageMin": 24, "state": "fresh" },
-      "feed": { "ageMin": 24, "state": "fresh" },
-      "regime": { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 39, "state": "fresh" }
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
+      "regime": { "ageMin": 9, "state": "fresh" },
+      "trendcl": { "ageMin": 34, "state": "fresh" }
     },
     "GC": {
-      "orb": { "ageMin": 24, "state": "fresh" },
-      "feed": { "ageMin": 24, "state": "fresh" },
-      "regime": { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 37, "state": "fresh" }
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
+      "regime": { "ageMin": 9, "state": "fresh" },
+      "trendcl": { "ageMin": 38, "state": "fresh" }
     },
     "YM": {
-      "orb": { "ageMin": 24, "state": "fresh" },
-      "feed": { "ageMin": 24, "state": "fresh" },
-      "regime": { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 39, "state": "fresh" }
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
+      "regime": { "ageMin": 29, "state": "fresh" },
+      "trendcl": { "ageMin": 34, "state": "fresh" }
     },
     "CL": {
-      "orb": { "ageMin": 24, "state": "fresh" },
-      "feed": { "ageMin": 24, "state": "fresh" },
-      "regime": { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 39, "state": "fresh" }
+      "orb": { "ageMin": 9, "state": "fresh" },
+      "feed": { "ageMin": 9, "state": "fresh" },
+      "regime": { "ageMin": 29, "state": "fresh" },
+      "trendcl": { "ageMin": 38, "state": "fresh" }
     }
   },
-  "scalp": { "ingestMin": 24, "snapshotMin": 38, "state": "ok" },
+  "scalp": { "ingestMin": 9, "snapshotMin": 38, "state": "ok" },
   "pushes": {
-    "counts": { "present": 11, "duplicated": 1, "pending": 1 },
+    "counts": { "present": 10, "duplicated": 1, "pending": 1 },
     "missing": [],
     "duplicated": ["pre-ny 2026-11-24 (2x)"]
   },
-  "issues": [
-    "webhook lento (24 min)"
-  ],
+  "issues": [],
   "note": {
-    "es": "Martes 20:39 CT (franja 20:30, no vigila ninguna corrida del SA, solo salud): snapshot OK (builtAt 02:15:25Z, 24 min), pero el webhook de TradingView va lento (orb mas reciente a 24 min, > umbral de 15) -> warn, sin llegar a silencioso (necesitaria >60 min). Los 5 simbolos (NQ/ES/GC/YM/CL) con orb/feed fresh (24 min), regime fresh (34 min) y trendcl fresh (37-39 min); PDH/PDL de orb = feed.raw en los 5, nada frozen. News ok (38 min, 12 eventos). Scalp CC ok (ingest 24 min, snapshot 38 min, no atascado ni silencioso). Journal actualizado hace ~38.7 h (cubre hasta el sabado 21-nov), por debajo del umbral de 72 h. Pushes via check_pushes.py: 11 present, 1 pending (este watchdog), 1 duplicado ya visto (pre-ny 2026-11-24, normal), 0 missing. Zonas: zones[0] de los 5 simbolos con reach ratio <=0.38 (todas TACTICAL, a tiro), nada inalcanzable. Ultima corrida del SA: pre-asia 2026-11-24 21:48:58Z ok:true (fuera de la franja de esta corrida). Sin notificacion: el unico issue es un warn aislado de webhook.",
-    "en": "Tuesday 20:39 CT (20:30 slot, watches no SA run, health only): snapshot OK (builtAt 02:15:25Z, 24 min), but the TradingView webhook is running slow (most recent orb at 24 min, above the 15 min threshold) -> warn, short of silent (would need >60 min). All 5 symbols (NQ/ES/GC/YM/CL) have orb/feed fresh (24 min), regime fresh (34 min) and trendcl fresh (37-39 min); orb PDH/PDL = feed.raw across all 5, nothing frozen. News ok (38 min, 12 events). Scalp CC ok (ingest 24 min, snapshot 38 min, not stuck or silent). Journal updated ~38.7 h ago (covers through Saturday Nov 21), under the 72 h threshold. Pushes via check_pushes.py: 11 present, 1 pending (this watchdog), 1 duplicate already seen (pre-ny 2026-11-24, normal), 0 missing. Zones: zones[0] across all 5 symbols has reach ratio <=0.38 (all TACTICAL, in reach), nothing unreachable. Last SA run: pre-asia 2026-11-24 21:48:58Z ok:true (outside this run's watched slot). No notification: the only issue is an isolated webhook warn."
+    "es": "Miercoles 02:38 CT (franja 02:30, vigila pre-london): SA pre-london salio dentro de la ventana (commit 2026-11-25T07:18:32Z, heartbeat ok:true), sin catch-up necesario. Snapshot OK (builtAt 08:30:34Z, 8 min). Webhook ok (orb mas reciente a 9 min). Los 5 simbolos (NQ/ES/GC/YM/CL) con orb/feed/regime/trendcl fresh; PDH/PDL de orb = feed.raw en los 5, nada frozen. News ok (38 min, 12 eventos). Scalp CC ok (ingest 9 min, snapshot 38 min, lejos de atascado/silencioso). Journal actualizado hace ~44.7 h, bajo el umbral de 72 h, con cobertura diaria continua desde octubre sin gaps. Pushes (check_pushes.py, ventana 26h): 10 present, 1 pending (este watchdog), 1 duplicado ya visto y normal (pre-ny 2026-11-24, 2x), 0 missing. Zonas: zones[0] de los 5 simbolos TACTICAL con reach ratio <=0.44, nada inalcanzable. Todo fresco: sin notificacion.",
+    "en": "Wednesday 02:38 CT (02:30 slot, watches pre-london): SA pre-london ran within the window (commit 2026-11-25T07:18:32Z, heartbeat ok:true), no catch-up needed. Snapshot OK (builtAt 08:30:34Z, 8 min). Webhook ok (most recent orb at 9 min). All 5 symbols (NQ/ES/GC/YM/CL) have orb/feed/regime/trendcl fresh; orb PDH/PDL = feed.raw across all 5, nothing frozen. News ok (38 min, 12 events). Scalp CC ok (ingest 9 min, snapshot 38 min, far from stuck/silent). Journal updated ~44.7 h ago, under the 72 h threshold, with continuous daily coverage since October and no gaps. Pushes (check_pushes.py, 26h window): 10 present, 1 pending (this watchdog), 1 duplicate already seen and normal (pre-ny 2026-11-24, 2x), 0 missing. Zones: zones[0] across all 5 symbols is TACTICAL with reach ratio <=0.44, nothing unreachable. All fresh: no notification."
   }
 }
