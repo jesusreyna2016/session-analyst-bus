@@ -1,17 +1,17 @@
 {
-  "checkedAt": "2026-11-25T23:39:19Z",
+  "checkedAt": "2026-11-26T02:37:13Z",
   "status": "warn",
   "snapshot": {
-    "builtAt": "2026-11-25T23:15:24.213Z",
-    "ageMin": 21,
+    "builtAt": "2026-11-26T02:30:36.902Z",
+    "ageMin": 7,
     "state": "OK"
   },
   "webhook": {
-    "lastSeenMin": 22,
-    "state": "lento"
+    "lastSeenMin": 7,
+    "state": "ok"
   },
   "news": {
-    "ageMin": 46,
+    "ageMin": 7,
     "count": 12,
     "state": "ok"
   },
@@ -22,48 +22,48 @@
   },
   "sources": {
     "NQ": {
-      "orb":     { "ageMin": 22, "state": "fresh" },
-      "feed":    { "ageMin": 22, "state": "fresh" },
+      "orb":     { "ageMin": 7, "state": "fresh" },
+      "feed":    { "ageMin": 7, "state": "fresh" },
       "regime":  { "ageMin": 32, "state": "fresh" },
       "trendcl": { "ageMin": 37, "state": "fresh" }
     },
     "ES": {
-      "orb":     { "ageMin": 22, "state": "fresh" },
-      "feed":    { "ageMin": 22, "state": "fresh" },
+      "orb":     { "ageMin": 7, "state": "fresh" },
+      "feed":    { "ageMin": 7, "state": "fresh" },
       "regime":  { "ageMin": 32, "state": "fresh" },
       "trendcl": { "ageMin": 37, "state": "fresh" }
     },
     "GC": {
-      "orb":     { "ageMin": 22, "state": "frozen" },
-      "feed":    { "ageMin": 22, "state": "fresh" },
+      "orb":     { "ageMin": 7, "state": "frozen" },
+      "feed":    { "ageMin": 7, "state": "fresh" },
       "regime":  { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 36, "state": "fresh" }
+      "trendcl": { "ageMin": 37, "state": "fresh" }
     },
     "YM": {
-      "orb":     { "ageMin": 22, "state": "fresh" },
-      "feed":    { "ageMin": 22, "state": "fresh" },
+      "orb":     { "ageMin": 7, "state": "fresh" },
+      "feed":    { "ageMin": 7, "state": "fresh" },
       "regime":  { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 32, "state": "fresh" }
+      "trendcl": { "ageMin": 12, "state": "fresh" }
     },
     "CL": {
-      "orb":     { "ageMin": 22, "state": "fresh" },
-      "feed":    { "ageMin": 22, "state": "fresh" },
+      "orb":     { "ageMin": 7, "state": "fresh" },
+      "feed":    { "ageMin": 7, "state": "fresh" },
       "regime":  { "ageMin": 32, "state": "fresh" },
-      "trendcl": { "ageMin": 28, "state": "fresh" }
+      "trendcl": { "ageMin": 26, "state": "fresh" }
     }
   },
-  "scalp": { "ingestMin": 22, "snapshotMin": 36, "state": "ok" },
+  "scalp": { "ingestMin": 7, "snapshotMin": 36, "state": "ok" },
   "pushes": {
-    "counts": { "present": 9, "duplicated": 2, "pending": 1 },
+    "counts": { "present": 10, "duplicated": 2, "pending": 1 },
     "missing": [],
     "duplicated": ["pre-asia 2026-11-25 (2x, re-check/catch-up)", "pre-ny 2026-11-25 (2x, re-check/catch-up)"]
   },
   "issues": [
-    "orb@GC frozen (PDH/PDL de orb 3618.3/3454.6 vs feed 3588.9/3425.2, 22 min)",
-    "webhook lento (22 min)"
+    "orb@GC frozen (PDH/PDL de orb 3618.3/3454.6 vs feed 3588.9/3425.2, 7 min)",
+    "orb@GC frozen streak (2 checks seguidos, ~3h: 17:39 CT y 20:37 CT) · revisar indicador/export TradingView de GC"
   ],
   "note": {
-    "es": "Miercoles 17:39 CT (franja 17:30, vigila pre-asia): SA pre-asia salio dentro de la ventana (commit 2026-11-25T21:37:58Z + re-check 22:07:16Z sin cambios materiales, heartbeat ok:true), sin catch-up necesario. Snapshot OK (builtAt 23:15:24Z, 21 min). Webhook lento (22 min, last update orb YM a las 23:15:14Z): por encima del umbral de 15 min pero lejos de silencioso (60 min). orb@GC sale frozen por primera vez hoy: PDH/PDL de orb (3618.3/3454.6) no coinciden con feed.raw (3588.9/3425.2, ~30 pts), el resto de niveles (dayOpen) si coincide; el health anterior (09:38 CT) no tenia frozen en ningun simbolo, asi que es 1 solo check, sin notificar aun (se notifica si persiste 2 checks). Resto de fuentes (feed/regime/trendcl) fresh en los 5 simbolos. News ok (46 min, 12 eventos). Scalp CC ok (ingest 22 min, snapshot 36 min). Journal actualizado hace ~59.6 h, bajo el umbral de 72 h, sin gaps (45 dias de historia, ultimo dia 2026-11-21 sabado). Pushes (check_pushes.py, ventana 26h): 9 present, 1 pending (este watchdog), 2 duplicados normales (pre-asia y pre-ny 2026-11-25, re-check/catch-up sin datos nuevos), 0 missing. Zonas: zones[0] de los 5 simbolos TACTICAL con reach ratio <=0.32, nada inalcanzable. Status warn por frozen@GC + webhook lento, ninguno amerita notificacion al celular todavia.",
-    "en": "Wednesday 17:39 CT (17:30 slot, watches pre-asia): SA pre-asia ran within the window (commit 2026-11-25T21:37:58Z + re-check 22:07:16Z with no material changes, heartbeat ok:true), no catch-up needed. Snapshot OK (builtAt 23:15:24Z, 21 min). Webhook lento (22 min, latest orb update YM at 23:15:14Z): above the 15 min threshold but far from silencioso (60 min). orb@GC comes up frozen for the first time today: orb PDH/PDL (3618.3/3454.6) don't match feed.raw (3588.9/3425.2, ~30 pts), while other levels (dayOpen) do match; the previous health (09:38 CT) had nothing frozen, so this is just 1 check, no notification yet (notifies if it persists 2 checks). Rest of sources (feed/regime/trendcl) fresh across all 5 symbols. News ok (46 min, 12 events). Scalp CC ok (ingest 22 min, snapshot 36 min). Journal updated ~59.6 h ago, under the 72 h threshold, no gaps (45 days of history, last day 2026-11-21 Saturday). Pushes (check_pushes.py, 26h window): 9 present, 1 pending (this watchdog), 2 normal duplicates (pre-asia and pre-ny 2026-11-25, re-check/catch-up with no new data), 0 missing. Zones: zones[0] across all 5 symbols is TACTICAL with reach ratio <=0.32, nothing unreachable. Status warn due to frozen@GC + webhook lento, neither warrants a phone notification yet."
+    "es": "Miercoles 20:37 CT (franja 20:30, solo vigila salud, sin corrida de SA que auto-reparar). Snapshot OK (builtAt 02:30:36Z, 7 min). Webhook ok (7 min). News ok (7 min, 12 eventos). Todas las fuentes fresh en los 5 simbolos (feed/regime/trendcl) salvo orb@GC, que sigue frozen por 2do check consecutivo (PDH/PDL de orb 3618.3/3454.6 vs feed.raw 3588.9/3425.2, sin cambios desde el check de las 17:39 CT): se notifica al celular porque ya son 2 checks seguidos. Scalp CC ok (ingest 7 min, snapshot 36 min). Journal a 62.7 h de su ultima actualizacion (2026-11-23T11:58Z), bajo el umbral de 72 h, sin issue. Pushes (check_pushes.py, ventana 26h): 10 present, 1 pending (este watchdog), 2 duplicados normales (pre-asia y pre-ny 2026-11-25, re-check sin datos nuevos), 0 missing. Zonas: zones[0] de los 5 simbolos en reach ratio <=0.32 (TACTICAL), nada inalcanzable. Status warn solo por el streak de orb@GC.",
+    "en": "Wednesday 20:37 CT (20:30 slot, health-only, no SA run to auto-repair this slot). Snapshot OK (builtAt 02:30:36Z, 7 min). Webhook ok (7 min). News ok (7 min, 12 events). All sources fresh across the 5 symbols (feed/regime/trendcl) except orb@GC, which is frozen for a 2nd consecutive check (orb PDH/PDL 3618.3/3454.6 vs feed.raw 3588.9/3425.2, unchanged since the 17:39 CT check): notifying the phone since it's now 2 checks in a row. Scalp CC ok (ingest 7 min, snapshot 36 min). Journal is 62.7 h old (last updated 2026-11-23T11:58Z), under the 72 h threshold, no issue. Pushes (check_pushes.py, 26h window): 10 present, 1 pending (this watchdog), 2 normal duplicates (pre-asia and pre-ny 2026-11-25, re-check with no new data), 0 missing. Zones: zones[0] across all 5 symbols sits at reach ratio <=0.32 (TACTICAL), nothing unreachable. Status warn only because of the orb@GC streak."
   }
 }
