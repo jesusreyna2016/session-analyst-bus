@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-11-27T02:38:49Z",
+  "checkedAt": "2026-11-27T08:38:43Z",
   "status": "warn",
   "snapshot": {
-    "builtAt": "2026-11-27T02:30:33.823Z",
+    "builtAt": "2026-11-27T08:30:35.476Z",
     "ageMin": 8,
     "state": "OK"
   },
@@ -16,32 +16,32 @@
     "state": "ok"
   },
   "sa": {
-    "lastRun": "2026-11-26T22:09:46Z",
-    "runType": "pre-asia",
+    "lastRun": "2026-11-27T07:26:00Z",
+    "runType": "pre-london",
     "lateBy": null
   },
   "sources": {
     "NQ": {
       "orb":     { "ageMin": 9, "state": "fresh" },
       "feed":    { "ageMin": 9, "state": "fresh" },
-      "regime":  { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 38, "state": "fresh" }
+      "regime":  { "ageMin": 19, "state": "fresh" },
+      "trendcl": { "ageMin": 29, "state": "fresh" }
     },
     "ES": {
       "orb":     { "ageMin": 9, "state": "fresh" },
       "feed":    { "ageMin": 9, "state": "fresh" },
       "regime":  { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 39, "state": "fresh" }
+      "trendcl": { "ageMin": 34, "state": "fresh" }
     },
     "GC": {
       "orb":     { "ageMin": 9, "state": "frozen" },
       "feed":    { "ageMin": 9, "state": "fresh" },
-      "regime":  { "ageMin": 29, "state": "fresh" },
-      "trendcl": { "ageMin": 34, "state": "fresh" }
+      "regime":  { "ageMin": 34, "state": "fresh" },
+      "trendcl": { "ageMin": 38, "state": "fresh" }
     },
     "YM": {
-      "orb":     { "ageMin": 8, "state": "fresh" },
-      "feed":    { "ageMin": 8, "state": "fresh" },
+      "orb":     { "ageMin": 9, "state": "fresh" },
+      "feed":    { "ageMin": 9, "state": "fresh" },
       "regime":  { "ageMin": 34, "state": "fresh" },
       "trendcl": { "ageMin": 38, "state": "fresh" }
     },
@@ -49,22 +49,22 @@
       "orb":     { "ageMin": 9, "state": "fresh" },
       "feed":    { "ageMin": 9, "state": "fresh" },
       "regime":  { "ageMin": 34, "state": "fresh" },
-      "trendcl": { "ageMin": 34, "state": "fresh" }
+      "trendcl": { "ageMin": 16, "state": "fresh" }
     }
   },
   "scalp": { "ingestMin": 9, "snapshotMin": 38, "state": "ok" },
   "pushes": {
-    "counts": { "present": 11, "duplicated": 1, "pending": 1 },
+    "counts": { "duplicated": 2, "present": 9, "pending": 1 },
     "missing": [],
-    "duplicated": ["pre-asia 2026-11-26 (2x, re-check/catch-up)"]
+    "duplicated": ["pre-asia 2026-11-26 (2x, re-check/catch-up)", "pre-london 2026-11-27 (2x, re-check/catch-up)"]
   },
   "issues": [
     "orb@GC frozen (PDH/PDL de orb 3618.3/3454.6 vs feed 3588.9/3425.2, 9 min)",
-    "orb@GC frozen streak (6 checks seguidos, ~27h: 17:39 CT 25-nov, 20:37 CT 25-nov, 02:38 CT, 09:37 CT, 17:39 CT y 20:38 CT 26-nov) · revisar indicador/export TradingView de GC",
-    "journal stale (87 h)"
+    "orb@GC frozen streak (7 checks seguidos, ~33h: 17:39 CT 25-nov, 20:37 CT 25-nov, 02:38 CT, 09:37 CT, 17:39 CT y 20:38 CT 26-nov, 02:38 CT 27-nov) · revisar indicador/export TradingView de GC",
+    "journal stale (93 h)"
   ],
   "note": {
-    "es": "Jueves 20:38 CT, feriado de Thanksgiving. Franja 20:30 solo vigila salud (sin corrida de Session Analyst asignada), sin catch-up. Snapshot OK (builtAt 02:30:33Z, 8 min). Webhook ok (9 min). News ok (8 min, 12 eventos). Todas las fuentes fresh en los 5 simbolos (feed/regime/trendcl) salvo orb@GC, que sigue frozen por un 6to check consecutivo (PDH/PDL de orb 3618.3/3454.6 vs feed.raw 3588.9/3425.2, sin cambios desde ayer, ~27h): se notifica de nuevo porque sigue sin resolverse. Scalp CC ok (ingest 9 min, snapshot 38 min). Journal sigue stale (86.7h desde 2026-11-23T11:58Z, redondeado 87h). Pushes (check_pushes.py, ventana 26h): 11 present, 1 pending (este watchdog), 1 duplicado normal de pre-asia (re-check sin datos nuevos), 0 missing. Zonas: zones[0] de los 5 simbolos en reach ratio <=0.26 (TACTICAL), nada inalcanzable. Status warn por el streak de orb@GC y por journal stale.",
-    "en": "Thursday 20:38 CT, Thanksgiving holiday. The 20:30 slot only watches health (no Session Analyst run assigned), no catch-up needed. Snapshot OK (builtAt 02:30:33Z, 8 min). Webhook ok (9 min). News ok (8 min, 12 events). All sources fresh across the 5 symbols (feed/regime/trendcl) except orb@GC, which is frozen for a 6th consecutive check (orb PDH/PDL 3618.3/3454.6 vs feed.raw 3588.9/3425.2, unchanged since yesterday, ~27h): notifying again since it's still unresolved. Scalp CC ok (ingest 9 min, snapshot 38 min). Journal still stale (86.7h since 2026-11-23T11:58Z, rounded 87h). Pushes (check_pushes.py, 26h window): 11 present, 1 pending (this watchdog), 1 normal pre-asia duplicate (re-check with no new data), 0 missing. Zones: zones[0] across all 5 symbols sits at reach ratio <=0.26 (TACTICAL), nothing unreachable. Status warn due to the orb@GC streak and the stale journal."
+    "es": "Viernes 02:38 CT. Pre-london ya salio hoy (lastRun 07:26Z, ok), sin catch-up necesario. Snapshot OK (builtAt 08:30:35Z, 8 min). Webhook ok (9 min). News ok (8 min, 12 eventos). Todas las fuentes fresh en los 5 simbolos (orb/feed/regime/trendcl) salvo orb@GC, que sigue frozen por un 7mo check consecutivo (PDH/PDL de orb 3618.3/3454.6 vs feed.raw 3588.9/3425.2, sin cambios desde el 25-nov, ~33h): se notifica de nuevo porque sigue sin resolverse. Scalp CC ok (ingest 9 min, snapshot 38 min). Journal sigue stale (92.7h desde 2026-11-23T11:58Z, redondeado 93h). Pushes (check_pushes.py, ventana 26h): 9 present, 1 pending (este watchdog), 2 duplicados normales (pre-asia y pre-london, re-check sin datos nuevos), 0 missing. Zonas: zones[0] de los 5 simbolos en reach ratio <=0.45 (TACTICAL), nada inalcanzable. Status warn por el streak de orb@GC y por journal stale.",
+    "en": "Friday 02:38 CT. Pre-london already ran today (lastRun 07:26Z, ok), no catch-up needed. Snapshot OK (builtAt 08:30:35Z, 8 min). Webhook ok (9 min). News ok (8 min, 12 events). All sources fresh across the 5 symbols (orb/feed/regime/trendcl) except orb@GC, which is frozen for a 7th consecutive check (orb PDH/PDL 3618.3/3454.6 vs feed.raw 3588.9/3425.2, unchanged since 25-nov, ~33h): notifying again since it's still unresolved. Scalp CC ok (ingest 9 min, snapshot 38 min). Journal still stale (92.7h since 2026-11-23T11:58Z, rounded 93h). Pushes (check_pushes.py, 26h window): 9 present, 1 pending (this watchdog), 2 normal duplicates (pre-asia and pre-london, re-check with no new data), 0 missing. Zones: zones[0] across all 5 symbols sits at reach ratio <=0.45 (TACTICAL), nothing unreachable. Status warn due to the orb@GC streak and the stale journal."
   }
 }
