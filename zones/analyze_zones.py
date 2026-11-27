@@ -212,6 +212,8 @@ def segments(setups):
         'lado': seg_table(setups, lambda s: s['side']),
         'direccion': seg_table(setups, al),
         'regimen': seg_table(setups, lambda s: f(s, 'reg') or 'sin dato'),
+        # regL = regimen medido por el indicador (v3.6+): sale aunque el sync llegue viejo y reg venga vacio
+        'regimen grafico': seg_table(setups, lambda s: f(s, 'regL') or 'sin dato'),
         'sesion': seg_table(setups, lambda s: f(s, 'sess') or 'sin dato'),
         'grado x regimen': seg_table(setups, lambda s: (s.get('grade') or '?') + ' · ' + (f(s, 'reg') or 'sin dato')),
         'grado x direccion': seg_table(setups, lambda s: (s.get('grade') or '?') + ' · ' + al(s)),
