@@ -228,6 +228,14 @@ def lint_futures(plan):
     for a in plan.get("alertLevels") or []:
         if isinstance(a, dict) and a.get("kind") == "zoneA" and isinstance(a.get("band"), list):
             zoneA.setdefault(a.get("sym"), []).append(a["band"])
+    # move24h (8e): measured on every futures run; all-null with bars on disk = the script was skipped
+    if str(plan.get("date", "")) >= "2026-11-28" and plan.get("runType") in ("pre-asia", "pre-london", "pre-ny"):
+        ins_all = [i for i in (plan.get("instruments") or {}).values() if isinstance(i, dict)]
+        if ins_all and all(not i.get("move24h") for i in ins_all):
+            import os, glob
+            root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            if glob.glob(os.path.join(root, "bars", "*.json")):
+                err("-", "-", "move24h missing on every instrument: run python3 method/move24h.py (8e) and set vs24h on the zones")
     caps = load_caps() if str(plan.get("date", "")) >= CAP_CHANGE else {}
     tags = " ".join((plan.get("calendarContext") or {}).get("tags") or []).lower()
     major_day = any(t in tags for t in MAJOR_TAGS)
