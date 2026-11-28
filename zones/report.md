@@ -1,8 +1,8 @@
 # Zonas de Mi Mesa · reporte del agente
 
-Generado 2026-11-27T02:34:06Z · pesos `v1` · en prueba `s1`
+Generado 2026-11-28T02:35:08Z · pesos `v1` · en prueba `s1`
 
-19 dias · 5281 zonas · 535 armadas (422 resueltas, 113 abiertas) · 1599 trades de Mi Mesa.
+20 dias · 5551 zonas · 567 armadas (448 resueltas, 119 abiertas) · 1599 trades de Mi Mesa.
 
 `·` = muestra menor a 20: no sacar conclusiones. Acierto con intervalo 95% (Wilson). E[R] = R promedio por setup.
 
@@ -10,42 +10,42 @@ Generado 2026-11-27T02:34:06Z · pesos `v1` · en prueba `s1`
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| Todos | 422 | 67% (62%–71%) | 0.675 | 3.05 |
-| Ultimos dias (desde 2026-11-13) | 308 | 68% (63%–73%) | 0.69 | 3.19 |
-| Tocadas que NUNCA se armaron | 390 | 61% (56%–66%) | 0.485 | 2.25 |
+| Todos | 448 | 66% (61%–70%) | 0.646 | 2.89 |
+| Ultimos dias (desde 2026-11-14) | 314 | 66% (60%–71%) | 0.612 | 2.78 |
+| Tocadas que NUNCA se armaron | 418 | 60% (56%–65%) | 0.465 | 2.17 |
 
 ### Por grado
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| A | 253 | 68% (62%–74%) | 0.669 | 3.12 |
-| A+ | 45 | 62% (48%–75%) | 0.592 | 2.57 |
-| B | 124 | 66% (57%–74%) | 0.717 | 3.12 |
+| A | 272 | 66% (60%–72%) | 0.622 | 2.84 |
+| A+ | 46 | 61% (46%–74%) | 0.557 | 2.42 |
+| B | 130 | 67% (58%–74%) | 0.728 | 3.2 |
 
 ### Por mercado
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| BTCUSDT | 87 | 66% (55%–75%) | 0.66 | 2.91 |
-| ES | 93 | 62% (52%–72%) | 0.585 | 2.55 |
-| ETHUSDT | 114 | 72% (63%–79%) | 0.735 | 3.62 |
-| GC | 62 | 69% (57%–79%) | 0.747 | 3.44 |
-| NQ | 66 | 65% (53%–76%) | 0.651 | 2.87 |
+| BTCUSDT | 94 | 65% (55%–74%) | 0.651 | 2.86 |
+| ES | 96 | 62% (52%–72%) | 0.585 | 2.56 |
+| ETHUSDT | 119 | 71% (62%–78%) | 0.706 | 3.4 |
+| GC | 68 | 65% (53%–75%) | 0.623 | 2.77 |
+| NQ | 71 | 65% (53%–75%) | 0.645 | 2.83 |
 
 ### Por lado
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| long | 127 | 58% (50%–66%) | 0.508 | 2.22 |
-| short | 295 | 71% (65%–76%) | 0.747 | 3.56 |
+| long | 142 | 58% (50%–66%) | 0.485 | 2.15 |
+| short | 306 | 70% (64%–74%) | 0.721 | 3.37 |
 
 ### Por direccion
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| a favor | 261 | 70% (65%–76%) | 0.73 | 3.47 |
+| a favor | 266 | 70% (64%–75%) | 0.709 | 3.33 |
 | contra | 25 | 76% (57%–88%) | 1.083 | 5.51 |
-| neutral | 136 | 59% (50%–67%) | 0.495 | 2.2 |
+| neutral | 157 | 58% (50%–65%) | 0.471 | 2.12 |
 
 ### Por regimen
 
@@ -53,15 +53,21 @@ Generado 2026-11-27T02:34:06Z · pesos `v1` · en prueba `s1`
 |---|---|---|---|---|
 | BEAR | 5 · | 80% (38%–96%) | 1.072 | 6.36 |
 | CHOP | 6 · | 50% (19%–81%) | 0.215 | 1.43 |
-| sin dato | 411 | 67% (62%–72%) | 0.677 | 3.06 |
+| sin dato | 437 | 66% (61%–70%) | 0.647 | 2.9 |
+
+### Por regimen grafico
+
+| | n | acierto | E[R] | PF |
+|---|---|---|---|---|
+| sin dato | 448 | 66% (61%–70%) | 0.646 | 2.89 |
 
 ### Por sesion
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| asia | 157 | 66% (58%–73%) | 0.657 | 2.95 |
-| london | 127 | 70% (62%–77%) | 0.744 | 3.49 |
-| ny | 118 | 68% (59%–76%) | 0.691 | 3.15 |
+| asia | 167 | 65% (58%–72%) | 0.626 | 2.8 |
+| london | 138 | 67% (59%–75%) | 0.685 | 3.1 |
+| ny | 123 | 68% (59%–75%) | 0.69 | 3.12 |
 | off | 20 | 50% (30%–70%) | 0.28 | 1.56 |
 
 ### Por grado x regimen
@@ -70,64 +76,64 @@ Generado 2026-11-27T02:34:06Z · pesos `v1` · en prueba `s1`
 |---|---|---|---|---|
 | A · BEAR | 5 · | 80% (38%–96%) | 1.072 | 6.36 |
 | A · CHOP | 4 · | 25% (5%–70%) | -0.495 | 0.34 |
-| A · sin dato | 244 | 69% (63%–74%) | 0.68 | 3.18 |
-| A+ · sin dato | 45 | 62% (48%–75%) | 0.592 | 2.57 |
+| A · sin dato | 263 | 66% (61%–72%) | 0.631 | 2.89 |
+| A+ · sin dato | 46 | 61% (46%–74%) | 0.557 | 2.42 |
 | B · CHOP | 2 · | 100% (34%–100%) | 1.635 | 99.0 |
-| B · sin dato | 122 | 66% (57%–73%) | 0.702 | 3.04 |
+| B · sin dato | 128 | 66% (58%–74%) | 0.713 | 3.12 |
 
 ### Por grado x direccion
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| A · a favor | 190 | 73% (66%–78%) | 0.757 | 3.77 |
-| A · neutral | 63 | 56% (43%–67%) | 0.403 | 1.91 |
-| A+ · a favor | 45 | 62% (48%–75%) | 0.592 | 2.57 |
+| A · a favor | 194 | 72% (65%–78%) | 0.737 | 3.6 |
+| A · neutral | 78 | 53% (42%–63%) | 0.337 | 1.71 |
+| A+ · a favor | 46 | 61% (46%–74%) | 0.557 | 2.42 |
 | B · a favor | 26 | 69% (50%–84%) | 0.765 | 3.49 |
 | B · contra | 25 | 76% (57%–88%) | 1.083 | 5.51 |
-| B · neutral | 73 | 62% (50%–72%) | 0.575 | 2.5 |
+| B · neutral | 79 | 63% (52%–73%) | 0.603 | 2.64 |
 
 ### Por grado x mercado
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| A · BTCUSDT | 50 | 68% (54%–79%) | 0.679 | 3.12 |
-| A · ES | 45 | 67% (52%–79%) | 0.687 | 3.06 |
-| A · ETHUSDT | 86 | 72% (62%–80%) | 0.69 | 3.47 |
-| A · GC | 38 | 71% (55%–83%) | 0.789 | 3.73 |
-| A · NQ | 34 | 59% (42%–74%) | 0.443 | 2.08 |
+| A · BTCUSDT | 55 | 66% (52%–77%) | 0.636 | 2.84 |
+| A · ES | 47 | 66% (52%–78%) | 0.677 | 2.99 |
+| A · ETHUSDT | 91 | 70% (60%–79%) | 0.654 | 3.2 |
+| A · GC | 43 | 65% (50%–78%) | 0.63 | 2.81 |
+| A · NQ | 36 | 58% (42%–73%) | 0.442 | 2.06 |
 | A+ · BTCUSDT | 9 · | 56% (27%–81%) | 0.29 | 1.65 |
 | A+ · ES | 11 · | 64% (35%–85%) | 0.55 | 2.51 |
 | A+ · ETHUSDT | 9 · | 78% (45%–94%) | 1.041 | 5.69 |
 | A+ · GC | 9 · | 44% (19%–73%) | 0.3 | 1.54 |
-| A+ · NQ | 7 · | 71% (36%–92%) | 0.843 | 3.95 |
-| B · BTCUSDT | 28 | 64% (46%–79%) | 0.744 | 3.08 |
-| B · ES | 37 | 57% (41%–71%) | 0.471 | 2.09 |
+| A+ · NQ | 8 · | 62% (31%–86%) | 0.612 | 2.63 |
+| B · BTCUSDT | 30 | 67% (49%–81%) | 0.787 | 3.36 |
+| B · ES | 38 | 58% (42%–72%) | 0.482 | 2.14 |
 | B · ETHUSDT | 19 · | 68% (46%–85%) | 0.795 | 3.52 |
-| B · GC | 15 · | 80% (55%–93%) | 0.907 | 5.54 |
-| B · NQ | 25 | 72% (52%–86%) | 0.88 | 4.14 |
+| B · GC | 16 · | 75% (50%–90%) | 0.788 | 4.15 |
+| B · NQ | 27 | 74% (55%–87%) | 0.924 | 4.56 |
 
 ### Por chop
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| 50-61.8 | 144 | 67% (59%–74%) | 0.677 | 3.07 |
-| <50 tendencia | 230 | 66% (60%–72%) | 0.667 | 2.99 |
-| >=61.8 lateral | 48 | 69% (55%–80%) | 0.709 | 3.27 |
+| 50-61.8 | 151 | 66% (58%–73%) | 0.63 | 2.83 |
+| <50 tendencia | 245 | 66% (60%–72%) | 0.661 | 2.95 |
+| >=61.8 lateral | 52 | 65% (52%–77%) | 0.623 | 2.8 |
 
 ### Por estirado (ATR del VWAP)
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| 1-2 | 99 | 64% (54%–72%) | 0.524 | 2.44 |
-| <1 | 105 | 67% (57%–75%) | 0.626 | 2.88 |
-| >=2 | 218 | 69% (62%–75%) | 0.767 | 3.46 |
+| 1-2 | 102 | 64% (54%–72%) | 0.524 | 2.44 |
+| <1 | 109 | 65% (56%–73%) | 0.593 | 2.7 |
+| >=2 | 237 | 67% (61%–73%) | 0.723 | 3.2 |
 
 ### Por R hasta TP1
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
-| 1.5-2.5R | 160 | 61% (53%–68%) | 0.692 | 2.76 |
-| <1.5R | 229 | 72% (66%–78%) | 0.567 | 3.06 |
+| 1.5-2.5R | 171 | 60% (53%–67%) | 0.686 | 2.72 |
+| <1.5R | 244 | 70% (64%–76%) | 0.525 | 2.78 |
 | >=2.5R | 33 | 61% (44%–75%) | 1.34 | 4.4 |
 
 ### Por distancia al crearse (ATR)
@@ -135,65 +141,65 @@ Generado 2026-11-27T02:34:06Z · pesos `v1` · en prueba `s1`
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|
 | 2-6 | 6 · | 83% (44%–97%) | 0.953 | 6.72 |
-| <2 | 415 | 67% (62%–71%) | 0.675 | 3.04 |
+| <2 | 441 | 66% (61%–70%) | 0.646 | 2.89 |
 | >=6 | 1 · | 0% (0%–79%) | -1.0 | – |
 
 ## Confluencias: acierto con y sin cada nivel
 
 | nivel | n con | acierto con | acierto sin | diferencia |
 |---|---|---|---|---|
-| sh5 | 145 | 74% | 63% | +11 pts |
-| loH | 74 | 76% | 65% | +10 pts |
-| ibh | 37 | 76% | 66% | +10 pts |
-| pdMid | 37 | 73% | 66% | +6 pts |
-| val | 62 | 73% | 66% | +6 pts |
-| f15m | 235 | 70% | 64% | +6 pts |
-| vah | 39 | 72% | 67% | +5 pts |
-| sh1h | 35 | 71% | 67% | +5 pts |
-| vwapUp | 102 | 71% | 66% | +5 pts |
-| f5m | 289 | 68% | 64% | +5 pts |
-| ema50h | 45 | 71% | 67% | +4 pts |
-| dvah | 98 | 70% | 66% | +4 pts |
-| onh | 65 | 71% | 66% | +4 pts |
-| vwap | 100 | 69% | 66% | +2 pts |
-| pdc | 74 | 68% | 67% | +1 pts |
-| pdl | 40 | 68% | 67% | +0 pts |
-| do | 63 | 67% | 67% | 0 pts |
-| onl | 51 | 67% | 67% | 0 pts |
-| pml | 15 | 67% | 67% | 0 pts |
-| asL | 47 | 66% | 67% | -1 pts |
-| f1h | 117 | 66% | 68% | -2 pts |
-| loL | 64 | 66% | 67% | -2 pts |
-| asH | 68 | 65% | 68% | -3 pts |
-| dpoc | 136 | 65% | 68% | -4 pts |
-| mOpen | 11 | 64% | 67% | -4 pts |
-| ibl | 47 | 64% | 68% | -4 pts |
-| wo | 30 | 63% | 67% | -4 pts |
-| tdo | 91 | 63% | 68% | -6 pts |
-| poc | 60 | 62% | 68% | -6 pts |
-| dval | 74 | 61% | 68% | -8 pts |
-| vwapDn | 94 | 61% | 69% | -8 pts |
-| ema200 | 70 | 60% | 68% | -8 pts |
-| sl5 | 70 | 60% | 68% | -8 pts |
-| f4h | 46 | 59% | 68% | -9 pts |
-| gz | 19 | 58% | 68% | -10 pts |
-| pwl | 26 | 58% | 68% | -10 pts |
-| sl4h | 23 | 56% | 68% | -11 pts |
-| sl1h | 43 | 54% | 69% | -15 pts |
-| pdh | 32 | 50% | 68% | -18 pts |
-| sh4h | 12 | 33% | 68% | -35 pts |
+| loH | 76 | 75% | 64% | +11 pts |
+| sh5 | 150 | 73% | 62% | +10 pts |
+| ibh | 38 | 74% | 65% | +9 pts |
+| pdMid | 37 | 73% | 65% | +8 pts |
+| val | 62 | 73% | 65% | +8 pts |
+| f15m | 250 | 69% | 62% | +7 pts |
+| vah | 39 | 72% | 65% | +6 pts |
+| ema50h | 45 | 71% | 65% | +6 pts |
+| dvah | 102 | 70% | 65% | +5 pts |
+| vwapUp | 105 | 70% | 65% | +5 pts |
+| vwap | 105 | 69% | 65% | +4 pts |
+| f5m | 305 | 67% | 64% | +3 pts |
+| onh | 69 | 68% | 65% | +3 pts |
+| pdl | 41 | 68% | 66% | +3 pts |
+| pdc | 74 | 68% | 66% | +2 pts |
+| do | 63 | 67% | 66% | +1 pts |
+| onl | 51 | 67% | 66% | +1 pts |
+| pml | 15 | 67% | 66% | +1 pts |
+| sh1h | 39 | 67% | 66% | +1 pts |
+| asL | 47 | 66% | 66% | +0 pts |
+| ibl | 49 | 65% | 66% | -1 pts |
+| mOpen | 11 | 64% | 66% | -2 pts |
+| dpoc | 139 | 64% | 67% | -3 pts |
+| f1h | 128 | 63% | 67% | -4 pts |
+| wo | 32 | 62% | 66% | -4 pts |
+| tdo | 93 | 62% | 67% | -4 pts |
+| poc | 60 | 62% | 66% | -5 pts |
+| asH | 73 | 62% | 67% | -5 pts |
+| dval | 74 | 61% | 67% | -6 pts |
+| gz | 20 | 60% | 66% | -6 pts |
+| loL | 71 | 61% | 67% | -6 pts |
+| vwapDn | 94 | 61% | 67% | -7 pts |
+| sl4h | 24 | 58% | 66% | -8 pts |
+| sl5 | 75 | 59% | 67% | -9 pts |
+| pwl | 26 | 58% | 66% | -9 pts |
+| f4h | 57 | 58% | 67% | -9 pts |
+| ema200 | 76 | 57% | 68% | -11 pts |
+| sl1h | 43 | 54% | 67% | -14 pts |
+| pdh | 39 | 46% | 68% | -22 pts |
+| sh4h | 21 | 33% | 67% | -34 pts |
 
 ## Excursion
 
-Perdedoras: se movieron a favor 0.96R en promedio; 59 de 139 llegaron a +1R antes del stop. Ganadoras: en contra 0.26R en promedio (n 283).
+Perdedoras: se movieron a favor 0.95R en promedio; 62 de 153 llegaron a +1R antes del stop. Ganadoras: en contra 0.27R en promedio (n 295).
 
 ## Pesos activos vs en prueba (politica: tomar desde la calificacion)
 
 | desde | activos n | activos acierto | activos E[R] | prueba n | prueba acierto | prueba E[R] |
 |---|---|---|---|---|---|---|
-| A+ | 45 | 62% | 0.592 | 55 | 64% | 0.65 |
-| A | 298 | 67% | 0.657 | 297 | 67% | 0.652 |
-| B | 422 | 67% | 0.675 | 422 | 67% | 0.675 |
+| A+ | 46 | 61% | 0.557 | 56 | 62% | 0.621 |
+| A | 318 | 65% | 0.613 | 317 | 65% | 0.607 |
+| B | 448 | 66% | 0.646 | 448 | 66% | 0.646 |
 
 ## Experimentos
 
@@ -222,23 +228,23 @@ Ejecucion (67 trades con zona resuelta): la zona gano y tu perdiste 26 veces; la
 
 ## Vivo: entrada ejecutable (orden limite)
 
-Las zonas del vivo repasadas sobre las velas de 5 min del bus (781 tocadas y resueltas medidas, sin medir: sin velas en el bus 31). Limite en la entrada de la zona, puesta desde la vela del toque hasta la que resuelve la zona; sale en TP1 o al cierre que invalida (regla `rl` del historico). 'atraviesa' = el precio paso mas alla de la entrada; 'toca' = llego a ella. 'bracket' = stop y TP1 como ordenes reales (mecha al stop = -1R, stop y TP1 en la misma vela = stop). '+ BE a +1R' = el mismo bracket con el stop a la entrada en cuanto el precio toca +1R (desde la vela siguiente al llenado). 'parcial 1/2 en +1R + BE' = el plan de salida de Jesus (trader-profile.exitPlan): cobra la mitad en +1R si llega antes que TP1 y el resto va a BE hasta TP1. Llenado = de las zonas elegibles, en cuantas se lleno la orden; acierto y E[R] solo de las llenadas.
+Las zonas del vivo repasadas sobre las velas de 5 min del bus (814 tocadas y resueltas medidas, sin medir: sin velas en el bus 52). Limite en la entrada de la zona, puesta desde la vela del toque hasta la que resuelve la zona; sale en TP1 o al cierre que invalida (regla `rl` del historico). 'atraviesa' = el precio paso mas alla de la entrada; 'toca' = llego a ella. 'bracket' = stop y TP1 como ordenes reales (mecha al stop = -1R, stop y TP1 en la misma vela = stop). '+ BE a +1R' = el mismo bracket con el stop a la entrada en cuanto el precio toca +1R (desde la vela siguiente al llenado). 'parcial 1/2 en +1R + BE' = el plan de salida de Jesus (trader-profile.exitPlan): cobra la mitad en +1R si llega antes que TP1 y el resto va a BE hasta TP1. Llenado = de las zonas elegibles, en cuantas se lleno la orden; acierto y E[R] solo de las llenadas.
 
 | | elegibles | llenado | n | acierto | E[R] | PF |
 |---|---|---|---|---|---|---|
-| limite, armadas (atraviesa) | 407 | 71% | 289 | 55% (49%–61%) | 0.102 | 1.15 |
-| limite, armadas (toca, regla del historico) | 407 | 72% | 291 | 55% (50%–61%) | 0.11 | 1.16 |
-| limite, armadas, bracket stop/TP1 | 407 | 71% | 289 | 52% (46%–57%) | 0.258 | 1.55 |
-| limite, armadas, bracket + BE a +1R | 407 | 71% | 289 | 47% (42%–53%) | 0.267 | 1.71 |
-| limite, armadas, parcial 1/2 en +1R + BE | 407 | 71% | 289 | 61% (55%–66%) | 0.262 | 1.69 |
-| limite, todas las tocadas (atraviesa) | 781 | 72% | 565 | 52% (48%–56%) | 0.043 | 1.06 |
-| gatillo (cierre de la vela de 5 min) | 407 | 99% | 403 | 61% (56%–66%) | -0.138 | 0.7 |
+| limite, armadas (atraviesa) | 423 | 71% | 302 | 54% (48%–59%) | 0.051 | 1.07 |
+| limite, armadas (toca, regla del historico) | 423 | 72% | 304 | 54% (48%–60%) | 0.059 | 1.08 |
+| limite, armadas, bracket stop/TP1 | 423 | 71% | 302 | 50% (44%–56%) | 0.225 | 1.46 |
+| limite, armadas, bracket + BE a +1R | 423 | 71% | 302 | 46% (40%–52%) | 0.237 | 1.6 |
+| limite, armadas, parcial 1/2 en +1R + BE | 423 | 71% | 302 | 59% (54%–65%) | 0.231 | 1.59 |
+| limite, todas las tocadas (atraviesa) | 814 | 73% | 593 | 51% (47%–55%) | 0.012 | 1.02 |
+| gatillo (cierre de la vela de 5 min) | 423 | 99% | 418 | 60% (56%–65%) | -0.155 | 0.68 |
 
 | grado | elegibles | limite llenado | limite n | limite acierto (IC 95%) | limite E[R] | bracket E[R] | gatillo n | gatillo E[R] | historico limite E[R] (armadas) |
 |---|---|---|---|---|---|---|---|---|---|
-| A+ | 43 | 74% | 32 | 53% (36%–69%) | 0.216 | 0.231 | 43 | -0.133 | 0.169 (n 390) |
-| A | 250 | 68% | 169 | 54% (46%–61%) | 0.029 | 0.237 | 246 | -0.131 | 0.289 (n 1356) |
-| B | 114 | 77% | 88 | 58% (48%–68%) | 0.199 | 0.308 | 114 | -0.155 | 0.2 (n 824) |
+| A+ | 44 | 75% | 33 | 48% (32%–65%) | 0.001 | 0.134 | 44 | -0.207 | 0.169 (n 390) |
+| A | 262 | 68% | 179 | 52% (45%–60%) | -0.012 | 0.2 | 257 | -0.146 | 0.289 (n 1356) |
+| B | 117 | 77% | 90 | 58% (48%–68%) | 0.194 | 0.307 | 117 | -0.153 | 0.2 (n 824) |
 
 ## Historico (backtest)
 
@@ -303,6 +309,12 @@ Gatillo + regreso a la entrada: el precio volvio a la entrada en 65% de las 2973
 | neutral | 983 | 63% (60%–66%) | -0.14 | 0.71 |
 
 ### Historico por regimen
+
+| | n | acierto | E[R] | PF |
+|---|---|---|---|---|
+| sin dato | 2973 | 63% (62%–65%) | -0.124 | 0.74 |
+
+### Historico por regimen grafico
 
 | | n | acierto | E[R] | PF |
 |---|---|---|---|---|

@@ -1,218 +1,218 @@
 {
- "generatedAt": "2026-11-27T02:34:06Z",
- "weightsVersion": "v1",
- "shadowVersion": "s1",
- "counts": {
-  "events": 6658,
-  "zones": 5281,
-  "armed": 535,
-  "resolved": 422,
-  "open": 113,
-  "days": 19,
-  "trades": 1599
- },
- "byGrade": {
-  "A+": {
-   "n": 45,
-   "wins": 28,
-   "wr": 0.622,
-   "wrLo": 0.476,
-   "wrHi": 0.749,
-   "eR": 0.592,
-   "pf": 2.57,
-   "enough": true
-  },
-  "A": {
-   "n": 253,
-   "wins": 173,
-   "wr": 0.684,
-   "wrLo": 0.624,
-   "wrHi": 0.738,
-   "eR": 0.669,
-   "pf": 3.12,
-   "enough": true
-  },
-  "B": {
-   "n": 124,
-   "wins": 82,
-   "wr": 0.661,
-   "wrLo": 0.574,
-   "wrHi": 0.739,
-   "eR": 0.717,
-   "pf": 3.12,
-   "enough": true
-  }
- },
- "recent": {
-  "since": "2026-11-13",
-  "n": 308,
-  "wins": 211,
-  "wr": 0.685,
-  "wrLo": 0.631,
-  "wrHi": 0.734,
-  "eR": 0.69,
-  "pf": 3.19,
-  "enough": true
- },
- "trades": {
-  "en zona": {
-   "n": 149,
-   "wr": 0.134,
-   "eR": -0.907,
-   "totalR": -135.16,
-   "pf": 0.12
-  },
-  "fuera de zona": {
-   "n": 92,
-   "wr": 0.141,
-   "eR": -1.015,
-   "totalR": -93.37,
-   "pf": 0.1
-  },
-  "antes del gatillo": {
-   "n": 2,
-   "wr": 0.0,
-   "eR": -1.14,
-   "totalR": -2.28,
-   "pf": 0.0
-  },
-  "despues del gatillo": {
-   "n": 11,
-   "wr": 0.0,
-   "eR": -0.976,
-   "totalR": -10.74,
-   "pf": 0.0
-  }
- },
- "execution": {
-  "zonaGanoTuPerdiste": 26,
-  "zonaPerdioTuGanaste": 2,
-  "n": 67,
-  "tuRvsZonaR": -0.88
- },
- "experiments": [
-  {
-   "id": "z-2026-11-16-rrmin",
-   "status": "shadow",
-   "hypothesis": "Las zonas con R a TP1 corto (<1.5R) friegan el E[R] aunque ganan casi igual de seguido que las de R medio (67% vs 68% en vivo, n 75/62): 1.5-2.5R deja +0.88R y <1.5R solo +0.45R. Subir rrMin filtra esos setups chicos antes de calificar.",
-   "verdict": "muestra corta",
-   "startDate": "2026-11-16"
-  }
- ],
- "insights": [
-  {
-   "es": "Las zonas armadas ganan 67% (62%-71%) con +0.675R por setup (n 422, PF 3.05); en los ultimos dias (desde 2026-11-13) suben a 68% (63%-73%) con +0.69R (n 308, PF 3.19).",
-   "en": "Armed zones win 67% (62%-71%) at +0.675R per setup (n 422, PF 3.05); in the latest days (since 2026-11-13) that rises to 68% (63%-73%) at +0.69R (n 308, PF 3.19).",
-   "n": 422,
-   "kind": "fuerte"
-  },
-  {
-   "es": "Por calificacion la A+ no supera a la A ni a la B en vivo: A+ gana 62% (48%-75%) a +0.592R (n 45), A gana 68% (62%-74%) a +0.669R (n 253) y B gana 66% (57%-74%) a +0.717R (n 124).",
-   "en": "By grade, A+ does not beat A or B live: A+ wins 62% (48%-75%) at +0.592R (n 45), A wins 68% (62%-74%) at +0.669R (n 253) and B wins 66% (57%-74%) at +0.717R (n 124).",
-   "n": 253,
-   "kind": "debil"
-  },
-  {
-   "es": "La orden limite en la entrada de la zona (armadas, toca) llena 72% y gana 55% (50%-61%) a +0.11R (n 291, PF 1.16); entrar al cierre de la vela del gatillo gana mas seguido, 61% (56%-66%), pero deja -0.138R (n 403, PF 0.7): el gatillo entra tarde y pierde dinero aunque gane mas veces.",
-   "en": "The limit order at the zone entry (armed, touch rule) fills 72% and wins 55% (50%-61%) at +0.11R (n 291, PF 1.16); entering at the trigger candle close wins more often, 61% (56%-66%), but nets -0.138R (n 403, PF 0.7): the trigger entry wins more but loses money.",
-   "n": 291,
-   "kind": "fuerte"
-  },
-  {
-   "es": "Brecha de ejecucion: tus trades en zona ganan 13% a -0.907R y fuera de zona 14% a -1.015R (n 149 / 92). En 67 trades comparables con zona resuelta, la zona gano y tu perdiste 26 veces, al reves solo 2; tu R quedo 0.88 por debajo del de la zona en promedio.",
-   "en": "Execution gap: your in-zone trades win 13% at -0.907R and out-of-zone 14% at -1.015R (n 149 / 92). Of 67 comparable trades with a resolved zone, the zone won and you lost 26 times, the reverse only 2 times; your R averaged 0.88 below the zone's.",
-   "n": 149,
-   "kind": "ejecucion"
-  },
-  {
-   "es": "Experimento en sombra rrMin 1.2 -> 1.5 sigue sin una sola muestra en vivo 11 dias despues (n 0: veredicto 'muestra corta'). En el historico mejora el total y B, empeora un poco A y A+; sigue sin poder decidirse.",
-   "en": "Shadow experiment rrMin 1.2 -> 1.5 still has zero live samples 11 days in (n 0: verdict 'muestra corta'/short sample). In the backtest it improves the total and B, worsens A and A+ slightly; still can't be decided.",
-   "n": 0,
-   "kind": "experimento"
-  }
- ],
- "backtest": {
+  "generatedAt": "2026-11-28T02:35:08Z",
+  "weightsVersion": "v1",
+  "shadowVersion": "s1",
   "counts": {
-   "zones": 5285,
-   "armed": 3149,
-   "resolved": 2973,
-   "days": 73,
-   "from": "2026-09-10",
-   "to": "2026-11-22"
-  },
-  "overall": {
-   "n": 2973,
-   "wins": 1882,
-   "wr": 0.633,
-   "wrLo": 0.616,
-   "wrHi": 0.65,
-   "eR": -0.124,
-   "pf": 0.74,
-   "enough": true
+    "events": 7002,
+    "zones": 5551,
+    "armed": 567,
+    "resolved": 448,
+    "open": 119,
+    "days": 20,
+    "trades": 1599
   },
   "byGrade": {
-   "A+": {
-    "n": 458,
-    "wins": 280,
-    "wr": 0.611,
-    "wrLo": 0.566,
-    "wrHi": 0.655,
-    "eR": -0.14,
-    "pf": 0.71,
-    "enough": true
-   },
-   "A": {
-    "n": 1542,
-    "wins": 994,
-    "wr": 0.645,
-    "wrLo": 0.62,
-    "wrHi": 0.668,
-    "eR": -0.076,
-    "pf": 0.83,
-    "enough": true
-   },
-   "B": {
-    "n": 973,
-    "wins": 608,
-    "wr": 0.625,
-    "wrLo": 0.594,
-    "wrHi": 0.655,
-    "eR": -0.191,
-    "pf": 0.62,
-    "enough": true
-   }
+    "A+": {
+      "n": 46,
+      "wins": 28,
+      "wr": 0.609,
+      "wrLo": 0.465,
+      "wrHi": 0.736,
+      "eR": 0.557,
+      "pf": 2.42,
+      "enough": true
+    },
+    "A": {
+      "n": 272,
+      "wins": 180,
+      "wr": 0.662,
+      "wrLo": 0.604,
+      "wrHi": 0.715,
+      "eR": 0.622,
+      "pf": 2.84,
+      "enough": true
+    },
+    "B": {
+      "n": 130,
+      "wins": 87,
+      "wr": 0.669,
+      "wrLo": 0.585,
+      "wrHi": 0.744,
+      "eR": 0.728,
+      "pf": 3.2,
+      "enough": true
+    }
   },
-  "noTrigger": {
-   "n": 2040,
-   "wins": 1014,
-   "wr": 0.497,
-   "wrLo": 0.475,
-   "wrHi": 0.519,
-   "eR": 0.224,
-   "pf": 1.45,
-   "enough": true
+  "recent": {
+    "since": "2026-11-14",
+    "n": 314,
+    "wins": 206,
+    "wr": 0.656,
+    "wrLo": 0.602,
+    "wrHi": 0.706,
+    "eR": 0.612,
+    "pf": 2.78,
+    "enough": true
   },
-  "entries": {
-   "gatillo": {
-    "n": 2973,
-    "wins": 1808,
-    "wr": 0.608,
-    "wrLo": 0.59,
-    "wrHi": 0.626,
-    "eR": -0.124,
-    "pf": 0.74,
-    "enough": true
-   },
-   "limite": {
-    "n": 4319,
-    "wins": 2202,
-    "wr": 0.51,
-    "wrLo": 0.495,
-    "wrHi": 0.525,
-    "eR": 0.042,
-    "pf": 1.06,
-    "enough": true
-   }
+  "trades": {
+    "en zona": {
+      "n": 149,
+      "wr": 0.134,
+      "eR": -0.907,
+      "totalR": -135.16,
+      "pf": 0.12
+    },
+    "fuera de zona": {
+      "n": 92,
+      "wr": 0.141,
+      "eR": -1.015,
+      "totalR": -93.37,
+      "pf": 0.1
+    },
+    "antes del gatillo": {
+      "n": 2,
+      "wr": 0.0,
+      "eR": -1.14,
+      "totalR": -2.28,
+      "pf": 0.0
+    },
+    "despues del gatillo": {
+      "n": 11,
+      "wr": 0.0,
+      "eR": -0.976,
+      "totalR": -10.74,
+      "pf": 0.0
+    }
+  },
+  "execution": {
+    "zonaGanoTuPerdiste": 26,
+    "zonaPerdioTuGanaste": 2,
+    "n": 67,
+    "tuRvsZonaR": -0.88
+  },
+  "experiments": [
+    {
+      "id": "z-2026-11-16-rrmin",
+      "status": "shadow",
+      "hypothesis": "Las zonas con R a TP1 corto (<1.5R) friegan el E[R] aunque ganan casi igual de seguido que las de R medio (67% vs 68% en vivo, n 75/62): 1.5-2.5R deja +0.88R y <1.5R solo +0.45R. Subir rrMin filtra esos setups chicos antes de calificar.",
+      "verdict": "muestra corta",
+      "startDate": "2026-11-16"
+    }
+  ],
+  "insights": [
+    {
+      "es": "Las zonas armadas ganan 66% (61%-70%) con +0.646R por setup (n 448, PF 2.89); en los ultimos dias (desde 2026-11-14) quedan igual, 66% (60%-71%) con +0.612R (n 314, PF 2.78).",
+      "en": "Armed zones win 66% (61%-70%) at +0.646R per setup (n 448, PF 2.89); in the latest days (since 2026-11-14) it holds steady at 66% (60%-71%) at +0.612R (n 314, PF 2.78).",
+      "n": 448,
+      "kind": "fuerte"
+    },
+    {
+      "es": "Por calificacion la A+ sigue sin superar a la A ni a la B en vivo: A+ gana 61% (46%-74%) a +0.557R (n 46), A gana 66% (60%-72%) a +0.622R (n 272) y B gana 67% (58%-74%) a +0.728R (n 130).",
+      "en": "By grade, A+ still does not beat A or B live: A+ wins 61% (46%-74%) at +0.557R (n 46), A wins 66% (60%-72%) at +0.622R (n 272) and B wins 67% (58%-74%) at +0.728R (n 130).",
+      "n": 272,
+      "kind": "debil"
+    },
+    {
+      "es": "La orden limite en la entrada de la zona (armadas, toca) llena 72% y gana 54% (48%-60%) a +0.059R (n 304, PF 1.08); el gatillo gana mas seguido, 60% (56%-65%), pero deja -0.155R (n 418, PF 0.68): el gatillo entra tarde y pierde dinero aunque gane mas veces.",
+      "en": "The limit order at the zone entry (armed, touch rule) fills 72% and wins 54% (48%-60%) at +0.059R (n 304, PF 1.08); the trigger entry wins more often, 60% (56%-65%), but nets -0.155R (n 418, PF 0.68): the trigger enters late and loses money despite winning more.",
+      "n": 304,
+      "kind": "fuerte"
+    },
+    {
+      "es": "Brecha de ejecucion sin cambio: tus trades en zona ganan 13% a -0.907R y fuera de zona 14% a -1.015R (n 149 / 92). En 67 trades comparables con zona resuelta, la zona gano y tu perdiste 26 veces, al reves solo 2; tu R quedo 0.88 por debajo del de la zona en promedio.",
+      "en": "Execution gap unchanged: your in-zone trades win 13% at -0.907R and out-of-zone 14% at -1.015R (n 149 / 92). Of 67 comparable trades with a resolved zone, the zone won and you lost 26 times, the reverse only 2 times; your R averaged 0.88 below the zone's.",
+      "n": 149,
+      "kind": "ejecucion"
+    },
+    {
+      "es": "Experimento en sombra rrMin 1.2 -> 1.5 sigue sin una sola muestra en vivo 12 dias despues (n 0: veredicto 'muestra corta'). En el historico mejora el total y B, empeora un poco A y A+; sigue sin poder decidirse.",
+      "en": "Shadow experiment rrMin 1.2 -> 1.5 still has zero live samples 12 days in (n 0: verdict 'short sample'). In the backtest it improves the total and B, worsens A and A+ slightly; still can't be decided.",
+      "n": 0,
+      "kind": "experimento"
+    }
+  ],
+  "backtest": {
+    "counts": {
+      "zones": 5285,
+      "armed": 3149,
+      "resolved": 2973,
+      "days": 73,
+      "from": "2026-09-10",
+      "to": "2026-11-22"
+    },
+    "overall": {
+      "n": 2973,
+      "wins": 1882,
+      "wr": 0.633,
+      "wrLo": 0.616,
+      "wrHi": 0.65,
+      "eR": -0.124,
+      "pf": 0.74,
+      "enough": true
+    },
+    "byGrade": {
+      "A+": {
+        "n": 458,
+        "wins": 280,
+        "wr": 0.611,
+        "wrLo": 0.566,
+        "wrHi": 0.655,
+        "eR": -0.14,
+        "pf": 0.71,
+        "enough": true
+      },
+      "A": {
+        "n": 1542,
+        "wins": 994,
+        "wr": 0.645,
+        "wrLo": 0.62,
+        "wrHi": 0.668,
+        "eR": -0.076,
+        "pf": 0.83,
+        "enough": true
+      },
+      "B": {
+        "n": 973,
+        "wins": 608,
+        "wr": 0.625,
+        "wrLo": 0.594,
+        "wrHi": 0.655,
+        "eR": -0.191,
+        "pf": 0.62,
+        "enough": true
+      }
+    },
+    "noTrigger": {
+      "n": 2040,
+      "wins": 1014,
+      "wr": 0.497,
+      "wrLo": 0.475,
+      "wrHi": 0.519,
+      "eR": 0.224,
+      "pf": 1.45,
+      "enough": true
+    },
+    "entries": {
+      "gatillo": {
+        "n": 2973,
+        "wins": 1808,
+        "wr": 0.608,
+        "wrLo": 0.59,
+        "wrHi": 0.626,
+        "eR": -0.124,
+        "pf": 0.74,
+        "enough": true
+      },
+      "limite": {
+        "n": 4319,
+        "wins": 2202,
+        "wr": 0.51,
+        "wrLo": 0.495,
+        "wrHi": 0.525,
+        "eR": 0.042,
+        "pf": 1.06,
+        "enough": true
+      }
+    }
   }
- }
 }
