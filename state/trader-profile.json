@@ -1,7 +1,7 @@
 {
   "schema": "trader-profile-1",
   "note": "Shared profile of the trader, read by every agent (Session Analyst, Scalp CC, Plan Coach, Watchdog). Behavioral and rule data only: no balances, no P&L, no personal life, and no broker, firm or account details. Humans own `core`; the weekly run may only rewrite `observed`.",
-  "updatedAt": "2026-11-21T18:50:00Z",
+  "updatedAt": "2026-11-28T16:10:00Z",
   "core": {
     "instruments": [
       "NQ / NDX (Nasdaq 100)",
@@ -66,18 +66,18 @@
   },
   "exitBaseline": {
     "source": "scalp-cc-bus outcomes, all kinds and TFs",
-    "asOf": "2026-11-15",
+    "asOf": "2026-11-22",
     "NQ": {
-      "n": 10956,
-      "hit1R": 0.336,
-      "stoppedOut": 0.474,
+      "n": 12843,
+      "hit1R": 0.338,
+      "stoppedOut": 0.476,
       "slWasGreenHalfRFirst": 0.318,
-      "slWasGreen1RFirst": 0.124,
+      "slWasGreen1RFirst": 0.127,
       "reachedTP2": 0.053
     },
     "readout": {
-      "es": "Solo ~33.6% de las entradas llega a 1R y apenas ~5.3% llega a TP2: el home run sigue siendo raro. ~31.8% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta, practicamente sin cambio frente a la lectura anterior (solo +6 muestras nuevas).",
-      "en": "Only ~33.6% of entries reach 1R and barely ~5.3% reach TP2: the home run is still rare. ~31.8% of stops were +0.5R green first before getting hit: the early partial is still the missing lever, essentially unchanged from the prior read (only +6 new samples)."
+      "es": "Solo ~33.8% de las entradas llega a 1R y apenas ~5.3% llega a TP2: el home run sigue siendo raro. ~31.8% de los SL estuvieron +0.5R en verde antes de saltar: el parcial temprano sigue siendo la palanca que falta, practicamente sin cambio frente a la lectura anterior (+1887 muestras nuevas, mismo tono de fondo).",
+      "en": "Only ~33.8% of entries reach 1R and barely ~5.3% reach TP2: the home run is still rare. ~31.8% of stops were +0.5R green first before getting hit: the early partial is still the missing lever, essentially unchanged from the prior read (+1887 new samples, same underlying tone)."
     }
   },
   "dailyRules": {
@@ -94,23 +94,23 @@
     }
   },
   "observed": {
-    "updatedBy": "weekly 2026-11-21",
-    "window": "2026-11-16..2026-11-20 (5 dias calendario, 5 con dato real en live/journal.json: el journal se reconecto el lunes 16-nov tras 8 dias calendario ciego, updatedAt ahora en 2026-11-21T03:22:53Z)",
-    "disciplinedPct": null,
+    "updatedBy": "weekly 2026-11-28",
+    "window": "2026-11-23..2026-11-27 (5 dias calendario, pero solo 2 con alguna entrada en live/journal.json: lunes, martes y miercoles 23/24/25-nov no tienen byDay en absoluto; jueves 26 y viernes 27 llegaron via src:\"mfp\", sin clasificar sesgo/zona, updatedAt 2026-11-28T04:40:23Z)",
+    "disciplinedPct": 0.5,
     "againstBiasRate": null,
     "outsideEdgeRate": null,
     "trend": {
-      "es": "Semana 16-20 nov con dato los 5 dias: 217 trades (43.4/dia, por encima de los 36.8/dia de la ventana de 45 dias), overtrade y revenge los 5 dias, racha record de 14 perdidas seguidas el miercoles 18 (antes el peor era 6), fullStopRate 44.7% (97/217) contra 39% de la ventana. Disciplina, fuera de zona y parciales no se pueden medir esta semana: el journal no clasifica sesgo/zona ni manda parciales (ver dataIssue). En los trades de Mi Mesa (zones/report.md) 145 de 240 si cayeron en zona.",
-      "en": "Week of Nov 16-20 with data all 5 days: 217 trades (43.4/day, above the 45-day window's 36.8/day), overtrade and revenge all 5 days, record losing streak of 14 on Wednesday 18 (prior worst was 6), fullStopRate 44.7% (97/217) vs 39% for the window. Discipline, outside-zone and partials cannot be measured this week: the journal does not classify bias/zone or send partials (see dataIssue). In the Mi Mesa trades (zones/report.md) 145 of 240 did land in a zone."
+      "es": "Semana de 23 al 27-nov con dato real solo 2 de 5 dias (3 dias sin entrada alguna en el journal): jueves (Thanksgiving) 1 trade disciplinado, sin overtrade ni revenge; viernes (Black Friday) 18 trades, overtrade y revenge, racha record de 15 perdidas seguidas (supera las 14 del miercoles pasado), 13 de 18 en SL completo. Con solo 19 trades medidos en total (muy por debajo del promedio de 36.8/dia de la ventana de 45 dias) no se puede hablar de disciplina ni contra-sesgo de la semana completa, solo de esos 2 dias puntuales. En los trades de Mi Mesa (zones/report.md, ventana rodante de 20 dias) 1599 trades, 567 armados, 66% de acierto, sin cambio relevante.",
+      "en": "Week of Nov 23-27 with real data only 2 of 5 days (3 days with no journal entry at all): Thursday (Thanksgiving) 1 disciplined trade, no overtrade or revenge; Friday (Black Friday) 18 trades, overtrade and revenge, record losing streak of 15 (beats the prior week's 14), 13 of 18 full stops. With only 19 trades measured in total (well below the 45-day window's 36.8/day average), discipline and against-bias cannot be assessed for the full week, only for those 2 specific days. In the Mi Mesa trades (zones/report.md, 20-day rolling window) 1599 trades, 567 armed, 66% hit rate, no material change."
     },
     "exitQuality": {
       "partialRate": null,
       "scratchRate": 0,
-      "fullStopRate": 0.447
+      "fullStopRate": 0.684
     },
     "dataIssue": {
-      "es": "Desde el 2026-11-06 el journal califica trades pero no clasifica sesgo ni zona (withBias, againstBias y validEdge en 0 todos los dias) y no manda partials ni fills: disciplina, fuera de zona y parciales NO son medibles. No es un 0% / 100% real.",
-      "en": "Since 2026-11-06 the journal grades trades but does not classify bias or zone (withBias, againstBias and validEdge at 0 every day) and sends no partials or fills: discipline, outside-zone and partials are NOT measurable. It is not a real 0% / 100%."
+      "es": "Lunes, martes y miercoles (23/24/25-nov) no tienen entrada en live/journal.json byDay: no es que el clasificador fallara, es que no hay dato publicado para esos 3 dias. Jueves y viernes llegaron via src:\"mfp\" (relleno nocturno desde MFP), que trae trades/racha/overtrade/revenge/salidas pero NO clasifica sesgo ni zona (graded=0): disciplinedPct y exitQuality de esta ventana salen solo de esos 2 dias, no de la semana completa.",
+      "en": "Monday, Tuesday and Wednesday (Nov 23/24/25) have no entry in live/journal.json byDay at all: not a classifier failure, simply no published data for those 3 days. Thursday and Friday came in via src:\"mfp\" (overnight MFP backfill), which carries trades/streak/overtrade/revenge/exits but does NOT classify bias or zone (graded=0): this window's disciplinedPct and exitQuality come only from those 2 days, not the full week."
     }
   }
 }
