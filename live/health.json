@@ -1,54 +1,54 @@
 {
-  "checkedAt": "2026-11-27T23:40:42Z",
+  "checkedAt": "2026-11-28T02:37:01Z",
   "status": "warn",
-  "snapshot": { "builtAt": "2026-11-27T23:15:31.163Z", "ageMin": 25, "state": "OK" },
-  "webhook": { "lastSeenMin": 235, "state": "silencioso" },
-  "news": { "ageMin": 55, "count": 12, "state": "ok" },
+  "snapshot": { "builtAt": "2026-11-28T02:30:39.016Z", "ageMin": 6, "state": "OK" },
+  "webhook": { "lastSeenMin": 411, "state": "silencioso" },
+  "news": { "ageMin": 7, "count": 12, "state": "ok" },
   "sa": { "lastRun": "2026-11-27T22:36:00Z", "runType": "pre-asia", "lateBy": null },
   "sources": {
     "NQ": {
-      "orb":     { "ageMin": 325, "state": "dead" },
-      "feed":    { "ageMin": 325, "state": "dead" },
-      "regime":  { "ageMin": 336, "state": "dead" },
-      "trendcl": { "ageMin": 340, "state": "dead" }
+      "orb":     { "ageMin": 501, "state": "dead" },
+      "feed":    { "ageMin": 501, "state": "dead" },
+      "regime":  { "ageMin": 512, "state": "dead" },
+      "trendcl": { "ageMin": 517, "state": "dead" }
     },
     "ES": {
-      "orb":     { "ageMin": 325, "state": "dead" },
-      "feed":    { "ageMin": 325, "state": "dead" },
-      "regime":  { "ageMin": 331, "state": "dead" },
-      "trendcl": { "ageMin": 341, "state": "dead" }
+      "orb":     { "ageMin": 501, "state": "dead" },
+      "feed":    { "ageMin": 501, "state": "dead" },
+      "regime":  { "ageMin": 507, "state": "dead" },
+      "trendcl": { "ageMin": 517, "state": "dead" }
     },
     "GC": {
-      "orb":     { "ageMin": 235, "state": "frozen" },
-      "feed":    { "ageMin": 235, "state": "dead" },
-      "regime":  { "ageMin": 246, "state": "dead" },
-      "trendcl": { "ageMin": 280, "state": "dead" }
+      "orb":     { "ageMin": 411, "state": "frozen" },
+      "feed":    { "ageMin": 411, "state": "dead" },
+      "regime":  { "ageMin": 422, "state": "dead" },
+      "trendcl": { "ageMin": 457, "state": "dead" }
     },
     "YM": {
-      "orb":     { "ageMin": 325, "state": "dead" },
-      "feed":    { "ageMin": 325, "state": "dead" },
-      "regime":  { "ageMin": 336, "state": "dead" },
-      "trendcl": { "ageMin": 340, "state": "dead" }
+      "orb":     { "ageMin": 501, "state": "dead" },
+      "feed":    { "ageMin": 501, "state": "dead" },
+      "regime":  { "ageMin": 512, "state": "dead" },
+      "trendcl": { "ageMin": 516, "state": "dead" }
     },
     "CL": {
-      "orb":     { "ageMin": 235, "state": "dead" },
-      "feed":    { "ageMin": 235, "state": "dead" },
-      "regime":  { "ageMin": 235, "state": "dead" },
-      "trendcl": { "ageMin": 276, "state": "dead" }
+      "orb":     { "ageMin": 411, "state": "dead" },
+      "feed":    { "ageMin": 411, "state": "dead" },
+      "regime":  { "ageMin": 411, "state": "dead" },
+      "trendcl": { "ageMin": 452, "state": "dead" }
     }
   },
-  "scalp": { "ingestMin": 26, "snapshotMin": 40, "state": "ok" },
+  "scalp": { "ingestMin": 7, "snapshotMin": 36, "state": "ok" },
   "pushes": {
-    "counts": { "duplicated": 2, "present": 9, "pending": 1 },
+    "counts": { "present": 10, "duplicated": 1, "pending": 2 },
     "missing": [],
-    "duplicated": ["pre-asia 2026-11-26 (2x, re-check/catch-up)", "pre-london 2026-11-27 (2x, re-check/catch-up)"]
+    "duplicated": ["pre-london 2026-11-27 (2x, re-check/catch-up)"]
   },
   "issues": [
-    "orb@GC frozen (PDH/PDL de orb 3618.3/3454.6 vs feed 3588.9/3425.2, streak 9 checks ~48h desde 17:39 CT 25-nov) · revisar indicador/export TradingView de GC",
-    "journal stale (108 h)"
+    "orb@GC frozen (PDH/PDL de orb 3618.3/3454.6 vs feed 3588.9/3425.2, streak 10 checks ~51h desde 17:39 CT 25-nov) · revisar indicador/export TradingView de GC",
+    "journal stale (111 h)"
   ],
   "note": {
-    "es": "Viernes 17:40 CT, tras el cierre CME de las 16:00 (futuros congelados hasta la reapertura del domingo 17:00 CT, ver instructions.md sec. reloj de futuros): se trata como finde para los umbrales, así que el orb/feed/regime/trendcl 'dead' en los 5 símbolos y el webhook 'silencioso' (235 min) reflejan el mercado cerrado, no una caída real, y no suben el status a down. Snapshot OK (builtAt 23:15:31Z, 25 min). Pre-asia de hoy ya salió (commit 'sa pre-asia 2026-11-28', heartbeat ok 22:36Z, 31 min tarde del cron 16:05 CT, dentro de rango), sin catch-up necesario. Único problema real es orb@GC, que sigue frozen por un 9no check consecutivo (PDH/PDL de orb 3618.3/3454.6 vs feed.raw 3588.9/3425.2, sin cambios desde el 25-nov, ~48h): se notifica de nuevo porque sigue sin resolverse. Scalp CC ok (ingest 26 min, snapshot 40 min, cripto 24/7 no afectada por el cierre de CME). Journal sigue stale (107.7h desde 2026-11-23T11:58Z, redondeado 108h; misma cobertura que el check anterior, sin gap nuevo). Pushes (check_pushes.py, ventana 26h): 9 present, 1 pending (este watchdog), 2 duplicados normales (pre-asia y pre-london, re-check sin datos nuevos), 0 missing. Zonas: todos los ratios de reach de zones[0] en pre-asia ≤0.61, nada inalcanzable (>0.9). Status warn por el streak de orb@GC y el journal stale.",
-    "en": "Friday 17:40 CT, after the 16:00 CME close (futures frozen until Sunday's 17:00 CT reopen, per instructions.md's futures-clock section): treated as weekend-equivalent for thresholds, so the 'dead' orb/feed/regime/trendcl across all 5 symbols and the 'silencioso' webhook (235 min) reflect the closed market, not a real outage, and do not push status to down. Snapshot OK (builtAt 23:15:31Z, 25 min). Today's pre-asia already ran (commit 'sa pre-asia 2026-11-28', heartbeat ok 22:36Z, 31 min after the 16:05 CT cron, within range), no catch-up needed. The one real problem is orb@GC, frozen for a 9th consecutive check (orb PDH/PDL 3618.3/3454.6 vs feed.raw 3588.9/3425.2, unchanged since 25-nov, ~48h): notifying again since it's still unresolved. Scalp CC ok (ingest 26 min, snapshot 40 min; crypto runs 24/7 so the CME close doesn't affect it). Journal still stale (107.7h since 2026-11-23T11:58Z, rounded 108h; same coverage as the prior check, no new gap). Pushes (check_pushes.py, 26h window): 9 present, 1 pending (this watchdog), 2 normal duplicates (pre-asia and pre-london, re-check with no new data), 0 missing. Zones: all zones[0] reach ratios in pre-asia are ≤0.61, nothing unreachable (>0.9). Status warn due to the orb@GC streak and the stale journal."
+    "es": "Viernes 20:37 CT, tras el cierre CME de las 16:00 (futuros congelados hasta la reapertura del domingo 17:00 CT, instructions.md sec. reloj de futuros): se sigue tratando como finde para los umbrales, así que el orb/feed/regime/trendcl 'dead' en los 5 símbolos y el webhook 'silencioso' (411 min) reflejan el mercado cerrado, no una caída real, y no suben el status a down. Snapshot OK (builtAt 02:30:39Z, 6 min). Esta franja (20:30 CT) no vigila ninguna corrida del Session Analyst (tabla de auto-reparación: 'nada, solo salud'), pre-asia de hoy ya salió hace rato (heartbeat ok 22:36Z), sin catch-up. Único problema real sigue siendo orb@GC, frozen por un 10mo check consecutivo (PDH/PDL de orb 3618.3/3454.6 vs feed.raw 3588.9/3425.2, sin cambios desde el 25-nov, ~51h): se notifica de nuevo porque sigue sin resolverse. Scalp CC ok (ingest 7 min, snapshot 36 min, cripto 24/7 no afectada por el cierre de CME). Journal sigue stale (110.65h desde 2026-11-23T11:58Z, redondeado 111h; misma cobertura de 45 días hasta el 21-nov, sin gap nuevo). Pushes (check_pushes.py, ventana 26h): 10 present, 2 pending (crypto-close de hoy y este watchdog, ambos dentro de gracia), 1 duplicado normal (pre-london, re-check sin datos nuevos), 0 missing. Zonas: todos los ratios de reach de zones[0] en pre-asia ≤0.61 (máximo CL 0.612), nada inalcanzable (>0.9). Status warn por el streak de orb@GC y el journal stale.",
+    "en": "Friday 20:37 CT, after the 16:00 CME close (futures frozen until Sunday's 17:00 CT reopen, per instructions.md's futures-clock section): still treated as weekend-equivalent for thresholds, so the 'dead' orb/feed/regime/trendcl across all 5 symbols and the 'silencioso' webhook (411 min) reflect the closed market, not a real outage, and do not push status to down. Snapshot OK (builtAt 02:30:39Z, 6 min). This slot (20:30 CT) watches no Session Analyst run (auto-repair table: 'nothing, health only'); today's pre-asia already ran a while ago (heartbeat ok 22:36Z), no catch-up needed. The one real problem remains orb@GC, frozen for a 10th consecutive check (orb PDH/PDL 3618.3/3454.6 vs feed.raw 3588.9/3425.2, unchanged since 25-nov, ~51h): notifying again since it's still unresolved. Scalp CC ok (ingest 7 min, snapshot 36 min; crypto runs 24/7 so the CME close doesn't affect it). Journal still stale (110.65h since 2026-11-23T11:58Z, rounded 111h; same 45-day coverage through 21-nov, no new gap). Pushes (check_pushes.py, 26h window): 10 present, 2 pending (today's crypto-close and this watchdog, both within grace), 1 normal duplicate (pre-london, re-check with no new data), 0 missing. Zones: all zones[0] reach ratios in pre-asia are ≤0.61 (CL highest at 0.612), nothing unreachable (>0.9). Status warn due to the orb@GC streak and the stale journal."
   }
 }
