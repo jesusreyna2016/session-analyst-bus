@@ -1,54 +1,57 @@
 {
  "schema": "crypto-plan-1",
- "runType": "crypto-close",
- "builtAt": "2026-11-28T04:55:00Z",
+ "runType": "crypto-ny",
+ "builtAt": "2026-11-28T14:52:00Z",
  "date": "2026-11-28",
- "slot": "close",
- "validUntil": "2026-11-28T14:45:00Z",
+ "slot": "ny",
+ "validUntil": "2026-11-29T00:00:00Z",
  "dataHealth": {
-  "snapshotAgeMin": 24,
-  "stale": [
-   "feed@ETHUSDT ~69min",
-   "feed@BTCUSDT ~69min",
-   "regime@ETHUSDT ~50min",
-   "regime@BTCUSDT ~50min"
+  "snapshotAgeMin": 7,
+  "stale": [],
+  "missing": [
+   "feed@ETHUSDT",
+   "feed@BTCUSDT"
   ],
-  "missing": [],
   "notes": [
-   "feed (TDL Feed) vieja en los dos simbolos (~69 min, bucket 25-90): regla dura, conviccion no pasa de baja y no hay GO aunque aparezca una zona A+.",
-   "regime (Market Regime) tambien vieja por poco (~50 min, bucket 45-120): se usa igual, pesada a la mitad.",
-   "orb y feed.raw coinciden en PDH/PDL en los dos simbolos (sin discrepancia > 0.3%, no esta congelado).",
-   "trendcl fresca en los dos (ETH ~45 min, BTC ~25 min, umbral 75 min)."
+   "feed (TDL Feed) quedo muerta: sigue clavada en la vela de las 22:45 UTC del viernes (receivedAt 2026-11-28T03:45 UTC, mas de 11 horas), muy por encima del umbral de 90 min. Regla dura: se trata como si faltara (missing), no se usa para niveles nuevos; conviccion sigue sin pasar de baja y sin GO en los dos simbolos.",
+   "regime fresca en los dos (~15 min): paso de CHOP a NEUTRAL (score 1 de 3, sin ruptura confirmada), mismo peso normal.",
+   "trendcl fresca en los dos (~52 min, umbral 75): veredicto confirmado se mantiene en -2 (corto, tamaño normal) en ETH y BTC, precio por debajo del nivel de giro de 1h en los dos.",
+   "orb si esta viva y al dia (receivedAt igual al builtAt del snapshot): se uso para price y para contrastar niveles; pdh/pdl coinciden con el feed viejo en los dos, no esta congelada.",
+   "Las velas de 5 min de hoy (bars/2026-11-28.json) muestran que los dos simbolos barrieron bien por debajo de sus zonas del close durante la noche: ETH hizo minimo del dia en 1,638.71 (zona de demanda del close empezaba en 1,659.76, stop 1,658.50) y BTC en 58,999.00 (zona A+ del close empezaba en 59,892.33, stop 59,800.00); ninguna de las dos recupero el nivel de entrada con cierre de 5 minutos, asi que las dos quedan marcadas rotas sin haber disparado.",
+   "move24h recalculado (velas de 5m): ETH -1.14% (antes -3.92%) y BTC -0.48% (antes -2.37%), los dos siguen SHORT pero la ventana de 24 horas ya dejo atras lo mas fuerte de la caida de ayer.",
+   "sin shock activo (live/shock.json vacio desde 2026-11-27T23:10 UTC).",
+   "sin titular nuevo de hackeo, ETF o regulacion con hecho de precio desde el close; el de Franklin Templeton (ETF) y el de China (regulacion) siguen de fondo, mas viejos.",
+   "lint: 0 errores tras marcar las zonas rotas (python3 method/lint_plan.py)."
   ]
  },
  "summary": {
-  "es": "ETH y BTC bajaron 3.92% y 2.37% en 24 horas y pasaron la noche en rango estrecho (chop) pegados a sus minimos del dia, con el feed principal de niveles vieja (~69 min): la conviccion no puede pasar de baja aunque aparezca una zona A+. Miedo extremo en 10 (antes 12), sin piso claro. BTC tiene una zona A+ del metodo de libro (rebote en VAL con barrida y reclaim, confluencia 8, en contra del movimiento de 24 horas) justo donde esta el precio, pero el contexto de hoy (miedo extremo, fondeo neutral, sin hueco de CME) es un punto ciego medido donde mis zonas aciertan 1 de cada 5: WAIT en los dos, no GO. Sin eventos de calendario USD de alto impacto en la ventana ni hackeo nuevo; dos titulares de fondo (ETF de Franklin Templeton, reglas de identidad blockchain en China) sin peso de precio hoy.",
-  "en": "ETH and BTC are down 3.92% and 2.37% on 24h and spent the night chopping right against their daily lows, with the main levels feed stale (~69 min): conviction can't go above low even if an A+ zone shows up. Extreme fear sits at 10 (was 12), no clear floor. BTC has a textbook A+ zone per the method (VAL bounce with a sweep and reclaim, confluence 8, against the 24h move) right where price is, but today's context (extreme fear, neutral funding, no CME gap) is a measured blind spot where my zones land 1 in 5: WAIT on both, not GO. No high-impact USD calendar events in the window and no fresh hack; two background headlines (Franklin Templeton's ETF, China's blockchain ID rules) carry no price weight today."
+  "es": "ETH y BTC siguieron cayendo durante la noche y Asia/Londres, bien por debajo de las zonas del close: ETH hizo minimo del dia en 1,638.71 y BTC en 58,999, los dos sin reclamo confirmado, asi que la zona de demanda de ETH y la A+ de BTC quedan rotas sin haber disparado. Ahora cotizan en 1,647.06 y 59,305.92, un rebote parcial desde esos minimos pero todavia por debajo de ambas zonas. El feed principal de niveles (TDL Feed) quedo muerto mas de 11 horas (clavado desde el viernes en la noche): se trata como si faltara, la conviccion sigue en baja y no hay GO en ninguno de los dos. El movimiento de 24 horas se moderó (ETH -1.14%, BTC -0.48%, los dos aun bajistas) porque la ventana ya dejo atras lo mas fuerte de ayer. Miedo extremo sin cambio en 10, fondeo neutral en los dos, sin hueco de CME que actue de iman (-1.06% del cierre del viernes, bajo el umbral de 1.5%), fin de semana de liquidez fina. Sin eventos de calendario ni hackeo nuevo.",
+  "en": "ETH and BTC kept falling overnight and through Asia/London, well below the close plan's zones: ETH made a day low at 1,638.71 and BTC at 58,999, neither with a confirmed reclaim, so ETH's demand zone and BTC's A+ zone are both now broken without ever triggering. Price now sits at 1,647.06 and 59,305.92, a partial bounce off those lows but still under both zones. The main levels feed (TDL Feed) went dead for over 11 hours (stuck since Friday night): it's treated as missing, conviction stays low and there's no GO on either. The 24h move eased (ETH -1.14%, BTC -0.48%, both still bearish) because the window has rolled past yesterday's sharpest drop. Extreme fear unchanged at 10, neutral funding on both, no CME gap acting as a magnet (-1.06% off Friday's close, under the 1.5% threshold), thin weekend liquidity. No calendar events and no fresh hack."
  },
  "focus": {
   "sym": "ETHUSDT",
   "setup": {
-   "es": "Sin zona A+ cerca en ETH: el precio esta metido en el bolsillo de 1,659.76 a 1,666.60 (minimo de hoy, apertura, EMA20/50, VWAP) con barrida y reclaim en la apertura, pero es una zona generica (no de las que pueden ser A+) asi que techo B. Arriba, 1,667.79 a 1,672.80 (VAL de ayer hasta el maximo del dia/overnight/Asia) es la zona a vigilar para un rechazo bajista si rebota. Nada de GO: feed vieja y punto ciego de miedo extremo.",
-   "en": "No A+ zone nearby on ETH: price sits in the 1,659.76 to 1,666.60 pocket (today's low, open, EMA20/50, VWAP) with a sweep and reclaim at the open, but that's a generic zone (not one that can grade A+), so it caps at B. Above, 1,667.79 to 1,672.80 (yesterday's VAL up to today's high/overnight/Asia high) is the one to watch for a bearish rejection if it bounces. No GO: stale feed and an extreme-fear blind spot."
+   "es": "La zona de demanda de ETH (1,659.76 a 1,666.60) quedo rota: el precio la barrio de largo hasta un minimo del dia de 1,638.71 sin cerrar de vuelta arriba. La unica referencia viva que queda es la zona de techo 1,667.79 a 1,672.80 (retest de ruptura, grado B, a favor de las 24 horas, techo B por regla), bastante lejos arriba del precio actual (1,647.06): solo entra si hay un rebote que la alcance y la barra con rechazo. Nada de GO: sin A+ cerca y feed muerto.",
+   "en": "ETH's demand zone (1,659.76 to 1,666.60) is now broken: price swept clean through it to a 1,638.71 day low without closing back above it. The only live reference left is the 1,667.79 to 1,672.80 ceiling zone (break retest, grade B, with the 24h move, caps at B by rule), well above current price (1,647.06): it only comes into play on a bounce that reaches and rejects it. No GO: no A+ nearby and the feed is dead."
   }
  },
  "riskWindow": null,
  "cryptoContext": {
   "risk": "MEDIO",
   "deriv": {
-   "es": "Fondeo de ETH neutral (0.06% cada 8 horas) con el interes abierto bajando 1.4% en 24 horas (cierres, no posiciones nuevas): el movimiento bajista no tiene gasolina fresca detras. Fondeo de BTC tambien neutral (0.65% cada 8 horas) con el interes abierto bajando 1.45%, mismo patron. Cuentas largas de ETH (3.7 a 1) ya cruzan el corte de riesgo de 3 a 1: retail cargado de largos justo con el precio cayendo, ingrediente para una barrida de largos si sigue. BTC (2.98 a 1) esta justo debajo del corte.",
-   "en": "ETH funding is neutral (0.06% every 8h) with open interest down 1.4% on 24h (closes, not new positions): the down move lacks fresh fuel behind it. BTC funding is also neutral (0.65% every 8h) with open interest down 1.45%, same pattern. ETH's long-skewed accounts (3.7 to 1) now cross the 3-to-1 risk cutoff: retail is long right as price falls, the ingredient for a long squeeze if it keeps dropping. BTC (2.98 to 1) sits just under the cutoff."
+   "es": "Fondeo de ETH neutral (0.03% cada 8 horas) con el interes abierto bajando 2.79% en 24 horas (cierres, no posiciones nuevas): el movimiento bajista sigue sin gasolina fresca detras. Fondeo de BTC tambien neutral (0.56% cada 8 horas) con el interes abierto bajando 2.29%, mismo patron, se acentua desde el close. Cuentas largas de ETH (3.6 a 1) siguen sobre el corte de riesgo de 3 a 1, apenas bajando desde el close: retail cargado de largos justo con el precio cayendo mas, sigue el ingrediente de barrida de largos. BTC (2.98 a 1) sigue justo debajo del corte.",
+   "en": "ETH funding is neutral (0.03% every 8h) with open interest down 2.79% on 24h (closes, not new positions): the down move still lacks fresh fuel behind it. BTC funding is also neutral (0.56% every 8h) with open interest down 2.29%, same pattern, deepening since the close. ETH's long-skewed accounts (3.6 to 1) still sit above the 3-to-1 risk cutoff, barely down from the close: retail stays long right as price falls further, still the ingredient for a long squeeze. BTC (2.98 to 1) remains just under the cutoff."
   },
-  "dvol": 64.84,
+  "dvol": 66.54,
   "fearGreed": 10,
   "cmeGap": null,
-  "ethBtc24hPct": -0.54,
+  "ethBtc24hPct": 0.18,
   "drivers": [
    {
     "theme": "etf",
     "headline": "Franklin Templeton makes room for HYPE in crypto index ETF",
     "source": "Cointelegraph",
-    "ageH": 7.3,
+    "ageH": 17.5,
     "note": {
      "es": "Franklin Templeton agrega un token menor (HYPE) a un ETF indexado de cripto: flujo de fondo, no mueve el precio de ETH ni BTC hoy.",
      "en": "Franklin Templeton adds a minor token (HYPE) to a crypto index ETF: background flow, doesn't move ETH or BTC price today."
@@ -58,7 +61,7 @@
     "theme": "regulation",
     "headline": "China sets March 2027 rollout for blockchain identity regulations",
     "source": "Cointelegraph",
-    "ageH": 10.9,
+    "ageH": 21.1,
     "note": {
      "es": "China fija reglas de identidad blockchain para marzo de 2027: horizonte lejano, sin efecto en el precio de hoy.",
      "en": "China sets blockchain identity rules for March 2027: a far horizon, no effect on today's price."
@@ -66,8 +69,8 @@
    }
   ],
   "note": {
-   "es": "Miedo extremo profundiza a 10 (antes 12), sin piso claro todavia. DVOL de ETH en 64.84 (rango 56 de 100) y de BTC en 52.08 (rango 54), ninguno pagando mas movimiento del ya ocurrido. El hueco del CME de ETH no aplica como iman esta semana (0.08% del cierre del viernes, bajo el umbral de 1.5%). ETH/BTC relativo levemente negativo (-0.54% en 24 horas, +0.75% en 7 dias): ETH un poco mas debil que BTC en el dia, sin ventaja clara. Sin eventos de calendario USD de alto impacto en la ventana del plan y sin hackeo nuevo en las ultimas 24 horas. Riesgo de fondo MEDIO: nada activo y agudo, pero el feed de niveles esta vieja y el miedo extremo deja el terreno sensible.",
-   "en": "Extreme fear deepens to 10 (was 12), no clear floor yet. ETH's DVOL sits at 64.84 (rank 56 of 100) and BTC's at 52.08 (rank 54), neither pricing in more movement than already happened. ETH's CME gap doesn't act as a magnet this week (0.08% off Friday's close, under the 1.5% threshold). ETH/BTC relative strength is slightly negative (-0.54% on 24h, +0.75% on 7d): ETH a bit weaker than BTC today, no clear edge either way. No high-impact USD calendar events in the plan's window and no fresh hack in the last 24h. Background risk is MEDIUM: nothing acute firing right now, but the levels feed is stale and extreme fear keeps the ground sensitive."
+   "es": "Miedo extremo sin cambio en 10. DVOL general en 66.54 (subio un poco desde 64.84), ninguno de los dos pagando mas movimiento del ya ocurrido. El hueco del CME de ETH crecio a -1.06% del cierre del viernes pero sigue bajo el umbral de 1.5%: no actua de iman todavia. ETH/BTC relativo giro a levemente positivo (+0.18% en 24 horas, era -0.54%): ya no hay desventaja clara de ETH frente a BTC. Sin eventos de calendario USD de alto impacto ni hackeo nuevo. Riesgo de fondo MEDIO: nada activo y agudo ahora mismo, pero el feed de niveles lleva mas de 11 horas muerto y el fin de semana deja la liquidez fina.",
+   "en": "Extreme fear unchanged at 10. Overall DVOL at 66.54 (up a touch from 64.84), neither coin pricing in more movement than already happened. ETH's CME gap grew to -1.06% off Friday's close but stays under the 1.5% threshold: not acting as a magnet yet. ETH/BTC relative strength flipped slightly positive (+0.18% on 24h, was -0.54%): no clear disadvantage for ETH versus BTC anymore. No high-impact USD calendar events and no fresh hack. Background risk MEDIUM: nothing acute firing right now, but the levels feed has been dead for over 11 hours and the weekend keeps liquidity thin."
   }
  },
  "personal": {
@@ -83,22 +86,22 @@
  },
  "instruments": {
   "ETHUSDT": {
-   "price": 1665.49,
+   "price": 1647.06,
    "biasDay": "SHORT",
    "biasSession": "SHORT",
    "conviction": "baja",
    "move24h": {
     "dir": "SHORT",
-    "pct": -3.92
+    "pct": -1.14
    },
-   "regime": "CHOP",
+   "regime": "NEUTRAL",
    "tcl": {
     "v": -2,
-    "flip": 1677.62
+    "flip": 1661.1
    },
    "context": {
-    "es": "ETH bajo 3.92% en 24 horas y amanece pegado a su minimo del dia (1,659.76), por debajo del VAL de ayer (1,667.79) que ahora actua de techo: dia de aceptacion a la baja. El sesgo diario (semanal bajista) y el de sesion (1h/4h bajistas, veredicto del Trend Checklist confirmado en -2, tamaño normal corto) estan alineados a la baja. Regimen en chop (caja 1,662.00 a 1,667.79), con barrida y reclaim en la apertura (1,662.48, 3 toques) y en el VAL (3 toques): el soporte se esta defendiendo, pero sin ruptura confirmada todavia.",
-    "en": "ETH is down 3.92% on 24h and wakes up glued to today's low (1,659.76), below yesterday's VAL (1,667.79), which now acts as a ceiling: a downside-acceptance day. The daily bias (weekly bearish) and the session bias (1h/4h bearish, Trend Checklist confirmed verdict at -2, normal-size short) are aligned to the downside. Regime is choppy (box 1,662.00 to 1,667.79), with a sweep and reclaim at the open (1,662.48, 3 touches) and at VAL (3 touches): support is being defended, but without a confirmed break yet."
+    "es": "ETH barrio su zona de demanda (1,659.76-1,666.60) sin reclamo y siguio cayendo a un minimo del dia de 1,638.71 (velas de 5 minutos) antes de rebotar parcialmente a 1,647.06, todavia por debajo de la zona rota y del VAL de ayer (1,667.79). El indicador de regimen paso de caja de chop a neutral (score 1 de 3, sin ruptura confirmada) y el Trend Checklist sigue confirmado en -2 (corto, tamaño normal) con el precio por debajo de su nivel de giro de 1h (1,661.10): sesgo bajista intacto.",
+    "en": "ETH swept through its demand zone (1,659.76-1,666.60) with no reclaim and kept falling to a day low of 1,638.71 (5m bars) before a partial bounce to 1,647.06, still below the now-broken zone and yesterday's VAL (1,667.79). The regime indicator shifted from a chop box to neutral (score 1 of 3, no confirmed break) and the Trend Checklist stays confirmed at -2 (short, normal size) with price under its 1h flip level (1,661.10): bearish bias intact."
    },
    "levels": {
     "vah": 1750.49,
@@ -141,7 +144,8 @@
        "en": "$50 risk (profile has no own cap) / 3.98 pt stop distance = ~12.6 ETH (~$20,900 notional, under the $50,000 cap)."
       }
      },
-     "fvg": []
+     "fvg": [],
+     "broken": true
     },
     {
      "range": [
@@ -192,8 +196,8 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "Sin zona A+ de las familias del metodo cerca del precio (la del bolsillo de descuento es demanda generica, techo B). Ademas el feed principal esta vieja (~69 min): regla dura, la conviccion no pasa de baja y no hay GO. WAIT.",
-     "en": "No A+ zone from the method's families near price (the discount-pocket one is generic demand, caps at B). On top of that the main feed is stale (~69 min): hard rule, conviction can't pass low, no GO. WAIT."
+     "es": "La zona de demanda quedo rota (barrida sin reclamo, nuevo minimo del dia 1,638.71) y no hay otra zona A+ del metodo cerca del precio. El feed principal sigue muerto (mas de 11 horas): regla dura, conviccion no pasa de baja y no hay GO. WAIT.",
+     "en": "The demand zone is now broken (swept with no reclaim, new day low at 1,638.71) and there's no other A+ zone from the method near price. The main feed is still dead (over 11 hours): hard rule, conviction can't pass low, no GO. WAIT."
     }
    },
    "counterCase": {
@@ -222,22 +226,22 @@
    ]
   },
   "BTCUSDT": {
-   "price": 60036.49,
+   "price": 59305.92,
    "biasDay": "SHORT",
    "biasSession": "SHORT",
    "conviction": "baja",
    "move24h": {
     "dir": "SHORT",
-    "pct": -2.37
+    "pct": -0.48
    },
-   "regime": "CHOP",
+   "regime": "NEUTRAL",
    "tcl": {
     "v": -2,
-    "flip": 60238.52
+    "flip": 59746.28
    },
    "context": {
-    "es": "BTC bajo 2.37% en 24 horas, de dia de balance (rango, no ruptura neta) con el precio pegado justo arriba del VAL de ayer (59,910.98 a 59,950.47) y de la apertura (59,923.10): a diferencia de ETH, aqui el VAL sigue actuando de soporte. El sesgo diario (semanal bajista) y el de sesion (1h/4h bajistas, Trend Checklist en -2) estan alineados a la baja igual que en ETH. Regimen en chop (caja 59,892.33 a 60,088.05), con 7 toques y reclaim en el VAL: el soporte se defiende de forma mas activa que en ETH.",
-    "en": "BTC is down 2.37% on 24h, a balance day (range, no clean break) with price sitting just above yesterday's VAL (59,910.98 to 59,950.47) and the open (59,923.10): unlike ETH, VAL is still acting as support here. The daily bias (weekly bearish) and the session bias (1h/4h bearish, Trend Checklist at -2) are aligned down, same as ETH. Regime is choppy (box 59,892.33 to 60,088.05), with 7 touches and a reclaim at VAL: support is being defended more actively than in ETH."
+    "es": "BTC barrio de largo su zona A+ (59,892.33-59,950.47) y el stop de esa zona (59,800), cayendo a un minimo del dia de 58,999 (velas de 5 minutos) antes de rebotar parcialmente a 59,305.92, todavia por debajo de la zona rota. El indicador de regimen paso de caja de chop a neutral (score 1 de 3, sin ruptura confirmada) y el Trend Checklist sigue confirmado en -2 con el precio por debajo de su nivel de giro de 1h (59,746.28): el punto ciego de miedo extremo que bajaba la conviccion ayer resulto moot, la zona nunca disparo, simplemente la paso de largo.",
+    "en": "BTC swept clean through its A+ zone (59,892.33-59,950.47) and that zone's stop (59,800), falling to a day low of 58,999 (5m bars) before a partial bounce to 59,305.92, still below the now-broken zone. The regime indicator shifted from a chop box to neutral (score 1 of 3, no confirmed break) and the Trend Checklist stays confirmed at -2 with price under its 1h flip level (59,746.28): yesterday's extreme-fear blind spot that capped conviction turned out moot, the zone never triggered, price just blew through it."
    },
    "levels": {
     "vah": 62179.08,
@@ -280,7 +284,8 @@
        "en": "$50 risk / 110 pt stop distance = ~0.4545 BTC (~$27,230 notional, under the $50,000 cap)."
       }
      },
-     "fvg": []
+     "fvg": [],
+     "broken": true
     },
     {
      "range": [
@@ -331,8 +336,8 @@
    "verdict": {
     "signal": "WAIT",
     "reason": {
-     "es": "Zona A+ del metodo justo donde esta el precio (bounce_val, en contra de las 24 horas, confluencia 8), pero el contexto de hoy es un punto ciego medido: con miedo extremo mis zonas aciertan 41/204 (20%), con fondeo neutral 20/105 (19%), sin hueco de CME activo 33/152 (22%) y en BTC especificamente 20/98 (20%); los cuatro con n igual o mayor a 8 y por debajo del 40%. Bajo la conviccion un escalon a baja: WAIT, no GO, hasta un gatillo limpio. Ademas el feed esta vieja (~69 min), que por si sola ya topa la conviccion en baja.",
-     "en": "An A+ zone from the method right where price is (bounce_val, against the 24h move, confluence 8), but today's context is a measured blind spot: with extreme fear my zones hit 41/204 (20%), with neutral funding 20/105 (19%), with no active CME gap 33/152 (22%), and in BTC specifically 20/98 (20%); all four with n of 8 or more and under 40%. Conviction drops one notch to low: WAIT, not GO, until a clean trigger. On top of that the feed is stale (~69 min), which alone already caps conviction at low."
+     "es": "La zona A+ (rebote en VAL) quedo rota: el precio la barrio de largo, incluido su stop, sin reclamo, hasta un nuevo minimo del dia. No queda otra A+ cerca. El feed principal sigue muerto (mas de 11 horas): conviccion no pasa de baja y no hay GO. WAIT.",
+     "en": "The A+ zone (VAL bounce) is now broken: price swept clean through it, stop included, with no reclaim, to a new day low. No other A+ is nearby. The main feed is still dead (over 11 hours): conviction can't pass low, no GO. WAIT."
     }
    },
    "counterCase": {
@@ -368,5 +373,8 @@
    "en": "Yesterday (Nov 27) both runs missed the same call: we expected ETH to stay under 1,714.49 and BTC under 61,257.00 until 14:45 UTC, and both broke the ceiling hard (0/4 predictions in each run). On zones, the close run hit 1/4 (BTC's golden-zone bounce worked for r 0.01) and the ny run hit 0/4 (both golden zones broke without triggering and the resistance fade_vah zones never got touched)."
   }
  },
- "updated": null
+ "updated": {
+  "es": "Las dos zonas del close (demanda de ETH en 1,659.76-1,666.60 y la A+ de BTC en 59,892.33-59,950.47) quedaron rotas durante la noche y Asia/Londres: el precio las barrio de largo, sin reclamo, hasta nuevos minimos del dia (ETH 1,638.71, BTC 58,999), y ahora rebota parcial a 1,647.06 y 59,305.92, todavia por debajo de ambas. El feed principal de niveles (TDL Feed) quedo muerto mas de 11 horas, clavado desde el viernes en la noche: se trata como si faltara, la conviccion sigue en baja. El movimiento de 24 horas se moderó bastante (ETH -1.14%, BTC -0.48%) porque la ventana ya dejo atras lo mas fuerte de la caida de ayer, pero el sesgo sigue bajista en los dos (Trend Checklist confirmado en -2, precio bajo el nivel de giro de 1h). Sin shock activo, sin titular nuevo de peso, sin cambio en el miedo extremo (10). Sin GO en ninguno: el unico B que queda vivo en cada simbolo esta lejos arriba del precio.",
+  "en": "Both of the close plan's zones (ETH's demand zone at 1,659.76-1,666.60 and BTC's A+ at 59,892.33-59,950.47) broke overnight and through Asia/London: price swept clean through them, no reclaim, to new day lows (ETH 1,638.71, BTC 58,999), and now bounces partially to 1,647.06 and 59,305.92, still under both. The main levels feed (TDL Feed) went dead for over 11 hours, stuck since Friday night: it's treated as missing, conviction stays low. The 24h move eased a lot (ETH -1.14%, BTC -0.48%) because the window has rolled past yesterday's sharpest drop, but the bias stays bearish on both (Trend Checklist confirmed at -2, price under the 1h flip level). No active shock, no material new headline, no change in extreme fear (10). No GO on either: the only live B left on each symbol sits well above current price."
+ }
 }
